@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/favoriteFragment"
@@ -23,4 +23,39 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.musicapp.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.musicapp.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.musicapp.RegistrationFragment"
+        android:label="RegistrationFragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_settingPreferencesFragment"
+            app:destination="@id/settingPreferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.musicapp.StartFragment"
+        android:label="StartFragment" >
+        <action
+            android:id="@+id/action_startFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingPreferencesFragment"
+        android:name="com.example.musicapp.SettingPreferencesFragment"
+        android:label="SettingPreferencesFragment" >
+        <action
+            android:id="@+id/action_settingPreferencesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

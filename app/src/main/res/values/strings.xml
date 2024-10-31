@@ -3,4 +3,9 @@
     <string name="settings_text">"Настройки"</string>
     <string name="home_text">"Главная"</string>
     <string name="favorite_text">"Любимое"</string>
+    <string name="login_text">"Вход"</string>
+    <string name="registration_text">"Регистрация"</string>
+    <string name="email_text">"Логин"</string>
+    <string name="password_string">"Пароль"</string>
+    <string name="check_password_string">"Подтверждение пароля"</string>
 </resources>
