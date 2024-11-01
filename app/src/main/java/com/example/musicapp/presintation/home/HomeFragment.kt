@@ -1,21 +1,21 @@
-package com.example.musicapp
+package com.example.musicapp.presintation.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.musicapp.databinding.FragmentSettingsBinding
+import com.example.musicapp.databinding.FragmentHomeBinding
 
-class SettingsFragment: Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+class HomeFragment: Fragment() {
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 }

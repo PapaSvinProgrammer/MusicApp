@@ -6,11 +6,11 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.musicapp.FavoriteFragment"
+        android:name="com.example.musicapp.presintation.favorite.FavoriteFragment"
         android:label="FavoriteFragment" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.musicapp.HomeFragment"
+        android:name="com.example.musicapp.presintation.home.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
@@ -21,11 +21,11 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.musicapp.SettingsFragment"
+        android:name="com.example.musicapp.presintation.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.musicapp.LoginFragment"
+        android:name="com.example.musicapp.presintation.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.musicapp.RegistrationFragment"
+        android:name="com.example.musicapp.presintation.registration.RegistrationFragment"
         android:label="RegistrationFragment" >
         <action
             android:id="@+id/action_registrationFragment_to_settingPreferencesFragment"
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.musicapp.StartFragment"
+        android:name="com.example.musicapp.presintation.start.StartFragment"
         android:label="StartFragment" >
         <action
             android:id="@+id/action_startFragment_to_loginFragment"
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingPreferencesFragment"
-        android:name="com.example.musicapp.SettingPreferencesFragment"
+        android:name="com.example.musicapp.presintation.settingPreferences.SettingPreferencesFragment"
         android:label="SettingPreferencesFragment" >
         <action
             android:id="@+id/action_settingPreferencesFragment_to_homeFragment"

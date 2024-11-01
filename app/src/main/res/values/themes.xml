@@ -14,11 +14,23 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
     </style>
+    
+    <style name="TextColorOnSurface">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="IconStart">
+        <item name="android:tint">#ffd60a</item>
+    </style>
 
     <style name="EditTextLayout" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
-        <item name="boxCornerRadiusBottomStart">20dp</item>
-        <item name="boxCornerRadiusBottomEnd">20dp</item>
-        <item name="boxCornerRadiusTopStart">20dp</item>
-        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">15dp</item>
+        <item name="boxCornerRadiusBottomEnd">15dp</item>
+        <item name="boxCornerRadiusTopStart">15dp</item>
+        <item name="boxCornerRadiusTopEnd">15dp</item>
+    </style>
+
+    <style name="MaterialButtonBackground">
+        <item name="android:backgroundTint">@color/background_color</item>
     </style>
 </resources>

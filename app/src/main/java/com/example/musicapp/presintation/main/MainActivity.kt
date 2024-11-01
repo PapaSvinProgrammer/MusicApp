@@ -1,11 +1,11 @@
-package com.example.musicapp
+package com.example.musicapp.presintation.main
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.musicapp.R
 import com.example.musicapp.databinding.ActivityMainBinding
 
 class MainActivity: AppCompatActivity() {
@@ -23,7 +23,8 @@ class MainActivity: AppCompatActivity() {
         navController.addOnDestinationChangedListener{ _, destination, _->
             if (destination.id == R.id.homeFragment ||
                 destination.id == R.id.favoriteFragment ||
-                destination.id == R.id.settingsFragment)
+                destination.id == R.id.settingsFragment
+            )
             {
                 binding.bottomNavigation.visibility = View.VISIBLE
             }

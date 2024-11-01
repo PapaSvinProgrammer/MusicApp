@@ -8,4 +8,10 @@
     <string name="email_text">"Логин"</string>
     <string name="password_string">"Пароль"</string>
     <string name="check_password_string">"Подтверждение пароля"</string>
+    <string name="start_title_text">"“Там, где кончаются слова, начинается музыка“ — Генрих Гейне"</string>
+
+    <string name="error_email_text">"Почта введена неккоректно"</string>
+    <string name="error_password_text">"Должно быть больше 6 символов"</string>
+    <string name="error_login_text">"Неверны логин или пароль"</string>
+    <string name="error_registration_text">"Такой пользователь уже существует"</string>
 </resources>

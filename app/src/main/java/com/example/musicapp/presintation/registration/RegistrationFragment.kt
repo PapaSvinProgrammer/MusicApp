@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.presintation.registration
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentRegistrationBinding
 
 class RegistrationFragment: Fragment() {

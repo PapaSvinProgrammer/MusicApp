@@ -1,4 +1,4 @@
-package com.example.musicapp
+package com.example.musicapp.presintation.settingPreferences
 
 import android.os.Bundle
 import android.view.LayoutInflater
