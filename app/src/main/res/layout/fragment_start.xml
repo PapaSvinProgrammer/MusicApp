@@ -11,9 +11,9 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/shapeableImageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_start_logo" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -21,17 +21,10 @@
         style="@style/IconStart"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
         app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
         app:srcCompat="@drawable/ic_start_text" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="445dp" />
 
     <TextView
         style="@style/TextColorOnSurface"

@@ -9,9 +9,36 @@
     <string name="password_string">"Пароль"</string>
     <string name="check_password_string">"Подтверждение пароля"</string>
     <string name="start_title_text">"“Там, где кончаются слова, начинается музыка“ — Генрих Гейне"</string>
+    <string name="dark_mode_text">"Темная тема"</string>
+    <string name="clear_storage_text">"Очистить память"</string>
+    <string name="delete_account_text">"Удалить аккаунт"</string>
+    <string name="blacklist_text">"Черный список"</string>
+    <string name="change_preferences_text">"Изменить предпочтения"</string>
+    <string name="skip_text">"Пропустить"</string>
+    <string name="exit_text">"Выйти"</string>
+    <string name="cancel_text">"Отмена"</string>
+
+    <string name="title_dialog_exit_text">"Выход"</string>
+    <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>
+
+    <string name="title_settings_text">"Настройки"</string>
+    <string name="title_settings_preferences_text">"Предпочтения"</string>
 
     <string name="error_email_text">"Почта введена неккоректно"</string>
     <string name="error_password_text">"Должно быть больше 6 символов"</string>
+    <string name="error_check_password_text">"Пароли не совпадают"</string>
     <string name="error_login_text">"Неверны логин или пароль"</string>
     <string name="error_registration_text">"Такой пользователь уже существует"</string>
+
+    <string name="all_text" translatable="false">"Все"</string>
+    <string name="genre1_text" translatable="false">"Русский рок"</string>
+    <string name="genre2_text" translatable="false">"Инди рок"</string>
+    <string name="genre3_text" translatable="false">"Рок</string>
+    <string name="genre4_text" translatable="false">"Поп"</string>
+    <string name="genre5_text" translatable="false">"Хип-хоп"</string>
+    <string name="genre6_text" translatable="false">"R&amp;B"</string>
+    <string name="genre7_text" translatable="false">"Классическая"</string>
+    <string name="genre8_text" translatable="false">"Шансон"</string>
+    <string name="genre9_text" translatable="false">"Транс"</string>
+    <string name="genre10_text" translatable="false">"Хаус"</string>
 </resources>

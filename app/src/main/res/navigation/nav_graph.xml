@@ -22,7 +22,14 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.musicapp.presintation.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_storageFragment"
+            app:destination="@id/storageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.musicapp.presintation.login.LoginFragment"
@@ -49,6 +56,9 @@
         <action
             android:id="@+id/action_startFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingPreferencesFragment"
@@ -58,4 +68,8 @@
             android:id="@+id/action_settingPreferencesFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/storageFragment"
+        android:name="com.example.musicapp.presintation.storage.StorageFragment"
+        android:label="StorageFragment" />
 </navigation>

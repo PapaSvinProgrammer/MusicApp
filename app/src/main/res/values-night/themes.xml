@@ -10,8 +10,12 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/background_color</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="IconTintColor">
+        <item name="android:tint">@color/purple_200</item>
     </style>
 
     <style name="TextColorOnSurface">
@@ -20,5 +24,11 @@
 
     <style name="MaterialButtonBackground">
         <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="MaterialCard" parent="Widget.Material3.CardView.Filled">
+        <item name="cardElevation">5dp</item>
+        <item name="cardBackgroundColor">#2B2930</item>
+        <item name="cardCornerRadius">15dp</item>
     </style>
 </resources>

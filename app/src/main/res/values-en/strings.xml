@@ -10,9 +10,24 @@
     <string name="password_string">Password</string>
     <string name="check_password_string">Check password</string>
     <string name="start_title_text">“Where words leave off, music begins“ — Heinrich Heine</string>
+    <string name="dark_mode_text">Dark theme</string>
+    <string name="clear_storage_text">Clear the memory</string>
+    <string name="delete_account_text">Delete an account</string>
+    <string name="blacklist_text">Blacklist</string>
+    <string name="change_preferences_text">Change preferences</string>
+    <string name="skip_text">Skip</string>
+    <string name="exit_text">Exit</string>
+    <string name="cancel_text">Cancel</string>
+
+    <string name="title_dialog_exit_text">Exit</string>
+    <string name="message_dialog_exit_text">Are you sure you want to get out?</string>
+
+    <string name="title_settings_text">Settings</string>
+    <string name="title_settings_preferences_text">Preferences</string>
 
     <string name="error_email_text">The email was entered incorrectly</string>
     <string name="error_password_text">There must be more than 6 characters</string>
+    <string name="error_check_password_text">"Passwords don't match"</string>
     <string name="error_login_text">Invalid username or password</string>
     <string name="error_registration_text">Such a user already exists</string>
 </resources>

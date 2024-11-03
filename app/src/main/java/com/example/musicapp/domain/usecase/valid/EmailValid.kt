@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.valid
+package com.example.musicapp.domain.usecase.valid
 
 class EmailValid {
     fun execute(email: String): Boolean {
