@@ -4,6 +4,8 @@ import android.app.Application
 import com.example.musicapp.di.appModule
 import com.example.musicapp.di.dataModule
 import com.example.musicapp.di.domainModule
+import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

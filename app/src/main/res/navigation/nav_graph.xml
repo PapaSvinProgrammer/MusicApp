@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/startFragment">
+    app:startDestination="@id/settingPreferencesFragment">
 
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.musicapp.presintation.favorite.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment"
+        tools:layout="@layout/fragment_favorite"/>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.musicapp.presintation.home.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -22,7 +25,8 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.musicapp.presintation.settings.SettingsFragment"
-        android:label="SettingsFragment" >
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_startFragment"
             app:destination="@id/startFragment" />
@@ -33,7 +37,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.musicapp.presintation.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -41,7 +46,8 @@
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.musicapp.presintation.registration.RegistrationFragment"
-        android:label="RegistrationFragment" >
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_settingPreferencesFragment"
             app:destination="@id/settingPreferencesFragment" />
@@ -49,7 +55,8 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.musicapp.presintation.start.StartFragment"
-        android:label="StartFragment" >
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -63,7 +70,8 @@
     <fragment
         android:id="@+id/settingPreferencesFragment"
         android:name="com.example.musicapp.presintation.settingPreferences.SettingPreferencesFragment"
-        android:label="SettingPreferencesFragment" >
+        android:label="SettingPreferencesFragment"
+        tools:layout="@layout/fragment_setting_preferences">
         <action
             android:id="@+id/action_settingPreferencesFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -71,5 +79,6 @@
     <fragment
         android:id="@+id/storageFragment"
         android:name="com.example.musicapp.presintation.storage.StorageFragment"
-        android:label="StorageFragment" />
+        android:label="StorageFragment"
+        tools:layout="@layout/fragment_storage"/>
 </navigation>

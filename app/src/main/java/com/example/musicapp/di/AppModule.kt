@@ -3,6 +3,7 @@ package com.example.musicapp.di
 import com.example.musicapp.presintation.login.LoginViewModel
 import com.example.musicapp.presintation.main.MainViewModel
 import com.example.musicapp.presintation.registration.RegistrationViewModel
+import com.example.musicapp.presintation.settingPreferences.SettingsPreferencesViewModel
 import com.example.musicapp.presintation.settings.SettingsViewModel
 import com.example.musicapp.presintation.start.StartViewModel
 import org.koin.core.module.dsl.viewModel
@@ -34,6 +35,7 @@ val appModule = module {
     viewModel {
         StartViewModel(
             getLoginState = get(),
+            saveDarkModeState = get(),
             getDarkModeState = get()
         )
     }
@@ -50,6 +52,12 @@ val appModule = module {
         SettingsViewModel(
             saveDarkModeState = get(),
             saveLoginState = get()
+        )
+    }
+
+    viewModel {
+        SettingsPreferencesViewModel(
+            getGroupAll = get()
         )
     }
 }

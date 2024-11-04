@@ -1,8 +1,8 @@
 package com.example.musicapp.presintation.settings
 
 import androidx.lifecycle.ViewModel
-import com.example.musicapp.domain.usecase.save.SaveDarkModeState
-import com.example.musicapp.domain.usecase.save.SaveLoginState
+import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
+import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

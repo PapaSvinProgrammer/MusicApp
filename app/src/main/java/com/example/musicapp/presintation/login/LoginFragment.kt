@@ -37,7 +37,7 @@ class LoginFragment: Fragment() {
             }
         }
 
-        viewModel.emailValidLiveData.observe(viewLifecycleOwner) { state ->
+        viewModel.emailValidResult.observe(viewLifecycleOwner) { state ->
             binding.emailEditLayout.error = null
 
             if (!state) {
@@ -48,7 +48,7 @@ class LoginFragment: Fragment() {
             }
         }
 
-        viewModel.passwordValidLiveData.observe(viewLifecycleOwner) { state ->
+        viewModel.passwordValidResult.observe(viewLifecycleOwner) { state ->
             binding.passwordEditLayout.error = null
 
             if (!state) {
@@ -59,7 +59,7 @@ class LoginFragment: Fragment() {
             }
         }
 
-        viewModel.loginLiveData.observe(viewLifecycleOwner) { liveData->
+        viewModel.loginResult.observe(viewLifecycleOwner) { liveData->
             if (!loginLiveDataFlag) {
                 loginLiveDataFlag = true
 

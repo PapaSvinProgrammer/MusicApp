@@ -1,13 +1,16 @@
 package com.example.musicapp.presintation.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -20,11 +23,14 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.getDarkMode()
+        if (viewModel.darkModeResult) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+
         viewModel.getEmail()
         viewModel.getUserKey()
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener{ _, destination, _->

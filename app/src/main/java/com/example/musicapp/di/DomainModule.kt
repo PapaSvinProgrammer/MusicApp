@@ -1,15 +1,17 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
+import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
-import com.example.musicapp.domain.usecase.get.GetDarkModeState
-import com.example.musicapp.domain.usecase.get.GetEmail
-import com.example.musicapp.domain.usecase.get.GetLoginState
-import com.example.musicapp.domain.usecase.get.GetUserKey
-import com.example.musicapp.domain.usecase.save.SaveDarkModeState
-import com.example.musicapp.domain.usecase.save.SaveEmail
-import com.example.musicapp.domain.usecase.save.SaveLoginState
-import com.example.musicapp.domain.usecase.save.SaveUserKey
+import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
+import com.example.musicapp.domain.usecase.getPreferences.GetEmail
+import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
+import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
+import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
+import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
+import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
+import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import org.koin.dsl.module
@@ -80,6 +82,18 @@ val domainModule = module {
     factory<CreateAccount> {
         CreateAccount(
             signAndCreateRepository = get()
+        )
+    }
+
+    factory<GetMusicAll> {
+        GetMusicAll(
+            getMusicDataRepository = get()
+        )
+    }
+
+    factory<GetGroupAll> {
+        GetGroupAll(
+            getMusicDataRepository = get()
         )
     }
 }

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentStartBinding
+import com.example.musicapp.presintation.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StartFragment: Fragment() {
@@ -21,6 +23,10 @@ class StartFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentStartBinding.inflate(layoutInflater, container, false)
+
+        viewModel.getLoginSate()
+        viewModel.getDarkMode()
+
         return binding.root
     }
 
@@ -28,18 +34,9 @@ class StartFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
-        viewModel.getDarkModeState()
-        viewModel.getLoginSate()
-
-        viewModel.loginStateLiveData.observe(viewLifecycleOwner) {
+        viewModel.loginStateResult.observe(viewLifecycleOwner) {
             if (it) {
                 navController.navigate(R.id.action_startFragment_to_homeFragment)
-            }
-        }
-
-        viewModel.darkModeStateLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
 
@@ -49,6 +46,17 @@ class StartFragment: Fragment() {
 
         binding.registrationButton.setOnClickListener {
             navController.navigate(R.id.action_startFragment_to_registrationFragment)
+        }
+
+        binding.darkModeButton.setOnClickListener {
+            if (viewModel.getDarkModeStateResult.value == true) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                viewModel.saveDarkMode(false)
+            }
+            else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                viewModel.saveDarkMode(true)
+            }
         }
     }
 }

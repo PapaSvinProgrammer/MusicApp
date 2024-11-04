@@ -41,7 +41,7 @@ class RegistrationFragment: Fragment() {
             }
         }
 
-        viewModel.emailValidLiveData.observe(viewLifecycleOwner) {
+        viewModel.emailValidResult.observe(viewLifecycleOwner) {
             binding.emailEditLayout.error = null
 
             if (!it) {
@@ -52,7 +52,7 @@ class RegistrationFragment: Fragment() {
             }
         }
 
-        viewModel.passwordValidLiveData.observe(viewLifecycleOwner) {
+        viewModel.passwordValidResult.observe(viewLifecycleOwner) {
             binding.passwordEditLayout.error = null
 
             if (!it) {
@@ -63,7 +63,7 @@ class RegistrationFragment: Fragment() {
             }
         }
 
-        viewModel.passwordEqualsLiveData.observe(viewLifecycleOwner) {
+        viewModel.passwordEqualsResult.observe(viewLifecycleOwner) {
             binding.checkPasswordLayout.error = null
 
             if (!it) {
@@ -74,7 +74,7 @@ class RegistrationFragment: Fragment() {
             }
         }
 
-        viewModel.registrationLiveData.observe(viewLifecycleOwner) { liveData->
+        viewModel.registrationResult.observe(viewLifecycleOwner) { liveData->
             if (!registrationLiveDataFlag) {
                 registrationLiveDataFlag = true
 

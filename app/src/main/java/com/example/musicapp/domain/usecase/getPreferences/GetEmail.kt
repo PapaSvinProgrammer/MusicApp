@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.get
+package com.example.musicapp.domain.usecase.getPreferences
 
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 

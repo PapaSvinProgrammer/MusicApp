@@ -43,4 +43,11 @@
         <item name="cardBackgroundColor">#F7F2FA</item>
         <item name="cardCornerRadius">15dp</item>
     </style>
+
+    <style name="ImageCornerRadius">
+        <item name="cornerSizeTopLeft">15dp</item>
+        <item name="cornerSizeTopRight">15dp</item>
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+    </style>
 </resources>

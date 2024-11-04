@@ -1,13 +1,9 @@
 package com.example.musicapp.presintation.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.musicapp.domain.usecase.get.GetDarkModeState
-import com.example.musicapp.domain.usecase.get.GetEmail
-import com.example.musicapp.domain.usecase.get.GetUserKey
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
+import com.example.musicapp.domain.usecase.getPreferences.GetEmail
+import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
@@ -19,20 +15,14 @@ class MainViewModel(
     var userKeyResult: String? = null
 
     fun getDarkMode() {
-        CoroutineScope(Dispatchers.IO).launch {
-            darkModeResult = getDarkModeState.execute()
-        }
+        darkModeResult = getDarkModeState.execute()
     }
 
     fun getEmail() {
-        CoroutineScope(Dispatchers.IO).launch {
-            emailResult = getEmail.execute()
-        }
+        emailResult = getEmail.execute()
     }
 
     fun getUserKey() {
-        CoroutineScope(Dispatchers.IO).launch {
-            userKeyResult = getUserKey.execute()
-        }
+        userKeyResult = getUserKey.execute()
     }
 }

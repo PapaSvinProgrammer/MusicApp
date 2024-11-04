@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
-import com.example.musicapp.domain.usecase.save.SaveEmail
-import com.example.musicapp.domain.usecase.save.SaveLoginState
-import com.example.musicapp.domain.usecase.save.SaveUserKey
+import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
+import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
+import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import kotlinx.coroutines.CoroutineScope
@@ -21,10 +21,15 @@ class RegistrationViewModel(
     private val saveLoginState: SaveLoginState,
     private val saveEmail: SaveEmail
 ): ViewModel() {
-    val emailValidLiveData = MutableLiveData<Boolean>()
-    val passwordValidLiveData = MutableLiveData<Boolean>()
-    val passwordEqualsLiveData = MutableLiveData<Boolean>()
-    val registrationLiveData = MutableLiveData<LiveData<String?>>()
+    private val emailValidLiveData = MutableLiveData<Boolean>()
+    private val passwordValidLiveData = MutableLiveData<Boolean>()
+    private val passwordEqualsLiveData = MutableLiveData<Boolean>()
+    private val registrationLiveData = MutableLiveData<LiveData<String?>>()
+
+    val emailValidResult: LiveData<Boolean> = emailValidLiveData
+    val passwordValidResult: LiveData<Boolean> = passwordValidLiveData
+    val passwordEqualsResult: LiveData<Boolean> = passwordEqualsLiveData
+    val registrationResult: LiveData<LiveData<String?>> = registrationLiveData
 
     fun isEmailValid(email: String) {
         emailValidLiveData.value = emailValid.execute(email)
