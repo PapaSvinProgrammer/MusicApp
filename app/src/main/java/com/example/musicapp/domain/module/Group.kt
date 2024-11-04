@@ -1,6 +1,5 @@
 package com.example.musicapp.domain.module
 
-import java.io.Serializable
 
 data class Group (
     var id: String,
@@ -10,5 +9,6 @@ data class Group (
     var country: String,
     var musics: ArrayList<String>,
     var year: String,
-    var image: String
-): Serializable
+    var image: String,
+    var isFavorite: Boolean? = null
+)

@@ -35,24 +35,21 @@ class SettingPreferencesFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
-        //binding.progressIndicator.visibility = View.VISIBLE
+        binding.progressIndicator.visibility = View.VISIBLE
         viewModel.getGroup()
 
-        recyclerAdapter = SettingsPerformancesAdapter(generate())
-        binding.recyclerView.adapter = recyclerAdapter
+        viewModel.getGroupAllResult.observe(viewLifecycleOwner) { liveData ->
+            if (!getGroupAllFlag) {
+                getGroupAllFlag = true
 
-//        viewModel.getGroupAllResult.observe(viewLifecycleOwner) { liveData ->
-//            if (!getGroupAllFlag) {
-//                getGroupAllFlag = true
-//
-//                liveData.observe(viewLifecycleOwner) { array ->
-//                    recyclerAdapter = SettingsPerformancesAdapter(array)
-//                    binding.recyclerView.adapter = recyclerAdapter
-//
-//                    binding.progressIndicator.visibility = View.GONE
-//                }
-//            }
-//        }
+                liveData.observe(viewLifecycleOwner) { array ->
+                    recyclerAdapter = SettingsPerformancesAdapter(array)
+                    binding.recyclerView.adapter = recyclerAdapter
+
+                    binding.progressIndicator.visibility = View.GONE
+                }
+            }
+        }
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -61,80 +58,5 @@ class SettingPreferencesFragment: Fragment() {
 
             true
         }
-    }
-
-    private fun generate(): ArrayList<Group> {
-        return arrayListOf(
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            ),
-            Group(
-                id = "id",
-                albums = ArrayList<String>(),
-                compound = ArrayList<String>(),
-                genres = arrayListOf("РОК"),
-                country = "Russia",
-                musics = ArrayList<String>(),
-                year = "year",
-                image = "https://cdn.pbilet.com/origin/15eda196-b198-4620-931d-65e0f7826933.jpeg"
-            )
-        )
     }
 }
