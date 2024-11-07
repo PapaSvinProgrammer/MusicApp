@@ -15,7 +15,7 @@
     <string name="delete_account_text">Delete an account</string>
     <string name="blacklist_text">Blacklist</string>
     <string name="change_preferences_text">Change preferences</string>
-    <string name="skip_text">Skip</string>
+    <string name="next_text">Next</string>
     <string name="exit_text">Exit</string>
     <string name="cancel_text">Cancel</string>
 

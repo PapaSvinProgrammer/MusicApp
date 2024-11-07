@@ -30,5 +30,6 @@
         <item name="cardElevation">5dp</item>
         <item name="cardBackgroundColor">#2B2930</item>
         <item name="cardCornerRadius">15dp</item>
+        <item name="strokeColor">@color/purple_200</item>
     </style>
 </resources>

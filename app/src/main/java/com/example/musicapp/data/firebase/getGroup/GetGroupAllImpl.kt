@@ -29,7 +29,7 @@ class GetGroupAllImpl {
                     for (document in result) {
                         temp.add(
                             Group(
-                                id = document.id,
+                                name = document[GroupConst.GROUP_NAME_FIELD].toString(),
                                 albums = document[GroupConst.GROUP_ALBUM_FIELD] as ArrayList<String>,
                                 compound = document[GroupConst.GROUP_COMPOUND_FIELD] as ArrayList<String>,
                                 genres = document[GroupConst.GROUP_GENRES_FIELD] as ArrayList<String>,

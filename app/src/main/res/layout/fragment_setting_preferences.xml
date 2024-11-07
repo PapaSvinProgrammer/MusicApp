@@ -6,13 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="@string/title_settings_preferences_text"
-        app:menu="@menu/top_app_bar_skip"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/small_image_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/small_image1_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearance="@style/ImageCornerRadius"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/small_image2_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                app:shapeAppearance="@style/ImageCornerRadius"
+                android:scaleType="centerCrop"
+                android:elevation="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/count_selected_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="16sp"
+            android:text="Выбрано исполнителей: 0"
+            android:layout_toEndOf="@id/small_image_layout"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_button"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            app:shapeAppearance="@style/ImageCornerRadius"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Далее"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -20,10 +69,11 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/horizontal_view"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintVertical_bias="0.0"
         app:spanCount="3"
         tools:layout_editor_absoluteX="0dp"
+        android:nestedScrollingEnabled="true"
         tools:listitem="@layout/item_settings_preferences_list" />
 
     <HorizontalScrollView
@@ -107,6 +157,17 @@
                 android:text="@string/genre10_text" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/search_button"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        app:shapeAppearance="@style/ImageCornerRadius"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:icon="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="20dp"/>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_indicator"

@@ -1,6 +1,7 @@
 package com.example.musicapp.data.constant
 
 object GroupConst {
+    const val GROUP_NAME_FIELD = "Name"
     const val GROUP_ALBUM_FIELD = "Albums"
     const val GROUP_COMPOUND_FIELD = "Compound"
     const val GROUP_GENRES_FIELD = "Genres"

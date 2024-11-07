@@ -14,7 +14,7 @@
     <string name="delete_account_text">"Удалить аккаунт"</string>
     <string name="blacklist_text">"Черный список"</string>
     <string name="change_preferences_text">"Изменить предпочтения"</string>
-    <string name="skip_text">"Пропустить"</string>
+    <string name="next_text">"Далее"</string>
     <string name="exit_text">"Выйти"</string>
     <string name="cancel_text">"Отмена"</string>
 

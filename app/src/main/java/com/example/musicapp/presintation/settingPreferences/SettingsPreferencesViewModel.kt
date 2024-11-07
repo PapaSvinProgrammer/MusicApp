@@ -12,7 +12,9 @@ class SettingsPreferencesViewModel(
     private val getGroupAll: GetGroupAll
 ): ViewModel() {
     private val getGroupAllLiveData = MutableLiveData<LiveData<ArrayList<Group>>>()
+    val countSelectedLiveData = MutableLiveData<Int>()
     val getGroupAllResult: LiveData<LiveData<ArrayList<Group>>> = getGroupAllLiveData
+    val selectedArray = ArrayList<Group>()
 
     fun getGroup() {
         getGroupAllLiveData.value = getGroupAll.execute()

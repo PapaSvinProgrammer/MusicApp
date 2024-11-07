@@ -42,6 +42,7 @@
         <item name="cardElevation">5dp</item>
         <item name="cardBackgroundColor">#F7F2FA</item>
         <item name="cardCornerRadius">15dp</item>
+        <item name="strokeColor">@color/purple_500</item>
     </style>
 
     <style name="ImageCornerRadius">
