@@ -1,6 +1,7 @@
 package com.example.musicapp.di
 
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
+import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPassword
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPassword
@@ -37,7 +38,8 @@ val dataModule = module {
     single<GetMusicDataRepository> {
         GetMusicDataRepositoryImpl(
             getMusicAllImpl = get(),
-            getGroupAllImpl = get()
+            getGroupAllImpl = get(),
+            getGroupWithFilterOnGenresImpl = get()
         )
     }
 
@@ -47,5 +49,9 @@ val dataModule = module {
 
     single<GetGroupAllImpl> {
         GetGroupAllImpl()
+    }
+
+    single<GetGroupWithFilterOnGenresImpl> {
+        GetGroupWithFilterOnGenresImpl()
     }
 }

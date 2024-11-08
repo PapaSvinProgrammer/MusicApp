@@ -1,6 +1,7 @@
 package com.example.musicapp.di
 
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
+import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
@@ -93,6 +94,12 @@ val domainModule = module {
 
     factory<GetGroupAll> {
         GetGroupAll(
+            getMusicDataRepository = get()
+        )
+    }
+
+    factory<GetGroupWithFilterOnGenres> {
+        GetGroupWithFilterOnGenres(
             getMusicDataRepository = get()
         )
     }

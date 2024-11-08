@@ -1,20 +1,19 @@
 package com.example.musicapp.presintation.settingPreferences
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.constant.GroupConst
 import com.example.musicapp.databinding.FragmentSettingPreferencesBinding
-import com.example.musicapp.domain.module.Group
 import com.example.musicapp.presintation.adapter.SettingsPerformancesAdapter
-import com.google.api.ContextRule
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +23,8 @@ class SettingPreferencesFragment: Fragment() {
     private lateinit var binding: FragmentSettingPreferencesBinding
     private lateinit var recyclerAdapter: SettingsPerformancesAdapter
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
+
+    private var filterFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +48,25 @@ class SettingPreferencesFragment: Fragment() {
         recyclerAdapter = SettingsPerformancesAdapter(viewModel)
         binding.recyclerView.adapter = recyclerAdapter
 
-        if (viewModel.getGroupAllResult.value != null && viewModel.getGroupAllResult.value!!.value != null) {
-            recyclerAdapter.setData(viewModel.getGroupAllResult.value!!.value!!)
+        if (viewModel.lastDownloadArray.isNotEmpty()) {
+            recyclerAdapter.setData(viewModel.lastDownloadArray)
             binding.progressIndicator.visibility = View.GONE
         }
         else {
             viewModel.getGroupAllResult.observe(viewLifecycleOwner) { liveData ->
                 liveData.observe(viewLifecycleOwner) { array ->
+                    viewModel.lastDownloadArray = array
+
                     recyclerAdapter.setData(array)
+                    binding.progressIndicator.visibility = View.GONE
+                }
+            }
+
+            viewModel.getGroupWithFilterOnGenresResult.observe(viewLifecycleOwner) { liveData ->
+                liveData.observe(viewLifecycleOwner) { array->
+                    viewModel.lastDownloadArray = array
+                    recyclerAdapter.setData(array)
+
                     binding.progressIndicator.visibility = View.GONE
                 }
             }
@@ -66,17 +78,20 @@ class SettingPreferencesFragment: Fragment() {
             loadSmallImageInSelected()
         }
 
+        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            chipGroupListener(group, checkedIds)
+        }
+
         binding.nextButton.setOnClickListener {
             navController.navigate(R.id.action_settingPreferencesFragment_to_homeFragment)
         }
 
-        binding.appBar.setOnLongClickListener {
-            navController.navigate(R.id.action_settingPreferencesFragment_to_selectedListFragment)
-            true
-        }
+        binding.bottomBar.setOnLongClickListener {
+            val bundle = Bundle()
+            bundle.putParcelableArrayList("ArrayGroup", viewModel.selectedArray)
 
-        binding.searchButton.setOnClickListener {
-            //TODO
+            navController.navigate(R.id.action_settingPreferencesFragment_to_selectedListFragment, bundle)
+            true
         }
     }
 
@@ -111,6 +126,33 @@ class SettingPreferencesFragment: Fragment() {
         else {
             binding.smallImage1View.visibility = View.GONE
             binding.smallImage2View.visibility = View.GONE
+        }
+    }
+
+    private fun chipGroupListener(group: ChipGroup, checksId: List<Int>) {
+        if (checksId.isNotEmpty()) {
+            val chip = group[0] as Chip
+
+            if (filterFlag && checksId.first() == 1) {
+                group.clearCheck()
+                chip.isChecked = true
+
+                viewModel.getGroup()
+            }
+            else {
+                binding.progressIndicator.visibility = View.VISIBLE
+
+                filterFlag = true
+                chip.isChecked = false
+
+                Log.d("RRRR", "-->" + checksId.toString())
+
+                viewModel.getGroupOnGenres(checksId)
+            }
+        }
+        else {
+            val chip = group[0] as Chip
+            chip.isChecked = true
         }
     }
 }

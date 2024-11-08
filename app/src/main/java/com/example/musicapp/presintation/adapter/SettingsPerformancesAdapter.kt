@@ -37,7 +37,7 @@ class SettingsPerformancesAdapter(
 
             binding.groupNameView.text = group.name?.trim()
 
-            binding.genreView.text = group.genres?.get(0)?.trim()?.lowercase()
+            binding.genreView.text = group.genre?.trim()?.replaceFirstChar(Char::titlecase)
 
             if (group.isFavorite == true) {
                 binding.root.strokeWidth = 3

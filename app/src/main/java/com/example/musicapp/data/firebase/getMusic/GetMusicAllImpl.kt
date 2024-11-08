@@ -3,7 +3,7 @@ package com.example.musicapp.data.firebase.getMusic
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musicapp.data.constant.DataConst
+import com.example.musicapp.data.constant.CollectionConst
 import com.example.musicapp.data.constant.MusicConst
 import com.example.musicapp.domain.module.Music
 import com.google.firebase.Firebase
@@ -21,7 +21,7 @@ class GetMusicAllImpl {
 
         CoroutineScope(Dispatchers.Main).launch {
             database
-                .collection(DataConst.MUSIC_COLLECTION)
+                .collection(CollectionConst.MUSIC_COLLECTION)
                 .get()
                 .addOnSuccessListener { result ->
                     val temp: ArrayList<Music> = ArrayList()

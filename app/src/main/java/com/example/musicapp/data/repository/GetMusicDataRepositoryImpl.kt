@@ -2,6 +2,7 @@ package com.example.musicapp.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
+import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
@@ -10,7 +11,8 @@ import com.example.musicapp.domain.repository.GetMusicDataRepository
 
 class GetMusicDataRepositoryImpl(
     private val getMusicAllImpl: GetMusicAllImpl,
-    private val getGroupAllImpl: GetGroupAllImpl
+    private val getGroupAllImpl: GetGroupAllImpl,
+    private val getGroupWithFilterOnGenresImpl: GetGroupWithFilterOnGenresImpl
 ): GetMusicDataRepository {
     override fun getMusicWithFilterOnGroup(): LiveData<ArrayList<Music>> {
         TODO("Not yet implemented")
@@ -37,8 +39,9 @@ class GetMusicDataRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getGroupWithFilterOnGenre(): LiveData<ArrayList<Group>> {
-        TODO("Not yet implemented")
+    override fun getGroupWithFilterOnGenre(filter: List<String>): LiveData<ArrayList<Group>> {
+        getGroupWithFilterOnGenresImpl.execute(filter)
+        return getGroupWithFilterOnGenresImpl.result
     }
 
     override fun getGroupAll(): LiveData<ArrayList<Group>> {

@@ -3,7 +3,7 @@ package com.example.musicapp.data.firebase.getGroup
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.musicapp.data.constant.DataConst
+import com.example.musicapp.data.constant.CollectionConst
 import com.example.musicapp.data.constant.GroupConst
 import com.example.musicapp.domain.module.Group
 import com.google.firebase.Firebase
@@ -21,7 +21,7 @@ class GetGroupAllImpl {
 
         CoroutineScope(Dispatchers.Main).launch {
             database
-                .collection(DataConst.GROUP_COLLECTION)
+                .collection(CollectionConst.GROUP_COLLECTION)
                 .get()
                 .addOnSuccessListener { result ->
                     val temp = ArrayList<Group>()
@@ -32,7 +32,7 @@ class GetGroupAllImpl {
                                 name = document[GroupConst.GROUP_NAME_FIELD].toString(),
                                 albums = document[GroupConst.GROUP_ALBUM_FIELD] as ArrayList<String>,
                                 compound = document[GroupConst.GROUP_COMPOUND_FIELD] as ArrayList<String>,
-                                genres = document[GroupConst.GROUP_GENRES_FIELD] as ArrayList<String>,
+                                genre = document[GroupConst.GROUP_GENRE_FIELD].toString(),
                                 country = document[GroupConst.GROUP_COUNTRY_FIELD].toString(),
                                 musics = document[GroupConst.GROUP_MUSICS_FIELD] as ArrayList<String>,
                                 year = document[GroupConst.GROUP_YEARS_FIELD].toString(),

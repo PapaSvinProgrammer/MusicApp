@@ -13,7 +13,7 @@ interface GetMusicDataRepository {
     fun getMusicAll(): LiveData<ArrayList<Music>>
 
     fun getGroupWithFilterOnName(): LiveData<ArrayList<Group>>
-    fun getGroupWithFilterOnGenre(): LiveData<ArrayList<Group>>
+    fun getGroupWithFilterOnGenre(filter: List<String>): LiveData<ArrayList<Group>>
     fun getGroupAll(): LiveData<ArrayList<Group>>
 
     fun getAlbumWithFilterOnGenre(): LiveData<ArrayList<Album>>

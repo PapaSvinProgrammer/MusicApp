@@ -33,7 +33,7 @@
     <string name="all_text" translatable="false">"Все"</string>
     <string name="genre1_text" translatable="false">"Русский рок"</string>
     <string name="genre2_text" translatable="false">"Инди рок"</string>
-    <string name="genre3_text" translatable="false">"Рок</string>
+    <string name="genre3_text" translatable="false">"Альтернатива"</string>
     <string name="genre4_text" translatable="false">"Поп"</string>
     <string name="genre5_text" translatable="false">"Хип-хоп"</string>
     <string name="genre6_text" translatable="false">"R&amp;B"</string>
