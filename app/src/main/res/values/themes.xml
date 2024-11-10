@@ -51,4 +51,8 @@
         <item name="cornerSizeBottomLeft">15dp</item>
         <item name="cornerSizeBottomRight">15dp</item>
     </style>
+
+    <style name="IconCheckFavorite">
+        <item name="android:tint">@android:color/holo_red_light</item>
+    </style>
 </resources>

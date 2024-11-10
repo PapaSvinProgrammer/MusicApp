@@ -15,13 +15,19 @@ class SettingsPreferencesViewModel(
 ): ViewModel() {
     private val getGroupAllLiveData = MutableLiveData<LiveData<ArrayList<Group>>>()
     private val getGroupGenresLiveData = MutableLiveData<LiveData<ArrayList<Group>>>()
+    private val updateRecyclerDataLiveData = MutableLiveData<Boolean>()
 
     val getGroupAllResult: LiveData<LiveData<ArrayList<Group>>> = getGroupAllLiveData
     val countSelectedLiveData = MutableLiveData<Int>()
     val getGroupWithFilterOnGenresResult: LiveData<LiveData<ArrayList<Group>>> = getGroupGenresLiveData
+    val updateRecyclerDataResult: LiveData<Boolean> = updateRecyclerDataLiveData
 
     val selectedArray = ArrayList<Group>()
+    val selectedMap = HashMap<String, Boolean>()
+
     var lastDownloadArray = ArrayList<Group>()
+    var lastFilter: List<Int> = ArrayList()
+    var searchList: List<Group> = ArrayList()
 
     fun getGroup() {
         getGroupAllLiveData.value = getGroupAll.execute()
@@ -29,5 +35,9 @@ class SettingsPreferencesViewModel(
 
     fun getGroupOnGenres(filter: List<Int>) {
         getGroupGenresLiveData.value = getGroupWithFilterOnGenres.execute(filter)
+    }
+
+    fun updateRecyclerData() {
+        updateRecyclerDataLiveData.value = true
     }
 }

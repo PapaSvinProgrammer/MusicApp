@@ -17,6 +17,7 @@
     <string name="next_text">"Далее"</string>
     <string name="exit_text">"Выйти"</string>
     <string name="cancel_text">"Отмена"</string>
+    <string name="all_text" translatable="false">"Все"</string>
 
     <string name="title_dialog_exit_text">"Выход"</string>
     <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>
@@ -29,16 +30,4 @@
     <string name="error_check_password_text">"Пароли не совпадают"</string>
     <string name="error_login_text">"Неверны логин или пароль"</string>
     <string name="error_registration_text">"Такой пользователь уже существует"</string>
-
-    <string name="all_text" translatable="false">"Все"</string>
-    <string name="genre1_text" translatable="false">"Русский рок"</string>
-    <string name="genre2_text" translatable="false">"Инди рок"</string>
-    <string name="genre3_text" translatable="false">"Альтернатива"</string>
-    <string name="genre4_text" translatable="false">"Поп"</string>
-    <string name="genre5_text" translatable="false">"Хип-хоп"</string>
-    <string name="genre6_text" translatable="false">"R&amp;B"</string>
-    <string name="genre7_text" translatable="false">"Классическая"</string>
-    <string name="genre8_text" translatable="false">"Шансон"</string>
-    <string name="genre9_text" translatable="false">"Транс"</string>
-    <string name="genre10_text" translatable="false">"Хаус"</string>
 </resources>

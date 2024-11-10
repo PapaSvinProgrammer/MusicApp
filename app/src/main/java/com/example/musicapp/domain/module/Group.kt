@@ -11,8 +11,7 @@ data class Group (
     var country: String?,
     var musics: ArrayList<String>?,
     var year: String?,
-    var image: String?,
-    var isFavorite: Boolean? = null
+    var image: String?
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -22,8 +21,7 @@ data class Group (
         parcel.readString(),
         parcel.createStringArrayList(),
         parcel.readString(),
-        parcel.readString(),
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -31,7 +29,6 @@ data class Group (
         parcel.writeString(country)
         parcel.writeString(year)
         parcel.writeString(image)
-        parcel.writeValue(isFavorite)
     }
 
     override fun describeContents(): Int {

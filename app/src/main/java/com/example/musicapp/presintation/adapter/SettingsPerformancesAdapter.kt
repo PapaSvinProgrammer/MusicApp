@@ -29,7 +29,7 @@ class SettingsPerformancesAdapter(
 
     private val asyncDifferList = AsyncListDiffer(this, diffUtilCallback)
 
-    class ViewHolder(val binding: ItemSettingsPreferencesListBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemSettingsPreferencesListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(group: Group) {
             CoroutineScope(Dispatchers.Main).launch {
                 Glide.with(binding.root).load(group.image).into(binding.groupImageView)
@@ -39,7 +39,7 @@ class SettingsPerformancesAdapter(
 
             binding.genreView.text = group.genre?.trim()?.replaceFirstChar(Char::titlecase)
 
-            if (group.isFavorite == true) {
+            if (viewModel.selectedMap.getOrDefault(group.name, false)) {
                 binding.root.strokeWidth = 3
             }
         }
@@ -66,14 +66,12 @@ class SettingsPerformancesAdapter(
     override fun getItemCount(): Int = asyncDifferList.currentList.size
 
     private fun onClick(holder: ViewHolder, group: Group) {
-        if (group.isFavorite == null || group.isFavorite == false) {
-            group.isFavorite = true
+        if (!viewModel.selectedMap.getOrDefault(group.name, false)) {
             holder.binding.root.strokeWidth = 3
 
             addInSelected(group)
         }
         else {
-            group.isFavorite = false
             holder.binding.root.strokeWidth = 0
 
             removeFromSelected(group)
@@ -82,6 +80,7 @@ class SettingsPerformancesAdapter(
 
     private fun removeFromSelected(group: Group) {
         viewModel.selectedArray.remove(group)
+        viewModel.selectedMap[group.name.toString()] = false
 
         if (viewModel.countSelectedLiveData.value != null) {
             viewModel.countSelectedLiveData.value = viewModel.countSelectedLiveData.value!! - 1
@@ -90,6 +89,7 @@ class SettingsPerformancesAdapter(
 
     private fun addInSelected(group: Group) {
         viewModel.selectedArray.add(group)
+        viewModel.selectedMap[group.name.toString()] = true
 
         if (viewModel.countSelectedLiveData.value == null) {
             viewModel.countSelectedLiveData.value = 1

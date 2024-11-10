@@ -92,7 +92,7 @@
         tools:layout="@layout/fragment_storage"/>
     <fragment
         android:id="@+id/selectedListFragment"
-        android:name="com.example.musicapp.presintation.SelectedListFragment"
+        android:name="com.example.musicapp.presintation.settingPreferences.SelectedListFragment"
         android:label="fragment_selected_list"
         tools:layout="@layout/fragment_selected_list" />
 </navigation>
