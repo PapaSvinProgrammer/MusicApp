@@ -18,12 +18,11 @@ class GetGroupWithFilterOnGenres(private val getMusicDataRepository: GetMusicDat
 
 
         filter.forEach {
-            if (it != 1) {
-                result.add(GenresConst.array[it - 2])
+            if (it != 0) {
+                result.add(GenresConst.array[it - 1])
             }
         }
 
-        Log.d("RRRR", result.toString())
         return result
     }
 }

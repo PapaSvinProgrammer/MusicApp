@@ -1,11 +1,11 @@
 package com.example.musicapp.presintation.settingPreferences
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -14,12 +14,10 @@ import com.example.musicapp.R
 import com.example.musicapp.data.constant.GenresConst
 import com.example.musicapp.databinding.FragmentSettingPreferencesBinding
 import com.example.musicapp.presintation.adapter.SearchPreferencesAdapter
-import com.example.musicapp.presintation.adapter.SelectedListAdapter
 import com.example.musicapp.presintation.adapter.SettingsPerformancesAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +30,7 @@ class SettingPreferencesFragment: Fragment() {
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
 
     private var filterFlag = false
+    private var getGroupFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,30 +57,14 @@ class SettingPreferencesFragment: Fragment() {
         recyclerAdapter = SettingsPerformancesAdapter(viewModel)
         binding.recyclerView.adapter = recyclerAdapter
 
-        if (viewModel.lastDownloadArray.isNotEmpty()) {
-            setFilter()
-            recyclerAdapter.setData(viewModel.lastDownloadArray)
+        viewModel.getGroupResult.observe(viewLifecycleOwner) { liveData ->
+            liveData.observe(viewLifecycleOwner) { array ->
+                viewModel.lastDownloadArray = array
+                viewModel.searchList = array
+                getGroupFlag = true
 
-            binding.progressIndicator.visibility = View.GONE
-        }
-        else {
-            viewModel.getGroupAllResult.observe(viewLifecycleOwner) { liveData ->
-                liveData.observe(viewLifecycleOwner) { array ->
-                    viewModel.lastDownloadArray = array
-                    viewModel.searchList = array
-
-                    recyclerAdapter.setData(array)
-                    binding.progressIndicator.visibility = View.GONE
-                }
-            }
-
-            viewModel.getGroupWithFilterOnGenresResult.observe(viewLifecycleOwner) { liveData ->
-                liveData.observe(viewLifecycleOwner) { array->
-                    viewModel.lastDownloadArray = array
-                    recyclerAdapter.setData(array)
-
-                    binding.progressIndicator.visibility = View.GONE
-                }
+                recyclerAdapter.setData(array)
+                binding.progressIndicator.visibility = View.GONE
             }
         }
 
@@ -99,20 +82,19 @@ class SettingPreferencesFragment: Fragment() {
             }
         }
 
-        binding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            chipGroupListener(group, checkedIds)
-        }
-
         binding.nextButton.setOnClickListener {
             navController.navigate(R.id.action_settingPreferencesFragment_to_homeFragment)
         }
 
-        binding.bottomBar.setOnLongClickListener {
+        binding.bottomBar.setOnClickListener {
             val bundle = Bundle()
             bundle.putParcelableArrayList("ArrayGroup", viewModel.selectedArray)
 
             navController.navigate(R.id.action_settingPreferencesFragment_to_selectedListFragment, bundle)
-            true
+        }
+
+        binding.chipGroup.setOnCheckedStateChangeListener { group, _ ->
+            chipGroupListener(group, checkedIds())
         }
 
         binding.searchView.toolbar.setNavigationOnClickListener {
@@ -156,15 +138,17 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private fun chipGroupListener(group: ChipGroup, checksId: List<Int>) {
-        Log.d("RRRR", checksId.toString())
-
         if (checksId.isNotEmpty()) {
             val chip = group[0] as Chip
 
-            if (filterFlag && checksId.first() == 1) {
+            if (filterFlag && checksId.first() == 0) {
+                binding.progressIndicator.visibility = View.VISIBLE
+
                 group.clearCheck()
+                getGroupFlag = false
+                filterFlag = false
                 chip.isChecked = true
-                viewModel.lastFilter = checksId
+                viewModel.lastFilter = arrayListOf(0)
 
                 viewModel.getGroup()
             }
@@ -173,6 +157,7 @@ class SettingPreferencesFragment: Fragment() {
 
                 filterFlag = true
                 chip.isChecked = false
+                getGroupFlag = false
                 viewModel.lastFilter = checksId
 
                 viewModel.getGroupOnGenres(checksId)
@@ -223,8 +208,13 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private fun setFilter() {
-        viewModel.lastFilter.forEach {
-            (binding.chipGroup[it - 1] as Chip).isChecked = true
+        if (viewModel.lastFilter.size > 1) {
+            viewModel.lastFilter.forEach {
+                if (it != 0) (binding.chipGroup[it] as Chip).isChecked = true
+            }
+        }
+        else {
+            (binding.chipGroup[0] as Chip).isChecked = true
         }
     }
 
@@ -255,5 +245,17 @@ class SettingPreferencesFragment: Fragment() {
                 binding.searchRecyclerView.visibility = View.GONE
             }
         }
+    }
+
+    private fun checkedIds(): List<Int> {
+        val result = ArrayList<Int>()
+
+        for (i in 0..<binding.chipGroup.size) {
+            if ((binding.chipGroup[i] as Chip).isChecked) {
+                result.add(i)
+            }
+        }
+
+        return result
     }
 }
