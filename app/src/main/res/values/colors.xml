@@ -10,6 +10,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray_color">#adb5bd</color>
 
+    <color name="bottom_color_light">#f3edf7</color>
+    <color name="bottom_color_dark">#211F26 </color>
     <color name="background_color">#141218</color>
     <color name="background_color_white">#fef7ff</color>
 </resources>

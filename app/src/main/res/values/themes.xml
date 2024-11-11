@@ -45,11 +45,21 @@
         <item name="strokeColor">@color/purple_500</item>
     </style>
 
+    <style name="MaterialCardPlayer" parent="Widget.Material3.CardView.Filled">
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/background_color_white</item>
+        <item name="cardCornerRadius">15dp</item>
+    </style>
+
     <style name="ImageCornerRadius">
         <item name="cornerSizeTopLeft">15dp</item>
         <item name="cornerSizeTopRight">15dp</item>
         <item name="cornerSizeBottomLeft">15dp</item>
         <item name="cornerSizeBottomRight">15dp</item>
+    </style>
+
+    <style name="BottomColor">
+        <item name="android:background">@color/bottom_color_light</item>
     </style>
 
     <style name="IconCheckFavorite">

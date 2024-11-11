@@ -1,7 +1,6 @@
 package com.example.musicapp.presintation.settingPreferences
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.GenresConst
 import com.example.musicapp.databinding.FragmentSettingPreferencesBinding
-import com.example.musicapp.presintation.adapter.SearchPreferencesAdapter
-import com.example.musicapp.presintation.adapter.SettingsPerformancesAdapter
+import com.example.musicapp.presintation.recyclerAdapter.SearchPreferencesAdapter
+import com.example.musicapp.presintation.recyclerAdapter.SettingsPerformancesAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup

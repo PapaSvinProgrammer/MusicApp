@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentSelectedListBinding
 import com.example.musicapp.domain.module.Group
-import com.example.musicapp.presintation.adapter.SelectedListAdapter
+import com.example.musicapp.presintation.recyclerAdapter.SelectedListAdapter
 
 class SelectedListFragment: Fragment() {
     private lateinit var binding: FragmentSelectedListBinding

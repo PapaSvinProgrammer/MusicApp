@@ -1,4 +1,4 @@
-package com.example.musicapp.presintation.adapter
+package com.example.musicapp.presintation.recyclerAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

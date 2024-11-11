@@ -33,6 +33,16 @@
         <item name="strokeColor">@color/purple_200</item>
     </style>
 
+    <style name="MaterialCardPlayer" parent="Widget.Material3.CardView.Filled">
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">#2B2930</item>
+        <item name="cardCornerRadius">15dp</item>
+    </style>
+
+    <style name="BottomColor">
+        <item name="android:background">@color/bottom_color_dark</item>
+    </style>
+
     <style name="IconCheckFavorite">
         <item name="android:tint">@color/red_200</item>
     </style>
