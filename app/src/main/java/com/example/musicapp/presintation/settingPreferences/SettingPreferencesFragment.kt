@@ -1,6 +1,7 @@
 package com.example.musicapp.presintation.settingPreferences
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class SettingPreferencesFragment: Fragment() {
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
 
     private var filterFlag = false
-    private var getGroupFlag = false
+    private var countFlag = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,9 @@ class SettingPreferencesFragment: Fragment() {
 
         createChipGroup()
         setSearchAdapter()
+        setFilter()
+        countFlag = 0
+
         binding.progressIndicator.visibility = View.VISIBLE
 
         recyclerAdapter = SettingsPerformancesAdapter(viewModel)
@@ -59,12 +63,14 @@ class SettingPreferencesFragment: Fragment() {
 
         viewModel.getGroupResult.observe(viewLifecycleOwner) { liveData ->
             liveData.observe(viewLifecycleOwner) { array ->
-                viewModel.lastDownloadArray = array
-                viewModel.searchList = array
-                getGroupFlag = true
+                if (conditionForUpdatingData()) {
+                    viewModel.lastDownloadArray = array
+                    viewModel.searchList = array
+                    countFlag++
 
-                recyclerAdapter.setData(array)
-                binding.progressIndicator.visibility = View.GONE
+                    recyclerAdapter.setData(array)
+                    binding.progressIndicator.visibility = View.GONE
+                }
             }
         }
 
@@ -138,6 +144,8 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private fun chipGroupListener(group: ChipGroup, checksId: List<Int>) {
+        countFlag = 0
+
         if (checksId.isNotEmpty()) {
             val chip = group[0] as Chip
 
@@ -145,7 +153,6 @@ class SettingPreferencesFragment: Fragment() {
                 binding.progressIndicator.visibility = View.VISIBLE
 
                 group.clearCheck()
-                getGroupFlag = false
                 filterFlag = false
                 chip.isChecked = true
                 viewModel.lastFilter = arrayListOf(0)
@@ -157,7 +164,6 @@ class SettingPreferencesFragment: Fragment() {
 
                 filterFlag = true
                 chip.isChecked = false
-                getGroupFlag = false
                 viewModel.lastFilter = checksId
 
                 viewModel.getGroupOnGenres(checksId)
@@ -257,5 +263,9 @@ class SettingPreferencesFragment: Fragment() {
         }
 
         return result
+    }
+
+    private fun conditionForUpdatingData(): Boolean {
+        return countFlag == 0 || (viewModel.lastFilter.size != 1 && countFlag <= viewModel.lastFilter.size)
     }
 }

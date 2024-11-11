@@ -42,6 +42,9 @@ class SettingsPerformancesAdapter(
             if (viewModel.selectedMap.getOrDefault(group.name, false)) {
                 binding.root.strokeWidth = 3
             }
+            else {
+                binding.root.strokeWidth = 0
+            }
         }
     }
 
@@ -100,7 +103,6 @@ class SettingsPerformancesAdapter(
     }
 
     fun setData(newData: List<Group>) {
-        val temp = newData.toList()
-        asyncDifferList.submitList(temp)
+        asyncDifferList.submitList(newData)
     }
 }
