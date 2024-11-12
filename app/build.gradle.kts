@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.lottie)
     implementation(libs.firebase.auth)
     implementation(libs.koin.android)
     implementation(libs.koin.core)

@@ -24,6 +24,10 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingPreferencesFragment: Fragment() {
+    companion object {
+        const val ARRAY_ARG = "ArrayGroup"
+    }
+
     private lateinit var binding: FragmentSettingPreferencesBinding
     private lateinit var recyclerAdapter: SettingsPerformancesAdapter
     private lateinit var searchRecyclerAdapter: SearchPreferencesAdapter
@@ -93,7 +97,7 @@ class SettingPreferencesFragment: Fragment() {
 
         binding.bottomBar.setOnClickListener {
             val bundle = Bundle()
-            bundle.putParcelableArrayList("ArrayGroup", viewModel.selectedArray)
+            bundle.putParcelableArrayList(ARRAY_ARG, viewModel.selectedArray)
 
             navController.navigate(R.id.action_settingPreferencesFragment_to_selectedListFragment, bundle)
         }

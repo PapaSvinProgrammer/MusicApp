@@ -26,7 +26,7 @@ class SelectedListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
-        val array = arguments?.getParcelableArrayList("ArrayGroup", Group::class.java)
+        val array = arguments?.getParcelableArrayList(SettingPreferencesFragment.ARRAY_ARG, Group::class.java)
         recyclerAdapter = SelectedListAdapter()
         recyclerAdapter.setData(array!!)
 

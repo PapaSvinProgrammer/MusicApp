@@ -1,5 +1,6 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.login.LoginViewModel
 import com.example.musicapp.presintation.main.MainViewModel
 import com.example.musicapp.presintation.registration.RegistrationViewModel
@@ -59,6 +60,12 @@ val appModule = module {
         SettingsPreferencesViewModel(
             getGroupAll = get(),
             getGroupWithFilterOnGenres = get()
+        )
+    }
+
+    viewModel {
+        HomeViewModel(
+            getMusicAll = get()
         )
     }
 }
