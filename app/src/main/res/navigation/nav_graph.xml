@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mainPlayerFragment"
+            app:destination="@id/playerFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -95,4 +98,9 @@
         android:name="com.example.musicapp.presintation.settingPreferences.SelectedListFragment"
         android:label="fragment_selected_list"
         tools:layout="@layout/fragment_selected_list" />
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.example.musicapp.presintation.mainPlayer.PlayerFragment"
+        android:label="fragment_main_player"
+        tools:layout="@layout/fragment_player" />
 </navigation>

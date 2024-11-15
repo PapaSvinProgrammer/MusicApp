@@ -72,8 +72,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView6"
@@ -109,8 +109,8 @@
             <RelativeLayout
                 android:id="@+id/storage_layout"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView5"
@@ -139,8 +139,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView7"
@@ -183,8 +183,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView8"
@@ -213,8 +213,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/shapeableImageView9"

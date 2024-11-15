@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     style="@style/MaterialCardPlayer"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -24,27 +24,31 @@
         <TextView
             android:id="@+id/name_text_view"
             style="@style/TextColorOnSurface"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="15sp"
             android:layout_marginStart="10dp"
-            android:lines="1"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
+            android:lines="1"
+            android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/group_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/icon_favorite_view"
             app:layout_constraintStart_toEndOf="@+id/icon_view"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Name the song" />
 
         <TextView
             android:id="@+id/group_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="13sp"
-            android:lines="1"
             android:ellipsize="end"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/roboto_medium"
+            android:lines="1"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/icon_favorite_view"
             app:layout_constraintStart_toStartOf="@+id/name_text_view"
             app:layout_constraintTop_toBottomOf="@+id/name_text_view"
             tools:text="Name the group" />
@@ -52,10 +56,11 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon_favorite_view"
             style="@style/IconCheckFavorite"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_check_favorite"
             android:layout_marginEnd="15dp"
+            android:padding="5dp"
             app:layout_constraintEnd_toStartOf="@id/icon_play_view"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -63,8 +68,8 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon_play_view"
             style="@style/IconTintColor"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:srcCompat="@drawable/ic_play_pause"
             android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"

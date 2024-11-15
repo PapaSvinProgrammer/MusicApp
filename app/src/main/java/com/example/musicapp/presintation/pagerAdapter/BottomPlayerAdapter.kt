@@ -1,28 +1,108 @@
 package com.example.musicapp.presintation.pagerAdapter
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.bundle.Bundle
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.musicapp.domain.module.Group
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.musicapp.R
+import com.example.musicapp.databinding.ItemBottomPlayerBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.presintation.bottomPlayer.BottomPlayerFragment
+import com.example.musicapp.domain.player.StatePlayer
+import com.example.musicapp.presintation.home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BottomPlayerAdapter(
-    private val list: List<Music>,
-    fragment: Fragment
-): FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = list.size
+    private val navController: NavController,
+    private val viewModel: HomeViewModel
+): RecyclerView.Adapter<BottomPlayerAdapter.ViewHolder>() {
+    companion object {
+        const val POSITION_ARG = "currentPosition"
+        const val ARRAY_ARG = "array"
+    }
 
-    override fun createFragment(position: Int): Fragment {
-        val music = list[position]
+    inner class ViewHolder(
+        private val livecycleOwner: LifecycleOwner,
+        val binding: ItemBottomPlayerBinding
+    ): RecyclerView.ViewHolder(binding.root) {
+        fun onBind(music: Music) {
+            CoroutineScope(Dispatchers.Main).launch {
+                Glide.with(binding.root)
+                    .load("https:" + music.image)
+                    .error(R.drawable.ic_error_music)
+                    .into(binding.iconView)
+            }
 
-        val fragment = BottomPlayerFragment()
-        fragment.arguments = Bundle().apply {
-            putString(BottomPlayerFragment.NAME_ARG, music.name)
-            putString(BottomPlayerFragment.GROUP_ARG, music.group)
-            putString(BottomPlayerFragment.IMAGE_ARG, music.image)
+            binding.nameTextView.text = music.name
+            binding.groupTextView.text = music.group
+
+            binding.iconPlayView.setOnClickListener {
+                when (binding.iconPlayView.isSelected) {
+                    true -> viewModel.setStatePlayer(StatePlayer.PAUSE)
+                    false -> viewModel.setStatePlayer(StatePlayer.PLAY)
+                }
+            }
+
+            viewModel.statePlayer.observe(livecycleOwner) {
+                when (it) {
+                    StatePlayer.PLAY -> {
+                        binding.iconPlayView.isSelected = true
+                    }
+
+                    StatePlayer.PAUSE -> {
+                        binding.iconPlayView.isSelected = false
+                    }
+                }
+            }
+        }
+    }
+
+    private val diffUtilCallback = object: DiffUtil.ItemCallback<Music>() {
+        override fun areItemsTheSame(oldItem: Music, newItem: Music): Boolean {
+            return oldItem === newItem
         }
 
-        return fragment
+        override fun areContentsTheSame(oldItem: Music, newItem: Music): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    private val asyncListDiffer = AsyncListDiffer(this, diffUtilCallback)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val livecycleOwner = parent.context as LifecycleOwner
+        val binding = ItemBottomPlayerBinding.inflate(inflater, parent, false)
+
+        return ViewHolder(
+            binding = binding,
+            livecycleOwner = livecycleOwner
+        )
+    }
+
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val music = asyncListDiffer.currentList[position]
+        holder.onBind(music)
+
+        holder.binding.root.setOnClickListener {
+            val bundle = Bundle()
+
+            bundle.putInt(POSITION_ARG, position)
+            bundle.putParcelableArrayList(ARRAY_ARG, viewModel.lastDownloadArray)
+
+            navController.navigate(R.id.action_homeFragment_to_mainPlayerFragment, bundle)
+        }
+    }
+
+    fun setData(list: List<Music>) {
+        asyncListDiffer.submitList(list)
     }
 }
