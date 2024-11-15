@@ -34,7 +34,7 @@ class BottomPlayerAdapter(
         fun onBind(music: Music) {
             CoroutineScope(Dispatchers.Main).launch {
                 Glide.with(binding.root)
-                    .load("https:" + music.image)
+                    .load(music.imageLow)
                     .error(R.drawable.ic_error_music)
                     .into(binding.iconView)
             }

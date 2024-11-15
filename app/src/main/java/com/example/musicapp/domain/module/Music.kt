@@ -9,9 +9,11 @@ data class Music(
     val name: String,
     val album: String,
     val url: String,
-    val image: String
+    val imageLow: String,
+    val imageHigh: String
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -26,7 +28,7 @@ data class Music(
         parcel.writeString(name)
         parcel.writeString(album)
         parcel.writeString(url)
-        parcel.writeString(image)
+        parcel.writeString(imageLow)
     }
 
     override fun describeContents(): Int {

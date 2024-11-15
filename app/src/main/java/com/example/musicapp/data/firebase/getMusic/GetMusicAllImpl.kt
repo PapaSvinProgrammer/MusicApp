@@ -34,7 +34,8 @@ class GetMusicAllImpl {
                                 name = document[MusicConst.MUSIC_NAME_FIELD].toString(),
                                 album = document[MusicConst.MUSIC_ALBUM_FIELD].toString(),
                                 url = document[MusicConst.MUSIC_URL_FIELD].toString(),
-                                image = document[MusicConst.MUSIC_IMAGE_FIELD].toString()
+                                imageLow = document[MusicConst.MUSIC_IMAGE_LOW_FIELD].toString(),
+                                imageHigh = document[MusicConst.MUSIC_IMAGE_HIGH_FIELD].toString(),
                             )
                         )
                     }

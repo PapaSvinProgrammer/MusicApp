@@ -2,6 +2,7 @@ package com.example.musicapp.presintation.mainPlayer
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -33,9 +37,12 @@ class PlayerFragment: Fragment() {
         val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
         val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
 
-        Glide.with(binding.root)
-            .load("https:" + array!![position!!].image)
-            .into(binding.iconView)
+        Log.d("RRRR", array!![position!!].imageHigh)
+        CoroutineScope(Dispatchers.Main).launch {
+            Glide.with(binding.root)
+                .load(array!![position!!].imageHigh)
+                .into(binding.iconView)
+        }
 
         binding.toolbar.setNavigationOnClickListener {
             navController.navigateUp()
