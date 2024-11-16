@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {

@@ -54,7 +54,10 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.recyclerview)
+
+    implementation(libs.androidx.fragment.testing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.mockito.android)
 }

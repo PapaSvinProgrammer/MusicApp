@@ -19,33 +19,31 @@ class GetGroupAllImpl {
     fun execute() {
         val database = Firebase.firestore
 
-        CoroutineScope(Dispatchers.Main).launch {
-            database
-                .collection(CollectionConst.GROUP_COLLECTION)
-                .get()
-                .addOnSuccessListener { result ->
-                    val temp = ArrayList<Group>()
+        database
+            .collection(CollectionConst.GROUP_COLLECTION)
+            .get()
+            .addOnSuccessListener { result ->
+                val temp = ArrayList<Group>()
 
-                    for (document in result) {
-                        temp.add(
-                            Group(
-                                name = document[GroupConst.GROUP_NAME_FIELD].toString(),
-                                albums = document[GroupConst.GROUP_ALBUM_FIELD] as ArrayList<String>,
-                                compound = document[GroupConst.GROUP_COMPOUND_FIELD] as ArrayList<String>,
-                                genre = document[GroupConst.GROUP_GENRE_FIELD].toString(),
-                                country = document[GroupConst.GROUP_COUNTRY_FIELD].toString(),
-                                musics = document[GroupConst.GROUP_MUSICS_FIELD] as ArrayList<String>,
-                                year = document[GroupConst.GROUP_YEARS_FIELD].toString(),
-                                image = document[GroupConst.GROUP_IMAGE_FIELD].toString()
-                            )
+                for (document in result) {
+                    temp.add(
+                        Group(
+                            name = document[GroupConst.GROUP_NAME_FIELD].toString(),
+                            albums = document[GroupConst.GROUP_ALBUM_FIELD] as ArrayList<String>,
+                            compound = document[GroupConst.GROUP_COMPOUND_FIELD] as ArrayList<String>,
+                            genre = document[GroupConst.GROUP_GENRE_FIELD].toString(),
+                            country = document[GroupConst.GROUP_COUNTRY_FIELD].toString(),
+                            musics = document[GroupConst.GROUP_MUSICS_FIELD] as ArrayList<String>,
+                            year = document[GroupConst.GROUP_YEARS_FIELD].toString(),
+                            image = document[GroupConst.GROUP_IMAGE_FIELD].toString()
                         )
-                    }
+                    )
+                }
 
-                    resultLiveData.value = temp
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("GetGroupAll", "Error get documents", exception)
-                }
-        }
+                resultLiveData.value = temp
+            }
+            .addOnFailureListener { exception ->
+                Log.w("GetGroupAll", "Error get documents", exception)
+            }
     }
 }

@@ -3,9 +3,11 @@ package com.example.musicapp.presintation.settingPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
+import kotlinx.coroutines.launch
 
 class SettingsPreferencesViewModel(
     private val getGroupAll: GetGroupAll,
@@ -26,11 +28,15 @@ class SettingsPreferencesViewModel(
     var searchList: List<Group> = ArrayList()
 
     fun getGroup() {
-        getGroupLiveData.value = getGroupAll.execute()
+        viewModelScope.launch {
+            getGroupLiveData.value = getGroupAll.execute()
+        }
     }
 
     fun getGroupOnGenres(filter: List<Int>) {
-        getGroupLiveData.value = getGroupWithFilterOnGenres.execute(filter)
+        viewModelScope.launch {
+            getGroupLiveData.value = getGroupWithFilterOnGenres.execute(filter)
+        }
     }
 
     fun updateRecyclerData() {
