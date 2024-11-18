@@ -72,4 +72,8 @@
     <style name="IconCheckFavorite">
         <item name="android:tint">@android:color/holo_red_light</item>
     </style>
+
+    <style name="MainButtonPlayer">
+        <item name="android:tint">@color/background_color</item>
+    </style>
 </resources>

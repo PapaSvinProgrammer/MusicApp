@@ -46,4 +46,8 @@
     <style name="IconCheckFavorite">
         <item name="android:tint">@color/red_200</item>
     </style>
+
+    <style name="MainButtonPlayer">
+        <item name="android:tint">@color/background_color_white</item>
+    </style>
 </resources>
