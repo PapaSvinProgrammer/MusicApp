@@ -76,4 +76,13 @@
     <style name="MainButtonPlayer">
         <item name="android:tint">@color/background_color</item>
     </style>
+
+    <style name="DotStyle">
+        <item name="android:background">@drawable/corner_circle</item>
+        <item name="android:backgroundTint">@color/background_color</item>
+    </style>
+
+    <style name="ShuffleStyle">
+        <item name="android:tint">@color/ic_shuffle_color_black</item>
+    </style>
 </resources>

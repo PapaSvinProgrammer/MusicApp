@@ -60,6 +60,10 @@ class HomeFragment: Fragment() {
                     binding.lottieAnim.pauseAnimation()
                     binding.mainPlayButton.isSelected = false
                 }
+
+                StatePlayer.PREVIOUS -> TODO()
+
+                StatePlayer.NEXT -> TODO()
             }
         }
 

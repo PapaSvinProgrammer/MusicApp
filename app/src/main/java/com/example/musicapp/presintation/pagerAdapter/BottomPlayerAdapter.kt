@@ -58,6 +58,8 @@ class BottomPlayerAdapter(
                     StatePlayer.PAUSE -> {
                         binding.iconPlayView.isSelected = false
                     }
+
+                    else -> {}
                 }
             }
         }

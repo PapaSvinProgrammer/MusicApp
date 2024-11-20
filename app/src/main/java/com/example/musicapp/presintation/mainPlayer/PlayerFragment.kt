@@ -16,14 +16,22 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.player.StatePlayer
+import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PlayerFragment: Fragment() {
-    private val playerAdapter by lazy { PlayerAdapter() }
     private lateinit var binding: FragmentPlayerBinding
+    private lateinit var arrayViewPager: ArrayList<Music>
+
+    private val playerAdapter by lazy { PlayerAdapter() }
+    private val homeViewModel: HomeViewModel by activityViewModel()
+
+    private var currentPosition: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,16 +46,18 @@ class PlayerFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
+
         lifecycleScope.launch {
             setupViewPager(binding.viewPager)
         }
-
-        binding.shuffleView.isSelected = true
 
         val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
         val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
 
         if (array != null && position != null) {
+            currentPosition = position
+            arrayViewPager = array
+
             val currentMusic = array[position]
 
             lifecycleScope.launch(Dispatchers.Main) {
@@ -60,9 +70,59 @@ class PlayerFragment: Fragment() {
             binding.musicTextView.text = currentMusic.name
         }
 
+        homeViewModel.statePlayer.observe(viewLifecycleOwner) {
+            when (it) {
+                StatePlayer.PLAY -> playMusic()
+                StatePlayer.PAUSE -> pauseMusic()
+                StatePlayer.PREVIOUS -> previousMusic()
+                StatePlayer.NEXT -> nextMusic()
+            }
+        }
+
+        binding.nextView.setOnClickListener {
+            homeViewModel.setStatePlayer(StatePlayer.NEXT)
+        }
+
+        binding.previousView.setOnClickListener {
+            homeViewModel.setStatePlayer(StatePlayer.PREVIOUS)
+        }
+
+        binding.playStopView.setOnClickListener {
+            if (binding.playStopView.isSelected) {
+                homeViewModel.setStatePlayer(StatePlayer.PAUSE)
+            }
+            else {
+                homeViewModel.setStatePlayer(StatePlayer.PLAY)
+            }
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             navController.navigateUp()
         }
+    }
+
+    private fun nextMusic() {
+        binding.viewPager.currentItem += 1
+        val newObj = arrayViewPager[binding.viewPager.currentItem]
+
+        binding.musicTextView.text = newObj.name
+        binding.groupTextView.text = newObj.group
+    }
+
+    private fun previousMusic() {
+        binding.viewPager.currentItem -= 1
+        val newObj = arrayViewPager[binding.viewPager.currentItem]
+
+        binding.musicTextView.text = newObj.name
+        binding.groupTextView.text = newObj.group
+    }
+
+    private fun pauseMusic() {
+        binding.playStopView.isSelected = false
+    }
+
+    private fun playMusic() {
+        binding.playStopView.isSelected = true
     }
 
     @SuppressLint("ResourceType")

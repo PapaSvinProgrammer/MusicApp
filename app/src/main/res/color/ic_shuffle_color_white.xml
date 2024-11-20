@@ -4,9 +4,9 @@
 
     <item
         android:state_selected="true"
-        android:drawable="@drawable/ic_shuffle_select"/>
+        android:color="@color/background_color_white"/>
 
     <item
         android:state_selected="false"
-        android:drawable="@drawable/ic_shuffle"/>
+        android:color="?attr/colorControlNormal"/>
 </selector>
