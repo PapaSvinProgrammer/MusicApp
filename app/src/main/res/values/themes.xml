@@ -82,7 +82,7 @@
         <item name="android:backgroundTint">@color/background_color</item>
     </style>
 
-    <style name="ShuffleStyle">
-        <item name="android:tint">@color/ic_shuffle_color_black</item>
+    <style name="IconSelectedColorStyle">
+        <item name="android:tint">@color/ic_selected_color_black</item>
     </style>
 </resources>

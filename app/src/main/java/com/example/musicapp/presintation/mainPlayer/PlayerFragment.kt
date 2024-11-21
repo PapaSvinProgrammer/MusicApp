@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -16,20 +18,20 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.player.ControlPlayer
 import com.example.musicapp.domain.player.StatePlayer
-import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var arrayViewPager: ArrayList<Music>
-
     private val playerAdapter by lazy { PlayerAdapter() }
-    private val homeViewModel: HomeViewModel by activityViewModel()
+    private val viewModel by viewModel<PlayerViewModel>()
 
     private var currentPosition: Int = 0
 
@@ -66,11 +68,14 @@ class PlayerFragment: Fragment() {
                 binding.viewPager.currentItem = position
             }
 
+            binding.groupTextView.isSelected = true
+            binding.musicTextView.isSelected = true
+
             binding.groupTextView.text = currentMusic.group
             binding.musicTextView.text = currentMusic.name
         }
 
-        homeViewModel.statePlayer.observe(viewLifecycleOwner) {
+        viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {
                 StatePlayer.PLAY -> playMusic()
                 StatePlayer.PAUSE -> pauseMusic()
@@ -79,25 +84,143 @@ class PlayerFragment: Fragment() {
             }
         }
 
+        viewModel.controlPlayer.observe(viewLifecycleOwner) {
+            when (it) {
+                ControlPlayer.LIKE -> executeLike()
+                ControlPlayer.DISLIKE -> executeDislike()
+                ControlPlayer.REPEAT -> executeRepeat()
+                ControlPlayer.SHUFFLE -> executeShuffle()
+                ControlPlayer.NOTE -> executeNote()
+            }
+        }
+
         binding.nextView.setOnClickListener {
-            homeViewModel.setStatePlayer(StatePlayer.NEXT)
+            viewModel.setStatePlayer(StatePlayer.NEXT)
+            resetControlPlayerUI()
         }
 
         binding.previousView.setOnClickListener {
-            homeViewModel.setStatePlayer(StatePlayer.PREVIOUS)
+            viewModel.setStatePlayer(StatePlayer.PREVIOUS)
+            resetControlPlayerUI()
         }
 
         binding.playStopView.setOnClickListener {
             if (binding.playStopView.isSelected) {
-                homeViewModel.setStatePlayer(StatePlayer.PAUSE)
+                viewModel.setStatePlayer(StatePlayer.PAUSE)
             }
             else {
-                homeViewModel.setStatePlayer(StatePlayer.PLAY)
+                viewModel.setStatePlayer(StatePlayer.PLAY)
             }
         }
 
         binding.toolbar.setNavigationOnClickListener {
             navController.navigateUp()
+        }
+
+        binding.shuffleView.setOnClickListener {
+            viewModel.setControlPlayer(ControlPlayer.SHUFFLE)
+        }
+
+        binding.noteView.setOnClickListener {
+            viewModel.setControlPlayer(ControlPlayer.NOTE)
+        }
+
+        binding.repeatView.setOnClickListener {
+            viewModel.setControlPlayer(ControlPlayer.REPEAT)
+        }
+
+        binding.likeView.setOnClickListener {
+            viewModel.setControlPlayer(ControlPlayer.LIKE)
+        }
+
+        binding.dislikeView.setOnClickListener {
+            viewModel.setControlPlayer(ControlPlayer.DISLIKE)
+        }
+    }
+
+    private fun resetControlPlayerUI() {
+        binding.dislikeView.isSelected = false
+        binding.likeView.isSelected = false
+
+        binding.shuffleView.isSelected = false
+        binding.repeatView.isSelected = false
+        binding.noteView.isSelected = false
+
+        binding.shuffleDot.visibility = View.GONE
+        binding.noteDot.visibility = View.GONE
+        binding.repeatDot.visibility = View.GONE
+    }
+
+    private fun executeNote() {
+        when (binding.noteView.isSelected) {
+            true -> {
+                binding.noteView.isSelected = false
+                binding.noteDot.visibility = View.GONE
+            }
+
+            false -> {
+                binding.noteView.isSelected = true
+                binding.noteDot.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun executeShuffle() {
+        when (binding.shuffleView.isSelected) {
+            true -> {
+                binding.shuffleView.isSelected = false
+                binding.shuffleDot.visibility = View.GONE
+            }
+
+            false -> {
+                binding.shuffleView.isSelected = true
+                binding.shuffleDot.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun executeRepeat() {
+        when (binding.repeatView.isSelected) {
+            true -> {
+                binding.repeatView.isSelected = false
+                binding.repeatDot.visibility = View.GONE
+            }
+
+            false -> {
+                binding.repeatView.isSelected = true
+                binding.repeatDot.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun executeDislike() {
+        when (binding.dislikeView.isSelected) {
+            true ->  binding.dislikeView.isSelected = false
+            false -> {
+                Snackbar.make(
+                    binding.root,
+                    "Трек добавлен в черный список",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+                resetControlPlayerUI()
+                nextMusic()
+            }
+        }
+    }
+
+    private fun executeLike() {
+        when (binding.likeView.isSelected) {
+            true -> binding.likeView.isSelected = false
+            false -> {
+                Snackbar.make(
+                    binding.root,
+                    "Трек добавлен в плей-лист \"Любимое\"",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+                binding.likeView.isSelected = true
+            }
         }
     }
 
