@@ -4,5 +4,6 @@ enum class StatePlayer {
     PLAY,
     PAUSE,
     PREVIOUS,
-    NEXT
+    NEXT,
+    NONE
 }

@@ -1,8 +1,13 @@
 package com.example.musicapp.presintation.mainPlayer
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,15 +15,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.ControlPlayer
+import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
@@ -28,12 +36,17 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {
+    private lateinit var durationLiveData: LiveData<Float>
+    private lateinit var maxDurationLiveData: LiveData<Float>
+    private lateinit var isPlay: LiveData<Boolean>
+    private lateinit var lastPosition: LiveData<Int>
+    private val isBound = MutableLiveData<Boolean>()
+
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var arrayViewPager: ArrayList<Music>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
-
-    private var currentPosition: Int = 0
+    private var servicePlayer: PlayerService? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +61,15 @@ class PlayerFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
+        viewModel.setStatePlayer(StatePlayer.NONE)
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, PlayerService::class.java),
+                connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
 
         lifecycleScope.launch {
             setupViewPager(binding.viewPager)
@@ -57,7 +79,6 @@ class PlayerFragment: Fragment() {
         val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
 
         if (array != null && position != null) {
-            currentPosition = position
             arrayViewPager = array
 
             val currentMusic = array[position]
@@ -81,6 +102,7 @@ class PlayerFragment: Fragment() {
                 StatePlayer.PAUSE -> pauseMusic()
                 StatePlayer.PREVIOUS -> previousMusic()
                 StatePlayer.NEXT -> nextMusic()
+                StatePlayer.NONE -> {}
             }
         }
 
@@ -136,6 +158,51 @@ class PlayerFragment: Fragment() {
         binding.dislikeView.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.DISLIKE)
         }
+
+        binding.viewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == 0) {
+                    val currentPosition = binding.viewPager.currentItem
+
+                    if (currentPosition != lastPosition.value) {
+
+                        if ((lastPosition.value ?: 0) > currentPosition) {
+                            servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
+                        }
+                        else {
+                            servicePlayer?.setPlayerState(StatePlayer.NEXT)
+                        }
+
+                        changeNameAndGroupView()
+                    }
+                }
+            }
+        })
+
+        isBound.observe(viewLifecycleOwner) {
+            if (it) {
+                initSeekBar()
+
+                if (isPlay.value == true) {
+                    binding.playStopView.isSelected = true
+                }
+            }
+        }
+    }
+
+    private fun initSeekBar() {
+        maxDurationLiveData.observe(viewLifecycleOwner) {
+
+        }
+
+        durationLiveData.observe(viewLifecycleOwner) {
+
+        }
+    }
+
+    override fun onDestroy() {
+        requireActivity().unbindService(connectionToPlayerService)
+        super.onDestroy()
     }
 
     private fun resetControlPlayerUI() {
@@ -226,25 +293,21 @@ class PlayerFragment: Fragment() {
 
     private fun nextMusic() {
         binding.viewPager.currentItem += 1
-        val newObj = arrayViewPager[binding.viewPager.currentItem]
-
-        binding.musicTextView.text = newObj.name
-        binding.groupTextView.text = newObj.group
+        changeNameAndGroupView()
     }
 
     private fun previousMusic() {
         binding.viewPager.currentItem -= 1
-        val newObj = arrayViewPager[binding.viewPager.currentItem]
-
-        binding.musicTextView.text = newObj.name
-        binding.groupTextView.text = newObj.group
+        changeNameAndGroupView()
     }
 
     private fun pauseMusic() {
+        servicePlayer?.setPlayerState(StatePlayer.PAUSE)
         binding.playStopView.isSelected = false
     }
 
     private fun playMusic() {
+        servicePlayer?.setPlayerState(StatePlayer.PLAY)
         binding.playStopView.isSelected = true
     }
 
@@ -271,5 +334,30 @@ class PlayerFragment: Fragment() {
         )
     }
 
-    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int = (this * displayMetrics.density).toInt()
+    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int {
+        return (this * displayMetrics.density).toInt()
+    }
+
+    private val connectionToPlayerService = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val bind = service as PlayerService.PlayerBinder
+            servicePlayer = bind.getService()
+            maxDurationLiveData = bind.getMaxDuration()
+            durationLiveData = bind.getCurrentDuration()
+            isPlay = bind.isPlay()
+            lastPosition = bind.getLastPosition()
+            isBound.value = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound.value = false
+        }
+    }
+
+    private fun changeNameAndGroupView() {
+        val newObj = arrayViewPager[binding.viewPager.currentItem]
+
+        binding.musicTextView.text = newObj.name
+        binding.groupTextView.text = newObj.group
+    }
 }

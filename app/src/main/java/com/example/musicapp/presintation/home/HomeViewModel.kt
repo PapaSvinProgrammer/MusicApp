@@ -18,6 +18,8 @@ class HomeViewModel(
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
 
     var lastDownloadArray = ArrayList<Music>()
+    var lastPosition = 0
+    var isPlay = false
 
     fun getMusic() {
         getMusicLiveData.value = getMusicAll.execute()

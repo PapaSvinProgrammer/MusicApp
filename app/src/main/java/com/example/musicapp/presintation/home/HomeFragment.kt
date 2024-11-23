@@ -1,26 +1,42 @@
 package com.example.musicapp.presintation.home
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
+import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
+    private lateinit var durationLiveData: LiveData<Float>
+    private lateinit var maxDurationLiveData: LiveData<Float>
+    private lateinit var isPlay: LiveData<Boolean>
+    private lateinit var lastPosition: LiveData<Int>
+    private val isBound = MutableLiveData<Boolean>()
+
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bottomPlayerAdapter: BottomPlayerAdapter
     private val viewModel by viewModel<HomeViewModel>()
+    private var servicePlayer: PlayerService? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +47,19 @@ class HomeFragment: Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
+        viewModel.setStatePlayer(StatePlayer.NONE)
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, PlayerService::class.java),
+                connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
 
         setupViewPager(binding.bottomViewPager)
         bottomPlayerAdapter = BottomPlayerAdapter(navController, viewModel)
@@ -50,21 +76,34 @@ class HomeFragment: Fragment() {
             }
         }
 
+        binding.bottomViewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == 0) {
+                    val currentPosition = binding.bottomViewPager.currentItem
+                    val lastPosition = viewModel.lastPosition
+
+                    if (currentPosition != viewModel.lastPosition) {
+
+                        if (lastPosition > currentPosition) {
+                            viewModel.setStatePlayer(StatePlayer.PREVIOUS)
+                        }
+                        else {
+                            viewModel.setStatePlayer(StatePlayer.NEXT)
+                        }
+
+                        viewModel.lastPosition = currentPosition
+                    }
+                }
+            }
+        })
+
         viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {
-                StatePlayer.PLAY -> {
-                    binding.lottieAnim.playAnimation()
-                    binding.mainPlayButton.isSelected = true
-                }
-
-                StatePlayer.PAUSE -> {
-                    binding.lottieAnim.pauseAnimation()
-                    binding.mainPlayButton.isSelected = false
-                }
-
-                StatePlayer.PREVIOUS -> TODO()
-
-                StatePlayer.NEXT -> TODO()
+                StatePlayer.PLAY -> play()
+                StatePlayer.PAUSE -> pause()
+                StatePlayer.PREVIOUS -> previous()
+                StatePlayer.NEXT -> next()
+                StatePlayer.NONE -> {}
             }
         }
 
@@ -79,6 +118,39 @@ class HomeFragment: Fragment() {
                 binding.progressIndicator.visibility = View.GONE
             }
         }
+
+        isBound.observe(viewLifecycleOwner) {
+            if (it) {
+                initSeekBar()
+
+                binding.bottomViewPager.currentItem = lastPosition.value ?: 0
+
+                if (isPlay.value == true) {
+                    binding.mainPlayButton.isSelected = true
+                    viewModel.isPlay = true
+                    binding.lottieAnim.playAnimation()
+                }
+                else {
+                    viewModel.isPlay = false
+                    binding.lottieAnim.pauseAnimation()
+                }
+            }
+        }
+    }
+
+    private fun initSeekBar() {
+        maxDurationLiveData.observe(viewLifecycleOwner) {
+
+        }
+
+        durationLiveData.observe(viewLifecycleOwner) {
+
+        }
+    }
+
+    override fun onDestroy() {
+        requireActivity().unbindService(connectionToPlayerService)
+        super.onDestroy()
     }
 
     @SuppressLint("ResourceType")
@@ -104,5 +176,46 @@ class HomeFragment: Fragment() {
         )
     }
 
-    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int = (this * displayMetrics.density).toInt()
+    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int {
+        return (this * displayMetrics.density).toInt()
+    }
+
+    private val connectionToPlayerService = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as PlayerService.PlayerBinder
+            servicePlayer = binder.getService()
+            maxDurationLiveData = binder.getMaxDuration()
+            durationLiveData = binder.getCurrentDuration()
+            lastPosition = binder.getLastPosition()
+            isPlay = binder.isPlay()
+            Log.d("RRRR", isPlay.toString())
+            isBound.value = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound.value = false
+        }
+    }
+
+    private fun pause() {
+        binding.lottieAnim.pauseAnimation()
+        binding.mainPlayButton.isSelected = false
+        viewModel.isPlay = false
+        servicePlayer?.setPlayerState(StatePlayer.PAUSE)
+    }
+
+    private fun play() {
+        binding.lottieAnim.playAnimation()
+        binding.mainPlayButton.isSelected = true
+        viewModel.isPlay = true
+        servicePlayer?.setPlayerState(StatePlayer.PLAY)
+    }
+
+    private fun previous() {
+        servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
+    }
+
+    private fun next() {
+        servicePlayer?.setPlayerState(StatePlayer.NEXT)
+    }
 }
