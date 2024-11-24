@@ -12,9 +12,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
@@ -24,14 +26,16 @@ import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
     private lateinit var durationLiveData: LiveData<Float>
     private lateinit var maxDurationLiveData: LiveData<Float>
     private lateinit var isPlay: LiveData<Boolean>
-    private lateinit var lastPosition: LiveData<Int>
+    private lateinit var currentPosition: LiveData<Int>
     private val isBound = MutableLiveData<Boolean>()
+    private var isStarted = false
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bottomPlayerAdapter: BottomPlayerAdapter
@@ -52,6 +56,7 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
+        isStarted = false
 
         requireActivity().apply {
             bindService(
@@ -111,8 +116,13 @@ class HomeFragment: Fragment() {
             liveData.observe(viewLifecycleOwner) { array->
                 viewModel.lastDownloadArray = array
 
-                bottomPlayerAdapter.setData(array)
-                binding.bottomViewPager.adapter = bottomPlayerAdapter
+                lifecycleScope.launch {
+                    bottomPlayerAdapter.setData(array)
+                    binding.bottomViewPager.adapter = bottomPlayerAdapter
+                    binding.bottomViewPager.doOnPreDraw {
+                        binding.bottomViewPager.currentItem = currentPosition.value!!
+                    }
+                }
 
                 binding.viewPagerLayout.visibility = View.VISIBLE
                 binding.progressIndicator.visibility = View.GONE
@@ -122,8 +132,6 @@ class HomeFragment: Fragment() {
         isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
-
-                binding.bottomViewPager.currentItem = lastPosition.value ?: 0
 
                 if (isPlay.value == true) {
                     binding.mainPlayButton.isSelected = true
@@ -186,9 +194,8 @@ class HomeFragment: Fragment() {
             servicePlayer = binder.getService()
             maxDurationLiveData = binder.getMaxDuration()
             durationLiveData = binder.getCurrentDuration()
-            lastPosition = binder.getLastPosition()
+            currentPosition = binder.getCurrentPosition()
             isPlay = binder.isPlay()
-            Log.d("RRRR", isPlay.toString())
             isBound.value = true
         }
 

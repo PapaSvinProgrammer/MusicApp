@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
 
     <application
         android:name=".app.App"
@@ -30,6 +33,7 @@
         <service
             android:name=".domain.player.PlayerService"
             android:exported="false"
-            android:enabled="true"/>
+            android:enabled="true"
+            android:foregroundServiceType="mediaPlayback"/>
     </application>
 </manifest>

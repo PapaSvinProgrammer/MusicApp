@@ -9,7 +9,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,7 @@ class PlayerFragment: Fragment() {
     private lateinit var durationLiveData: LiveData<Float>
     private lateinit var maxDurationLiveData: LiveData<Float>
     private lateinit var isPlay: LiveData<Boolean>
-    private lateinit var lastPosition: LiveData<Int>
+    private lateinit var currentPosition: LiveData<Int>
     private val isBound = MutableLiveData<Boolean>()
 
     private lateinit var binding: FragmentPlayerBinding
@@ -164,9 +163,9 @@ class PlayerFragment: Fragment() {
                 if (state == 0) {
                     val currentPosition = binding.viewPager.currentItem
 
-                    if (currentPosition != lastPosition.value) {
+                    if (currentPosition != this@PlayerFragment.currentPosition.value) {
 
-                        if ((lastPosition.value ?: 0) > currentPosition) {
+                        if ((this@PlayerFragment.currentPosition.value ?: 0) > currentPosition) {
                             servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
                         }
                         else {
@@ -345,7 +344,7 @@ class PlayerFragment: Fragment() {
             maxDurationLiveData = bind.getMaxDuration()
             durationLiveData = bind.getCurrentDuration()
             isPlay = bind.isPlay()
-            lastPosition = bind.getLastPosition()
+            currentPosition = bind.getCurrentPosition()
             isBound.value = true
         }
 
