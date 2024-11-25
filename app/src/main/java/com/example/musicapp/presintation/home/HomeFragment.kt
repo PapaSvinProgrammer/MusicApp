@@ -42,7 +42,6 @@ class HomeFragment: Fragment() {
     private lateinit var isPlay: LiveData<Boolean>
     private lateinit var currentPosition: LiveData<Int>
     private val isBound = MutableLiveData<Boolean>()
-    private var isStarted = false
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bottomPlayerAdapter: BottomPlayerAdapter
@@ -63,7 +62,6 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
-        isStarted = false
 
         requireActivity().apply {
             bindService(

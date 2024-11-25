@@ -149,10 +149,12 @@ class PlayerService: Service() {
         mediaPlayer = MediaPlayer()
 
         if (currentAudioUrl.isEmpty()) return
-        currentObject = musicList!![currentPosition.value ?: 0]
 
+        currentObject = musicList!![currentPosition.value ?: 0]
         mediaPlayer.setDataSource(currentAudioUrl)
         mediaPlayer.prepareAsync()
+
+        if (isPlay.value == false) return
 
         mediaPlayer.setOnPreparedListener {
             mediaPlayer.start()
