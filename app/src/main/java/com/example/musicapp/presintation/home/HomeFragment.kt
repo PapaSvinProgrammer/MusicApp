@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
@@ -21,11 +22,17 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -51,7 +58,7 @@ class HomeFragment: Fragment() {
         return binding.root
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
@@ -117,10 +124,13 @@ class HomeFragment: Fragment() {
                 viewModel.lastDownloadArray = array
 
                 lifecycleScope.launch {
+                    servicePlayer?.setMusicList(array)
+
                     bottomPlayerAdapter.setData(array)
                     binding.bottomViewPager.adapter = bottomPlayerAdapter
+
                     binding.bottomViewPager.doOnPreDraw {
-                        binding.bottomViewPager.currentItem = currentPosition.value!!
+                        binding.bottomViewPager.currentItem = currentPosition.value ?: 0
                     }
                 }
 
@@ -196,6 +206,7 @@ class HomeFragment: Fragment() {
             durationLiveData = binder.getCurrentDuration()
             currentPosition = binder.getCurrentPosition()
             isPlay = binder.isPlay()
+            servicePlayer!!.setContext(view!!.context)
             isBound.value = true
         }
 
