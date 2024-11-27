@@ -41,7 +41,6 @@ class BottomPlayerAdapter(
 
             binding.nameTextView.text = music.name
             binding.groupTextView.text = music.group
-            binding.iconPlayView.isSelected = viewModel.isPlay
 
             binding.iconPlayView.setOnClickListener {
                 when (binding.iconPlayView.isSelected) {
@@ -62,6 +61,10 @@ class BottomPlayerAdapter(
 
                     else -> {}
                 }
+            }
+
+            viewModel.isPlayService.observe(livecycleOwner) {
+                binding.iconPlayView.isSelected = it
             }
         }
     }

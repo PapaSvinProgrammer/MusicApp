@@ -140,6 +140,8 @@ class PlayerService: Service() {
     }
 
     private fun previous() {
+        if ((currentPosition.value ?: 0) - 1 < 0) return
+
         currentPosition.value = (currentPosition.value ?: 0) - 1
         currentObject = musicList!![currentPosition.value ?: 0]
 

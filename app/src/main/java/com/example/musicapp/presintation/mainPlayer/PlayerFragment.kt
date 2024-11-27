@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
@@ -36,17 +38,10 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {
-    private lateinit var durationLiveData: LiveData<Float>
-    private lateinit var maxDurationLiveData: LiveData<Float>
-    private lateinit var isPlay: LiveData<Boolean>
-    private lateinit var currentPosition: LiveData<Int>
-    private val isBound = MutableLiveData<Boolean>()
-
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var arrayViewPager: ArrayList<Music>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
-    private var servicePlayer: PlayerService? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +61,7 @@ class PlayerFragment: Fragment() {
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),
-                connectionToPlayerService,
+                viewModel.connectionToPlayerService,
                 Context.BIND_AUTO_CREATE
             )
         }
@@ -160,13 +155,16 @@ class PlayerFragment: Fragment() {
         }
 
         binding.viewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+            @SuppressLint("SwitchIntDef")
             override fun onPageScrollStateChanged(state: Int) {
                 if (state == SCROLL_STATE_IDLE) {
                     if (binding.viewPager.currentItem > viewModel.lastPosition) {
-                        viewModel.setStatePlayer(StatePlayer.NEXT)
+                        viewModel.servicePlayer.setPlayerState(StatePlayer.NEXT)
+                        changeNameAndGroupView()
                     }
-                    else if (binding.viewPager.currentItem < viewModel.lastPosition) {
-                        viewModel.setStatePlayer(StatePlayer.PREVIOUS)
+                    else {
+                        viewModel.servicePlayer.setPlayerState(StatePlayer.PREVIOUS)
+                        changeNameAndGroupView()
                     }
 
                     viewModel.lastPosition = binding.viewPager.currentItem
@@ -174,13 +172,11 @@ class PlayerFragment: Fragment() {
             }
         })
 
-        isBound.observe(viewLifecycleOwner) {
+        viewModel.isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
 
-                viewModel.lastPosition = currentPosition.value ?: 0
-
-                if (isPlay.value == true) {
+                if (viewModel.isPlay.value == true) {
                     binding.playStopView.isSelected = true
                 }
             }
@@ -188,17 +184,17 @@ class PlayerFragment: Fragment() {
     }
 
     private fun initSeekBar() {
-        maxDurationLiveData.observe(viewLifecycleOwner) {
+        viewModel.maxDurationLiveData.observe(viewLifecycleOwner) {
 
         }
 
-        durationLiveData.observe(viewLifecycleOwner) {
+        viewModel.durationLiveData.observe(viewLifecycleOwner) {
 
         }
     }
 
     override fun onDestroy() {
-        requireActivity().unbindService(connectionToPlayerService)
+        requireActivity().unbindService(viewModel.connectionToPlayerService)
         super.onDestroy()
     }
 
@@ -299,13 +295,13 @@ class PlayerFragment: Fragment() {
     }
 
     private fun pauseMusic() {
-        servicePlayer?.setPlayerState(StatePlayer.PAUSE)
         binding.playStopView.isSelected = false
+        viewModel.servicePlayer.setPlayerState(StatePlayer.PAUSE)
     }
 
     private fun playMusic() {
-        servicePlayer?.setPlayerState(StatePlayer.PLAY)
         binding.playStopView.isSelected = true
+        viewModel.servicePlayer.setPlayerState(StatePlayer.PLAY)
     }
 
     @SuppressLint("ResourceType")
@@ -333,22 +329,6 @@ class PlayerFragment: Fragment() {
 
     private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int {
         return (this * displayMetrics.density).toInt()
-    }
-
-    private val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val bind = service as PlayerService.PlayerBinder
-            servicePlayer = bind.getService()
-            maxDurationLiveData = bind.getMaxDuration()
-            durationLiveData = bind.getCurrentDuration()
-            isPlay = bind.isPlay()
-            currentPosition = bind.getCurrentPosition()
-            isBound.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
-        }
     }
 
     private fun changeNameAndGroupView() {
