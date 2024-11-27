@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.player
+package com.example.musicapp.domain.player.state
 
 enum class StatePlayer {
     PLAY,

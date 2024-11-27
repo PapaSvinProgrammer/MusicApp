@@ -21,12 +21,13 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.ControlPlayer
+import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.player.StatePlayer
+import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -160,20 +161,15 @@ class PlayerFragment: Fragment() {
 
         binding.viewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
-                if (state == 0) {
-                    val currentPosition = binding.viewPager.currentItem
-
-                    if (currentPosition != this@PlayerFragment.currentPosition.value) {
-
-                        if ((this@PlayerFragment.currentPosition.value ?: 0) > currentPosition) {
-                            servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
-                        }
-                        else {
-                            servicePlayer?.setPlayerState(StatePlayer.NEXT)
-                        }
-
-                        changeNameAndGroupView()
+                if (state == SCROLL_STATE_IDLE) {
+                    if (binding.viewPager.currentItem > viewModel.lastPosition) {
+                        viewModel.setStatePlayer(StatePlayer.NEXT)
                     }
+                    else if (binding.viewPager.currentItem < viewModel.lastPosition) {
+                        viewModel.setStatePlayer(StatePlayer.PREVIOUS)
+                    }
+
+                    viewModel.lastPosition = binding.viewPager.currentItem
                 }
             }
         })
@@ -181,6 +177,8 @@ class PlayerFragment: Fragment() {
         isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
+
+                viewModel.lastPosition = currentPosition.value ?: 0
 
                 if (isPlay.value == true) {
                     binding.playStopView.isSelected = true

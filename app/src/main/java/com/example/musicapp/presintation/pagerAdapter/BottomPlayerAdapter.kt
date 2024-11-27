@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemBottomPlayerBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.StatePlayer
+import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

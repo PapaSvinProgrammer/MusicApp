@@ -1,34 +1,16 @@
 package com.example.musicapp.domain.player
 
-import android.Manifest.permission.POST_NOTIFICATIONS
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Icon
-import android.media.MediaPlayer
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
-import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toIcon
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.example.musicapp.R
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.player.module.AudioBinder
+import com.example.musicapp.domain.player.module.AudioPlayer
+import com.example.musicapp.domain.player.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,10 +31,11 @@ class PlayerService: Service() {
         const val TAG = "MusicSession"
     }
 
-    private var mediaPlayer = MediaPlayer()
-    private var context: Context? = null
+    private var audioNotification: AudioNotification? = null
+    private var audioPlayer: AudioPlayer? = null
     private var currentObject: Music? = null
     private var musicList: List<Music>? = null
+
     private var isFavorite = MutableLiveData<Boolean>()
     private val currentDuration = MutableLiveData<Float>()
     private val maxDuration = MutableLiveData<Float>()
@@ -61,7 +44,21 @@ class PlayerService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+
+        isPlay.value = false
         currentPosition.value = 0
+
+        audioNotification = AudioNotification(
+            context = this@PlayerService,
+            isPlay = isPlay,
+            isFavorite = isFavorite,
+            nextPendingIntent = nextPendingIntent(),
+            prevPendingIntent = previousPendingIntent(),
+            playPendingIntent = playPendingIntent(),
+            likePendingIntent = likePendingIntent()
+        )
+
+        audioPlayer = Player()
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -85,16 +82,16 @@ class PlayerService: Service() {
         return START_STICKY
     }
 
-    inner class PlayerBinder: Binder() {
-        fun getService(): PlayerService = this@PlayerService
+    inner class PlayerBinder: Binder(), AudioBinder {
+        override fun getService(): PlayerService = this@PlayerService
 
-        fun getCurrentDuration() = this@PlayerService.currentDuration
+        override fun getCurrentDuration() = this@PlayerService.currentDuration
 
-        fun getMaxDuration() = this@PlayerService.maxDuration
+        override fun getMaxDuration() = this@PlayerService.maxDuration
 
-        fun isPlay() = this@PlayerService.isPlay
+        override fun isPlay() = this@PlayerService.isPlay
 
-        fun getCurrentPosition() = this@PlayerService.currentPosition
+        override fun getCurrentPosition() = this@PlayerService.currentPosition
     }
 
     fun setPlayerState(state: StatePlayer) {
@@ -113,17 +110,12 @@ class PlayerService: Service() {
         this.musicList = list
     }
 
-    fun setContext(context: Context) {
-        this.context = context
-    }
-
     private fun pause() {
         isPlay.value = false
-
-        mediaPlayer.pause()
+        audioPlayer?.pause()
 
         if (musicList != null) {
-            sendNotification(musicList!![currentPosition.value ?: 0])
+            audioNotification?.execute(musicList!![currentPosition.value ?: 0])
         }
     }
 
@@ -131,132 +123,52 @@ class PlayerService: Service() {
         isPlay.value = true
 
         if (currentObject == null) {
-            addNewAudioFile()
+            currentObject = musicList!![currentPosition.value ?: 0]
+
+            audioPlayer?.addNewObjectAndStart(
+                music = currentObject!!,
+                isPlay = isPlay.value ?: false
+            )
         }
         else {
-            mediaPlayer.start()
+            audioPlayer?.play()
         }
 
         if (musicList != null) {
-            sendNotification(musicList!![currentPosition.value ?: 0])
-        }
-    }
-
-    private fun addNewAudioFile() {
-        val currentAudioUrl = musicList!![currentPosition.value ?: 0].url
-
-        mediaPlayer.reset()
-        mediaPlayer = MediaPlayer()
-
-        if (currentAudioUrl.isEmpty()) return
-
-        currentObject = musicList!![currentPosition.value ?: 0]
-        mediaPlayer.setDataSource(currentAudioUrl)
-        mediaPlayer.prepareAsync()
-
-        if (isPlay.value == false) return
-
-        mediaPlayer.setOnPreparedListener {
-            mediaPlayer.start()
+            audioNotification?.execute(musicList!![currentPosition.value ?: 0])
         }
     }
 
     private fun previous() {
         currentPosition.value = (currentPosition.value ?: 0) - 1
-        addNewAudioFile()
-        sendNotification(musicList!![currentPosition.value ?: 0])
+        currentObject = musicList!![currentPosition.value ?: 0]
+
+        audioPlayer?.addNewObjectAndStart(
+            music = currentObject!!,
+            isPlay = isPlay.value ?: false
+        )
+
+        audioNotification?.execute(musicList!![currentPosition.value ?: 0])
 
         Log.d("RRRR", "prev")
     }
 
     private fun next() {
         currentPosition.value = (currentPosition.value ?: 0) + 1
-        addNewAudioFile()
-        sendNotification(musicList!![currentPosition.value ?: 0])
+        currentObject = musicList!![currentPosition.value ?: 0]
+
+        audioPlayer?.addNewObjectAndStart(
+            music = currentObject!!,
+            isPlay = isPlay.value ?: false
+        )
+
+        audioNotification?.execute(musicList!![currentPosition.value ?: 0])
 
         Log.d("RRRR", "next")
     }
 
     private fun like() {
         isFavorite.value = isFavorite.value != true
-    }
-
-    @SuppressLint("ForegroundServiceType", "CheckResult")
-    private fun sendNotification(music: Music) {
-        Glide.with(context!!)
-            .asBitmap()
-            .load(music.imageHigh)
-            .apply(RequestOptions()
-                .fitCenter()
-                .format(DecodeFormat.PREFER_ARGB_8888)
-                .override(Target.SIZE_ORIGINAL)
-            )
-            .listener(object: RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
-                    return false
-                }
-
-                @SuppressLint("NewApi")
-                override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        drawNotification(
-                            image = resource.toIcon(),
-                            music = music
-                        )
-                    }
-
-                    return false
-                }
-            })
-            .submit()
-    }
-
-    private fun drawNotification(image: Icon, music: Music) {
-        val session = MediaSessionCompat(this@PlayerService, TAG)
-
-        val style = androidx.media.app.NotificationCompat.MediaStyle()
-            .setShowActionsInCompactView(0, 1, 2, 3)
-            .setMediaSession(session.sessionToken)
-
-        val notification = NotificationCompat.Builder(this@PlayerService, CHANNEL_ID)
-            .setStyle(style)
-            .setContentTitle(music.name)
-            .setContentText(music.group)
-            .addAction(
-                R.drawable.ic_skip_previous_fill,
-                ACTION_TITLE_PREV,
-                previousPendingIntent()
-            )
-            .addAction(
-                if (isPlay.value == true) R.drawable.ic_pause else R.drawable.ic_play,
-                ACTION_TITLE_PLAY_PAUSE,
-                playPendingIntent()
-            )
-            .addAction(
-                R.drawable.ic_skip_next_fill,
-                ACTION_TITLE_NEXT,
-                nextPendingIntent()
-            )
-            .addAction(
-                if (isFavorite.value == true) R.drawable.ic_favorite_fill else R.drawable.ic_favorite,
-                ACTION_TITLE_LIKE,
-                likePendingIntent()
-            )
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setLargeIcon(image)
-            .build()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this@PlayerService, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                with(NotificationManagerCompat.from(this@PlayerService)) {
-                    notify(1, notification)
-                }
-            }
-        } else {
-            with(NotificationManagerCompat.from(this@PlayerService)) {
-                notify(1, notification)
-            }
-        }
     }
 
     private fun likePendingIntent(): PendingIntent? {

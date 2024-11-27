@@ -5,11 +5,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,17 +20,12 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.player.StatePlayer
+import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -57,7 +50,7 @@ class HomeFragment: Fragment() {
         return binding.root
     }
 
-    @SuppressLint("ClickableViewAccessibility", "CheckResult")
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
@@ -87,22 +80,17 @@ class HomeFragment: Fragment() {
         }
 
         binding.bottomViewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+            @SuppressLint("SwitchIntDef")
             override fun onPageScrollStateChanged(state: Int) {
-                if (state == 0) {
-                    val currentPosition = binding.bottomViewPager.currentItem
-                    val lastPosition = viewModel.lastPosition
-
-                    if (currentPosition != viewModel.lastPosition) {
-
-                        if (lastPosition > currentPosition) {
-                            viewModel.setStatePlayer(StatePlayer.PREVIOUS)
-                        }
-                        else {
-                            viewModel.setStatePlayer(StatePlayer.NEXT)
-                        }
-
-                        viewModel.lastPosition = currentPosition
+                if (state == SCROLL_STATE_IDLE) {
+                    if (binding.bottomViewPager.currentItem > viewModel.lastPosition) {
+                        viewModel.setStatePlayer(StatePlayer.NEXT)
                     }
+                    else if (binding.bottomViewPager.currentItem < viewModel.lastPosition) {
+                        viewModel.setStatePlayer(StatePlayer.PREVIOUS)
+                    }
+
+                    viewModel.lastPosition = binding.bottomViewPager.currentItem
                 }
             }
         })
@@ -141,14 +129,16 @@ class HomeFragment: Fragment() {
             if (it) {
                 initSeekBar()
 
-                if (isPlay.value == true) {
-                    binding.mainPlayButton.isSelected = true
-                    viewModel.isPlay = true
-                    binding.lottieAnim.playAnimation()
-                }
-                else {
-                    viewModel.isPlay = false
-                    binding.lottieAnim.pauseAnimation()
+                isPlay.observe(viewLifecycleOwner) { state ->
+                    if (state) {
+                        binding.mainPlayButton.isSelected = true
+                        viewModel.isPlay = true
+                        binding.lottieAnim.playAnimation()
+                    }
+                    else {
+                        viewModel.isPlay = false
+                        binding.lottieAnim.pauseAnimation()
+                    }
                 }
             }
         }
@@ -204,7 +194,6 @@ class HomeFragment: Fragment() {
             durationLiveData = binder.getCurrentDuration()
             currentPosition = binder.getCurrentPosition()
             isPlay = binder.isPlay()
-            servicePlayer!!.setContext(view!!.context)
             isBound.value = true
         }
 
