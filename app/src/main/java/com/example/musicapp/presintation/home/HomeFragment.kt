@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
@@ -53,6 +55,7 @@ class HomeFragment: Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
 
@@ -80,9 +83,13 @@ class HomeFragment: Fragment() {
         }
 
         binding.bottomViewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+            private var state1 = 0
+
             @SuppressLint("SwitchIntDef")
             override fun onPageScrollStateChanged(state: Int) {
-                if (state == SCROLL_STATE_IDLE) {
+                if (state == SCROLL_STATE_DRAGGING) state1 = SCROLL_STATE_DRAGGING
+
+                if (state == SCROLL_STATE_IDLE && state1 == SCROLL_STATE_DRAGGING) {
                     if (binding.bottomViewPager.currentItem > viewModel.lastPosition) {
                         viewModel.setStatePlayer(StatePlayer.NEXT)
                     }
@@ -91,6 +98,7 @@ class HomeFragment: Fragment() {
                     }
 
                     viewModel.lastPosition = binding.bottomViewPager.currentItem
+                    state1 = 0
                 }
             }
         })
@@ -128,6 +136,10 @@ class HomeFragment: Fragment() {
         isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
+
+                currentPosition.observe(viewLifecycleOwner) { position ->
+                    binding.bottomViewPager.currentItem = position
+                }
 
                 isPlay.observe(viewLifecycleOwner) { state ->
                     if (state) {
