@@ -1,15 +1,14 @@
 package com.example.musicapp.presintation.registration
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentRegistrationBinding
+import com.example.musicapp.domain.usecase.valid.ValidState
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,7 +16,6 @@ class RegistrationFragment: Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel by viewModel<RegistrationViewModel>()
     private var registrationLiveDataFlag: Boolean = false
-    private val validData = MutableLiveData<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +30,9 @@ class RegistrationFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
-        validData.value = 0
-
-        validData.observe(viewLifecycleOwner) { num ->
+        viewModel.permissionForRegistrationResult.observe(viewLifecycleOwner) { num ->
             if (num == 3) {
-                validData.value = 0
+                viewModel.setPermissionForRegistration(ValidState.ERROR)
                 registration()
             }
         }
@@ -46,9 +42,10 @@ class RegistrationFragment: Fragment() {
 
             if (!it) {
                 binding.emailEditLayout.error = getString(R.string.error_email_text)
+                viewModel.setPermissionForRegistration(ValidState.ERROR)
             }
             else {
-                validData.value = validData.value!! + 1
+                viewModel.setPermissionForRegistration(ValidState.VALID)
             }
         }
 
@@ -57,9 +54,10 @@ class RegistrationFragment: Fragment() {
 
             if (!it) {
                 binding.passwordEditLayout.error = getString(R.string.error_password_text)
+                viewModel.setPermissionForRegistration(ValidState.ERROR)
             }
             else {
-                validData.value = validData.value!! + 1
+                viewModel.setPermissionForRegistration(ValidState.VALID)
             }
         }
 
@@ -68,9 +66,10 @@ class RegistrationFragment: Fragment() {
 
             if (!it) {
                 binding.checkPasswordLayout.error = getString(R.string.error_check_password_text)
+                viewModel.setPermissionForRegistration(ValidState.ERROR)
             }
             else {
-                validData.value = validData.value!! + 1
+                viewModel.setPermissionForRegistration(ValidState.VALID)
             }
         }
 

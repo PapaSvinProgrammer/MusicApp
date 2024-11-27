@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentLoginBinding
+import com.example.musicapp.domain.usecase.valid.ValidState
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,7 +18,6 @@ class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModel<LoginViewModel>()
     private var loginLiveDataFlag: Boolean = false
-    private val validDataLiveData = MutableLiveData<Int>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
@@ -28,11 +28,9 @@ class LoginFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
-        validDataLiveData.value = 0
-
-        validDataLiveData.observe(viewLifecycleOwner) { num ->
+        viewModel.permissionForLoginResult.observe(viewLifecycleOwner) { num ->
             if (num == 2) {
-                validDataLiveData.value = 0
+                viewModel.setPermissionForLogin(ValidState.ERROR)
                 loginInAccount()
             }
         }
@@ -42,9 +40,10 @@ class LoginFragment: Fragment() {
 
             if (!state) {
                 binding.emailEditLayout.error = getString(R.string.error_email_text)
+                viewModel.setPermissionForLogin(ValidState.ERROR)
             }
             else {
-                validDataLiveData.value = validDataLiveData.value!! + 1
+                viewModel.setPermissionForLogin(ValidState.VALID)
             }
         }
 
@@ -53,9 +52,10 @@ class LoginFragment: Fragment() {
 
             if (!state) {
                 binding.passwordEditLayout.error = getString(R.string.error_password_text)
+                viewModel.setPermissionForLogin(ValidState.ERROR)
             }
             else {
-                validDataLiveData.value = validDataLiveData.value!! + 1
+                viewModel.setPermissionForLogin(ValidState.VALID)
             }
         }
 

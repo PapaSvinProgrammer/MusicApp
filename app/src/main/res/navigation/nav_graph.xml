@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/favoriteFragment"
@@ -17,10 +17,18 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favoriteFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_homeFragment_to_mainPlayerFragment"
             app:destination="@id/playerFragment"
@@ -40,7 +48,11 @@
             app:launchSingleTop="true" />
         <action
             android:id="@+id/action_settingsFragment_to_storageFragment"
-            app:destination="@id/storageFragment" />
+            app:destination="@id/storageFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -69,11 +81,19 @@
         <action
             android:id="@+id/action_startFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:launchSingleTop="true" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_startFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
-            app:launchSingleTop="true" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_startFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -90,7 +110,11 @@
         <action
             android:id="@+id/action_settingPreferencesFragment_to_selectedListFragment"
             app:destination="@id/selectedListFragment"
-            app:launchSingleTop="true" />
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/storageFragment"

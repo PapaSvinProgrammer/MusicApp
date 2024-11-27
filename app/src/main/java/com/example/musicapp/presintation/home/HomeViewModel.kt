@@ -20,7 +20,7 @@ class HomeViewModel(
     lateinit var isPlayService: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
     @SuppressLint("StaticFieldLeak")
-    lateinit var servicePlayer: PlayerService
+    var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
     private val getMusicLiveData = MutableLiveData<LiveData<ArrayList<Music>>>()

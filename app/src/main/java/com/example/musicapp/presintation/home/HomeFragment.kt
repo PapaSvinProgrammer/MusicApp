@@ -108,7 +108,7 @@ class HomeFragment: Fragment() {
                 viewModel.lastDownloadArray = array
 
                 lifecycleScope.launch {
-                    viewModel.servicePlayer.setMusicList(array)
+                    viewModel.servicePlayer?.setMusicList(array)
 
                     bottomPlayerAdapter.setData(array)
                     binding.bottomViewPager.adapter = bottomPlayerAdapter
@@ -189,20 +189,20 @@ class HomeFragment: Fragment() {
     private fun pause() {
         binding.lottieAnim.pauseAnimation()
         binding.mainPlayButton.isSelected = false
-        viewModel.servicePlayer.setPlayerState(StatePlayer.PAUSE)
+        viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
     }
 
     private fun play() {
         binding.lottieAnim.playAnimation()
         binding.mainPlayButton.isSelected = true
-        viewModel.servicePlayer.setPlayerState(StatePlayer.PLAY)
+        viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
     }
 
     private fun previous() {
-        viewModel.servicePlayer.setPlayerState(StatePlayer.PREVIOUS)
+        viewModel.servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
     }
 
     private fun next() {
-        viewModel.servicePlayer.setPlayerState(StatePlayer.NEXT)
+        viewModel.servicePlayer?.setPlayerState(StatePlayer.NEXT)
     }
 }

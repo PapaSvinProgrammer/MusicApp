@@ -9,6 +9,7 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
+import com.example.musicapp.domain.usecase.valid.ValidState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,11 +26,13 @@ class RegistrationViewModel(
     private val passwordValidLiveData = MutableLiveData<Boolean>()
     private val passwordEqualsLiveData = MutableLiveData<Boolean>()
     private val registrationLiveData = MutableLiveData<LiveData<String?>>()
+    private val permissionForRegistrationLiveData = MutableLiveData<Int>()
 
     val emailValidResult: LiveData<Boolean> = emailValidLiveData
     val passwordValidResult: LiveData<Boolean> = passwordValidLiveData
     val passwordEqualsResult: LiveData<Boolean> = passwordEqualsLiveData
     val registrationResult: LiveData<LiveData<String?>> = registrationLiveData
+    val permissionForRegistrationResult: LiveData<Int> = permissionForRegistrationLiveData
 
     fun isEmailValid(email: String) {
         emailValidLiveData.value = emailValid.execute(email)
@@ -65,6 +68,16 @@ class RegistrationViewModel(
     fun saveEmail(email: String) {
         CoroutineScope(Dispatchers.IO).launch {
             saveEmail.execute(email)
+        }
+    }
+
+    fun setPermissionForRegistration(validState: ValidState) {
+        when (validState) {
+            ValidState.ERROR -> permissionForRegistrationLiveData.value = 0
+
+            ValidState.VALID -> {
+                permissionForRegistrationLiveData.value = (permissionForRegistrationLiveData.value ?: 0) + 1
+            }
         }
     }
 }
