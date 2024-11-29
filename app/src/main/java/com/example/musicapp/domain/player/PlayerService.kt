@@ -13,6 +13,7 @@ import com.example.musicapp.domain.player.module.AudioPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PlayerService: Service() {
@@ -37,8 +38,8 @@ class PlayerService: Service() {
     private var musicList: List<Music>? = null
 
     private var isFavorite = MutableLiveData<Boolean>()
-    private val currentDuration = MutableLiveData<Float>()
-    private val maxDuration = MutableLiveData<Float>()
+    private val currentDuration = MutableLiveData<Int>()
+    private val maxDuration = MutableLiveData<Int>()
     private var isPlay = MutableLiveData<Boolean>()
     private var currentPosition = MutableLiveData<Int>()
 
@@ -47,6 +48,7 @@ class PlayerService: Service() {
 
         isPlay.value = false
         currentPosition.value = 0
+        maxDuration.value = 0
 
         audioNotification = AudioNotification(
             context = this@PlayerService,
@@ -110,6 +112,10 @@ class PlayerService: Service() {
         this.musicList = list
     }
 
+    fun seekTo(msec: Int) {
+        audioPlayer?.seekTo(msec)
+    }
+
     private fun pause() {
         isPlay.value = false
         audioPlayer?.pause()
@@ -122,6 +128,7 @@ class PlayerService: Service() {
     private fun play() {
         isPlay.value = true
 
+        Log.d("RRRR", "List = " + musicList)
         if (currentObject == null) {
             currentObject = musicList!![currentPosition.value ?: 0]
 
@@ -133,6 +140,8 @@ class PlayerService: Service() {
         else {
             audioPlayer?.play()
         }
+
+        updateDurations()
 
         if (musicList != null) {
             audioNotification?.execute(musicList!![currentPosition.value ?: 0])
@@ -150,6 +159,7 @@ class PlayerService: Service() {
             isPlay = isPlay.value ?: false
         )
 
+        updateDurations()
         audioNotification?.execute(musicList!![currentPosition.value ?: 0])
 
         Log.d("RRRR", "prev")
@@ -164,6 +174,7 @@ class PlayerService: Service() {
             isPlay = isPlay.value ?: false
         )
 
+        updateDurations()
         audioNotification?.execute(musicList!![currentPosition.value ?: 0])
 
         Log.d("RRRR", "next")
@@ -171,6 +182,19 @@ class PlayerService: Service() {
 
     private fun like() {
         isFavorite.value = isFavorite.value != true
+    }
+
+    private fun updateDurations() {
+        maxDuration.value = 0
+
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isPlay.value == true) {
+                if (maxDuration.value == 0) maxDuration.value = audioPlayer?.getMaxDuration()
+
+                currentDuration.value = audioPlayer?.getCurrentDuration()
+                delay(1000)
+            }
+        }
     }
 
     private fun likePendingIntent(): PendingIntent? {

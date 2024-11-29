@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 
 interface AudioBinder {
     fun getService(): Service
-    fun getCurrentDuration(): MutableLiveData<Float>
-    fun getMaxDuration(): MutableLiveData<Float>
+    fun getCurrentDuration(): MutableLiveData<Int>
+    fun getMaxDuration(): MutableLiveData<Int>
     fun isPlay(): MutableLiveData<Boolean>
     fun getCurrentPosition(): MutableLiveData<Int>
 }

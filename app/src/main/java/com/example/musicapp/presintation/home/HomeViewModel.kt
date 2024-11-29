@@ -15,8 +15,8 @@ import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 class HomeViewModel(
     private val getMusicAll: GetMusicAll
 ): ViewModel() {
-    lateinit var durationLiveData: LiveData<Float>
-    lateinit var maxDurationLiveData: LiveData<Float>
+    lateinit var durationLiveData: LiveData<Int>
+    lateinit var maxDurationLiveData: LiveData<Int>
     lateinit var isPlayService: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
     @SuppressLint("StaticFieldLeak")

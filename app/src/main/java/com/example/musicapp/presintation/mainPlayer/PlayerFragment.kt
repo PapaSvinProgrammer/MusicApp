@@ -13,6 +13,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -114,6 +116,14 @@ class PlayerFragment: Fragment() {
             }
         }
 
+        viewModel.missTimeResult.observe(viewLifecycleOwner) { time ->
+            binding.missTime.text = time
+        }
+
+        viewModel.passTimeResult.observe(viewLifecycleOwner) { time ->
+            binding.passTime.text = time
+        }
+
         binding.nextView.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.NEXT)
             resetControlPlayerUI()
@@ -175,6 +185,17 @@ class PlayerFragment: Fragment() {
             }
         })
 
+        binding.seekBar.setOnSeekBarChangeListener(object: OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) { }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) { }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                viewModel.seekTo(seekBar?.progress)
+                viewModel.getMissTime(seekBar?.progress)
+            }
+        })
+
         viewModel.isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
@@ -188,11 +209,15 @@ class PlayerFragment: Fragment() {
 
     private fun initSeekBar() {
         viewModel.maxDurationLiveData.observe(viewLifecycleOwner) {
-
+            binding.seekBar.max = it
+            viewModel.getMissTime(it)
+            viewModel.getPassTime(it)
         }
 
         viewModel.durationLiveData.observe(viewLifecycleOwner) {
-
+            binding.seekBar.progress = it
+            viewModel.getMissTime(it)
+            viewModel.getPassTime(it)
         }
     }
 

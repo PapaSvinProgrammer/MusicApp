@@ -1,7 +1,6 @@
 package com.example.musicapp.domain.player
 
 import android.media.MediaPlayer
-import android.util.Log
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.module.AudioPlayer
 
@@ -14,6 +13,14 @@ class Player(
 
     override fun pause() {
         mediaPlayer.pause()
+    }
+
+    override fun getCurrentDuration(): Int {
+        return mediaPlayer.currentPosition
+    }
+
+    override fun getMaxDuration(): Int {
+        return mediaPlayer.duration
     }
 
     override fun addNewObjectAndStart(music: Music, isPlay: Boolean) {
@@ -30,5 +37,9 @@ class Player(
         mediaPlayer.setOnPreparedListener {
             mediaPlayer.start()
         }
+    }
+
+    override fun seekTo(msec: Int) {
+        mediaPlayer.seekTo(msec)
     }
 }
