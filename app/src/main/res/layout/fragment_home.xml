@@ -42,13 +42,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/bottom_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator

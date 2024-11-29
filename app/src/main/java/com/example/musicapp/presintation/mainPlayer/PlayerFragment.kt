@@ -31,6 +31,7 @@ import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -58,16 +59,18 @@ class PlayerFragment: Fragment() {
         val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
 
+        HorizontalOffsetController().setPreviewOffsetMainPager(
+            viewPager2 = binding.viewPager,
+            nextItemVisibleSize = R.dimen.viewpager_item_visible_main,
+            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin_main
+        )
+
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),
                 viewModel.connectionToPlayerService,
                 Context.BIND_AUTO_CREATE
             )
-        }
-
-        lifecycleScope.launch {
-            setupViewPager(binding.viewPager)
         }
 
         val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
@@ -302,33 +305,6 @@ class PlayerFragment: Fragment() {
     private fun playMusic() {
         binding.playStopView.isSelected = true
         viewModel.servicePlayer.setPlayerState(StatePlayer.PLAY)
-    }
-
-    @SuppressLint("ResourceType")
-    private fun setupViewPager(viewPager: ViewPager2) {
-        viewPager.apply {
-            clipToPadding = false
-            clipChildren = false
-            offscreenPageLimit = 2
-        }
-
-        val offsetPx = resources
-            .getDimensionPixelOffset(R.dimen.viewpager_item_visible_main)
-            .dpToPx(resources.displayMetrics)
-
-        viewPager.setPadding(offsetPx, 0, offsetPx, 0)
-
-        val pageMarginPx = resources
-            .getDimensionPixelOffset(R.dimen.viewpager_current_item_horizontal_margin)
-            .dpToPx(resources.displayMetrics)
-
-        viewPager.setPageTransformer(
-            MarginPageTransformer(pageMarginPx)
-        )
-    }
-
-    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int {
-        return (this * displayMetrics.density).toInt()
     }
 
     private fun changeNameAndGroupView() {

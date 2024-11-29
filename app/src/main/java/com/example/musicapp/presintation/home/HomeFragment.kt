@@ -1,13 +1,9 @@
 package com.example.musicapp.presintation.home
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Bundle
-import android.os.IBinder
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +11,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
 import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
@@ -25,6 +19,7 @@ import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
+import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,6 +44,12 @@ class HomeFragment: Fragment() {
         val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
 
+        HorizontalOffsetController().setPreviewOffsetBottomPager(
+            viewPager2 = binding.bottomViewPager,
+            nextItemVisibleSize = R.dimen.viewpager_item_visible,
+            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
+        )
+
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),
@@ -57,7 +58,6 @@ class HomeFragment: Fragment() {
             )
         }
 
-        setupViewPager(binding.bottomViewPager)
         bottomPlayerAdapter = BottomPlayerAdapter(navController, viewModel)
 
         binding.progressIndicator.visibility = View.VISIBLE
@@ -118,7 +118,6 @@ class HomeFragment: Fragment() {
                     }
                 }
 
-                binding.viewPagerLayout.visibility = View.VISIBLE
                 binding.progressIndicator.visibility = View.GONE
             }
         }
@@ -157,33 +156,6 @@ class HomeFragment: Fragment() {
     override fun onDestroy() {
         requireActivity().unbindService(viewModel.connectionToPlayerService)
         super.onDestroy()
-    }
-
-    @SuppressLint("ResourceType")
-    private fun setupViewPager(viewPager: ViewPager2) {
-        viewPager.apply {
-            clipToPadding = false
-            clipChildren = false
-            offscreenPageLimit = 2
-        }
-
-        val offsetPx = resources
-            .getDimensionPixelOffset(R.dimen.viewpager_item_visible)
-            .dpToPx(resources.displayMetrics)
-
-        viewPager.setPadding(offsetPx, 0, offsetPx, 0)
-
-        val pageMarginPx = resources
-            .getDimensionPixelOffset(R.dimen.viewpager_current_item_horizontal_margin)
-            .dpToPx(resources.displayMetrics)
-
-        viewPager.setPageTransformer(
-            MarginPageTransformer(pageMarginPx)
-        )
-    }
-
-    private fun Int.dpToPx(displayMetrics: DisplayMetrics): Int {
-        return (this * displayMetrics.density).toInt()
     }
 
     private fun pause() {
