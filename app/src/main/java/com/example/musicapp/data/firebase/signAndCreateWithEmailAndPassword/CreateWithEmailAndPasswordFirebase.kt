@@ -8,19 +8,18 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SignWithEmailAndPassword {
+class CreateWithEmailAndPasswordFirebase {
     val userId = MutableLiveData<String?>()
 
-    fun execute(data: LoginData) {
+    fun execute(loginData: LoginData) {
         val auth = Firebase.auth
 
         CoroutineScope(Dispatchers.Main).launch {
-            auth.signInWithEmailAndPassword(data.email, data.password)
-                .addOnCompleteListener { task->
+            auth.createUserWithEmailAndPassword(loginData.email, loginData.password)
+                .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         userId.value = auth.currentUser?.uid
-                    }
-                    else {
+                    } else {
                         userId.value = null
                     }
                 }

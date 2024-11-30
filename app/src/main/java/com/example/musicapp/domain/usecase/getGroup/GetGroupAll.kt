@@ -2,10 +2,11 @@ package com.example.musicapp.domain.usecase.getGroup
 
 import androidx.lifecycle.LiveData
 import com.example.musicapp.domain.module.Group
-import com.example.musicapp.domain.repository.GetMusicDataRepository
+import com.example.musicapp.domain.repository.GroupRepository
 
-class GetGroupAll(private val getMusicDataRepository: GetMusicDataRepository) {
+
+class GetGroupAll(private val groupRepository: GroupRepository) {
     fun execute(): LiveData<ArrayList<Group>> {
-        return getMusicDataRepository.getGroupAll()
+        return groupRepository.getGroupAll()
     }
 }

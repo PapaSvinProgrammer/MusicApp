@@ -13,6 +13,7 @@ import com.example.musicapp.domain.player.module.AudioPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -36,6 +37,7 @@ class PlayerService: Service() {
     private var audioPlayer: AudioPlayer? = null
     private var currentObject: Music? = null
     private var musicList: List<Music>? = null
+    private var job: Job? = null
 
     private var isFavorite = MutableLiveData<Boolean>()
     private val currentDuration = MutableLiveData<Int>()
@@ -186,8 +188,9 @@ class PlayerService: Service() {
 
     private fun updateDurations() {
         maxDuration.value = 0
+        job?.cancel()
 
-        CoroutineScope(Dispatchers.Main).launch {
+        job = CoroutineScope(Dispatchers.Main).launch {
             while (isPlay.value == true) {
                 if (maxDuration.value == 0) maxDuration.value = audioPlayer?.getMaxDuration()
 

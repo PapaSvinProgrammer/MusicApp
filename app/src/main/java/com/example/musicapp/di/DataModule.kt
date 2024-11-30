@@ -3,12 +3,18 @@ package com.example.musicapp.di
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
-import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPassword
-import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPassword
-import com.example.musicapp.data.repository.GetMusicDataRepositoryImpl
+import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
+import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
+import com.example.musicapp.data.repository.AlbumRepositoryFirebase
+import com.example.musicapp.data.repository.GroupRepositoryFirebase
+import com.example.musicapp.data.repository.MusicInternalStorageRepository
+import com.example.musicapp.data.repository.MusicRepositoryFirebase
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
-import com.example.musicapp.data.repository.SignAndCreateRepositoryImpl
-import com.example.musicapp.domain.repository.GetMusicDataRepository
+import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
+import com.example.musicapp.domain.repository.AlbumRepository
+import com.example.musicapp.domain.repository.GroupRepository
+import com.example.musicapp.domain.repository.MusicRepository
+import com.example.musicapp.domain.repository.MusicStorageRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import org.koin.dsl.module
@@ -21,26 +27,39 @@ val dataModule = module {
     }
 
     single<SignAndCreateRepository> {
-        SignAndCreateRepositoryImpl(
-            signWithEmailAndPassword = get(),
-            createWithEmailAndPassword = get()
+        SignAndCreateRepositoryFirebase(
+            signWithEmailAndPasswordFirebase = get(),
+            createWithEmailAndPasswordFirebase = get()
         )
     }
 
-    single<SignWithEmailAndPassword> {
-        SignWithEmailAndPassword()
+    single<SignWithEmailAndPasswordFirebase> {
+        SignWithEmailAndPasswordFirebase()
     }
 
-    single<CreateWithEmailAndPassword> {
-        CreateWithEmailAndPassword()
+    single<CreateWithEmailAndPasswordFirebase> {
+        CreateWithEmailAndPasswordFirebase()
     }
 
-    single<GetMusicDataRepository> {
-        GetMusicDataRepositoryImpl(
-            getMusicAllImpl = get(),
+    single<MusicRepository> {
+        MusicRepositoryFirebase(
+            getMusicAllImpl = get()
+        )
+    }
+
+    single<GroupRepository> {
+        GroupRepositoryFirebase(
             getGroupAllImpl = get(),
             getGroupWithFilterOnGenresImpl = get()
         )
+    }
+
+    single<AlbumRepository> {
+        AlbumRepositoryFirebase()
+    }
+
+    single<MusicStorageRepository> {
+        MusicInternalStorageRepository()
     }
 
     single<GetMusicAllImpl> {

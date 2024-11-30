@@ -88,19 +88,19 @@ val domainModule = module {
 
     factory<GetMusicAll> {
         GetMusicAll(
-            getMusicDataRepository = get()
+            musicRepository = get()
         )
     }
 
     factory<GetGroupAll> {
         GetGroupAll(
-            getMusicDataRepository = get()
+            groupRepository = get()
         )
     }
 
     factory<GetGroupWithFilterOnGenres> {
         GetGroupWithFilterOnGenres(
-            getMusicDataRepository = get()
+            groupRepository = get()
         )
     }
 }
