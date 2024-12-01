@@ -13,10 +13,10 @@ class SettingsPreferencesViewModel(
     private val getGroupAll: GetGroupAll,
     private val getGroupWithFilterOnGenres: GetGroupWithFilterOnGenres
 ): ViewModel() {
-    private val getGroupLiveData = MutableLiveData<LiveData<ArrayList<Group>>>()
+    private val getGroupLiveData = MutableLiveData<List<Group>>()
     private val updateRecyclerDataLiveData = MutableLiveData<Boolean>()
 
-    val getGroupResult: LiveData<LiveData<ArrayList<Group>>> = getGroupLiveData
+    val getGroupResult: LiveData<List<Group>> = getGroupLiveData
     val countSelectedLiveData = MutableLiveData<Int>()
     val updateRecyclerDataResult: LiveData<Boolean> = updateRecyclerDataLiveData
 

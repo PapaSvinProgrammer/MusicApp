@@ -3,6 +3,7 @@ package com.example.musicapp.presintation.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -24,12 +25,12 @@ class LoginViewModel(
 ): ViewModel() {
     private val emailValidLiveData = MutableLiveData<Boolean>()
     private val passwordValidLiveData = MutableLiveData<Boolean>()
-    private val loginLiveData = MutableLiveData<LiveData<String?>>()
+    private val loginLiveData = MutableLiveData<String?>()
     private val permissionForLoginLiveData = MutableLiveData<Int>()
 
     val emailValidResult: LiveData<Boolean> = emailValidLiveData
     val passwordValidResult: LiveData<Boolean> = passwordValidLiveData
-    val loginResult: LiveData<LiveData<String?>> = loginLiveData
+    val loginResult: LiveData<String?> = loginLiveData
     val permissionForLoginResult: LiveData<Int> = permissionForLoginLiveData
 
     fun isValidEmail(email: String) {
@@ -41,28 +42,24 @@ class LoginViewModel(
     }
 
     fun loginInAccount(email: String, password: String) {
-        loginLiveData.value = signInAccount.execute(
-            email = email,
-            password = password
-        )
+        viewModelScope.launch {
+            loginLiveData.value = signInAccount.execute(
+                email = email,
+                password = password
+            )
+        }
     }
 
     fun saveUserKey(userKey: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            saveUserKey.execute(userKey)
-        }
+        saveUserKey.execute(userKey)
     }
 
     fun saveLoginState() {
-        CoroutineScope(Dispatchers.IO).launch {
-            saveLoginState.execute(true)
-        }
+        saveLoginState.execute(true)
     }
 
     fun saveEmail(email: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            saveEmail.execute(email)
-        }
+        saveEmail.execute(email)
     }
 
     fun setPermissionForLogin(validState: ValidState) {

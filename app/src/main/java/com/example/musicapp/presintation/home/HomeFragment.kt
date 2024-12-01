@@ -104,23 +104,21 @@ class HomeFragment: Fragment() {
             }
         }
 
-        viewModel.getMusicResult.observe(viewLifecycleOwner) { liveData->
-            liveData.observe(viewLifecycleOwner) { array->
-                viewModel.lastDownloadArray = array
+        viewModel.getMusicResult.observe(viewLifecycleOwner) { array->
+            viewModel.lastDownloadArray.addAll(array)
 
-                lifecycleScope.launch {
-                    viewModel.servicePlayer?.setMusicList(array)
+            lifecycleScope.launch {
+                viewModel.servicePlayer?.setMusicList(array)
 
-                    bottomPlayerAdapter.setData(array)
-                    binding.bottomViewPager.adapter = bottomPlayerAdapter
+                bottomPlayerAdapter.setData(array)
+                binding.bottomViewPager.adapter = bottomPlayerAdapter
 
-                    binding.bottomViewPager.doOnPreDraw {
-                        binding.bottomViewPager.currentItem = viewModel.currentPosition.value ?: 0
-                    }
+                binding.bottomViewPager.doOnPreDraw {
+                    binding.bottomViewPager.currentItem = viewModel.currentPosition.value ?: 0
                 }
-
-                binding.progressIndicator.visibility = View.GONE
             }
+
+            binding.progressIndicator.visibility = View.GONE
         }
 
         viewModel.isBound.observe(viewLifecycleOwner) {

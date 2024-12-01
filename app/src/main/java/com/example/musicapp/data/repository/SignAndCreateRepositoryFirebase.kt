@@ -1,6 +1,5 @@
 package com.example.musicapp.data.repository
 
-import androidx.lifecycle.LiveData
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
 import com.example.musicapp.domain.module.LoginData
@@ -10,13 +9,11 @@ class SignAndCreateRepositoryFirebase(
     private val signWithEmailAndPasswordFirebase: SignWithEmailAndPasswordFirebase,
     private val createWithEmailAndPasswordFirebase: CreateWithEmailAndPasswordFirebase
 ): SignAndCreateRepository {
-    override fun signWithEmailAndPassword(data: LoginData): LiveData<String?> {
-        signWithEmailAndPasswordFirebase.execute(data)
-        return signWithEmailAndPasswordFirebase.userId
+    override suspend fun signWithEmailAndPassword(data: LoginData): String? {
+        return signWithEmailAndPasswordFirebase.execute(data)
     }
 
-    override fun createWithEmailAndPassword(data: LoginData): LiveData<String?> {
-        createWithEmailAndPasswordFirebase.execute(data)
-        return createWithEmailAndPasswordFirebase.userId
+    override suspend fun createWithEmailAndPassword(data: LoginData): String? {
+        return createWithEmailAndPasswordFirebase.execute(data)
     }
 }

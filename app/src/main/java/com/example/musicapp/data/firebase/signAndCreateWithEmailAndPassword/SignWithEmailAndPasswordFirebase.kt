@@ -1,29 +1,28 @@
 package com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.example.musicapp.domain.module.LoginData
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SignWithEmailAndPasswordFirebase {
-    val userId = MutableLiveData<String?>()
-
-    fun execute(data: LoginData) {
+    suspend fun execute(data: LoginData): String? {
         val auth = Firebase.auth
+        var userId: String? = null
 
-        CoroutineScope(Dispatchers.Main).launch {
+        try {
             auth.signInWithEmailAndPassword(data.email, data.password)
-                .addOnCompleteListener { task->
-                    if (task.isSuccessful) {
-                        userId.value = auth.currentUser?.uid
-                    }
-                    else {
-                        userId.value = null
-                    }
+                .await()
+                .apply {
+                    userId = auth.currentUser?.uid
                 }
+
         }
+        catch (e: Exception) {
+            Log.e("Error", "SignWithEmailAndPasswordFirebase - Error")
+        }
+
+        return userId
     }
 }

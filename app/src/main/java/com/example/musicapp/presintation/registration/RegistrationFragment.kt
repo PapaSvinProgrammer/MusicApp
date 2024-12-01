@@ -73,24 +73,18 @@ class RegistrationFragment: Fragment() {
             }
         }
 
-        viewModel.registrationResult.observe(viewLifecycleOwner) { liveData->
-            if (!registrationLiveDataFlag) {
-                registrationLiveDataFlag = true
+        viewModel.registrationResult.observe(viewLifecycleOwner) {
+            binding.progressIndicator.visibility = View.GONE
 
-                liveData.observe(viewLifecycleOwner) {
-                    binding.progressIndicator.visibility = View.GONE
+            if (it != null) {
+                viewModel.saveLoginState()
+                viewModel.saveUserKey(it)
+                viewModel.saveEmail(binding.emailEditText.text.toString())
 
-                    if (it != null) {
-                        viewModel.saveLoginState()
-                        viewModel.saveUserKey(it)
-                        viewModel.saveEmail(binding.emailEditText.text.toString())
-
-                        navController.navigate(R.id.action_registrationFragment_to_settingPreferencesFragment)
-                    }
-                    else {
-                        Snackbar.make(view, R.string.error_registration_text, Snackbar.LENGTH_SHORT).show()
-                    }
-                }
+                navController.navigate(R.id.action_registrationFragment_to_settingPreferencesFragment)
+            }
+            else {
+                Snackbar.make(view, R.string.error_registration_text, Snackbar.LENGTH_SHORT).show()
             }
         }
 

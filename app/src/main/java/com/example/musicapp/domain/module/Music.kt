@@ -4,13 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Music(
-    val id: String,
-    val group: String,
-    val name: String,
-    val album: String,
-    val url: String,
-    val imageLow: String,
-    val imageHigh: String
+    var id: String = "",
+    var group: String = "",
+    var name: String = "",
+    var album: String = "",
+    var url: String = "",
+    var imageLow: String = "",
+    var imageHigh: String = ""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",

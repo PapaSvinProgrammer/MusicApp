@@ -64,17 +64,13 @@ class SettingPreferencesFragment: Fragment() {
         recyclerAdapter = SettingsPerformancesAdapter(viewModel)
         binding.recyclerView.adapter = recyclerAdapter
 
-        viewModel.getGroupResult.observe(viewLifecycleOwner) { liveData ->
-            liveData.observe(viewLifecycleOwner) { array ->
-                if (conditionForUpdatingData()) {
-                    viewModel.lastDownloadArray = array
-                    viewModel.searchList = array
-                    countFlag++
+        viewModel.getGroupResult.observe(viewLifecycleOwner) { array ->
+            viewModel.lastDownloadArray.addAll(array)
+            viewModel.searchList = array
+            countFlag++
 
-                    recyclerAdapter.setData(array)
-                    binding.progressIndicator.visibility = View.GONE
-                }
-            }
+            recyclerAdapter.setData(array)
+            binding.progressIndicator.visibility = View.GONE
         }
 
         viewModel.countSelectedLiveData.observe(viewLifecycleOwner) { count->
@@ -266,9 +262,5 @@ class SettingPreferencesFragment: Fragment() {
         }
 
         return result
-    }
-
-    private fun conditionForUpdatingData(): Boolean {
-        return countFlag == 0 || (viewModel.lastFilter.size != 1 && countFlag <= viewModel.lastFilter.size)
     }
 }

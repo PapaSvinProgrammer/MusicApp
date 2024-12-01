@@ -1,12 +1,11 @@
 package com.example.musicapp.domain.usecase.getGroup
 
-import androidx.lifecycle.LiveData
 import com.example.musicapp.data.constant.GenresConst
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.repository.GroupRepository
 
 class GetGroupWithFilterOnGenres(private val groupRepository: GroupRepository) {
-    fun execute(filter: List<Int>): LiveData<ArrayList<Group>> {
+    suspend fun execute(filter: List<Int>): List<Group> {
         return groupRepository.getGroupWithFilterOnGenre(
             filter = convertFilter(filter)
         )

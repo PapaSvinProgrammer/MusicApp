@@ -17,7 +17,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModel<LoginViewModel>()
-    private var loginLiveDataFlag: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
@@ -59,24 +58,18 @@ class LoginFragment: Fragment() {
             }
         }
 
-        viewModel.loginResult.observe(viewLifecycleOwner) { liveData->
-            if (!loginLiveDataFlag) {
-                loginLiveDataFlag = true
+        viewModel.loginResult.observe(viewLifecycleOwner) {
+            binding.progressIndicator.visibility = View.GONE
 
-                liveData.observe(viewLifecycleOwner) {
-                    binding.progressIndicator.visibility = View.GONE
+            if (it != null) {
+                viewModel.saveLoginState()
+                viewModel.saveUserKey(it)
+                viewModel.saveEmail(binding.emailEditText.text.toString())
 
-                    if (it != null) {
-                        viewModel.saveLoginState()
-                        viewModel.saveUserKey(it)
-                        viewModel.saveEmail(binding.emailEditText.text.toString())
-
-                        navController.navigate(R.id.action_loginFragment_to_homeFragment)
-                    }
-                    else {
-                        Snackbar.make(view, R.string.error_login_text, Snackbar.LENGTH_SHORT).show()
-                    }
-                }
+                navController.navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+            else {
+                Snackbar.make(view, R.string.error_login_text, Snackbar.LENGTH_SHORT).show()
             }
         }
 
