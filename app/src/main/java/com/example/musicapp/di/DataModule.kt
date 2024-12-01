@@ -5,6 +5,7 @@ import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImp
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
+import com.example.musicapp.data.internalStorage.SaveInternalStorageImpl
 import com.example.musicapp.data.repository.AlbumRepositoryFirebase
 import com.example.musicapp.data.repository.GroupRepositoryFirebase
 import com.example.musicapp.data.repository.MusicInternalStorageRepository
@@ -59,7 +60,9 @@ val dataModule = module {
     }
 
     single<MusicStorageRepository> {
-        MusicInternalStorageRepository()
+        MusicInternalStorageRepository(
+            saveInternalStorageImpl = get()
+        )
     }
 
     single<GetMusicAllImpl> {
@@ -72,5 +75,11 @@ val dataModule = module {
 
     single<GetGroupWithFilterOnGenresImpl> {
         GetGroupWithFilterOnGenresImpl()
+    }
+
+    single<SaveInternalStorageImpl> {
+        SaveInternalStorageImpl(
+            context = get()
+        )
     }
 }

@@ -12,9 +12,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
-import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
+import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
@@ -73,23 +71,11 @@ class HomeFragment: Fragment() {
             }
         }
 
-        binding.bottomViewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
-            private var state1 = 0
-
-            @SuppressLint("SwitchIntDef")
-            override fun onPageScrollStateChanged(state: Int) {
-                if (state == SCROLL_STATE_DRAGGING) state1 = SCROLL_STATE_DRAGGING
-
-                if (state == SCROLL_STATE_IDLE && state1 == SCROLL_STATE_DRAGGING) {
-                    if (binding.bottomViewPager.currentItem > viewModel.lastPosition) {
-                        viewModel.setStatePlayer(StatePlayer.NEXT)
-                    }
-                    else {
-                        viewModel.setStatePlayer(StatePlayer.PREVIOUS)
-                    }
-
-                    viewModel.lastPosition = binding.bottomViewPager.currentItem
-                    state1 = 0
+        binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (positionOffset == 0f && position != viewModel.lastPosition) {
+                    viewModel.lastPosition = position
+                    viewModel.servicePlayer?.setCurrentPosition(position)
                 }
             }
         })
@@ -123,8 +109,6 @@ class HomeFragment: Fragment() {
 
         viewModel.isBound.observe(viewLifecycleOwner) {
             if (it) {
-                initSeekBar()
-
                 viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
                     binding.bottomViewPager.currentItem = position
                 }
@@ -139,16 +123,6 @@ class HomeFragment: Fragment() {
                     }
                 }
             }
-        }
-    }
-
-    private fun initSeekBar() {
-        viewModel.maxDurationLiveData.observe(viewLifecycleOwner) {
-
-        }
-
-        viewModel.durationLiveData.observe(viewLifecycleOwner) {
-
         }
     }
 

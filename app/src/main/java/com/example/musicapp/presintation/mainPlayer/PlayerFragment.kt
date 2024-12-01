@@ -1,15 +1,9 @@
 package com.example.musicapp.presintation.mainPlayer
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +11,9 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING
-import androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
@@ -167,20 +155,12 @@ class PlayerFragment: Fragment() {
             viewModel.setControlPlayer(ControlPlayer.DISLIKE)
         }
 
-        binding.viewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
-            @SuppressLint("SwitchIntDef")
-            override fun onPageScrollStateChanged(state: Int) {
-                if (state == SCROLL_STATE_IDLE) {
-                    if (binding.viewPager.currentItem > viewModel.lastPosition) {
-                        viewModel.servicePlayer.setPlayerState(StatePlayer.NEXT)
-                        changeNameAndGroupView()
-                    }
-                    else {
-                        viewModel.servicePlayer.setPlayerState(StatePlayer.PREVIOUS)
-                        changeNameAndGroupView()
-                    }
-
-                    viewModel.lastPosition = binding.viewPager.currentItem
+        binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (positionOffset == 0f && position != viewModel.lastPosition) {
+                    viewModel.lastPosition = position
+                    viewModel.servicePlayer.setCurrentPosition(position)
+                    changeNameAndGroupView()
                 }
             }
         })

@@ -15,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class RegistrationFragment: Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel by viewModel<RegistrationViewModel>()
-    private var registrationLiveDataFlag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,

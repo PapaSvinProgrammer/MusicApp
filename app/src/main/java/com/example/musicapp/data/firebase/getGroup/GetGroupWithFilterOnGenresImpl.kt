@@ -3,7 +3,6 @@ package com.example.musicapp.data.firebase.getGroup
 import com.example.musicapp.data.constant.CollectionConst
 import com.example.musicapp.data.constant.GroupConst
 import com.example.musicapp.domain.module.Group
-import com.example.musicapp.domain.module.Music
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await

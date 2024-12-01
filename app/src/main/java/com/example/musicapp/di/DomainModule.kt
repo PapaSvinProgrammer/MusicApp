@@ -9,6 +9,7 @@ import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
+import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -101,6 +102,12 @@ val domainModule = module {
     factory<GetGroupWithFilterOnGenres> {
         GetGroupWithFilterOnGenres(
             groupRepository = get()
+        )
+    }
+
+    factory<SaveInternalStorage> {
+        SaveInternalStorage(
+            musicStorageRepository = get()
         )
     }
 }

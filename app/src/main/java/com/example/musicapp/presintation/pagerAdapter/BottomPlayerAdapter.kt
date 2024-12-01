@@ -1,6 +1,7 @@
 package com.example.musicapp.presintation.pagerAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.bundle.Bundle
 import androidx.lifecycle.LifecycleOwner
@@ -31,7 +32,7 @@ class BottomPlayerAdapter(
         private val livecycleOwner: LifecycleOwner,
         val binding: ItemBottomPlayerBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(music: Music) {
+        fun onBind(music: Music, position: Int) {
             CoroutineScope(Dispatchers.Main).launch {
                 Glide.with(binding.root)
                     .load(music.imageLow)
@@ -66,6 +67,27 @@ class BottomPlayerAdapter(
             viewModel.isPlayService.observe(livecycleOwner) {
                 binding.iconPlayView.isSelected = it
             }
+
+            viewModel.maxDurationLiveData.observe(livecycleOwner) {
+                binding.progressIndicator.max = it
+            }
+
+            viewModel.durationLiveData.observe(livecycleOwner) {
+                binding.progressIndicator.progress = it
+            }
+
+            viewModel.currentPosition.observe(livecycleOwner) {
+                if (position != it) {
+                    binding.progressIndicator.visibility = View.GONE
+                    binding.iconPlayView.visibility = View.GONE
+                    binding.iconFavoriteView.visibility = View.GONE
+                }
+                else {
+                    binding.progressIndicator.visibility = View.VISIBLE
+                    binding.iconPlayView.visibility = View.VISIBLE
+                    binding.iconFavoriteView.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -96,7 +118,7 @@ class BottomPlayerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position]
-        holder.onBind(music)
+        holder.onBind(music, position)
 
         holder.binding.root.setOnClickListener {
             val bundle = Bundle()

@@ -1,5 +1,6 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.presintation.favorite.FavoriteViewModel
 import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.login.LoginViewModel
 import com.example.musicapp.presintation.main.MainViewModel
@@ -72,5 +73,9 @@ val appModule = module {
 
     viewModel {
         PlayerViewModel()
+    }
+
+    viewModel {
+        FavoriteViewModel()
     }
 }

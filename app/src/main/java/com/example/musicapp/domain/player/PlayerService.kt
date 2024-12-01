@@ -46,6 +46,7 @@ class PlayerService: Service() {
     private var currentPosition = MutableLiveData<Int>()
 
     override fun onCreate() {
+        Log.d("RRRR", "Create service")
         super.onCreate()
 
         isPlay.value = false
@@ -103,15 +104,27 @@ class PlayerService: Service() {
             when (state) {
                 StatePlayer.PLAY -> play()
                 StatePlayer.PAUSE -> pause()
-                StatePlayer.PREVIOUS -> previous()
-                StatePlayer.NEXT -> next()
-                StatePlayer.NONE -> {}
+                else -> {}
             }
         }
     }
 
     fun setMusicList(list: List<Music>) {
         this.musicList = list
+    }
+
+    fun setCurrentPosition(position: Int) {
+        currentPosition.value = position
+        currentObject = musicList!![position]
+
+        audioPlayer?.addNewObjectAndStart(
+            music = currentObject!!,
+            isPlay = isPlay.value ?: false
+        )
+
+        maxDuration.value = 0
+        updateDurations()
+        audioNotification?.execute(musicList!![position])
     }
 
     fun seekTo(msec: Int) {
@@ -163,8 +176,6 @@ class PlayerService: Service() {
 
         updateDurations()
         audioNotification?.execute(musicList!![currentPosition.value ?: 0])
-
-        Log.d("RRRR", "prev")
     }
 
     private fun next() {
@@ -178,8 +189,6 @@ class PlayerService: Service() {
 
         updateDurations()
         audioNotification?.execute(musicList!![currentPosition.value ?: 0])
-
-        Log.d("RRRR", "next")
     }
 
     private fun like() {
@@ -187,7 +196,6 @@ class PlayerService: Service() {
     }
 
     private fun updateDurations() {
-        maxDuration.value = 0
         job?.cancel()
 
         job = CoroutineScope(Dispatchers.Main).launch {
@@ -250,5 +258,10 @@ class PlayerService: Service() {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
+    }
+
+    override fun onDestroy() {
+        Log.d("RRRR", "Destroy Service")
+        super.onDestroy()
     }
 }
