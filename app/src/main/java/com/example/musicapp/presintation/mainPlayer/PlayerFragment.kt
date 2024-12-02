@@ -23,6 +23,7 @@ import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -153,6 +154,24 @@ class PlayerFragment: Fragment() {
 
         binding.dislikeView.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.DISLIKE)
+        }
+
+        binding.shareButton.setOnClickListener {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "https://")
+                putExtra(Intent.EXTRA_TITLE, "Слушать в MusicApp")
+                type = "text/plain"
+            }
+
+            startActivity(Intent.createChooser(sendIntent, null))
+        }
+
+        binding.settingsButton.setOnClickListener {
+            val bottomSheetDialog = BottomSheetDialog(binding.root.context)
+            val bottomSheetView = LayoutInflater.from(binding.root.context).inflate(R.layout.bottom_sheet_player_settings, null)
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.show()
         }
 
         binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
