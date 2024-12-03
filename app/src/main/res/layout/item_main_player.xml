@@ -19,7 +19,7 @@
             android:id="@+id/image_view"
             android:scaleType="centerCrop"
             app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
-            android:layout_width="250dp"
-            android:layout_height="250dp" />
+            android:layout_width="270dp"
+            android:layout_height="270dp" />
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
