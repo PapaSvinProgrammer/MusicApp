@@ -2,21 +2,14 @@ package com.example.musicapp.data.room.favoriteMusicEntity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "favorite_music",
-    indices = [
-        Index(
-            value = ["firebase_url"],
-            unique = true
-        )
-    ]
-)
+
+@Entity(tableName = "favorite_music")
 data class FavoriteMusicEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey
+    @ColumnInfo(name = "firebase_id")
+    val firebaseId: String,
 
     @ColumnInfo(name = "name")
     val name: String,
@@ -31,8 +24,5 @@ data class FavoriteMusicEntity(
     val url: String,
 
     @ColumnInfo(name = "save_uri")
-    val saveUri: String,
-
-    @ColumnInfo(name = "firebase_id")
-    val firebaseId: String
+    val saveUri: String
 )

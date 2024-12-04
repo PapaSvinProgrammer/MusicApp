@@ -10,14 +10,14 @@ data class MusicResult(
     @Relation(
         entity = AuthorEntity::class,
         parentColumn = "author_id",
-        entityColumn = "id"
+        entityColumn = "firebase_id"
     )
     val authorEntity: AuthorEntity,
 
     @Relation(
         entity = AlbumEntity::class,
         parentColumn = "album_id",
-        entityColumn = "id"
+        entityColumn = "firebase_id"
     )
     val albumEntity: AlbumEntity
 )

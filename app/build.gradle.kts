@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.firebase.firestore)
     implementation(libs.glide)
+    implementation(libs.androidx.legacy.support.v4)
 
     implementation(libs.androidx.fragment.testing)
     testImplementation(libs.junit)

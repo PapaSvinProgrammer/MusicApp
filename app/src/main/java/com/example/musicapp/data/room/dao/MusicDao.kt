@@ -22,18 +22,17 @@ interface MusicDao {
     suspend fun insertMusic(music: FavoriteMusicEntity)
 
     @Transaction
-    @Query("SELECT id FROM author_for_music WHERE author_name = :name")
-    fun getIdAuthorByName(name: String): Long
-
-    @Transaction
-    @Query("SELECT id FROM album_for_music WHERE album_name = :name")
-    fun getIdAlbumByName(name: String): Long
+    @Query("SELECT * FROM favorite_music WHERE firebase_id = :firebaseId")
+    fun getMusicById(firebaseId: String): MusicResult?
 
     @Transaction
     @Query("SELECT * FROM favorite_music")
-    fun getAll(): List<MusicResult>
+    fun getAll(): List<MusicResult?>
+
+    @Transaction
+    @Query("SELECT * FROM author_for_music")
+    fun getAllAuthor(): List<AuthorEntity>
 
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")
     suspend fun deleteMusicById(firebaseId: String)
 }
-
