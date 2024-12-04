@@ -10,9 +10,11 @@ data class Music(
     var album: String = "",
     var url: String = "",
     var imageLow: String = "",
-    var imageHigh: String = ""
+    var imageHigh: String = "",
+    var groupId: String = ""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -29,6 +31,7 @@ data class Music(
         parcel.writeString(album)
         parcel.writeString(url)
         parcel.writeString(imageLow)
+        parcel.writeString(groupId)
     }
 
     override fun describeContents(): Int {
@@ -44,5 +47,4 @@ data class Music(
             return arrayOfNulls(size)
         }
     }
-
 }

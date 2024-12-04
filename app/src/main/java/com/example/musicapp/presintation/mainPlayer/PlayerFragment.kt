@@ -298,7 +298,11 @@ class PlayerFragment: Fragment() {
 
     private fun executeLike() {
         when (binding.likeView.isSelected) {
-            true -> binding.likeView.isSelected = false
+            true -> {
+                binding.likeView.isSelected = false
+                viewModel.deleteMusic(arrayViewPager[binding.viewPager.currentItem].id)
+            }
+
             false -> {
                 Snackbar.make(
                     binding.root,
@@ -307,6 +311,7 @@ class PlayerFragment: Fragment() {
                 ).show()
 
                 binding.likeView.isSelected = true
+                viewModel.addMusic(arrayViewPager[binding.viewPager.currentItem])
             }
         }
     }

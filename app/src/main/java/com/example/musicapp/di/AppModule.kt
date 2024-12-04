@@ -72,7 +72,11 @@ val appModule = module {
     }
 
     viewModel {
-        PlayerViewModel()
+        PlayerViewModel(
+            addMusicInSQLite = get(),
+            deleteMusicFromSQLite = get(),
+            getAllMusicFromSQLite = get()
+        )
     }
 
     viewModel {

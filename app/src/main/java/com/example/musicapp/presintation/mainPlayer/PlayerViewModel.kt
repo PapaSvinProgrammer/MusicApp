@@ -4,20 +4,29 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
+import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
+import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.GetAllMusicFromSQLite
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
-class PlayerViewModel: ViewModel() {
+class PlayerViewModel(
+    private val addMusicInSQLite: AddMusicInSQLite,
+    private val deleteMusicFromSQLite: DeleteMusicFromSQLite
+): ViewModel() {
     lateinit var durationLiveData: LiveData<Int>
     lateinit var maxDurationLiveData: LiveData<Int>
     lateinit var isPlay: LiveData<Boolean>
@@ -72,6 +81,18 @@ class PlayerViewModel: ViewModel() {
             calendar.timeInMillis = current.toLong()
 
             passTimeLiveData.value = simpleDateFormat.format(calendar.time)
+        }
+    }
+
+    fun addMusic(music: Music) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addMusicInSQLite.execute(music)
+        }
+    }
+
+    fun deleteMusic(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteMusicFromSQLite.execute(id)
         }
     }
 

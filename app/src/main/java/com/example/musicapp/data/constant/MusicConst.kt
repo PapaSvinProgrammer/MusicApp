@@ -7,4 +7,5 @@ object MusicConst {
     const val MUSIC_URL_FIELD = "URL"
     const val MUSIC_IMAGE_LOW_FIELD = "ImageLow"
     const val MUSIC_IMAGE_HIGH_FIELD = "ImageHigh"
+    const val MUSIC_GROUP_ID_FIELD = "GroupId"
 }
