@@ -23,6 +23,14 @@
         <item name="android:textColor">@color/background_color</item>
     </style>
 
+    <style name="IconBottomSheetColor">
+        <item name="android:tint">@color/background_color</item>
+    </style>
+
+    <style name="ColorLine">
+        <item name="android:background">@color/gray_color</item>
+    </style>
+
     <style name="IconStart">
         <item name="android:tint">#ffd60a</item>
     </style>
@@ -84,6 +92,10 @@
 
     <style name="IconSelectedColorStyle">
         <item name="android:tint">@color/ic_selected_color_black</item>
+    </style>
+
+    <style name="IconBlueSelectedColorStyle">
+        <item name="android:tint">@color/ic_selected_color_blue</item>
     </style>
     
     <style name="SeekBarPlayerStyle">

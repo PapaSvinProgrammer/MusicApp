@@ -100,7 +100,7 @@ class HomeFragment: Fragment() {
                 binding.bottomViewPager.adapter = bottomPlayerAdapter
 
                 binding.bottomViewPager.doOnPreDraw {
-                    binding.bottomViewPager.currentItem = viewModel.currentPosition.value ?: 0
+                    binding.bottomViewPager.currentItem = viewModel.lastPosition
                 }
             }
 
@@ -108,20 +108,22 @@ class HomeFragment: Fragment() {
         }
 
         viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it) {
-                viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
-                    binding.bottomViewPager.currentItem = position
-                }
+            if (it) initServiceTools()
+        }
+    }
 
-                viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
-                    if (state) {
-                        binding.mainPlayButton.isSelected = true
-                        binding.lottieAnim.playAnimation()
-                    }
-                    else {
-                        binding.lottieAnim.pauseAnimation()
-                    }
-                }
+    private fun initServiceTools() {
+        viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
+            binding.bottomViewPager.currentItem = position
+        }
+
+        viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
+            if (state) {
+                binding.mainPlayButton.isSelected = true
+                binding.lottieAnim.playAnimation()
+            }
+            else {
+                binding.lottieAnim.pauseAnimation()
             }
         }
     }

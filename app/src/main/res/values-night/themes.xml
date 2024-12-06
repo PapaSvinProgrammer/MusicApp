@@ -19,7 +19,15 @@
     </style>
 
     <style name="TextColorOnSurface">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/background_color_white</item>
+    </style>
+
+    <style name="IconBottomSheetColor">
+        <item name="android:tint">@color/background_color_white</item>
+    </style>
+
+    <style name="ColorLine">
+        <item name="android:background">@color/gray_line_color</item>
     </style>
 
     <style name="MaterialButtonBackground">
@@ -58,6 +66,10 @@
 
     <style name="IconSelectedColorStyle">
         <item name="android:tint">@color/ic_selected_color_white</item>
+    </style>
+
+    <style name="IconBlueSelectedColorStyle">
+        <item name="android:tint">@color/ic_selected_color_blue_dark</item>
     </style>
 
     <style name="SeekBarPlayerStyle">

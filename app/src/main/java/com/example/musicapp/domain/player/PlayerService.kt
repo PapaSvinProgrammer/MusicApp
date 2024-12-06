@@ -143,7 +143,8 @@ class PlayerService: Service() {
     private fun play() {
         isPlay.value = true
 
-        Log.d("RRRR", "List = " + musicList)
+        if (musicList == null) return
+
         if (currentObject == null) {
             currentObject = musicList!![currentPosition.value ?: 0]
 

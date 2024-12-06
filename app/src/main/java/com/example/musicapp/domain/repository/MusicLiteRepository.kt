@@ -8,7 +8,7 @@ import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
 interface MusicLiteRepository {
     suspend fun add(albumEntity: AlbumEntity, authorEntity: AuthorEntity, favoriteMusicEntity: FavoriteMusicEntity)
     suspend fun delete(id: String)
-    fun findUserById(firebaseId: String): MusicResult?
-    fun getAllMusic(): List<MusicResult?>
-    fun getAllAuthor(): List<AuthorEntity?>
+    suspend fun findUserById(firebaseId: String): MusicResult?
+    suspend fun getAllMusic(): List<MusicResult?>
+    suspend fun getAllAuthor(): List<AuthorEntity?>
 }

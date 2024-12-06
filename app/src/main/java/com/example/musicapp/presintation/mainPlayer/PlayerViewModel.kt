@@ -9,12 +9,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.GetAllMusicFromSQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -25,7 +27,8 @@ import java.util.concurrent.TimeUnit
 
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
-    private val deleteMusicFromSQLite: DeleteMusicFromSQLite
+    private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
+    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
 ): ViewModel() {
     lateinit var durationLiveData: LiveData<Int>
     lateinit var maxDurationLiveData: LiveData<Int>
@@ -35,15 +38,20 @@ class PlayerViewModel(
     lateinit var servicePlayer: PlayerService
 
     val isBound = MutableLiveData<Boolean>()
+    var isFavorite = false
+    var isDownloaded = false
+
     private val controlPlayerLiveData = MutableLiveData<ControlPlayer>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val missTimeLiveData = MutableLiveData<String>()
     private val passTimeLiveData = MutableLiveData<String>()
+    private val getFavoriteMusicLiveData = MutableLiveData<MusicResult?>()
 
     val controlPlayer: LiveData<ControlPlayer> = controlPlayerLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val missTimeResult: LiveData<String> = missTimeLiveData
     val passTimeResult: LiveData<String> = passTimeLiveData
+    val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
 
     var lastPosition = 0
 
@@ -81,6 +89,12 @@ class PlayerViewModel(
             calendar.timeInMillis = current.toLong()
 
             passTimeLiveData.value = simpleDateFormat.format(calendar.time)
+        }
+    }
+
+    fun getMusicById(id: String) {
+        viewModelScope.launch {
+            getFavoriteMusicLiveData.value = findFavoriteMusicFromSQLite.execute(id)
         }
     }
 

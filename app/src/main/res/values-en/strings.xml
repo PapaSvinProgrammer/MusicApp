@@ -5,7 +5,7 @@
     <string name="home_text">Home</string>
     <string name="favorite_text">Like</string>
     <string name="login_text">Entry</string>
-    <string name="registration_text">Registartion</string>
+    <string name="registration_text">Registration</string>
     <string name="email_text">Email</string>
     <string name="password_string">Password</string>
     <string name="check_password_string">Check password</string>
@@ -18,6 +18,18 @@
     <string name="next_text">Next</string>
     <string name="exit_text">Exit</string>
     <string name="cancel_text">Cancel</string>
+
+    <string name="all_text">All</string>
+    <string name="like_text">Like</string>
+    <string name="add_in_playlist_text">Add to Playlist</string>
+    <string name="share_text">To share</string>
+    <string name="play_next_text">Play next</string>
+    <string name="add_in_queue_text">Add to Queue"</string>
+    <string name="move_to_group_text">Go to the artist</string>
+    <string name="move_to_album_text">Go to the album</string>
+    <string name="delete_text">Delete from the device</string>
+    <string name="download_text">Download</string>
+    <string name="about_music_text">About the track</string>
 
     <string name="title_dialog_exit_text">Exit</string>
     <string name="message_dialog_exit_text">Are you sure you want to get out?</string>

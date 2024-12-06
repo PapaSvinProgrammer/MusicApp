@@ -17,7 +17,17 @@
     <string name="next_text">"Далее"</string>
     <string name="exit_text">"Выйти"</string>
     <string name="cancel_text">"Отмена"</string>
-    <string name="all_text" translatable="false">"Все"</string>
+    <string name="all_text">"Все"</string>
+    <string name="like_text">"Нравится"</string>
+    <string name="add_in_playlist_text">"Добавить в плейлист"</string>
+    <string name="share_text">"Поделиться"</string>
+    <string name="play_next_text">"Играть следующим"</string>
+    <string name="add_in_queue_text">"Добавить в очередь"</string>
+    <string name="move_to_group_text">"Перейти к артисту"</string>
+    <string name="move_to_album_text">"Перейти к альбому"</string>
+    <string name="delete_text">"Удалить с устройства"</string>
+    <string name="download_text">"Скачать"</string>
+    <string name="about_music_text">"О треке"</string>
 
     <string name="title_dialog_exit_text">"Выход"</string>
     <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>

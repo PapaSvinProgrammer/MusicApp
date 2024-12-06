@@ -74,7 +74,8 @@ val appModule = module {
     viewModel {
         PlayerViewModel(
             addMusicInSQLite = get(),
-            deleteMusicFromSQLite = get()
+            deleteMusicFromSQLite = get(),
+            findFavoriteMusicFromSQLite = get()
         )
     }
 

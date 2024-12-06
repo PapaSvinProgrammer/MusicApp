@@ -130,5 +130,14 @@
         android:id="@+id/playerFragment"
         android:name="com.example.musicapp.presintation.mainPlayer.PlayerFragment"
         android:label="fragment_main_player"
-        tools:layout="@layout/fragment_player" />
+        tools:layout="@layout/fragment_player" >
+        <action
+            android:id="@+id/action_playerFragment_to_playerBottomSheetDialog22"
+            app:destination="@id/playerBottomSheetDialog2" />
+    </fragment>
+    <dialog
+        android:id="@+id/playerBottomSheetDialog2"
+        android:name="com.example.musicapp.presintation.playerBottomSheet.PlayerBottomSheetDialog"
+        android:label="bottom_sheet_player_settings"
+        tools:layout="@layout/bottom_sheet_player_settings" />
 </navigation>

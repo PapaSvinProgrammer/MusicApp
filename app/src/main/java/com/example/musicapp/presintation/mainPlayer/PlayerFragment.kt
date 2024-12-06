@@ -1,9 +1,11 @@
 package com.example.musicapp.presintation.mainPlayer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +16,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.domain.player.state.SettingsPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
+import com.example.musicapp.presintation.playerBottomSheet.PlayerBottomSheetDialog
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,27 +68,6 @@ class PlayerFragment: Fragment() {
             )
         }
 
-        val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
-        val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
-
-        if (array != null && position != null) {
-            arrayViewPager = array
-
-            val currentMusic = array[position]
-
-            lifecycleScope.launch(Dispatchers.Main) {
-                binding.viewPager.adapter = playerAdapter
-                playerAdapter.setData(array)
-                binding.viewPager.currentItem = position
-            }
-
-            binding.groupTextView.isSelected = true
-            binding.musicTextView.isSelected = true
-
-            binding.groupTextView.text = currentMusic.group
-            binding.musicTextView.text = currentMusic.name
-        }
-
         viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {
                 StatePlayer.PLAY -> playMusic()
@@ -111,6 +94,12 @@ class PlayerFragment: Fragment() {
 
         viewModel.passTimeResult.observe(viewLifecycleOwner) { time ->
             binding.passTime.text = time
+        }
+
+        viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
+            viewModel.isFavorite = it != null
+            binding.likeView.isSelected = it != null
+            viewModel.isDownloaded = it?.favoriteMusicEntity?.saveUri?.isNotEmpty() ?: false
         }
 
         binding.nextView.setOnClickListener {
@@ -157,21 +146,23 @@ class PlayerFragment: Fragment() {
         }
 
         binding.shareButton.setOnClickListener {
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "https://")
-                putExtra(Intent.EXTRA_TITLE, "Слушать в MusicApp")
-                type = "text/plain"
-            }
-
-            startActivity(Intent.createChooser(sendIntent, null))
+            shareToOut()
         }
 
         binding.settingsButton.setOnClickListener {
-            val bottomSheetDialog = BottomSheetDialog(binding.root.context)
-            val bottomSheetView = LayoutInflater.from(binding.root.context).inflate(R.layout.bottom_sheet_player_settings, null)
-            bottomSheetDialog.setContentView(bottomSheetView)
-            bottomSheetDialog.show()
+            val bottomSheetDialog = PlayerBottomSheetDialog()
+
+            val bundle = Bundle()
+            bundle.putParcelable(PlayerBottomSheetDialog.CURRENT_MUSIC, arrayViewPager[binding.viewPager.currentItem])
+            bundle.putBoolean(PlayerBottomSheetDialog.IS_FAVORITE, viewModel.isFavorite)
+            bundle.putBoolean(PlayerBottomSheetDialog.IS_DOWNLOADED, viewModel.isDownloaded)
+
+            bottomSheetDialog.arguments = bundle
+            initPlayerBottomSheet(bottomSheetDialog)
+
+            requireActivity().supportFragmentManager.let {
+                bottomSheetDialog.show(it, PlayerBottomSheetDialog.TAG)
+            }
         }
 
         binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
@@ -202,6 +193,79 @@ class PlayerFragment: Fragment() {
                 if (viewModel.isPlay.value == true) {
                     binding.playStopView.isSelected = true
                 }
+
+                viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
+                    viewModel.getMusicById(
+                        id = arrayViewPager[position].id
+                    )
+                }
+            }
+        }
+    }
+
+    @SuppressLint("NewApi")
+    override fun onStart() {
+        super.onStart()
+
+        val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
+        val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
+
+        if (array != null && position != null) {
+            arrayViewPager = array
+
+            val currentMusic = array[position]
+
+            lifecycleScope.launch(Dispatchers.Main) {
+                binding.viewPager.adapter = playerAdapter
+                playerAdapter.setData(array)
+                binding.viewPager.currentItem = position
+            }
+
+            binding.groupTextView.isSelected = true
+            binding.musicTextView.isSelected = true
+
+            binding.groupTextView.text = currentMusic.group
+            binding.musicTextView.text = currentMusic.name
+        }
+
+        viewModel.getMusicById(
+            id = arrayViewPager[binding.viewPager.currentItem].id
+        )
+    }
+
+    override fun onDestroy() {
+        requireActivity().unbindService(viewModel.connectionToPlayerService)
+        super.onDestroy()
+    }
+
+    private fun initPlayerBottomSheet(bottomSheetDialog: PlayerBottomSheetDialog) {
+        bottomSheetDialog.settingsStateResult.observe(viewLifecycleOwner) {
+            when (it) {
+                SettingsPlayer.LIKE -> {
+                    bottomSheetDialog.dialog?.hide()
+                    executeLike()
+                }
+
+                SettingsPlayer.ADD_TO_PLAYLIST -> {}
+
+                SettingsPlayer.SHARE -> {
+                    shareToOut()
+                }
+
+                SettingsPlayer.PLAY_NEXT -> {}
+                SettingsPlayer.ADD_TO_QUEUE -> {}
+                SettingsPlayer.MOVE_TO_GROUP -> {}
+                SettingsPlayer.MOVE_TO_ALBUM -> {}
+                SettingsPlayer.DELETE -> {}
+                SettingsPlayer.DOWNLOAD -> {}
+                SettingsPlayer.INFO -> {}
+
+                SettingsPlayer.HATE -> {
+                    bottomSheetDialog.dialog?.hide()
+                    executeDislike()
+                }
+
+                SettingsPlayer.REPORT_PROBLEM -> {}
             }
         }
     }
@@ -218,11 +282,6 @@ class PlayerFragment: Fragment() {
             viewModel.getMissTime(it)
             viewModel.getPassTime(it)
         }
-    }
-
-    override fun onDestroy() {
-        requireActivity().unbindService(viewModel.connectionToPlayerService)
-        super.onDestroy()
     }
 
     private fun resetControlPlayerUI() {
@@ -299,6 +358,7 @@ class PlayerFragment: Fragment() {
     private fun executeLike() {
         when (binding.likeView.isSelected) {
             true -> {
+                viewModel.isFavorite = false
                 binding.likeView.isSelected = false
                 viewModel.deleteMusic(arrayViewPager[binding.viewPager.currentItem].id)
             }
@@ -310,6 +370,7 @@ class PlayerFragment: Fragment() {
                     Snackbar.LENGTH_SHORT
                 ).show()
 
+                viewModel.isFavorite = true
                 binding.likeView.isSelected = true
                 viewModel.addMusic(arrayViewPager[binding.viewPager.currentItem])
             }
@@ -334,6 +395,17 @@ class PlayerFragment: Fragment() {
     private fun playMusic() {
         binding.playStopView.isSelected = true
         viewModel.servicePlayer.setPlayerState(StatePlayer.PLAY)
+    }
+
+    private fun shareToOut() {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "https://")
+            putExtra(Intent.EXTRA_TITLE, "Слушать в MusicApp")
+            type = "text/plain"
+        }
+
+        startActivity(Intent.createChooser(sendIntent, null))
     }
 
     private fun changeNameAndGroupView() {

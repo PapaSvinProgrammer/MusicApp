@@ -11,6 +11,7 @@ import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.GetAllMusicFromSQLite
 import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
@@ -128,6 +129,12 @@ val domainModule = module {
 
     factory<GetAllMusicFromSQLite> {
         GetAllMusicFromSQLite(
+            musicLiteRepository = get()
+        )
+    }
+
+    factory<FindFavoriteMusicFromSQLite> {
+        FindFavoriteMusicFromSQLite(
             musicLiteRepository = get()
         )
     }

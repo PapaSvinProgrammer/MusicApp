@@ -64,6 +64,12 @@ class BottomPlayerAdapter(
                 }
             }
 
+            viewModel.isBound.observe(livecycleOwner) {
+                if (it) initServiceTools(position)
+            }
+        }
+
+        private fun initServiceTools(position: Int) {
             viewModel.isPlayService.observe(livecycleOwner) {
                 binding.iconPlayView.isSelected = it
             }
