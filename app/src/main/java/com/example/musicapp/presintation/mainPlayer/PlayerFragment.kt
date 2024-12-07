@@ -38,6 +38,7 @@ class PlayerFragment: Fragment() {
     private lateinit var arrayViewPager: ArrayList<Music>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
+    private var argsPosition: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +52,9 @@ class PlayerFragment: Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val navController = view.findNavController()
-        viewModel.setStatePlayer(StatePlayer.NONE)
+        var isStarted = true
 
         HorizontalOffsetController().setPreviewOffsetMainPager(
             viewPager2 = binding.viewPager,
@@ -167,9 +169,14 @@ class PlayerFragment: Fragment() {
 
         binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (isStarted && (position == argsPosition || position == 0)) {
+                    isStarted = false
+                    return
+                }
+
                 if (positionOffset == 0f && position != viewModel.lastPosition) {
-                    viewModel.lastPosition = position
                     viewModel.servicePlayer.setCurrentPosition(position)
+                    viewModel.lastPosition = position
                     changeNameAndGroupView()
                 }
             }
@@ -207,18 +214,19 @@ class PlayerFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val position = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
+        argsPosition = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
         val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
 
-        if (array != null && position != null) {
+        if (array != null && argsPosition != null) {
             arrayViewPager = array
 
-            val currentMusic = array[position]
+            val currentMusic = array[argsPosition ?: 0]
+            viewModel.lastPosition = argsPosition ?: 0
 
             lifecycleScope.launch(Dispatchers.Main) {
                 binding.viewPager.adapter = playerAdapter
                 playerAdapter.setData(array)
-                binding.viewPager.currentItem = position
+                binding.viewPager.currentItem = argsPosition ?: 0
             }
 
             binding.groupTextView.isSelected = true
