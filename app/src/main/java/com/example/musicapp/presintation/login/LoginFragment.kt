@@ -65,6 +65,7 @@ class LoginFragment: Fragment() {
                 viewModel.saveUserKey(it)
                 viewModel.saveEmail(binding.emailEditText.text.toString())
 
+
                 navController.navigate(R.id.action_loginFragment_to_homeFragment)
             }
             else {
