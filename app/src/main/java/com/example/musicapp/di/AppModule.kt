@@ -80,6 +80,9 @@ val appModule = module {
     }
 
     viewModel {
-        FavoriteViewModel()
+        FavoriteViewModel(
+            getMusicFromSQLite = get(),
+            getAuthorsFromSQLite = get()
+        )
     }
 }

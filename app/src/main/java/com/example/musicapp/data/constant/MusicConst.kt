@@ -8,4 +8,5 @@ object MusicConst {
     const val MUSIC_IMAGE_LOW_FIELD = "ImageLow"
     const val MUSIC_IMAGE_HIGH_FIELD = "ImageHigh"
     const val MUSIC_GROUP_ID_FIELD = "GroupId"
+    const val MUSIC_IMAGE_GROUP_FIELD = "ImageGroup"
 }

@@ -3,10 +3,10 @@ package com.example.musicapp.presintation.recyclerAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.ItemSettingsPreferencesListBinding
+import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.presintation.settingPreferences.SettingsPreferencesViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -17,17 +17,7 @@ class SettingsPerformancesAdapter(
     private val viewModel: SettingsPreferencesViewModel
 ): RecyclerView.Adapter<SettingsPerformancesAdapter.ViewHolder>() {
 
-    private val diffUtilCallback = object: DiffUtil.ItemCallback<Group>() {
-        override fun areItemsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem.name == newItem.name
-        }
-    }
-
-    private val asyncDifferList = AsyncListDiffer(this, diffUtilCallback)
+    private val asyncDifferList = AsyncListDiffer(this, DiffUtilObject.groupDiffUtilCallback)
 
     inner class ViewHolder(val binding: ItemSettingsPreferencesListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(group: Group) {

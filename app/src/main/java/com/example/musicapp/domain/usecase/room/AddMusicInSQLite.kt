@@ -26,13 +26,16 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
 
     private fun convertAuthor(music: Music): AuthorEntity {
         return AuthorEntity(
+            id = 0,
             firebaseId = music.groupId,
-            name = music.group
+            name = music.group,
+            imageUrl = music.imageGroup
         )
     }
 
     private fun convertMusic(music: Music): FavoriteMusicEntity {
         return FavoriteMusicEntity(
+            id = 0,
             firebaseId = music.id,
             name = music.name,
             albumId = music.album,

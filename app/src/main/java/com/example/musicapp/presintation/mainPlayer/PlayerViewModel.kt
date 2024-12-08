@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +16,10 @@ import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.GetAllMusicFromSQLite
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
@@ -33,6 +29,7 @@ class PlayerViewModel(
     lateinit var durationLiveData: LiveData<Int>
     lateinit var maxDurationLiveData: LiveData<Int>
     lateinit var isPlay: LiveData<Boolean>
+    lateinit var isRepeat: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
     @SuppressLint("StaticFieldLeak")
     lateinit var servicePlayer: PlayerService
@@ -52,7 +49,6 @@ class PlayerViewModel(
     val missTimeResult: LiveData<String> = missTimeLiveData
     val passTimeResult: LiveData<String> = passTimeLiveData
     val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
-
     var lastPosition = 0
 
     fun setStatePlayer(state: StatePlayer) {
@@ -117,6 +113,7 @@ class PlayerViewModel(
             maxDurationLiveData = bind.getMaxDuration()
             durationLiveData = bind.getCurrentDuration()
             isPlay = bind.isPlay()
+            isRepeat = bind.isRepeat()
             currentPosition = bind.getCurrentPosition()
             isBound.value = true
         }

@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
@@ -24,7 +23,7 @@ import com.example.musicapp.domain.player.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.SettingsPlayer
 import com.example.musicapp.domain.player.state.StatePlayer
-import com.example.musicapp.presintation.playerBottomSheet.PlayerBottomSheetDialog
+import com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
@@ -32,6 +31,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val COUNT_MSEC_TO_RESET = 3000
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -54,7 +55,6 @@ class PlayerFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController = view.findNavController()
-        var isStarted = true
 
         HorizontalOffsetController().setPreviewOffsetMainPager(
             viewPager2 = binding.viewPager,
@@ -76,7 +76,7 @@ class PlayerFragment: Fragment() {
                 StatePlayer.PAUSE -> pauseMusic()
                 StatePlayer.PREVIOUS -> previousMusic()
                 StatePlayer.NEXT -> nextMusic()
-                StatePlayer.NONE -> {}
+                else -> {}
             }
         }
 
@@ -87,6 +87,7 @@ class PlayerFragment: Fragment() {
                 ControlPlayer.REPEAT -> executeRepeat()
                 ControlPlayer.SHUFFLE -> executeShuffle()
                 ControlPlayer.NOTE -> executeNote()
+                else -> {}
             }
         }
 
@@ -106,12 +107,10 @@ class PlayerFragment: Fragment() {
 
         binding.nextView.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.NEXT)
-            resetControlPlayerUI()
         }
 
         binding.previousView.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.PREVIOUS)
-            resetControlPlayerUI()
         }
 
         binding.playStopView.setOnClickListener {
@@ -158,6 +157,7 @@ class PlayerFragment: Fragment() {
             bundle.putParcelable(PlayerBottomSheetDialog.CURRENT_MUSIC, arrayViewPager[binding.viewPager.currentItem])
             bundle.putBoolean(PlayerBottomSheetDialog.IS_FAVORITE, viewModel.isFavorite)
             bundle.putBoolean(PlayerBottomSheetDialog.IS_DOWNLOADED, viewModel.isDownloaded)
+            bundle.putString(BottomPlayerAdapter.PARENT_ARG, arguments?.getString(BottomPlayerAdapter.PARENT_ARG))
 
             bottomSheetDialog.arguments = bundle
             initPlayerBottomSheet(bottomSheetDialog)
@@ -169,15 +169,11 @@ class PlayerFragment: Fragment() {
 
         binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (isStarted && (position == argsPosition || position == 0)) {
-                    isStarted = false
-                    return
-                }
-
                 if (positionOffset == 0f && position != viewModel.lastPosition) {
                     viewModel.servicePlayer.setCurrentPosition(position)
                     viewModel.lastPosition = position
                     changeNameAndGroupView()
+                    resetControlPlayerUI()
                 }
             }
         })
@@ -216,6 +212,11 @@ class PlayerFragment: Fragment() {
 
         argsPosition = arguments?.getInt(BottomPlayerAdapter.POSITION_ARG)
         val array = arguments?.getParcelableArrayList(BottomPlayerAdapter.ARRAY_ARG, Music::class.java)
+        val parent = arguments?.getString(BottomPlayerAdapter.PARENT_ARG)
+
+        if (parent == BottomPlayerAdapter.PARENT_ARG_HOME) {
+            binding.shuffleView.visibility = View.GONE
+        }
 
         if (array != null && argsPosition != null) {
             arrayViewPager = array
@@ -226,7 +227,7 @@ class PlayerFragment: Fragment() {
             lifecycleScope.launch(Dispatchers.Main) {
                 binding.viewPager.adapter = playerAdapter
                 playerAdapter.setData(array)
-                binding.viewPager.currentItem = argsPosition ?: 0
+                binding.viewPager.setCurrentItem(argsPosition ?: 0, false)
             }
 
             binding.groupTextView.isSelected = true
@@ -260,8 +261,6 @@ class PlayerFragment: Fragment() {
                     shareToOut()
                 }
 
-                SettingsPlayer.PLAY_NEXT -> {}
-                SettingsPlayer.ADD_TO_QUEUE -> {}
                 SettingsPlayer.MOVE_TO_GROUP -> {}
                 SettingsPlayer.MOVE_TO_ALBUM -> {}
                 SettingsPlayer.DELETE -> {}
@@ -274,6 +273,7 @@ class PlayerFragment: Fragment() {
                 }
 
                 SettingsPlayer.REPORT_PROBLEM -> {}
+                else -> {}
             }
         }
     }
@@ -338,11 +338,15 @@ class PlayerFragment: Fragment() {
             true -> {
                 binding.repeatView.isSelected = false
                 binding.repeatDot.visibility = View.GONE
+                viewModel.servicePlayer.repeat(false)
+                binding.viewPager.isUserInputEnabled = true
             }
 
             false -> {
                 binding.repeatView.isSelected = true
                 binding.repeatDot.visibility = View.VISIBLE
+                viewModel.servicePlayer.repeat(true)
+                binding.viewPager.isUserInputEnabled = false
             }
         }
     }
@@ -386,11 +390,26 @@ class PlayerFragment: Fragment() {
     }
 
     private fun nextMusic() {
+        if (viewModel.isRepeat.value == true) {
+            viewModel.servicePlayer.reset()
+            return
+        }
+
         binding.viewPager.currentItem += 1
         changeNameAndGroupView()
     }
 
     private fun previousMusic() {
+        if (viewModel.isRepeat.value == true) {
+            viewModel.servicePlayer.reset()
+            return
+        }
+
+        if ((viewModel.durationLiveData.value ?: 0) > COUNT_MSEC_TO_RESET) {
+            viewModel.servicePlayer.reset()
+            return
+        }
+
         binding.viewPager.currentItem -= 1
         changeNameAndGroupView()
     }

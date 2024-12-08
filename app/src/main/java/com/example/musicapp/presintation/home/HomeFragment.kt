@@ -86,7 +86,7 @@ class HomeFragment: Fragment() {
                 StatePlayer.PAUSE -> pause()
                 StatePlayer.PREVIOUS -> previous()
                 StatePlayer.NEXT -> next()
-                StatePlayer.NONE -> {}
+                else -> {}
             }
         }
 
@@ -114,7 +114,9 @@ class HomeFragment: Fragment() {
 
     private fun initServiceTools() {
         viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
-            binding.bottomViewPager.currentItem = position
+            binding.bottomViewPager.doOnPreDraw {
+                binding.bottomViewPager.setCurrentItem(position, false)
+            }
         }
 
         viewModel.isPlayService.observe(viewLifecycleOwner) { state ->

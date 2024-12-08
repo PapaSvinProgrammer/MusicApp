@@ -3,12 +3,12 @@ package com.example.musicapp.presintation.pagerAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemMainPlayerBinding
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.DiffUtilObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,17 +25,7 @@ class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
         }
     }
 
-    private val diffUtilCallback = object: DiffUtil.ItemCallback<Music>() {
-        override fun areItemsTheSame(oldItem: Music, newItem: Music): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Music, newItem: Music): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val asyncListDiffer = AsyncListDiffer(this, diffUtilCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -7,7 +7,6 @@ import androidx.core.bundle.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
@@ -15,6 +14,7 @@ import com.example.musicapp.databinding.ItemBottomPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.home.HomeViewModel
+import com.example.musicapp.domain.module.DiffUtilObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +26,8 @@ class BottomPlayerAdapter(
     companion object {
         const val POSITION_ARG = "currentPosition"
         const val ARRAY_ARG = "array"
+        const val PARENT_ARG = "parentArg"
+        const val PARENT_ARG_HOME = "home"
     }
 
     inner class ViewHolder(
@@ -97,17 +99,7 @@ class BottomPlayerAdapter(
         }
     }
 
-    private val diffUtilCallback = object: DiffUtil.ItemCallback<Music>() {
-        override fun areItemsTheSame(oldItem: Music, newItem: Music): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Music, newItem: Music): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val asyncListDiffer = AsyncListDiffer(this, diffUtilCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -131,6 +123,7 @@ class BottomPlayerAdapter(
 
             bundle.putInt(POSITION_ARG, position)
             bundle.putParcelableArrayList(ARRAY_ARG, viewModel.lastDownloadArray)
+            bundle.putString(PARENT_ARG, PARENT_ARG_HOME)
 
             navController.navigate(R.id.action_homeFragment_to_mainPlayerFragment, bundle)
         }

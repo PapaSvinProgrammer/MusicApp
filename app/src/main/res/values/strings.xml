@@ -2,7 +2,7 @@
     <string name="app_name">MusicApp</string>
     <string name="settings_text">"Настройки"</string>
     <string name="home_text">"Главная"</string>
-    <string name="favorite_text">"Любимое"</string>
+    <string name="collection_text">"Коллекция"</string>
     <string name="login_text">"Вход"</string>
     <string name="registration_text">"Регистрация"</string>
     <string name="email_text">"Логин"</string>
@@ -28,6 +28,12 @@
     <string name="delete_text">"Удалить с устройства"</string>
     <string name="download_text">"Скачать"</string>
     <string name="about_music_text">"О треке"</string>
+    <string name="me_favorite_text">"Мне нравится"</string>
+    <string name="all_collection_text">"Вся коллекция"</string>
+    <string name="all_playlist_text">"Плейлисты"</string>
+    <string name="all_album_text">"Альбомы"</string>
+    <string name="all_download_text">"Скачанное"</string>
+    <string name="favorite_artist_text">"Любимые исполнители"</string>
 
     <string name="title_dialog_exit_text">"Выход"</string>
     <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>

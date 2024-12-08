@@ -35,6 +35,22 @@ class MusicSQLiteRepository(private val musicDao: MusicDao): MusicLiteRepository
         return job.await()
     }
 
+    override suspend fun getMusicLimit(limit: String): List<MusicResult?> {
+       val job = CoroutineScope(Dispatchers.IO).async {
+           musicDao.getMusicLimit(limit)
+       }
+
+        return job.await()
+    }
+
+    override suspend fun getAuthorLimit(limit: String): List<AuthorEntity?> {
+        val job = CoroutineScope(Dispatchers.IO).async {
+            musicDao.getAuthorLimit(limit)
+        }
+
+        return job.await()
+    }
+
 
     override suspend fun getAllMusic(): List<MusicResult?> {
         val job = CoroutineScope(Dispatchers.IO).async {

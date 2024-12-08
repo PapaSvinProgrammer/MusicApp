@@ -15,6 +15,14 @@ class Player(
         mediaPlayer.pause()
     }
 
+    override fun reset() {
+        mediaPlayer.seekTo(0)
+    }
+
+    override fun repeat(state: Boolean) {
+        mediaPlayer.isLooping = state
+    }
+
     override fun getCurrentDuration(): Int {
         return mediaPlayer.currentPosition
     }

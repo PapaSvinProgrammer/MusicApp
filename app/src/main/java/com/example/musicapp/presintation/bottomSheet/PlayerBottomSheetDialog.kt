@@ -1,8 +1,7 @@
-package com.example.musicapp.presintation.playerBottomSheet
+package com.example.musicapp.presintation.bottomSheet
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.MediaStore.Downloads
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.BottomSheetPlayerSettingsBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.state.SettingsPlayer
+import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PlayerBottomSheetDialog: BottomSheetDialogFragment() {
@@ -89,12 +89,18 @@ class PlayerBottomSheetDialog: BottomSheetDialogFragment() {
         val currentMusic = arguments?.getParcelable(CURRENT_MUSIC, Music::class.java)
         val isFavorite = arguments?.getBoolean(IS_FAVORITE)
         val isDownloaded = arguments?.getBoolean(IS_DOWNLOADED)
+        val parent = arguments?.getString(BottomPlayerAdapter.PARENT_ARG)
 
         if (currentMusic != null) initTopView(currentMusic)
 
         if (isFavorite != null) binding.iconFavorite.isSelected = isFavorite
 
         if (isDownloaded != null) initDownloadedView(isDownloaded)
+
+        if (parent == BottomPlayerAdapter.PARENT_ARG_HOME) {
+            binding.addToQueueLayout.visibility = View.GONE
+            binding.playNextLayout.visibility = View.GONE
+        }
     }
 
     private fun initTopView(currentMusic: Music) {

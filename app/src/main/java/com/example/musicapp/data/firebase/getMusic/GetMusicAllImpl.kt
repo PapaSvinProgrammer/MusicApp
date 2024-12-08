@@ -29,7 +29,8 @@ class GetMusicAllImpl {
                             url = document[MusicConst.MUSIC_URL_FIELD].toString(),
                             imageLow = document[MusicConst.MUSIC_IMAGE_LOW_FIELD].toString(),
                             imageHigh = document[MusicConst.MUSIC_IMAGE_HIGH_FIELD].toString(),
-                            groupId = document[MusicConst.MUSIC_GROUP_ID_FIELD].toString()
+                            groupId = document[MusicConst.MUSIC_GROUP_ID_FIELD].toString(),
+                            imageGroup = document[MusicConst.MUSIC_IMAGE_GROUP_FIELD].toString()
                         )
                     )
                 }
@@ -37,7 +38,6 @@ class GetMusicAllImpl {
         catch (e: Exception) {
             Log.e("FirebaseError", "GetMusicAllImpl - Error")
         }
-
 
         return result
     }

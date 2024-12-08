@@ -10,7 +10,7 @@
     <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_menu_favorite"
-        android:title="@string/favorite_text"/>
+        android:title="@string/collection_text"/>
 
     <item
         android:id="@+id/settingsFragment"

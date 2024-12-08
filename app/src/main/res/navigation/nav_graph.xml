@@ -137,7 +137,7 @@
     </fragment>
     <dialog
         android:id="@+id/playerBottomSheetDialog2"
-        android:name="com.example.musicapp.presintation.playerBottomSheet.PlayerBottomSheetDialog"
+        android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog"
         android:label="bottom_sheet_player_settings"
         tools:layout="@layout/bottom_sheet_player_settings" />
 </navigation>

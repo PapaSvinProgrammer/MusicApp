@@ -8,5 +8,6 @@ interface AudioBinder {
     fun getCurrentDuration(): MutableLiveData<Int>
     fun getMaxDuration(): MutableLiveData<Int>
     fun isPlay(): MutableLiveData<Boolean>
+    fun isRepeat(): MutableLiveData<Boolean>
     fun getCurrentPosition(): MutableLiveData<Int>
 }

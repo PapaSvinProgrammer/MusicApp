@@ -5,6 +5,8 @@ import com.example.musicapp.domain.module.Music
 interface AudioPlayer {
     fun play()
     fun pause()
+    fun reset()
+    fun repeat(state: Boolean)
     fun getCurrentDuration(): Int
     fun getMaxDuration(): Int
     fun addNewObjectAndStart(music: Music, isPlay: Boolean = false)

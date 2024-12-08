@@ -3,10 +3,10 @@ package com.example.musicapp.presintation.recyclerAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.ItemSelectedGroupListBinding
+import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Group
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,17 +27,7 @@ class SelectedListAdapter: RecyclerView.Adapter<SelectedListAdapter.ViewHolder>(
         }
     }
 
-    private val diffUtilCallback = object: DiffUtil.ItemCallback<Group>() {
-        override fun areItemsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Group, newItem: Group): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val asyncDifferList = AsyncListDiffer(this, diffUtilCallback)
+    private val asyncDifferList = AsyncListDiffer(this, DiffUtilObject.groupDiffUtilCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

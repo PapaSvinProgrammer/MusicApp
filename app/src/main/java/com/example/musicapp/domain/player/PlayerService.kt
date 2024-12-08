@@ -43,6 +43,7 @@ class PlayerService: Service() {
     private val currentDuration = MutableLiveData<Int>()
     private val maxDuration = MutableLiveData<Int>()
     private var isPlay = MutableLiveData<Boolean>()
+    private val isRepeat = MutableLiveData<Boolean>()
     private var currentPosition = MutableLiveData<Int>()
 
     override fun onCreate() {
@@ -96,6 +97,8 @@ class PlayerService: Service() {
 
         override fun isPlay() = this@PlayerService.isPlay
 
+        override fun isRepeat() = this@PlayerService.isRepeat
+
         override fun getCurrentPosition() = this@PlayerService.currentPosition
     }
 
@@ -129,6 +132,23 @@ class PlayerService: Service() {
 
     fun seekTo(msec: Int) {
         audioPlayer?.seekTo(msec)
+    }
+
+    fun reset() {
+        audioPlayer?.reset()
+    }
+
+    fun like() {
+        isFavorite.value = isFavorite.value != true
+    }
+
+    fun repeat(state: Boolean) {
+        isRepeat.value = state
+        audioPlayer?.repeat(state)
+    }
+
+    fun shuffle() {
+
     }
 
     private fun pause() {
@@ -190,10 +210,6 @@ class PlayerService: Service() {
 
         updateDurations()
         audioNotification?.execute(musicList!![currentPosition.value ?: 0])
-    }
-
-    private fun like() {
-        isFavorite.value = isFavorite.value != true
     }
 
     private fun updateDurations() {

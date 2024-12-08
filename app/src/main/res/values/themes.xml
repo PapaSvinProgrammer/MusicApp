@@ -18,7 +18,11 @@
     <style name="IconTintColor">
         <item name="android:tint">@color/purple_500</item>
     </style>
-    
+
+    <style name="ToolbarNavigationIconTintColor" parent="Widget.Material3.Toolbar">
+        <item name="navigationIconTint">@color/purple_500</item>
+    </style>
+
     <style name="TextColorOnSurface">
         <item name="android:textColor">@color/background_color</item>
     </style>
@@ -49,7 +53,7 @@
     <style name="MaterialCard" parent="Widget.Material3.CardView.Filled">
         <item name="cardElevation">5dp</item>
         <item name="cardBackgroundColor">#F7F2FA</item>
-        <item name="cardCornerRadius">15dp</item>
+        <item name="cardCornerRadius">10dp</item>
         <item name="strokeColor">@color/purple_500</item>
     </style>
 
@@ -64,6 +68,10 @@
         <item name="cornerSizeTopRight">15dp</item>
         <item name="cornerSizeBottomLeft">15dp</item>
         <item name="cornerSizeBottomRight">15dp</item>
+    </style>
+
+    <style name="ImageCornerRadiusCircle">
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="ImageCornerRadiusBottomPlayer">
