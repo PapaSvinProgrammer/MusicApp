@@ -37,6 +37,7 @@ class PlayerViewModel(
     val isBound = MutableLiveData<Boolean>()
     var isFavorite = false
     var isDownloaded = false
+    var isCreated = false
 
     private val controlPlayerLiveData = MutableLiveData<ControlPlayer>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()

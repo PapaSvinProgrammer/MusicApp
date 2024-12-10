@@ -119,6 +119,8 @@ class PlayerService: Service() {
     }
 
     fun setCurrentPosition(position: Int) {
+        job?.cancel()
+
         if (musicList == null) return
 
         currentPosition.value = position
@@ -165,7 +167,6 @@ class PlayerService: Service() {
     }
 
     private fun play() {
-        Log.d("RRRR", "PLAY")
         isPlay.value = true
 
         if (musicList == null) return
@@ -227,8 +228,13 @@ class PlayerService: Service() {
                 currentDuration.value = audioPlayer?.getCurrentDuration()
 
                 if (maxDuration.value != 0 && (currentDuration.value ?: 0) >= (maxDuration.value ?: 0)) {
-                    currentPosition.value = (currentPosition.value ?: 0) + 1
-                    setCurrentPosition(currentPosition.value ?: 0)
+                    if (isRepeat.value == true) {
+                        reset()
+                    }
+                    else {
+                        currentPosition.value = (currentPosition.value ?: 0) + 1
+                        setCurrentPosition(currentPosition.value ?: 0)
+                    }
                 }
 
                 delay(1000)

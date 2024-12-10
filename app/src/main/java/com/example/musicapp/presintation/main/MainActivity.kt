@@ -87,6 +87,12 @@ class MainActivity: AppCompatActivity() {
             binding.progressIndicator.visibility = View.GONE
         }
 
+        viewModel.isBound.observe(this) {
+            if (it) {
+                initServiceTools()
+            }
+        }
+
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 if (positionOffset == 0f && position != viewModel.lastPosition) {
@@ -106,6 +112,12 @@ class MainActivity: AppCompatActivity() {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun initServiceTools() {
+        viewModel.currentPosition.observe(this) { position->
+            binding.bottomViewPager.setCurrentItem(position, false)
         }
     }
 

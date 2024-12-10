@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -192,16 +193,7 @@ class PlayerFragment: Fragment() {
         viewModel.isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
-
-                if (viewModel.isPlay.value == true) {
-                    binding.playStopView.isSelected = true
-                }
-
-                viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
-                    viewModel.getMusicById(
-                        id = arrayViewPager[position].id
-                    )
-                }
+                initServiceTools()
             }
         }
     }
@@ -218,13 +210,14 @@ class PlayerFragment: Fragment() {
             binding.shuffleView.visibility = View.GONE
         }
 
-        if (array != null && argsPosition != null) {
+        if (!viewModel.isCreated && array != null && argsPosition != null) {
             arrayViewPager = array
 
             val currentMusic = array[argsPosition ?: 0]
             viewModel.lastPosition = argsPosition ?: 0
 
             lifecycleScope.launch(Dispatchers.Main) {
+                viewModel.isCreated = true
                 binding.viewPager.adapter = playerAdapter
                 playerAdapter.setData(array)
                 binding.viewPager.setCurrentItem(argsPosition ?: 0, false)
@@ -289,6 +282,20 @@ class PlayerFragment: Fragment() {
             binding.seekBar.progress = it
             viewModel.getMissTime(it)
             viewModel.getPassTime(it)
+        }
+    }
+
+    private fun initServiceTools() {
+        if (viewModel.isPlay.value == true) {
+            binding.playStopView.isSelected = true
+        }
+
+        viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
+            binding.viewPager.setCurrentItem(position, false)
+
+            viewModel.getMusicById(
+                id = arrayViewPager[position].id
+            )
         }
     }
 
