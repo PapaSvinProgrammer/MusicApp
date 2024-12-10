@@ -15,13 +15,14 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.state.StatePlayer
 import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.domain.module.DiffUtilObject
+import com.example.musicapp.presintation.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BottomPlayerAdapter(
     private val navController: NavController,
-    private val viewModel: HomeViewModel
+    private val viewModel: MainViewModel
 ): RecyclerView.Adapter<BottomPlayerAdapter.ViewHolder>() {
     companion object {
         const val POSITION_ARG = "currentPosition"
@@ -55,10 +56,12 @@ class BottomPlayerAdapter(
             viewModel.statePlayer.observe(livecycleOwner) {
                 when (it) {
                     StatePlayer.PLAY -> {
+                        viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
                         binding.iconPlayView.isSelected = true
                     }
 
                     StatePlayer.PAUSE -> {
+                        viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
                         binding.iconPlayView.isSelected = false
                     }
 
@@ -125,7 +128,7 @@ class BottomPlayerAdapter(
             bundle.putParcelableArrayList(ARRAY_ARG, viewModel.lastDownloadArray)
             bundle.putString(PARENT_ARG, PARENT_ARG_HOME)
 
-            navController.navigate(R.id.action_homeFragment_to_mainPlayerFragment, bundle)
+            navController.navigate(R.id.action_global_playerFragment2, bundle)
         }
     }
 

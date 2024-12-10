@@ -91,6 +91,8 @@ class PlayerService: Service() {
     inner class PlayerBinder: Binder(), AudioBinder {
         override fun getService(): PlayerService = this@PlayerService
 
+        override fun getMusicList(): List<Music>? = this@PlayerService.musicList
+
         override fun getCurrentDuration() = this@PlayerService.currentDuration
 
         override fun getMaxDuration() = this@PlayerService.maxDuration
@@ -117,6 +119,8 @@ class PlayerService: Service() {
     }
 
     fun setCurrentPosition(position: Int) {
+        if (musicList == null) return
+
         currentPosition.value = position
         currentObject = musicList!![position]
 
@@ -161,6 +165,7 @@ class PlayerService: Service() {
     }
 
     private fun play() {
+        Log.d("RRRR", "PLAY")
         isPlay.value = true
 
         if (musicList == null) return
@@ -220,6 +225,12 @@ class PlayerService: Service() {
                 if (maxDuration.value == 0) maxDuration.value = audioPlayer?.getMaxDuration()
 
                 currentDuration.value = audioPlayer?.getCurrentDuration()
+
+                if (maxDuration.value != 0 && (currentDuration.value ?: 0) >= (maxDuration.value ?: 0)) {
+                    currentPosition.value = (currentPosition.value ?: 0) + 1
+                    setCurrentPosition(currentPosition.value ?: 0)
+                }
+
                 delay(1000)
             }
         }

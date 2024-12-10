@@ -4,27 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.viewpager2.widget.ViewPager2
-import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.StatePlayer
-import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
-import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var bottomPlayerAdapter: BottomPlayerAdapter
     private val viewModel by viewModel<HomeViewModel>()
 
     override fun onCreateView(
@@ -39,15 +29,7 @@ class HomeFragment: Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val navController = view.findNavController()
         viewModel.setStatePlayer(StatePlayer.NONE)
-
-        HorizontalOffsetController().setPreviewOffsetBottomPager(
-            viewPager2 = binding.bottomViewPager,
-            nextItemVisibleSize = R.dimen.viewpager_item_visible,
-            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
-        )
 
         requireActivity().apply {
             bindService(
@@ -57,13 +39,6 @@ class HomeFragment: Fragment() {
             )
         }
 
-        bottomPlayerAdapter = BottomPlayerAdapter(navController, viewModel)
-
-        binding.progressIndicator.visibility = View.VISIBLE
-        if (viewModel.getMusicResult.value == null) {
-            viewModel.getMusic()
-        }
-
         binding.mainPlayButton.setOnClickListener {
             when (binding.mainPlayButton.isSelected) {
                 true -> viewModel.setStatePlayer(StatePlayer.PAUSE)
@@ -71,40 +46,12 @@ class HomeFragment: Fragment() {
             }
         }
 
-        binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (positionOffset == 0f && position != viewModel.lastPosition) {
-                    viewModel.lastPosition = position
-                    viewModel.servicePlayer?.setCurrentPosition(position)
-                }
-            }
-        })
-
         viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {
                 StatePlayer.PLAY -> play()
                 StatePlayer.PAUSE -> pause()
-                StatePlayer.PREVIOUS -> previous()
-                StatePlayer.NEXT -> next()
                 else -> {}
             }
-        }
-
-        viewModel.getMusicResult.observe(viewLifecycleOwner) { array->
-            viewModel.lastDownloadArray.addAll(array)
-
-            lifecycleScope.launch {
-                viewModel.servicePlayer?.setMusicList(array)
-
-                bottomPlayerAdapter.setData(array)
-                binding.bottomViewPager.adapter = bottomPlayerAdapter
-
-                binding.bottomViewPager.doOnPreDraw {
-                    binding.bottomViewPager.currentItem = viewModel.lastPosition
-                }
-            }
-
-            binding.progressIndicator.visibility = View.GONE
         }
 
         viewModel.isBound.observe(viewLifecycleOwner) {
@@ -113,12 +60,6 @@ class HomeFragment: Fragment() {
     }
 
     private fun initServiceTools() {
-        viewModel.currentPosition.observe(viewLifecycleOwner) { position ->
-            binding.bottomViewPager.doOnPreDraw {
-                binding.bottomViewPager.setCurrentItem(position, false)
-            }
-        }
-
         viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
             if (state) {
                 binding.mainPlayButton.isSelected = true
@@ -145,13 +86,5 @@ class HomeFragment: Fragment() {
         binding.lottieAnim.playAnimation()
         binding.mainPlayButton.isSelected = true
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
-    }
-
-    private fun previous() {
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.PREVIOUS)
-    }
-
-    private fun next() {
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.NEXT)
     }
 }

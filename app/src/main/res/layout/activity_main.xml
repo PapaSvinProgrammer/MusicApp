@@ -17,6 +17,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
+    <RelativeLayout
+        android:id="@+id/view_pager_layout"
+        style="@style/BottomColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/bottom_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -24,4 +38,15 @@
         app:labelVisibilityMode="labeled"
         app:menu="@menu/main_bottom_navigation_menu"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

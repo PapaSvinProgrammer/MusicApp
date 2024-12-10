@@ -29,13 +29,6 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_in_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_mainPlayerFragment"
-            app:destination="@id/playerFragment"
-            app:enterAnim="@anim/slide_in_from_top"
-            app:exitAnim="@anim/slide_out_to_bottom"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_to_top" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -148,5 +141,5 @@
         android:id="@+id/playerBottomSheetDialog2"
         android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog"
         android:label="bottom_sheet_player_settings"
-        tools:layout="@layout/bottom_sheet_player_settings" />
+        tools:layout="@layout/bottom_sheet_player_settings" /><action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
 </navigation>

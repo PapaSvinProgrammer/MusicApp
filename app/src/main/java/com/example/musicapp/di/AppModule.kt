@@ -47,7 +47,8 @@ val appModule = module {
         MainViewModel(
             getDarkModeState = get(),
             getEmail = get(),
-            getUserKey = get()
+            getUserKey = get(),
+            getMusicAll = get()
         )
     }
 
@@ -66,9 +67,7 @@ val appModule = module {
     }
 
     viewModel {
-        HomeViewModel(
-            getMusicAll = get()
-        )
+        HomeViewModel()
     }
 
     viewModel {
