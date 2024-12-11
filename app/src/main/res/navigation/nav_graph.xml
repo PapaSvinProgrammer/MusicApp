@@ -142,4 +142,16 @@
         android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog"
         android:label="bottom_sheet_player_settings"
         tools:layout="@layout/bottom_sheet_player_settings" /><action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.example.musicapp.presintation.playlist.PlaylistFragment"
+        android:label="fragment_playlist"
+        tools:layout="@layout/fragment_playlist" />
+    <action
+        android:id="@+id/action_global_playlistFragment"
+        app:destination="@id/playlistFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
 </navigation>

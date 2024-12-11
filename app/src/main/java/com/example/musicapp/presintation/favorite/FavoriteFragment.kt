@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
@@ -35,6 +36,8 @@ class FavoriteFragment: Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val navController = view.findNavController()
+
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),
@@ -79,6 +82,10 @@ class FavoriteFragment: Fragment() {
 
         viewModel.convertCountPlaylistResult.observe(viewLifecycleOwner) { text ->
             binding.playlistCountView.text = "${viewModel.playlistSize} $text"
+        }
+
+        binding.playlistCardView.setOnClickListener {
+            navController.navigate(R.id.action_global_playlistFragment)
         }
     }
 
