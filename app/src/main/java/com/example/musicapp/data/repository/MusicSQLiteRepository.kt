@@ -11,16 +11,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class MusicSQLiteRepository(private val musicDao: MusicDao): MusicLiteRepository {
-    override suspend fun add(
-        albumEntity: AlbumEntity,
-        authorEntity: AuthorEntity,
-        musicEntity: MusicEntity
-    ) {
-        musicDao.insertAlbum(albumEntity)
+    override suspend fun add(musicResult: MusicResult) {
+        musicDao.insertAlbum(musicResult.albumEntity)
 
-        musicDao.insertAuthor(authorEntity)
+        musicDao.insertAuthor(musicResult.authorEntity)
 
-        musicDao.insertMusic(musicEntity)
+        musicDao.insertMusic(musicResult.musicEntity)
     }
 
     override suspend fun delete(id: String) {

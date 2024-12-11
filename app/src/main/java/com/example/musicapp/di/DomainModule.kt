@@ -1,6 +1,6 @@
 package com.example.musicapp.di
 
-import com.example.musicapp.domain.usecase.convert.ConvertTextCountMusic
+import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
@@ -11,10 +11,12 @@ import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
+import com.example.musicapp.domain.usecase.room.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.GetMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
@@ -147,7 +149,19 @@ val domainModule = module {
         )
     }
 
-    factory<ConvertTextCountMusic> {
-        ConvertTextCountMusic()
+    factory<ConvertTextCount> {
+        ConvertTextCount()
+    }
+
+    factory<GetPlaylistFromSQLite> {
+        GetPlaylistFromSQLite(
+            playlistRepository = get()
+        )
+    }
+
+    factory<AddPlaylistInSQLite> {
+        AddPlaylistInSQLite(
+            playlistRepository = get()
+        )
     }
 }

@@ -48,7 +48,8 @@ val appModule = module {
             getDarkModeState = get(),
             getEmail = get(),
             getUserKey = get(),
-            getMusicAll = get()
+            getMusicAll = get(),
+            addPlaylistInSQLite = get()
         )
     }
 
@@ -82,7 +83,8 @@ val appModule = module {
         FavoriteViewModel(
             getMusicFromSQLite = get(),
             getAuthorsFromSQLite = get(),
-            convertTextCountMusic = get()
+            convertTextCount = get(),
+            getPlaylistFromSQLite = get()
         )
     }
 }

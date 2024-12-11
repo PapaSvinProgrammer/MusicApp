@@ -120,26 +120,70 @@
                             style="@style/TextColorOnSurface"
                             android:fontFamily="@font/roboto_medium"
                             android:textSize="15sp"
-                            app:layout_constraintEnd_toStartOf="@+id/materialCardView3"
+                            app:layout_constraintEnd_toStartOf="@+id/playlist_images_layout"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/playlist_count_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/playlist_images_layout"
+                            app:layout_constraintEnd_toStartOf="@+id/playlist_images_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="23 плейлиста"/>
+
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/materialCardView3"
+                            android:id="@+id/playlist_images_layout"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:strokeWidth="0dp"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:strokeWidth="0dp">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
 
-                            <com.google.android.material.imageview.ShapeableImageView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="10dp"
-                                style="@style/IconBottomSheetColor"
-                                app:srcCompat="@drawable/ic_add_playlist"/>
+                                android:layout_height="match_parent">
 
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/playlist_image_back"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:visibility="gone"
+                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    android:scaleType="centerCrop"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/playlist_image_front"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:visibility="gone"
+                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    android:scaleType="centerCrop"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/playlist_image_default"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp"
+                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    android:scaleType="centerCrop" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -168,25 +212,65 @@
                             style="@style/TextColorOnSurface"
                             android:fontFamily="@font/roboto_medium"
                             android:textSize="15sp"
-                            app:layout_constraintEnd_toStartOf="@+id/materialCardView4"
+                            app:layout_constraintEnd_toStartOf="@+id/album_images_layout"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/album_count_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/album_images_layout"
+                            app:layout_constraintEnd_toStartOf="@+id/album_images_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="23 альбома"/>
+
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/materialCardView4"
+                            android:id="@+id/album_images_layout"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:strokeWidth="0dp"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:strokeWidth="0dp">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
 
-                            <com.google.android.material.imageview.ShapeableImageView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="10dp"
-                                style="@style/IconBottomSheetColor"
-                                app:srcCompat="@drawable/ic_album"/>
+                                android:layout_height="match_parent">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/album_image_back"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:visibility="gone"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/album_image_front"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:visibility="gone"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp"
+                                    style="@style/IconBottomSheetColor"
+                                    app:srcCompat="@drawable/ic_album"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -215,25 +299,65 @@
                             style="@style/TextColorOnSurface"
                             android:fontFamily="@font/roboto_medium"
                             android:textSize="15sp"
-                            app:layout_constraintEnd_toStartOf="@+id/materialCardView5"
+                            app:layout_constraintEnd_toStartOf="@+id/downloaded_images_layout"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/downloaded_count_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="13sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/downloaded_images_layout"
+                            app:layout_constraintEnd_toStartOf="@+id/downloaded_images_layout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:text="23 трека"/>
+
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/materialCardView5"
+                            android:id="@+id/downloaded_images_layout"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:strokeWidth="0dp"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:strokeWidth="0dp">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
 
-                            <com.google.android.material.imageview.ShapeableImageView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_margin="10dp"
-                                style="@style/IconBottomSheetColor"
-                                app:srcCompat="@drawable/ic_download"/>
+                                android:layout_height="match_parent">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/downloaded_image_back"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:visibility="gone"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/downloaded_image_front"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:visibility="gone"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp"
+                                    style="@style/IconBottomSheetColor"
+                                    app:srcCompat="@drawable/ic_download"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>

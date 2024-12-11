@@ -11,6 +11,9 @@ import com.example.musicapp.di.domainModule
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -26,7 +29,7 @@ class App: Application() {
             modules(appModule, dataModule, domainModule)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(PlayerService.CHANNEL_ID, PlayerService.CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW)
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)

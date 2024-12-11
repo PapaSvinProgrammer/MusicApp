@@ -12,6 +12,7 @@ import com.example.musicapp.data.repository.GroupRepositoryFirebase
 import com.example.musicapp.data.repository.MusicInternalStorageRepository
 import com.example.musicapp.data.repository.MusicRepositoryFirebase
 import com.example.musicapp.data.repository.MusicSQLiteRepository
+import com.example.musicapp.data.repository.PlaylistSQLiteRepository
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
 import com.example.musicapp.data.room.AppDatabase
@@ -23,6 +24,7 @@ import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import com.example.musicapp.domain.repository.MusicRepository
 import com.example.musicapp.domain.repository.MusicStorageRepository
+import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import org.koin.dsl.module
@@ -110,5 +112,11 @@ val dataModule = module {
 
     single<PlaylistDao> {
         get<AppDatabase>().getPlaylistDao()
+    }
+
+    single<PlaylistRepository> {
+        PlaylistSQLiteRepository(
+            playlistDao = get()
+        )
     }
 }

@@ -17,13 +17,19 @@ import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
+import com.example.musicapp.domain.usecase.room.AddPlaylistInSQLite
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
+private const val PLAYLIST_FAVORITE_NAME = "Мне нравится"
+private const val PLAYLIST_FAVORITE_URL = "https://i.pinimg.com/736x/3f/53/e0/3f53e0e8e2da84c69f814e0d8f629e8f.jpg"
 
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
     private val getEmail: GetEmail,
     private val getUserKey: GetUserKey,
-    private val getMusicAll: GetMusicAll
+    private val getMusicAll: GetMusicAll,
+    private val addPlaylistInSQLite: AddPlaylistInSQLite
 ): ViewModel() {
     lateinit var durationLiveData: LiveData<Int>
     lateinit var maxDurationLiveData: LiveData<Int>
@@ -67,7 +73,12 @@ class MainViewModel(
     }
 
     fun addFavoritePlaylist() {
-        //TODO
+        viewModelScope.launch(Dispatchers.IO) {
+            addPlaylistInSQLite.execute(
+                name = PLAYLIST_FAVORITE_NAME,
+                image = PLAYLIST_FAVORITE_URL
+            )
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {

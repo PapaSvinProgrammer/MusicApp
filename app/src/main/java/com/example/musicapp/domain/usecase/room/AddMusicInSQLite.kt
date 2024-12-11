@@ -3,15 +3,18 @@ package com.example.musicapp.domain.usecase.room
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicLiteRepository
 
 class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
-    suspend fun execute(music: Music, playlistId: Long) {
+    suspend fun execute(music: Music, playlistId: Long = 1) {
         musicLiteRepository.add(
-            albumEntity = convertAlbum(music),
-            authorEntity = convertAuthor(music),
-            musicEntity = convertMusic(music, playlistId)
+            MusicResult(
+                musicEntity = convertMusic(music, playlistId),
+                albumEntity = convertAlbum(music),
+                authorEntity = convertAuthor(music)
+            )
         )
     }
 

@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.musicapp.R
+import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.databinding.FragmentFavoriteBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
@@ -49,11 +50,9 @@ class FavoriteFragment: Fragment() {
         )
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
-            Log.d("RRRR", list.toString())
-
             if (list.isNotEmpty()) {
-                viewModel.listSize = list.size
-                viewModel.convertTextCountMusic(viewModel.listSize)
+                viewModel.musicListSize = list.size
+                viewModel.convertTextCountMusic(viewModel.musicListSize)
                 musicPagerAdapter.setData(list)
                 binding.musicViewPager.adapter = musicPagerAdapter
             }
@@ -66,8 +65,20 @@ class FavoriteFragment: Fragment() {
             }
         }
 
+        viewModel.getPlaylistResult.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                viewModel.playlistSize = list.size
+                drawPlaylists(list)
+                viewModel.convertTextCountPlaylist(viewModel.playlistSize)
+            }
+        }
+
         viewModel.convertCountMusicResult.observe(viewLifecycleOwner) { text ->
-            binding.countMusicView.text = "${viewModel.listSize} $text"
+            binding.countMusicView.text = "${viewModel.musicListSize} $text"
+        }
+
+        viewModel.convertCountPlaylistResult.observe(viewLifecycleOwner) { text ->
+            binding.playlistCountView.text = "${viewModel.playlistSize} $text"
         }
     }
 
@@ -76,5 +87,31 @@ class FavoriteFragment: Fragment() {
         viewModel.getPlaylists()
         viewModel.getMusic()
         viewModel.getAuthor()
+    }
+
+    private fun drawPlaylists(list: List<PlaylistEntity?>) {
+        if (list.size > 1) {
+            binding.playlistImageFront.visibility = View.VISIBLE
+            binding.playlistImageBack.visibility = View.VISIBLE
+            binding.playlistImageDefault.visibility = View.GONE
+
+            Glide.with(binding.root)
+                .load(list[0]?.imageUrl)
+                .error(R.drawable.ic_error_music)
+                .into(binding.playlistImageFront)
+
+            Glide.with(binding.root)
+                .load(list[1]?.imageUrl)
+                .error(R.drawable.ic_error_music)
+                .into(binding.playlistImageBack)
+        }
+        else {
+            binding.playlistImageDefault.visibility = View.VISIBLE
+
+            Glide.with(binding.root)
+                .load(list[0]?.imageUrl)
+                .error(R.drawable.ic_error_music)
+                .into(binding.playlistImageDefault)
+        }
     }
 }
