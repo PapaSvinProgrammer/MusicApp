@@ -5,10 +5,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.musicapp.data.room.favoriteMusicEntity.AlbumEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.AuthorEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.FavoriteMusicEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.AlbumEntity
+import com.example.musicapp.data.room.musicEntity.AuthorEntity
+import com.example.musicapp.data.room.musicEntity.MusicEntity
+import com.example.musicapp.data.room.musicEntity.MusicResult
 
 @Dao
 interface MusicDao {
@@ -19,7 +19,7 @@ interface MusicDao {
     suspend fun insertAuthor(author: AuthorEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertMusic(music: FavoriteMusicEntity)
+    suspend fun insertMusic(music: MusicEntity)
 
     @Transaction
     @Query("SELECT * FROM favorite_music WHERE firebase_id = :firebaseId")

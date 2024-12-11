@@ -17,6 +17,7 @@ import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
 import com.example.musicapp.data.room.AppDatabase
 import com.example.musicapp.data.room.dao.MusicDao
 import com.example.musicapp.data.room.dao.MusicDao_Impl
+import com.example.musicapp.data.room.dao.PlaylistDao
 import com.example.musicapp.domain.repository.AlbumRepository
 import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicLiteRepository
@@ -105,5 +106,9 @@ val dataModule = module {
 
     single<MusicDao> {
         get<AppDatabase>().getMusicDao()
+    }
+
+    single<PlaylistDao> {
+        get<AppDatabase>().getPlaylistDao()
     }
 }

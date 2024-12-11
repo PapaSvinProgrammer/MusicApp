@@ -124,6 +124,8 @@ class MainActivity: AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.addFavoritePlaylist()
+
         if (viewModel.lastDownloadArray.isEmpty()) {
             binding.progressIndicator.visibility = View.VISIBLE
             viewModel.getMusic()

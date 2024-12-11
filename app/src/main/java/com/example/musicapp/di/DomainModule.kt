@@ -1,5 +1,6 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.domain.usecase.convert.ConvertTextCountMusic
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
@@ -144,5 +145,9 @@ val domainModule = module {
         FindFavoriteMusicFromSQLite(
             musicLiteRepository = get()
         )
+    }
+
+    factory<ConvertTextCountMusic> {
+        ConvertTextCountMusic()
     }
 }

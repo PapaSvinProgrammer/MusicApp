@@ -81,7 +81,8 @@ val appModule = module {
     viewModel {
         FavoriteViewModel(
             getMusicFromSQLite = get(),
-            getAuthorsFromSQLite = get()
+            getAuthorsFromSQLite = get(),
+            convertTextCountMusic = get()
         )
     }
 }

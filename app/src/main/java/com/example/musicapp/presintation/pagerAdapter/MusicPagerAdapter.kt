@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemRecyclerMusicListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presintation.recyclerAdapter.MusicAdapter

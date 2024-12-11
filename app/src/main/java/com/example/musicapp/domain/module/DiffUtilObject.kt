@@ -1,8 +1,8 @@
 package com.example.musicapp.domain.module
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.musicapp.data.room.favoriteMusicEntity.AuthorEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.AuthorEntity
+import com.example.musicapp.data.room.musicEntity.MusicResult
 
 object DiffUtilObject {
     val authorEntityDiffUtilCallback = object: DiffUtil.ItemCallback<AuthorEntity?>() {

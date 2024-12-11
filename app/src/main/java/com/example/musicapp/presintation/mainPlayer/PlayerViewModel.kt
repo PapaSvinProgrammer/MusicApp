@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.ControlPlayer
@@ -20,6 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
+
+private const val PLAYLIST_ID_FAVORITE = 1L
 
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
@@ -95,9 +97,12 @@ class PlayerViewModel(
         }
     }
 
-    fun addMusic(music: Music) {
+    fun addFavoriteMusic(music: Music) {
         viewModelScope.launch(Dispatchers.IO) {
-            addMusicInSQLite.execute(music)
+            addMusicInSQLite.execute(
+                music = music,
+                playlistId = PLAYLIST_ID_FAVORITE
+            )
         }
     }
 

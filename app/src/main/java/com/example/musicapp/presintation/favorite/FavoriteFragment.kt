@@ -1,8 +1,10 @@
 package com.example.musicapp.presintation.favorite
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ class FavoriteFragment: Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().apply {
             bindService(
@@ -46,8 +49,11 @@ class FavoriteFragment: Fragment() {
         )
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
+            Log.d("RRRR", list.toString())
+
             if (list.isNotEmpty()) {
-                binding.countMusicView.text = "${list.size} трека"
+                viewModel.listSize = list.size
+                viewModel.convertTextCountMusic(viewModel.listSize)
                 musicPagerAdapter.setData(list)
                 binding.musicViewPager.adapter = musicPagerAdapter
             }
@@ -59,11 +65,15 @@ class FavoriteFragment: Fragment() {
                 binding.artistRecyclerView.adapter = authorAdapter
             }
         }
+
+        viewModel.convertCountMusicResult.observe(viewLifecycleOwner) { text ->
+            binding.countMusicView.text = "${viewModel.listSize} $text"
+        }
     }
 
     override fun onStart() {
         super.onStart()
-
+        viewModel.getPlaylists()
         viewModel.getMusic()
         viewModel.getAuthor()
     }

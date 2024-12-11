@@ -1,6 +1,6 @@
 package com.example.musicapp.domain.usecase.room
 
-import com.example.musicapp.data.room.favoriteMusicEntity.AuthorEntity
+import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.domain.repository.MusicLiteRepository
 
 class GetAuthorsFromSQLite(private val musicLiteRepository: MusicLiteRepository) {

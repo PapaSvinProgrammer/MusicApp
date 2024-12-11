@@ -1,4 +1,4 @@
-package com.example.musicapp.data.room.favoriteMusicEntity
+package com.example.musicapp.data.room.musicEntity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class FavoriteMusicEntity(
+data class MusicEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
 
@@ -24,6 +24,9 @@ data class FavoriteMusicEntity(
 
     @ColumnInfo(name = "name")
     val name: String,
+
+    @ColumnInfo(name = "playlist_id")
+    val playlistId: Long,
 
     @ColumnInfo(name = "album_id")
     val albumId: String,

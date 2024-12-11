@@ -5,14 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -103,7 +101,7 @@ class PlayerFragment: Fragment() {
         viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
             viewModel.isFavorite = it != null
             binding.likeView.isSelected = it != null
-            viewModel.isDownloaded = it?.favoriteMusicEntity?.saveUri?.isNotEmpty() ?: false
+            viewModel.isDownloaded = it?.musicEntity?.saveUri?.isNotEmpty() ?: false
         }
 
         binding.nextView.setOnClickListener {
@@ -391,7 +389,7 @@ class PlayerFragment: Fragment() {
 
                 viewModel.isFavorite = true
                 binding.likeView.isSelected = true
-                viewModel.addMusic(arrayViewPager[binding.viewPager.currentItem])
+                viewModel.addFavoriteMusic(arrayViewPager[binding.viewPager.currentItem])
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.musicapp.data.room.favoriteMusicEntity
+package com.example.musicapp.data.room.musicEntity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

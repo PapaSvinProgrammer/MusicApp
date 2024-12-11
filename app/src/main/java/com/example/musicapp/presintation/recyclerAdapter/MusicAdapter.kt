@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.room.favoriteMusicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 
@@ -18,7 +18,7 @@ class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
                 .error(R.drawable.ic_error_music)
                 .into(binding.imageView)
 
-            binding.musicTextView.text = music?.favoriteMusicEntity?.name
+            binding.musicTextView.text = music?.musicEntity?.name
             binding.groupTextView.text = music?.authorEntity?.name
         }
     }

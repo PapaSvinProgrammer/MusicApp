@@ -1,17 +1,17 @@
 package com.example.musicapp.domain.usecase.room
 
-import com.example.musicapp.data.room.favoriteMusicEntity.AlbumEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.AuthorEntity
-import com.example.musicapp.data.room.favoriteMusicEntity.FavoriteMusicEntity
+import com.example.musicapp.data.room.musicEntity.AlbumEntity
+import com.example.musicapp.data.room.musicEntity.AuthorEntity
+import com.example.musicapp.data.room.musicEntity.MusicEntity
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicLiteRepository
 
 class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
-    suspend fun execute(music: Music) {
+    suspend fun execute(music: Music, playlistId: Long) {
         musicLiteRepository.add(
             albumEntity = convertAlbum(music),
             authorEntity = convertAuthor(music),
-            favoriteMusicEntity = convertMusic(music)
+            musicEntity = convertMusic(music, playlistId)
         )
     }
 
@@ -33,15 +33,16 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
         )
     }
 
-    private fun convertMusic(music: Music): FavoriteMusicEntity {
-        return FavoriteMusicEntity(
+    private fun convertMusic(music: Music, playlistId: Long): MusicEntity {
+        return MusicEntity(
             id = 0,
             firebaseId = music.id,
             name = music.name,
+            playlistId = playlistId,
             albumId = music.album,
             authorId = music.groupId,
             url = music.url,
-            saveUri = ""
+            saveUri = "",
         )
     }
 }

@@ -1,11 +1,11 @@
-package com.example.musicapp.data.room.favoriteMusicEntity
+package com.example.musicapp.data.room.musicEntity
 
 import androidx.room.Embedded
 import androidx.room.Relation
 
 data class MusicResult(
     @Embedded
-    val favoriteMusicEntity: FavoriteMusicEntity,
+    val musicEntity: MusicEntity,
 
     @Relation(
         entity = AuthorEntity::class,

@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.data.room.dao.PlaylistDao
+import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.player.state.StatePlayer
@@ -62,6 +64,10 @@ class MainViewModel(
         viewModelScope.launch {
             getMusicLiveData.value = getMusicAll.execute()
         }
+    }
+
+    fun addFavoritePlaylist() {
+        //TODO
     }
 
     val connectionToPlayerService = object: ServiceConnection {

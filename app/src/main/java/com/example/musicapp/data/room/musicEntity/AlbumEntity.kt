@@ -1,8 +1,7 @@
-package com.example.musicapp.data.room.favoriteMusicEntity
+package com.example.musicapp.data.room.musicEntity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "album_for_music")
