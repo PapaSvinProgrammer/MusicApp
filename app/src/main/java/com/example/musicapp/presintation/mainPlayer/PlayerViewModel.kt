@@ -11,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.player.state.ControlPlayer
-import com.example.musicapp.domain.player.state.StatePlayer
+import com.example.musicapp.domain.state.ControlPlayer
+import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite

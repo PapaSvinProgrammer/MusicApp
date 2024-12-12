@@ -10,11 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.BottomSheetPlayerSettingsBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.state.SettingsPlayer
+import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class PlayerBottomSheetDialog: BottomSheetDialogFragment() {
+class PlayerBottomSheet: BottomSheetDialogFragment() {
     companion object {
         const val TAG = "PlayerBottomSheetDialog"
         const val CURRENT_MUSIC = "currentObject"

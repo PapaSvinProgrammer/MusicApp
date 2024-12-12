@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.player.state.StatePlayer
+import com.example.musicapp.domain.state.StatePlayer
 
 class HomeViewModel: ViewModel() {
     lateinit var durationLiveData: LiveData<Int>

@@ -18,11 +18,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.state.ControlPlayer
+import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.player.state.SettingsPlayer
-import com.example.musicapp.domain.player.state.StatePlayer
-import com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog
+import com.example.musicapp.domain.state.SettingsPlayer
+import com.example.musicapp.domain.state.StatePlayer
+import com.example.musicapp.presintation.bottomSheet.PlayerBottomSheet
 import com.example.musicapp.presintation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presintation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presintation.pagerAdapter.PlayerAdapter
@@ -150,19 +150,19 @@ class PlayerFragment: Fragment() {
         }
 
         binding.settingsButton.setOnClickListener {
-            val bottomSheetDialog = PlayerBottomSheetDialog()
+            val bottomSheetDialog = PlayerBottomSheet()
 
             val bundle = Bundle()
-            bundle.putParcelable(PlayerBottomSheetDialog.CURRENT_MUSIC, arrayViewPager[binding.viewPager.currentItem])
-            bundle.putBoolean(PlayerBottomSheetDialog.IS_FAVORITE, viewModel.isFavorite)
-            bundle.putBoolean(PlayerBottomSheetDialog.IS_DOWNLOADED, viewModel.isDownloaded)
+            bundle.putParcelable(PlayerBottomSheet.CURRENT_MUSIC, arrayViewPager[binding.viewPager.currentItem])
+            bundle.putBoolean(PlayerBottomSheet.IS_FAVORITE, viewModel.isFavorite)
+            bundle.putBoolean(PlayerBottomSheet.IS_DOWNLOADED, viewModel.isDownloaded)
             bundle.putString(BottomPlayerAdapter.PARENT_ARG, arguments?.getString(BottomPlayerAdapter.PARENT_ARG))
 
             bottomSheetDialog.arguments = bundle
             initPlayerBottomSheet(bottomSheetDialog)
 
             requireActivity().supportFragmentManager.let {
-                bottomSheetDialog.show(it, PlayerBottomSheetDialog.TAG)
+                bottomSheetDialog.show(it, PlayerBottomSheet.TAG)
             }
         }
 
@@ -238,7 +238,7 @@ class PlayerFragment: Fragment() {
         super.onDestroy()
     }
 
-    private fun initPlayerBottomSheet(bottomSheetDialog: PlayerBottomSheetDialog) {
+    private fun initPlayerBottomSheet(bottomSheetDialog: PlayerBottomSheet) {
         bottomSheetDialog.settingsStateResult.observe(viewLifecycleOwner) {
             when (it) {
                 SettingsPlayer.LIKE -> {

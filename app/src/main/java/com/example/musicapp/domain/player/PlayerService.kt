@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.module.AudioBinder
 import com.example.musicapp.domain.player.module.AudioPlayer
-import com.example.musicapp.domain.player.state.StatePlayer
+import com.example.musicapp.domain.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presintation.bottomSheet.PlayerBottomSheetDialog">
+    tools:context=".presintation.bottomSheet.PlayerBottomSheet">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bottom_sheet_drag"
@@ -85,8 +85,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/favorite_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_favorite"
@@ -94,6 +93,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBlueSelectedColorStyle"
                             app:srcCompat="@drawable/ic_check_favorite"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -110,18 +110,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_favorite"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_in_playlist_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_add_in_playlist"
@@ -129,6 +129,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_add_note"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -145,18 +146,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_add_in_playlist"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/share_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_share"
@@ -164,6 +165,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_share_treangle"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -180,18 +182,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_share"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/play_next_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_play_next"
@@ -199,6 +201,7 @@
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/ic_play_next"
                             style="@style/IconBottomSheetColor"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -215,18 +218,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_play_next"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_to_queue_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_add_in_queue"
@@ -234,6 +237,7 @@
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/ic_add_to_queue"
                             style="@style/IconBottomSheetColor"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -250,18 +254,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_add_in_queue"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/move_to_group_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_move_to_group"
@@ -269,6 +273,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_artist"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -285,18 +290,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_move_to_group"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/move_to_album_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_move_to_album"
@@ -304,6 +309,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_album"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -320,18 +326,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_move_to_album"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/delete_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_delete"
@@ -339,6 +345,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_delete"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -355,18 +362,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_delete"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/download_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_download"
@@ -374,6 +381,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_download"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -390,18 +398,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_download"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/about_music_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_about_music"
@@ -409,6 +417,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_info"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -446,8 +455,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/hate_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_hate"
@@ -455,6 +463,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_hate"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -471,18 +480,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_hate"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/report_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_report_problem"
@@ -490,6 +499,7 @@
                             android:layout_height="24dp"
                             style="@style/IconBottomSheetColor"
                             app:srcCompat="@drawable/ic_flag"
+                            android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

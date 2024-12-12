@@ -139,7 +139,7 @@
     </fragment>
     <dialog
         android:id="@+id/playerBottomSheetDialog2"
-        android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheetDialog"
+        android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheet"
         android:label="bottom_sheet_player_settings"
         tools:layout="@layout/bottom_sheet_player_settings" /><action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
     <fragment

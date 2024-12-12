@@ -34,12 +34,16 @@
     <string name="all_album_text">"Альбомы"</string>
     <string name="all_download_text">"Скачанное"</string>
     <string name="favorite_artist_text">"Любимые исполнители"</string>
-
     <string name="title_dialog_exit_text">"Выход"</string>
     <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>
-
     <string name="title_settings_text">"Настройки"</string>
     <string name="title_settings_preferences_text">"Предпочтения"</string>
+    <string name="new_playlist_text">"Новый плейлист"</string>
+    <string name="all_playlists_text">"Плейлисты"</string>
+    <string name="sort_text">"Сортировка"</string>
+    <string name="by_default_text">"По умолчанию"</string>
+    <string name="by_alphabet_text">"По алфавиту"</string>
+    <string name="by_date_create_text">"По дате создания"</string>
 
     <string name="error_email_text">"Почта введена неккоректно"</string>
     <string name="error_password_text">"Должно быть больше 6 символов"</string>
