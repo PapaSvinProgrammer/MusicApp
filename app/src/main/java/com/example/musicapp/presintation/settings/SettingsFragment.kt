@@ -43,13 +43,13 @@ class SettingsFragment: Fragment() {
         }
 
         val navController = view.findNavController()
-        val requestViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-
-        binding.userNameView.text = requestViewModel.emailResult
-
-        if (requestViewModel.darkModeResult) {
-            binding.switchDarkMode.isChecked = true
-        }
+//        val requestViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+//
+//        binding.userNameView.text = requestViewModel.emailResult
+//
+//        if (requestViewModel.darkModeResult) {
+//            binding.switchDarkMode.isChecked = true
+//        }
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

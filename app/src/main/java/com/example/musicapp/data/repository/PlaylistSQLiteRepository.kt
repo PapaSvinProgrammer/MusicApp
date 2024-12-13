@@ -19,17 +19,17 @@ class PlaylistSQLiteRepository(
         playlistDao.delete(id)
     }
 
-    override suspend fun getAll(): List<PlaylistResult?> {
+    override suspend fun getAll(filter: String): List<PlaylistResult?> {
         val job = CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getAll()
+            playlistDao.getAll(filter)
         }
 
         return job.await()
     }
 
-    override suspend fun getOnlyPlaylist(): List<PlaylistEntity?> {
+    override suspend fun getOnlyPlaylist(filter: String): List<PlaylistEntity?> {
         val job = CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getAllOnlyPlaylist()
+            playlistDao.getAllOnlyPlaylist(filter)
         }
 
         return job.await()

@@ -3,6 +3,8 @@ package com.example.musicapp.domain.module
 import androidx.recyclerview.widget.DiffUtil
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
+import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
+import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 
 object DiffUtilObject {
     val authorEntityDiffUtilCallback = object: DiffUtil.ItemCallback<AuthorEntity?>() {
@@ -41,6 +43,16 @@ object DiffUtilObject {
         }
 
         override fun areContentsTheSame(oldItem: Music, newItem: Music): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val playlistDiffUtilCallback = object: DiffUtil.ItemCallback<PlaylistResult?>() {
+        override fun areItemsTheSame(oldItem: PlaylistResult, newItem: PlaylistResult): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: PlaylistResult, newItem: PlaylistResult): Boolean {
             return oldItem == newItem
         }
     }

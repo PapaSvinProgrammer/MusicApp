@@ -5,6 +5,7 @@ import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.login.LoginViewModel
 import com.example.musicapp.presintation.main.MainViewModel
 import com.example.musicapp.presintation.mainPlayer.PlayerViewModel
+import com.example.musicapp.presintation.playlist.PlaylistViewModel
 import com.example.musicapp.presintation.registration.RegistrationViewModel
 import com.example.musicapp.presintation.settingPreferences.SettingsPreferencesViewModel
 import com.example.musicapp.presintation.settings.SettingsViewModel
@@ -46,7 +47,6 @@ val appModule = module {
     viewModel {
         MainViewModel(
             getDarkModeState = get(),
-            getEmail = get(),
             getUserKey = get(),
             getMusicAll = get(),
             addPlaylistInSQLite = get()
@@ -84,6 +84,12 @@ val appModule = module {
             getMusicFromSQLite = get(),
             getAuthorsFromSQLite = get(),
             convertTextCount = get(),
+            getPlaylistFromSQLite = get()
+        )
+    }
+
+    viewModel {
+        PlaylistViewModel(
             getPlaylistFromSQLite = get()
         )
     }

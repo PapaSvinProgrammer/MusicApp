@@ -6,6 +6,6 @@ import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 interface PlaylistRepository {
     suspend fun add(playlistEnum: PlaylistEntity)
     suspend fun delete(id: String)
-    suspend fun getAll(): List<PlaylistResult?>
-    suspend fun getOnlyPlaylist(): List<PlaylistEntity?>
+    suspend fun getAll(filter: String): List<PlaylistResult?>
+    suspend fun getOnlyPlaylist(filter: String): List<PlaylistEntity?>
 }

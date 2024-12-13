@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.room
+package com.example.musicapp.domain.usecase.room.add
 
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity

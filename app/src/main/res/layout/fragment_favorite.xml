@@ -155,7 +155,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
                                     android:visibility="gone"
-                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
                                     android:scaleType="centerCrop"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +169,7 @@
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:visibility="gone"
-                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
                                     android:scaleType="centerCrop"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -181,7 +181,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_margin="10dp"
-                                    app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
                                     android:scaleType="centerCrop" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </com.google.android.material.card.MaterialCardView>

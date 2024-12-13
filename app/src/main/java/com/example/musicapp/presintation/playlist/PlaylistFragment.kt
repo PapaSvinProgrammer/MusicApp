@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlaylistBinding
 import com.example.musicapp.presintation.bottomSheet.FilterBottomSheet
+import com.example.musicapp.presintation.recyclerAdapter.PlaylistAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment: Fragment() {
     private lateinit var binding: FragmentPlaylistBinding
+    private val viewModel by viewModel<PlaylistViewModel>()
+    private val recyclerAdapter by lazy { PlaylistAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,15 +49,36 @@ class PlaylistFragment: Fragment() {
 
             true
         }
+
+        viewModel.getPlaylistResult.observe(viewLifecycleOwner) { list ->
+            recyclerAdapter.setData(list)
+            binding.recyclerView.adapter = recyclerAdapter
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getPlaylists()
     }
 
     private fun createFilterBottomSheet() {
         val bottomSheetDialog = FilterBottomSheet()
 
-        //TODO
+        val bundle = Bundle()
+        bundle.putInt(FilterBottomSheet.CURRENT_FILTER_STATE, viewModel.currentFilterState)
+
+        bottomSheetDialog.arguments = bundle
+        initFilterBottomSheet(bottomSheetDialog)
 
         requireActivity().supportFragmentManager.let {
             bottomSheetDialog.show(it, FilterBottomSheet.TAG)
+        }
+    }
+
+    private fun initFilterBottomSheet(bottomSheet: FilterBottomSheet) {
+        bottomSheet.filterStateResult.observe(viewLifecycleOwner) {
+            viewModel.currentFilterState = it
+            viewModel.getPlaylists()
         }
     }
 }

@@ -22,5 +22,8 @@ data class PlaylistEntity(
     var name: String,
 
     @ColumnInfo(name = "image_url")
-    var imageUrl: String
+    var imageUrl: String,
+
+    @ColumnInfo(name = "date")
+    var date: String
 )

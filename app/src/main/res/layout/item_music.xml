@@ -13,7 +13,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerCrop"
-        app:shapeAppearance="@style/ImageCornerRadiusBottomPlayer"
+        app:shapeAppearance="@style/ImageCornerRadius8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 

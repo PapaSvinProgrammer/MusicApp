@@ -8,16 +8,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.room.dao.PlaylistDao
-import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
-import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
-import com.example.musicapp.domain.usecase.room.AddPlaylistInSQLite
+import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,7 +23,6 @@ private const val PLAYLIST_FAVORITE_URL = "https://i.pinimg.com/736x/3f/53/e0/3f
 
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
-    private val getEmail: GetEmail,
     private val getUserKey: GetUserKey,
     private val getMusicAll: GetMusicAll,
     private val addPlaylistInSQLite: AddPlaylistInSQLite
@@ -38,17 +34,20 @@ class MainViewModel(
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
-    var darkModeResult: Boolean = false
-    var emailResult: String? = null
-    var userKeyResult: String? = null
-    var lastPosition = 0
-    var lastDownloadArray = ArrayList<Music>()
 
+    var darkModeResult: Boolean = false
+    var userKeyResult: String? = null
+
+    var lastPosition = 0
+    val lastDownloadArray = ArrayList<Music>()
+
+    private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
+    val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -56,10 +55,6 @@ class MainViewModel(
 
     fun getDarkMode() {
         darkModeResult = getDarkModeState.execute()
-    }
-
-    fun getEmail() {
-        emailResult = getEmail.execute()
     }
 
     fun getUserKey() {
@@ -79,6 +74,10 @@ class MainViewModel(
                 image = PLAYLIST_FAVORITE_URL
             )
         }
+    }
+
+    fun setStartState(state: Boolean) {
+        startDownloadLiveData.value = state
     }
 
     val connectionToPlayerService = object: ServiceConnection {

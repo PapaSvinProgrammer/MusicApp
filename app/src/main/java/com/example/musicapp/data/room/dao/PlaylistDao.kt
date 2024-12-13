@@ -14,12 +14,12 @@ interface PlaylistDao {
     suspend fun insert(playlistEntity: PlaylistEntity)
 
     @Transaction
-    @Query("SELECT * FROM playlists")
-    fun getAll(): List<PlaylistResult?>
+    @Query("SELECT * FROM playlists ORDER BY :filter")
+    fun getAll(filter: String): List<PlaylistResult?>
 
     @Transaction
-    @Query("SELECT * FROM playlists")
-    fun getAllOnlyPlaylist(): List<PlaylistEntity?>
+    @Query("SELECT * FROM playlists ORDER BY :filter")
+    fun getAllOnlyPlaylist(filter: String): List<PlaylistEntity?>
 
     @Query("DELETE FROM playlists WHERE id = :id")
     suspend fun delete(id: String)

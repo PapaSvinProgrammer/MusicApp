@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -67,9 +68,6 @@ class MainActivity: AppCompatActivity() {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
 
-        viewModel.getEmail()
-        viewModel.getUserKey()
-
         viewModel.getMusicResult.observe(this) { array->
             viewModel.lastDownloadArray.addAll(array)
 
@@ -93,6 +91,13 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
+        viewModel.startDownloadResult.observe(this) {
+            if (viewModel.lastDownloadArray.isEmpty()) {
+                binding.progressIndicator.visibility = View.VISIBLE
+                viewModel.getMusic()
+            }
+        }
+
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 if (positionOffset == 0f && position != viewModel.lastPosition) {
@@ -103,12 +108,16 @@ class MainActivity: AppCompatActivity() {
         })
 
         navController.addOnDestinationChangedListener{ _, destination, _->
-            if (destination.id == R.id.playerFragment)
+            if (destination.id == R.id.playerFragment ||
+                destination.id == R.id.loginFragment ||
+                destination.id == R.id.registrationFragment ||
+                destination.id == R.id.startFragment)
             {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.viewPagerLayout.visibility = View.GONE
             }
-            else{
+            else {
+                viewModel.setStartState(true)
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
             }
@@ -124,11 +133,7 @@ class MainActivity: AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.getUserKey()
         viewModel.addFavoritePlaylist()
-
-        if (viewModel.lastDownloadArray.isEmpty()) {
-            binding.progressIndicator.visibility = View.VISIBLE
-            viewModel.getMusic()
-        }
     }
 }

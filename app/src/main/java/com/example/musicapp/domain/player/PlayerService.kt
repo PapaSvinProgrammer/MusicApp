@@ -91,8 +91,6 @@ class PlayerService: Service() {
     inner class PlayerBinder: Binder(), AudioBinder {
         override fun getService(): PlayerService = this@PlayerService
 
-        override fun getMusicList(): List<Music>? = this@PlayerService.musicList
-
         override fun getCurrentDuration() = this@PlayerService.currentDuration
 
         override fun getMaxDuration() = this@PlayerService.maxDuration

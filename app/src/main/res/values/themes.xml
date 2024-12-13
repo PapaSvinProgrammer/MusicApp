@@ -74,7 +74,7 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="ImageCornerRadiusBottomPlayer">
+    <style name="ImageCornerRadius8dp">
         <item name="cornerSizeTopLeft">8dp</item>
         <item name="cornerSizeTopRight">8dp</item>
         <item name="cornerSizeBottomLeft">8dp</item>
@@ -109,5 +109,15 @@
     <style name="SeekBarPlayerStyle">
         <item name="android:thumbTint">@color/background_color</item>
         <item name="android:progressTint">@color/background_color</item>
+    </style>
+
+    <style name="TitleListStyle" parent="TextColorOnSurface">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="SubtitleListStyle">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>
