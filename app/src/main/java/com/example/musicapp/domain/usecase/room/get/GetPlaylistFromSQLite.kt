@@ -4,19 +4,20 @@ import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.presintation.bottomSheet.FilterBottomSheet
+import kotlinx.coroutines.flow.Flow
 
-private const val NAME_FILTER = "name"
+private const val NAME_FILTER = "name_playlist"
 private const val ID_FILTER = "id"
 private const val DATE_FILTER = "date"
 
 class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) {
-    suspend fun executeToAll(filter: Int = 0): List<PlaylistResult?> {
+    fun executeToAll(filter: Int = 0): Flow<List<PlaylistResult?>> {
         return playlistRepository.getAll(
             filter = convertFilterToString(filter)
         )
     }
 
-    suspend fun executeToLimit(filter: Int = 0): List<PlaylistEntity?> {
+    fun executeToLimit(filter: Int = 0): Flow<List<PlaylistEntity?>> {
         return playlistRepository.getOnlyPlaylist(
             filter = convertFilterToString(filter)
         )

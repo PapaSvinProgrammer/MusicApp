@@ -7,6 +7,7 @@ import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
@@ -16,6 +17,7 @@ import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 private const val MUSIC_LIMIT = 12
@@ -45,14 +47,14 @@ class FavoriteViewModel(
     private val getMusicLiveData = MutableLiveData<List<MusicResult?>>()
     private val getAuthorLiveData = MutableLiveData<List<AuthorEntity?>>()
     private val convertCountMusicLiveData = MutableLiveData<String>()
-    private val getPlaylistLiveData = MutableLiveData<List<PlaylistEntity?>>()
     private val convertCountPlaylistLiveData = MutableLiveData<String>()
 
     val getMusicResult: LiveData<List<MusicResult?>> = getMusicLiveData
     val getAuthorResult: LiveData<List<AuthorEntity?>> = getAuthorLiveData
     val convertCountMusicResult: LiveData<String> = convertCountMusicLiveData
-    val getPlaylistResult: LiveData<List<PlaylistEntity?>> = getPlaylistLiveData
     val convertCountPlaylistResult: LiveData<String> = convertCountPlaylistLiveData
+
+    val getPlaylistResult: LiveData<List<PlaylistEntity?>> = getPlaylistFromSQLite.executeToLimit().asLiveData()
 
     fun getMusic() {
         viewModelScope.launch {
@@ -63,12 +65,6 @@ class FavoriteViewModel(
     fun getAuthor() {
         viewModelScope.launch {
             getAuthorLiveData.value = getAuthorsFromSQLite.execute(AUTHOR_LIMIT)
-        }
-    }
-
-    fun getPlaylists() {
-        viewModelScope.launch {
-            getPlaylistLiveData.value = getPlaylistFromSQLite.executeToLimit()
         }
     }
 

@@ -44,7 +44,10 @@
     <string name="by_default_text">"По умолчанию"</string>
     <string name="by_alphabet_text">"По алфавиту"</string>
     <string name="by_date_create_text">"По дате создания"</string>
+    <string name="create_text">"Создать"</string>
+    <string name="new_playlist_message_text">"Введите название нового плейлиста"</string>
 
+    <string name="error_empty_line_text">"Пустая строка"</string>
     <string name="error_email_text">"Почта введена неккоректно"</string>
     <string name="error_password_text">"Должно быть больше 6 символов"</string>
     <string name="error_check_password_text">"Пароли не совпадают"</string>

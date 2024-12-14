@@ -3,19 +3,16 @@ package com.example.musicapp.presintation.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentSettingsBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.presintation.dialog.ExitDialog
-import com.example.musicapp.presintation.main.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment: Fragment() {

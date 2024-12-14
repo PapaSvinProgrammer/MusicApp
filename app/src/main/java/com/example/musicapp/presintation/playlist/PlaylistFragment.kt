@@ -1,6 +1,7 @@
 package com.example.musicapp.presintation.playlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlaylistBinding
 import com.example.musicapp.presintation.bottomSheet.FilterBottomSheet
+import com.example.musicapp.presintation.dialog.AddNewDialog
 import com.example.musicapp.presintation.recyclerAdapter.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,6 +19,7 @@ class PlaylistFragment: Fragment() {
     private lateinit var binding: FragmentPlaylistBinding
     private val viewModel by viewModel<PlaylistViewModel>()
     private val recyclerAdapter by lazy { PlaylistAdapter() }
+    private val addNewDialog by lazy { AddNewDialog() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +39,8 @@ class PlaylistFragment: Fragment() {
         }
 
         binding.newPlaylistLayout.setOnClickListener {
-            //TODO
+            initAddNewDialogTools()
+            addNewDialog.show(parentFragmentManager, AddNewDialog.TAG)
         }
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
@@ -56,9 +60,10 @@ class PlaylistFragment: Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.getPlaylists()
+    private fun initAddNewDialogTools() {
+        addNewDialog.nameResult.observe(viewLifecycleOwner) { text ->
+            viewModel.addPlaylist(text)
+        }
     }
 
     private fun createFilterBottomSheet() {
@@ -78,7 +83,7 @@ class PlaylistFragment: Fragment() {
     private fun initFilterBottomSheet(bottomSheet: FilterBottomSheet) {
         bottomSheet.filterStateResult.observe(viewLifecycleOwner) {
             viewModel.currentFilterState = it
-            viewModel.getPlaylists()
+            viewModel.updateFilter()
         }
     }
 }

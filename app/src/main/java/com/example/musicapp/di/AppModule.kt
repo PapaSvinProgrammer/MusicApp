@@ -90,7 +90,8 @@ val appModule = module {
 
     viewModel {
         PlaylistViewModel(
-            getPlaylistFromSQLite = get()
+            getPlaylistFromSQLite = get(),
+            addPlaylistInSQLite = get()
         )
     }
 }

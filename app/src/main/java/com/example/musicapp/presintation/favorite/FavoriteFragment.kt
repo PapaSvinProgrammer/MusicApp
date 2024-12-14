@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
@@ -91,7 +92,6 @@ class FavoriteFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getPlaylists()
         viewModel.getMusic()
         viewModel.getAuthor()
     }

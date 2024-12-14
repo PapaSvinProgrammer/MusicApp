@@ -4,9 +4,7 @@ import com.example.musicapp.data.room.dao.PlaylistDao
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.repository.PlaylistRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 
 class PlaylistSQLiteRepository(
     private val playlistDao: PlaylistDao
@@ -19,19 +17,11 @@ class PlaylistSQLiteRepository(
         playlistDao.delete(id)
     }
 
-    override suspend fun getAll(filter: String): List<PlaylistResult?> {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getAll(filter)
-        }
-
-        return job.await()
+    override fun getAll(filter: String): Flow<List<PlaylistResult?>> {
+        return playlistDao.getAll(filter)
     }
 
-    override suspend fun getOnlyPlaylist(filter: String): List<PlaylistEntity?> {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getAllOnlyPlaylist(filter)
-        }
-
-        return job.await()
+    override fun getOnlyPlaylist(filter: String): Flow<List<PlaylistEntity?>> {
+        return playlistDao.getAllOnlyPlaylist(filter)
     }
 }
