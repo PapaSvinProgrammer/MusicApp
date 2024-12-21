@@ -14,15 +14,21 @@ interface PlaylistDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(playlistEntity: PlaylistEntity)
 
-    //TODO
     @Transaction
-    @Query("SELECT * FROM playlists ORDER BY :filter")
-    fun getAll(filter: String): Flow<List<PlaylistResult?>>
+    @Query("SELECT * FROM playlists ORDER BY id")
+    fun getAllById(): Flow<List<PlaylistResult?>>
 
-    //TODO
     @Transaction
-    @Query("SELECT * FROM playlists ORDER BY :filter")
-    fun getAllOnlyPlaylist(filter: String): Flow<List<PlaylistEntity?>>
+    @Query("SELECT * FROM playlists ORDER BY name_playlist")
+    fun getAllByName(): Flow<List<PlaylistResult?>>
+
+    @Transaction
+    @Query("SELECT * FROM playlists ORDER BY date")
+    fun getAllByDate(): Flow<List<PlaylistResult?>>
+
+    @Transaction
+    @Query("SELECT * FROM playlists")
+    fun getOnlyPlaylist(): Flow<List<PlaylistEntity?>>
 
     @Query("DELETE FROM playlists WHERE id = :id")
     suspend fun delete(id: String)

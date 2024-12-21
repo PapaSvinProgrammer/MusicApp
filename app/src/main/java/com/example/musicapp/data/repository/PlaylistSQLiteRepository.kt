@@ -17,11 +17,19 @@ class PlaylistSQLiteRepository(
         playlistDao.delete(id)
     }
 
-    override fun getAll(filter: String): Flow<List<PlaylistResult?>> {
-        return playlistDao.getAll(filter)
+    override fun getAllById(): Flow<List<PlaylistResult?>> {
+        return playlistDao.getAllById()
     }
 
-    override fun getOnlyPlaylist(filter: String): Flow<List<PlaylistEntity?>> {
-        return playlistDao.getAllOnlyPlaylist(filter)
+    override fun getAllByName(): Flow<List<PlaylistResult?>> {
+        return playlistDao.getAllByName()
+    }
+
+    override fun getAllByDate(): Flow<List<PlaylistResult?>> {
+        return playlistDao.getAllByDate()
+    }
+
+    override fun getOnlyPlaylist(): Flow<List<PlaylistEntity?>> {
+        return playlistDao.getOnlyPlaylist()
     }
 }

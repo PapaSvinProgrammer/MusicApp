@@ -17,7 +17,6 @@ import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 private const val MUSIC_LIMIT = 12
@@ -54,7 +53,7 @@ class FavoriteViewModel(
     val convertCountMusicResult: LiveData<String> = convertCountMusicLiveData
     val convertCountPlaylistResult: LiveData<String> = convertCountPlaylistLiveData
 
-    val getPlaylistResult: LiveData<List<PlaylistEntity?>> = getPlaylistFromSQLite.executeToLimit().asLiveData()
+    val getPlaylistResult: LiveData<List<PlaylistEntity?>> = getPlaylistFromSQLite.getOnlyPlaylists().asLiveData()
 
     fun getMusic() {
         viewModelScope.launch {

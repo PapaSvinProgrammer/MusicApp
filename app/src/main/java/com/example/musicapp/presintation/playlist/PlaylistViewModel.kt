@@ -21,7 +21,11 @@ class PlaylistViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val getPlaylistResult = filterFlowState.flatMapLatest {
-        getPlaylistFromSQLite.executeToAll(it)
+        when (it) {
+            FilterBottomSheet.BY_ALPHABET -> getPlaylistFromSQLite.getAllByName()
+            FilterBottomSheet.BY_DATE_CREATE -> getPlaylistFromSQLite.getAllByDate()
+            else -> getPlaylistFromSQLite.getAllById()
+        }
     }.asLiveData()
 
     fun updateFilter() {
