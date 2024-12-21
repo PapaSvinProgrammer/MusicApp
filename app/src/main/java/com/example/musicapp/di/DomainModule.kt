@@ -1,6 +1,8 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.domain.usecase.convert.ConvertAnyText
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
+import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
@@ -150,7 +152,13 @@ val domainModule = module {
     }
 
     factory<ConvertTextCount> {
-        ConvertTextCount()
+        ConvertTextCountImpl(
+            ConvertAnyText()
+        )
+    }
+
+    factory<ConvertAnyText> {
+        ConvertAnyText()
     }
 
     factory<GetPlaylistFromSQLite> {

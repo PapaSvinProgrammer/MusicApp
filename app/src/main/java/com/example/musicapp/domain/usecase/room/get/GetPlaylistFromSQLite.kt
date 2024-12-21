@@ -11,6 +11,10 @@ class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) 
         return playlistRepository.getOnlyPlaylist()
     }
 
+    suspend fun getById(id: Long): PlaylistResult? {
+        return playlistRepository.getById(id.toString())
+    }
+
     fun getAllById(): Flow<List<PlaylistResult?>> {
         return playlistRepository.getAllById()
     }

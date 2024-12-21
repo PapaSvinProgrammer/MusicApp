@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface PlaylistRepository {
     suspend fun add(playlistEnum: PlaylistEntity)
     suspend fun delete(id: String)
+    suspend fun getById(id: String): PlaylistResult?
     fun getAllById(): Flow<List<PlaylistResult?>>
     fun getAllByName(): Flow<List<PlaylistResult?>>
     fun getAllByDate(): Flow<List<PlaylistResult?>>

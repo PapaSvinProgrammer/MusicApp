@@ -21,8 +21,6 @@ import kotlinx.coroutines.launch
 
 private const val MUSIC_LIMIT = 12
 private const val AUTHOR_LIMIT = 8
-private const val CONVERT_MUSIC = "трек"
-private const val CONVERT_PLAYLIST = "плейлист"
 
 class FavoriteViewModel(
     private val getMusicFromSQLite: GetMusicFromSQLite,
@@ -68,11 +66,11 @@ class FavoriteViewModel(
     }
 
     fun convertTextCountMusic(count: Int) {
-        convertCountMusicLiveData.value = convertTextCount.execute(count, CONVERT_MUSIC)
+        convertCountMusicLiveData.value = convertTextCount.convertMusic(count)
     }
 
     fun convertTextCountPlaylist(count: Int) {
-        convertCountPlaylistLiveData.value = convertTextCount.execute(count, CONVERT_PLAYLIST)
+        convertCountPlaylistLiveData.value = convertTextCount.convertPlaylist(count)
     }
 
     val connectionToPlayerService = object: ServiceConnection {

@@ -15,6 +15,10 @@ interface PlaylistDao {
     suspend fun insert(playlistEntity: PlaylistEntity)
 
     @Transaction
+    @Query("SELECT * FROM playlists WHERE id = :id")
+    fun getById(id: String): PlaylistResult?
+
+    @Transaction
     @Query("SELECT * FROM playlists ORDER BY id")
     fun getAllById(): Flow<List<PlaylistResult?>>
 

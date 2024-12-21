@@ -1,7 +1,9 @@
 package com.example.musicapp.presintation.recyclerAdapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -9,15 +11,21 @@ import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.databinding.ItemPlaylistBinding
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.domain.usecase.convert.ConvertTextCount
+import com.example.musicapp.domain.usecase.convert.ConvertAnyText
+import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
 
-class PlaylistAdapter: RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
-    private val convertTextCount = ConvertTextCount()
+class PlaylistAdapter(
+    private val navController: NavController
+): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+    companion object {
+        const val ALBUM_KEY = "AlbumKey"
+    }
+
+    private val convertTextCount = ConvertTextCountImpl(ConvertAnyText())
 
     inner class ViewHolder(val binding: ItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: PlaylistResult?) {
             val countMusic = item?.musicEntity?.size ?: 0
-            val convertText = convertTextCount.execute(countMusic, "трек")
 
             Glide.with(binding.root)
                 .load(item?.playlistEntity?.imageUrl)
@@ -25,7 +33,7 @@ class PlaylistAdapter: RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
                 .into(binding.imageView)
 
             binding.nameView.text = item?.playlistEntity?.name
-            binding.countView.text = "$countMusic $convertText"
+            binding.countView.text = convertTextCount.convertMusic(countMusic)
             binding.dateView.text = item?.playlistEntity?.date
         }
     }
@@ -41,6 +49,13 @@ class PlaylistAdapter: RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
+
+        holder.binding.root.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong(ALBUM_KEY, item?.playlistEntity?.id ?: 0L)
+
+            navController.navigate(R.id.action_global_albumFragment, bundle)
+        }
     }
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size

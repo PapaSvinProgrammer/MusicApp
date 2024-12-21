@@ -17,8 +17,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment: Fragment() {
     private lateinit var binding: FragmentPlaylistBinding
+    private lateinit var recyclerAdapter: PlaylistAdapter
+
     private val viewModel by viewModel<PlaylistViewModel>()
-    private val recyclerAdapter by lazy { PlaylistAdapter() }
     private val addNewDialog by lazy { AddNewDialog() }
 
     override fun onCreateView(
@@ -33,6 +34,7 @@ class PlaylistFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
+        recyclerAdapter = PlaylistAdapter(navController)
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()

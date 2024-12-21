@@ -1,5 +1,6 @@
 package com.example.musicapp.di
 
+import com.example.musicapp.presintation.album.AlbumViewModel
 import com.example.musicapp.presintation.favorite.FavoriteViewModel
 import com.example.musicapp.presintation.home.HomeViewModel
 import com.example.musicapp.presintation.login.LoginViewModel
@@ -92,6 +93,12 @@ val appModule = module {
         PlaylistViewModel(
             getPlaylistFromSQLite = get(),
             addPlaylistInSQLite = get()
+        )
+    }
+
+    viewModel {
+        AlbumViewModel(
+            getPlaylistFromSQLite = get()
         )
     }
 }

@@ -39,7 +39,8 @@
             android:id="@+id/action_settingsFragment_to_startFragment"
             app:destination="@id/startFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/nav_graph" />
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_settingsFragment_to_storageFragment"
             app:destination="@id/storageFragment"
@@ -150,6 +151,18 @@
     <action
         android:id="@+id/action_global_playlistFragment"
         app:destination="@id/playlistFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.musicapp.presintation.album.AlbumFragment"
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album" />
+    <action
+        android:id="@+id/action_global_albumFragment"
+        app:destination="@id/albumFragment"
         app:enterAnim="@anim/slide_in_left"
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"

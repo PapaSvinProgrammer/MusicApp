@@ -78,11 +78,11 @@ class FavoriteFragment: Fragment() {
         }
 
         viewModel.convertCountMusicResult.observe(viewLifecycleOwner) { text ->
-            binding.countMusicView.text = "${viewModel.musicListSize} $text"
+            binding.countMusicView.text = text
         }
 
         viewModel.convertCountPlaylistResult.observe(viewLifecycleOwner) { text ->
-            binding.playlistCountView.text = "${viewModel.playlistSize} $text"
+            binding.playlistCountView.text = text
         }
 
         binding.playlistCardView.setOnClickListener {
