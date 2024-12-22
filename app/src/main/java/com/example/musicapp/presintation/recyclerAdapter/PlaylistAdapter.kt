@@ -25,7 +25,7 @@ class PlaylistAdapter(
 
     inner class ViewHolder(val binding: ItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: PlaylistResult?) {
-            val countMusic = item?.musicEntity?.size ?: 0
+            val countMusic = item?.musicResult?.size ?: 0
 
             Glide.with(binding.root)
                 .load(item?.playlistEntity?.imageUrl)

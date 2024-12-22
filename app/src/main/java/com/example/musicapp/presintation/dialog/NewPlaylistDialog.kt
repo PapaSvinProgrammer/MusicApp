@@ -9,7 +9,7 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.DialogAddNewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class AddNewDialog: DialogFragment() {
+class NewPlaylistDialog: DialogFragment() {
     companion object {
         const val TAG = "AddNewDialog"
     }

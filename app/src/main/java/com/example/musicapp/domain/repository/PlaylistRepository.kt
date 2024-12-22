@@ -8,6 +8,8 @@ interface PlaylistRepository {
     suspend fun add(playlistEnum: PlaylistEntity)
     suspend fun delete(id: String)
     suspend fun getById(id: String): PlaylistResult?
+    suspend fun saveImage(url: String, id: String)
+    suspend fun saveName(name: String, id: String)
     fun getAllById(): Flow<List<PlaylistResult?>>
     fun getAllByName(): Flow<List<PlaylistResult?>>
     fun getAllByDate(): Flow<List<PlaylistResult?>>

@@ -25,7 +25,7 @@
     <string name="add_in_queue_text">"Добавить в очередь"</string>
     <string name="move_to_group_text">"Перейти к артисту"</string>
     <string name="move_to_album_text">"Перейти к альбому"</string>
-    <string name="delete_text">"Удалить с устройства"</string>
+    <string name="delete_from_device_text">"Удалить с устройства"</string>
     <string name="download_text">"Скачать"</string>
     <string name="about_music_text">"О треке"</string>
     <string name="me_favorite_text">"Мне нравится"</string>
@@ -38,22 +38,26 @@
     <string name="message_dialog_exit_text">"Вы уверены, что хотите выйти?"</string>
     <string name="title_settings_text">"Настройки"</string>
     <string name="title_settings_preferences_text">"Предпочтения"</string>
+    <string name="message_dialog_delete_playlist_text">"Вы действительно хотите удалить плейлист?"</string>
     <string name="new_playlist_text">"Новый плейлист"</string>
     <string name="all_playlists_text">"Плейлисты"</string>
     <string name="sort_text">"Сортировка"</string>
     <string name="by_default_text">"По умолчанию"</string>
     <string name="by_alphabet_text">"По алфавиту"</string>
     <string name="by_date_create_text">"По дате создания"</string>
+    <string name="save_text">"Сохранить"</string>
     <string name="create_text">"Создать"</string>
-    <string name="new_playlist_message_text">"Введите название нового плейлиста"</string>
+    <string name="new_playlist_message_text">"Введите название плейлиста"</string>
     <string name="search_text">"Поиск"</string>
     <string name="delete_playlist_text">"Удалить плейлист"</string>
+    <string name="delete_text">"Удалить"</string>
+    <string name="input_name_text">"Введите имя"</string>
+    <string name="title_dialog_edit_name_text">"Изменить название"</string>
     <string name="edit_image_text">"Изменить обложку"</string>
     <string name="edit_name_text">"Переименовать"</string>
     <string name="add_music_text">"Добавить трек"</string>
 
-    <string name="content">Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.</string>
-
+    <string name="error_duplicate_text">"Название не поменялось"</string>
     <string name="error_empty_line_text">"Пустая строка"</string>
     <string name="error_email_text">"Почта введена неккоректно"</string>
     <string name="error_password_text">"Должно быть больше 6 символов"</string>

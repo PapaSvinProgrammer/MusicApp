@@ -34,6 +34,15 @@ interface PlaylistDao {
     @Query("SELECT * FROM playlists")
     fun getOnlyPlaylist(): Flow<List<PlaylistEntity?>>
 
+    @Transaction
     @Query("DELETE FROM playlists WHERE id = :id")
     suspend fun delete(id: String)
+
+    @Transaction
+    @Query("UPDATE playlists SET image_url = :url WHERE id = :id")
+    suspend fun saveImage(url: String, id: String)
+
+    @Transaction
+    @Query("UPDATE playlists SET name_playlist = :name WHERE id = :id")
+    suspend fun saveName(name: String, id: String)
 }

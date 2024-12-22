@@ -29,6 +29,14 @@ class PlaylistSQLiteRepository(
         return job.await()
     }
 
+    override suspend fun saveImage(url: String, id: String) {
+        playlistDao.saveImage(url, id)
+    }
+
+    override suspend fun saveName(name: String, id: String) {
+        playlistDao.saveName(name, id)
+    }
+
     override fun getAllById(): Flow<List<PlaylistResult?>> {
         return playlistDao.getAllById()
     }

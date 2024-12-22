@@ -157,9 +157,9 @@
         app:popExitAnim="@anim/slide_in_right" />
     <fragment
         android:id="@+id/albumFragment"
-        android:name="com.example.musicapp.presintation.album.AlbumFragment"
+        android:name="com.example.musicapp.presintation.playlistItem.PlaylistItemFragment"
         android:label="fragment_album"
-        tools:layout="@layout/fragment_album" />
+        tools:layout="@layout/fragment_item_playlist" />
     <action
         android:id="@+id/action_global_albumFragment"
         app:destination="@id/albumFragment"

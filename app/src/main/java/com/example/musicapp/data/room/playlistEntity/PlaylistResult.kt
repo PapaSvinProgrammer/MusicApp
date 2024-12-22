@@ -3,6 +3,7 @@ package com.example.musicapp.data.room.playlistEntity
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.example.musicapp.data.room.musicEntity.MusicEntity
+import com.example.musicapp.data.room.musicEntity.MusicResult
 
 data class PlaylistResult (
     @Embedded
@@ -13,5 +14,5 @@ data class PlaylistResult (
         parentColumn = "id",
         entityColumn = "playlist_id"
     )
-    val musicEntity: List<MusicEntity?>
+    val musicResult: List<MusicResult?>
 )

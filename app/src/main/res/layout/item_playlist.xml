@@ -50,8 +50,8 @@
 
         <View
             android:id="@+id/dot"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:layout_marginStart="5dp"
             android:background="@drawable/corner_circle"
             android:backgroundTint="?attr/colorControlNormal"

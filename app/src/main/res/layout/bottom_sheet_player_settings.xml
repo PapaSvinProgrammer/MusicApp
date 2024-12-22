@@ -357,7 +357,7 @@
                             style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="@string/delete_text"
+                            android:text="@string/delete_from_device_text"
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_delete"
