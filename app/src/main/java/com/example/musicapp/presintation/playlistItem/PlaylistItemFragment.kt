@@ -27,6 +27,7 @@ class PlaylistItemFragment: Fragment() {
     private lateinit var navController: NavController
     private val viewModel by viewModel<PlaylistItemViewModel>()
     private val recyclerAdapter by lazy { MusicAdapter() }
+    private val settingsBottomSheet by lazy { PlaylistBottomSheet() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +65,13 @@ class PlaylistItemFragment: Fragment() {
             binding.recyclerView.adapter = recyclerAdapter
             binding.collapsingToolbar.title = album?.playlistEntity?.name
         }
+
+        viewModel.deletePlaylistResult.observe(viewLifecycleOwner) {
+            if (it) {
+                settingsBottomSheet.dismiss()
+                navController.popBackStack()
+            }
+        }
     }
 
     override fun onStart() {
@@ -87,7 +95,6 @@ class PlaylistItemFragment: Fragment() {
     }
 
     private fun createSettingsBottomSheet() {
-        val bottomSheet = PlaylistBottomSheet()
         val currentAlbum = viewModel.getPlaylistResult.value
 
         val album = Album(
@@ -99,19 +106,19 @@ class PlaylistItemFragment: Fragment() {
         val bundle = Bundle()
         bundle.putParcelable(PlaylistBottomSheet.PLAYLIST_KEY, album)
 
-        bottomSheet.arguments = bundle
-        initSettingsBottomSheet(bottomSheet)
+        settingsBottomSheet.arguments = bundle
+        initSettingsBottomSheet(settingsBottomSheet)
 
         requireActivity().supportFragmentManager.let {
-            bottomSheet.show(it, PlaylistBottomSheet.TAG)
+            settingsBottomSheet.show(it, PlaylistBottomSheet.TAG)
         }
     }
 
     private fun initSettingsBottomSheet(bottomSheet: PlaylistBottomSheet) {
         bottomSheet.settingsActionResult.observe(viewLifecycleOwner) { action ->
             when (action) {
-                SettingsPlaylist.DOWNLOAD -> TODO()
-                SettingsPlaylist.ADD_MUSIC -> TODO()
+                SettingsPlaylist.DOWNLOAD -> {}
+                SettingsPlaylist.ADD_MUSIC -> {}
                 SettingsPlaylist.EDIT_NAME -> {
                     val newNameDialog = NewNameDialog(viewModel.getPlaylistResult.value?.playlistEntity?.name.toString())
                     initNewNameDialog(newNameDialog)

@@ -71,11 +71,6 @@ class HomeFragment: Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        requireActivity().unbindService(viewModel.connectionToPlayerService)
-        super.onDestroy()
-    }
-
     private fun pause() {
         binding.lottieAnim.pauseAnimation()
         binding.mainPlayButton.isSelected = false

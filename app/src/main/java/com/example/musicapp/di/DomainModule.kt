@@ -14,8 +14,9 @@ import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
-import com.example.musicapp.domain.usecase.room.DeleteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeletePlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
@@ -183,6 +184,12 @@ val domainModule = module {
 
     factory<UpdatePlaylistImage> {
         UpdatePlaylistImage(
+            playlistRepository = get()
+        )
+    }
+
+    factory<DeletePlaylistFromSQLite> {
+        DeletePlaylistFromSQLite(
             playlistRepository = get()
         )
     }

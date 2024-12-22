@@ -3,6 +3,7 @@ package com.example.musicapp.presintation.settings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,15 +41,10 @@ class SettingsFragment: Fragment() {
         }
 
         val navController = view.findNavController()
-//        val requestViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-//
-//        binding.userNameView.text = requestViewModel.emailResult
-//
-//        if (requestViewModel.darkModeResult) {
-//            binding.switchDarkMode.isChecked = true
-//        }
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            Log.d("RRRR", "DARK MODE")
+
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 viewModel.saveDarkMode(true)
@@ -74,5 +70,20 @@ class SettingsFragment: Fragment() {
         binding.storageLayout.setOnClickListener {
             navController.navigate(R.id.action_settingsFragment_to_storageFragment)
         }
+
+        viewModel.getEmailResult.observe(viewLifecycleOwner) {
+            binding.userNameView.text = it
+        }
+
+        viewModel.getDarkModeStateResult.observe(viewLifecycleOwner) {
+            binding.switchDarkMode.isChecked = it
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.getDarkMode()
+        viewModel.getEmail()
     }
 }

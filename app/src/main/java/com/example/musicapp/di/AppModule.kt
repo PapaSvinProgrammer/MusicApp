@@ -57,7 +57,9 @@ val appModule = module {
     viewModel {
         SettingsViewModel(
             saveDarkModeState = get(),
-            saveLoginState = get()
+            saveLoginState = get(),
+            getEmail = get(),
+            getDarkModeState = get()
         )
     }
 
@@ -100,7 +102,8 @@ val appModule = module {
         PlaylistItemViewModel(
             getPlaylistFromSQLite = get(),
             updatePlaylistImage = get(),
-            updatePlaylistName = get()
+            updatePlaylistName = get(),
+            deletePlaylistFromSQLite = get()
         )
     }
 }

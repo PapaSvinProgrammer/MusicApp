@@ -17,7 +17,7 @@ class DeletePlaylistDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireActivity())
             .setTitle(R.string.delete_playlist_text)
-            .setMessage(R.string.message_dialog_exit_text)
+            .setMessage(R.string.message_dialog_delete_playlist_text)
             .setNegativeButton(getString(R.string.cancel_text))  { dialog, _ ->
                 dialog.dismiss()
             }
