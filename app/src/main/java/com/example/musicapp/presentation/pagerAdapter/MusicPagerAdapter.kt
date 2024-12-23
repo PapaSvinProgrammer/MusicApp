@@ -1,5 +1,6 @@
 package com.example.musicapp.presentation.pagerAdapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,11 +13,17 @@ import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 class MusicPagerAdapter: RecyclerView.Adapter<MusicPagerAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecyclerMusicListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(list: List<MusicResult?>, portionNumber: Int) {
-            val startPosition = portionNumber * 3
+            val size = list.size
+
+            var startPosition = portionNumber * 3
             var endPosition = startPosition + 3
 
-            if (endPosition > list.size) {
-                endPosition = list.size
+            if (endPosition > size) {
+                endPosition = size
+            }
+
+            if (startPosition > size) {
+                startPosition = size
             }
 
             val recyclerAdapter = MusicAdapter()
