@@ -1,16 +1,17 @@
 package com.example.musicapp.di
 
-import com.example.musicapp.presintation.playlistItem.PlaylistItemViewModel
-import com.example.musicapp.presintation.favorite.FavoriteViewModel
-import com.example.musicapp.presintation.home.HomeViewModel
-import com.example.musicapp.presintation.login.LoginViewModel
-import com.example.musicapp.presintation.main.MainViewModel
-import com.example.musicapp.presintation.mainPlayer.PlayerViewModel
-import com.example.musicapp.presintation.playlist.PlaylistViewModel
-import com.example.musicapp.presintation.registration.RegistrationViewModel
-import com.example.musicapp.presintation.settingPreferences.SettingsPreferencesViewModel
-import com.example.musicapp.presintation.settings.SettingsViewModel
-import com.example.musicapp.presintation.start.StartViewModel
+import com.example.musicapp.presentation.playlistItem.PlaylistItemViewModel
+import com.example.musicapp.presentation.favorite.FavoriteViewModel
+import com.example.musicapp.presentation.home.HomeViewModel
+import com.example.musicapp.presentation.login.LoginViewModel
+import com.example.musicapp.presentation.main.MainViewModel
+import com.example.musicapp.presentation.mainPlayer.PlayerViewModel
+import com.example.musicapp.presentation.playlist.PlaylistViewModel
+import com.example.musicapp.presentation.playlistFavorite.PlaylistFavoriteViewModel
+import com.example.musicapp.presentation.registration.RegistrationViewModel
+import com.example.musicapp.presentation.settingPreferences.SettingsPreferencesViewModel
+import com.example.musicapp.presentation.settings.SettingsViewModel
+import com.example.musicapp.presentation.start.StartViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -104,6 +105,12 @@ val appModule = module {
             updatePlaylistImage = get(),
             updatePlaylistName = get(),
             deletePlaylistFromSQLite = get()
+        )
+    }
+
+    viewModel {
+        PlaylistFavoriteViewModel(
+            getPlaylistFromSQLite = get()
         )
     }
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presintation.start.StartFragment">
+    tools:context=".presentation.start.StartFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/shapeableImageView"

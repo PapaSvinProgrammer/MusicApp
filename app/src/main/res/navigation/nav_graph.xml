@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.example.musicapp.presintation.favorite.FavoriteFragment"
+        android:name="com.example.musicapp.presentation.favorite.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_favorite"/>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.musicapp.presintation.home.HomeFragment"
+        android:name="com.example.musicapp.presentation.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.musicapp.presintation.settings.SettingsFragment"
+        android:name="com.example.musicapp.presentation.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
         <action
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.musicapp.presintation.login.LoginFragment"
+        android:name="com.example.musicapp.presentation.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.musicapp.presintation.registration.RegistrationFragment"
+        android:name="com.example.musicapp.presentation.registration.RegistrationFragment"
         android:label="RegistrationFragment"
         tools:layout="@layout/fragment_registration">
         <action
@@ -74,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.musicapp.presintation.start.StartFragment"
+        android:name="com.example.musicapp.presentation.start.StartFragment"
         android:label="StartFragment"
         tools:layout="@layout/fragment_start">
         <action
@@ -102,7 +102,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingPreferencesFragment"
-        android:name="com.example.musicapp.presintation.settingPreferences.SettingPreferencesFragment"
+        android:name="com.example.musicapp.presentation.settingPreferences.SettingPreferencesFragment"
         android:label="SettingPreferencesFragment"
         tools:layout="@layout/fragment_setting_preferences">
         <action
@@ -121,17 +121,17 @@
     </fragment>
     <fragment
         android:id="@+id/storageFragment"
-        android:name="com.example.musicapp.presintation.storage.StorageFragment"
+        android:name="com.example.musicapp.presentation.storage.StorageFragment"
         android:label="StorageFragment"
         tools:layout="@layout/fragment_storage"/>
     <fragment
         android:id="@+id/selectedListFragment"
-        android:name="com.example.musicapp.presintation.settingPreferences.SelectedListFragment"
+        android:name="com.example.musicapp.presentation.settingPreferences.SelectedListFragment"
         android:label="fragment_selected_list"
         tools:layout="@layout/fragment_selected_list" />
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.example.musicapp.presintation.mainPlayer.PlayerFragment"
+        android:name="com.example.musicapp.presentation.mainPlayer.PlayerFragment"
         android:label="fragment_main_player"
         tools:layout="@layout/fragment_player" >
         <action
@@ -140,12 +140,12 @@
     </fragment>
     <dialog
         android:id="@+id/playerBottomSheetDialog2"
-        android:name="com.example.musicapp.presintation.bottomSheet.PlayerBottomSheet"
+        android:name="com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet"
         android:label="bottom_sheet_player_settings"
         tools:layout="@layout/bottom_sheet_player_settings" /><action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
     <fragment
         android:id="@+id/playlistFragment"
-        android:name="com.example.musicapp.presintation.playlist.PlaylistFragment"
+        android:name="com.example.musicapp.presentation.playlist.PlaylistFragment"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" />
     <action
@@ -157,12 +157,24 @@
         app:popExitAnim="@anim/slide_in_right" />
     <fragment
         android:id="@+id/albumFragment"
-        android:name="com.example.musicapp.presintation.playlistItem.PlaylistItemFragment"
+        android:name="com.example.musicapp.presentation.playlistItem.PlaylistItemFragment"
         android:label="fragment_album"
         tools:layout="@layout/fragment_item_playlist" />
     <action
         android:id="@+id/action_global_albumFragment"
         app:destination="@id/albumFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <fragment
+        android:id="@+id/playlistFavoriteFragment"
+        android:name="com.example.musicapp.presentation.playlistFavorite.PlaylistFavoriteFragment"
+        android:label="fragment_playlist_favorite"
+        tools:layout="@layout/fragment_playlist_favorite" />
+    <action
+        android:id="@+id/action_global_playlistFavoriteFragment"
+        app:destination="@id/playlistFavoriteFragment"
         app:enterAnim="@anim/slide_in_left"
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"

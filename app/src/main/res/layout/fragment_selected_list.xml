@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presintation.settingPreferences.SelectedListFragment">
+    tools:context=".presentation.settingPreferences.SelectedListFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:title="Добавленное"
         app:titleCentered="true"

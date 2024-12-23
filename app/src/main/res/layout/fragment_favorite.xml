@@ -10,6 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:title="@string/collection_text"
         app:titleCentered="true"
         app:menu="@menu/top_app_bar_search"
@@ -28,6 +29,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/favorite_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
