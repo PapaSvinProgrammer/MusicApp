@@ -34,11 +34,11 @@ interface MusicDao {
     fun getAllAuthor(): List<AuthorEntity?>
 
     @Transaction
-    @Query("SELECT * FROM favorite_music LIMIT :limit")
+    @Query("SELECT * FROM favorite_music ORDER BY id DESC LIMIT :limit")
     fun getMusicLimit(limit: String): List<MusicResult?>
 
     @Transaction
-    @Query("SELECT * FROM author_for_music LIMIT :limit")
+    @Query("SELECT * FROM author_for_music ORDER BY id DESC LIMIT :limit")
     fun getAuthorLimit(limit: String): List<AuthorEntity?>
 
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")

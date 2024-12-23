@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,6 +136,7 @@ class PlaylistItemFragment: Fragment() {
                 SettingsPlaylist.DELETE -> {
                     DeletePlaylistDialog(viewModel).show(parentFragmentManager, DeletePlaylistDialog.TAG)
                 }
+                else -> {}
             }
         }
     }

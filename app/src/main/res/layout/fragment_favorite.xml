@@ -19,7 +19,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="150dp"
+        android:paddingBottom="190dp"
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 

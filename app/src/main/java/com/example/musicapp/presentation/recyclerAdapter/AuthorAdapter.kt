@@ -24,13 +24,13 @@ class AuthorAdapter: RecyclerView.Adapter<AuthorAdapter.ViewHolder>() {
 
     private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.authorEntityDiffUtilCallback)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemArtistBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AuthorAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val author = asyncListDiffer.currentList[position]
         holder.onBind(author)
     }

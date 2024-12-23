@@ -1,8 +1,6 @@
 package com.example.musicapp.presentation.playlistFavorite
 
 import android.annotation.SuppressLint
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +35,7 @@ class PlaylistFavoriteFragment: Fragment() {
                 .load(it?.playlistEntity?.imageUrl)
                 .into(binding.backImage)
 
-            musicAdapter.setData(it?.musicResult ?: arrayListOf())
+            musicAdapter.setData(it?.musicResult?.reversed() ?: arrayListOf())
             binding.recyclerView.adapter = musicAdapter
             binding.collapsingToolbar.title = it?.playlistEntity?.name
         }
