@@ -46,11 +46,11 @@ class PlaylistItemFragment: Fragment() {
 
         initBlur()
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.appBar.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+        binding.appBar.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> {}
                 R.id.settings -> createSettingsBottomSheet()
@@ -65,7 +65,7 @@ class PlaylistItemFragment: Fragment() {
             album?.musicResult?.let { recyclerAdapter.setData(it) }
 
             binding.recyclerView.adapter = recyclerAdapter
-            binding.collapsingToolbar.title = album?.playlistEntity?.name
+            binding.appBar.collapsingToolbar.title = album?.playlistEntity?.name
         }
 
         viewModel.deletePlaylistResult.observe(viewLifecycleOwner) {
@@ -79,7 +79,7 @@ class PlaylistItemFragment: Fragment() {
     @SuppressLint("NewApi")
     private fun initBlur() {
         val blurRenderEffect = RenderEffect.createBlurEffect(100f, 100f, Shader.TileMode.CLAMP)
-        binding.backImage.setRenderEffect(blurRenderEffect)
+        binding.appBar.backImage.setRenderEffect(blurRenderEffect)
     }
 
     override fun onStart() {
@@ -143,7 +143,7 @@ class PlaylistItemFragment: Fragment() {
 
     private fun initNewNameDialog(dialog: NewNameDialog) {
         dialog.nameResult.observe(viewLifecycleOwner) { newName ->
-            binding.collapsingToolbar.title = newName
+            binding.appBar.collapsingToolbar.title = newName
             viewModel.saveName(newName)
         }
     }
@@ -151,11 +151,11 @@ class PlaylistItemFragment: Fragment() {
     private fun updateImageUI(url: String) {
         Glide.with(binding.root)
             .load(url)
-            .into(binding.frontImage)
+            .into(binding.appBar.frontImage)
 
         Glide.with(binding.root)
             .load(url)
             .error(R.drawable.ic_error_music)
-            .into(binding.backImage)
+            .into(binding.appBar.backImage)
     }
 }

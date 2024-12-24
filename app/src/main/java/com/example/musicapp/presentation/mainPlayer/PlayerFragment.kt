@@ -13,6 +13,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
@@ -22,6 +23,7 @@ import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.domain.state.StatePlayer
+import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
@@ -35,6 +37,7 @@ private const val COUNT_MSEC_TO_RESET = 3000
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
+    private lateinit var navController: NavController
     private lateinit var arrayViewPager: ArrayList<Music>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
@@ -51,9 +54,7 @@ class PlayerFragment: Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val navController = view.findNavController()
+        navController = view.findNavController()
 
         HorizontalOffsetController().setPreviewOffsetMainPager(
             viewPager2 = binding.viewPager,
@@ -253,7 +254,12 @@ class PlayerFragment: Fragment() {
                 }
 
                 SettingsPlayer.MOVE_TO_GROUP -> {}
-                SettingsPlayer.MOVE_TO_ALBUM -> {}
+
+                SettingsPlayer.MOVE_TO_ALBUM -> {
+                    bottomSheetDialog.dialog?.hide()
+                    executeMoveToAlbum()
+                }
+
                 SettingsPlayer.DELETE -> {}
                 SettingsPlayer.DOWNLOAD -> {}
                 SettingsPlayer.INFO -> {}
@@ -267,6 +273,15 @@ class PlayerFragment: Fragment() {
                 else -> {}
             }
         }
+    }
+
+    private fun executeMoveToAlbum() {
+        val bundle = Bundle()
+        val firebaseId = arrayViewPager[viewModel.currentPosition.value ?: 0].album
+        bundle.putString(AlbumFragment.FIREBASE_KEY, firebaseId)
+
+        navController.popBackStack()
+        navController.navigate(R.id.action_global_albumFragment, bundle)
     }
 
     private fun initSeekBar() {

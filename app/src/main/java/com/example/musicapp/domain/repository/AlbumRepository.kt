@@ -3,6 +3,7 @@ package com.example.musicapp.domain.repository
 import com.example.musicapp.domain.module.Album
 
 interface AlbumRepository {
-    fun getAlbumWithFilterOnGenre(): List<Album>
-    fun getAlbumAll(): List<Album>
+    suspend fun getAlbumWithFilterOnGenre(): List<Album>
+    suspend fun getAlbumAll(): List<Album>
+    suspend fun getAlbumById(id: String): Album
 }

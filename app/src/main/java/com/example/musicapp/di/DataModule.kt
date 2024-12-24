@@ -1,9 +1,11 @@
 package com.example.musicapp.di
 
 import androidx.room.Room
+import com.example.musicapp.data.firebase.GetAlbumByIdImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
+import com.example.musicapp.data.firebase.getMusic.GetMusicsByAlbumIdImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
 import com.example.musicapp.data.internalStorage.SaveInternalStorageImpl
@@ -27,6 +29,8 @@ import com.example.musicapp.domain.repository.MusicStorageRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
+import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -53,7 +57,8 @@ val dataModule = module {
 
     single<MusicRepository> {
         MusicRepositoryFirebase(
-            getMusicAllImpl = get()
+            getMusicAllImpl = get(),
+            getMusicsByAlbumIdImpl = get()
         )
     }
 
@@ -65,7 +70,9 @@ val dataModule = module {
     }
 
     single<AlbumRepository> {
-        AlbumRepositoryFirebase()
+        AlbumRepositoryFirebase(
+            getAlbumByIdImpl = get()
+        )
     }
 
     single<MusicStorageRepository> {
@@ -118,5 +125,13 @@ val dataModule = module {
         PlaylistSQLiteRepository(
             playlistDao = get()
         )
+    }
+
+    single<GetAlbumByIdImpl> {
+        GetAlbumByIdImpl()
+    }
+
+    single<GetMusicsByAlbumIdImpl> {
+        GetMusicsByAlbumIdImpl()
     }
 }

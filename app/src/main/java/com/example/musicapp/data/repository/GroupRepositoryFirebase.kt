@@ -20,4 +20,8 @@ class GroupRepositoryFirebase(
     override suspend fun getGroupAll(): List<Group> {
         return getGroupAllImpl.execute()
     }
+
+    override suspend fun getGroupById(id: String): Group {
+        TODO("Not yet implemented")
+    }
 }

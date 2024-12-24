@@ -8,4 +8,5 @@ interface MusicRepository {
     suspend fun getMusicWithFilterOnAlbum(): List<Music>
     suspend fun getMusicWithFilterOnName(): List<Music>
     suspend fun getMusicAll(): List<Music>
+    suspend fun getMusicsByAlbumId(albumId: String): List<Music>
 }

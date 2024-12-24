@@ -56,6 +56,8 @@
     <string name="edit_image_text">"Изменить обложку"</string>
     <string name="edit_name_text">"Переименовать"</string>
     <string name="add_music_text">"Добавить трек"</string>
+    <string name="progress_text">"Загрузка"</string>
+    <string name="listen_text">"Слушать"</string>
 
     <string name="error_duplicate_text">"Название не поменялось"</string>
     <string name="error_empty_line_text">"Пустая строка"</string>

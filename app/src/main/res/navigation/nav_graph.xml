@@ -134,15 +134,8 @@
         android:name="com.example.musicapp.presentation.mainPlayer.PlayerFragment"
         android:label="fragment_main_player"
         tools:layout="@layout/fragment_player" >
-        <action
-            android:id="@+id/action_playerFragment_to_playerBottomSheetDialog22"
-            app:destination="@id/playerBottomSheetDialog2" />
     </fragment>
-    <dialog
-        android:id="@+id/playerBottomSheetDialog2"
-        android:name="com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet"
-        android:label="bottom_sheet_player_settings"
-        tools:layout="@layout/bottom_sheet_player_settings" /><action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
+    <action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.example.musicapp.presentation.playlist.PlaylistFragment"
@@ -155,11 +148,6 @@
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"
         app:popExitAnim="@anim/slide_in_right" />
-    <fragment
-        android:id="@+id/albumFragment"
-        android:name="com.example.musicapp.presentation.playlistItem.PlaylistItemFragment"
-        android:label="fragment_album"
-        tools:layout="@layout/fragment_item_playlist" />
     <action
         android:id="@+id/action_global_albumFragment"
         app:destination="@id/albumFragment"
@@ -179,4 +167,9 @@
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"
         app:popExitAnim="@anim/slide_in_right" />
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.musicapp.presentation.album.AlbumFragment"
+        android:label="fragment_album"
+        tools:layout="@layout/fragment_album" />
 </navigation>

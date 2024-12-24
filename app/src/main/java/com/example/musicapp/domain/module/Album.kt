@@ -6,7 +6,7 @@ import android.os.Parcelable
 data class Album (
     val id: String = "",
     val date: String = "",
-    val genre: Array<String> = arrayOf(),
+    val genre: String = "",
     val image: String = "",
     val name: String = "",
     val time: String = "",
@@ -15,7 +15,7 @@ data class Album (
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.createStringArray() ?: arrayOf(),
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -32,7 +32,7 @@ data class Album (
         parcel.writeString(date)
         parcel.writeString(image)
         parcel.writeString(time)
-        parcel.writeArray(genre)
+        parcel.writeString(genre)
         parcel.writeInt(countMusic)
     }
 

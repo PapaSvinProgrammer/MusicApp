@@ -3,9 +3,11 @@ package com.example.musicapp.di
 import com.example.musicapp.domain.usecase.convert.ConvertAnyText
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
+import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -191,6 +193,18 @@ val domainModule = module {
     factory<DeletePlaylistFromSQLite> {
         DeletePlaylistFromSQLite(
             playlistRepository = get()
+        )
+    }
+
+    factory<GetAlbumById> {
+        GetAlbumById(
+            albumRepository = get()
+        )
+    }
+
+    factory<GetMusicsByAlbumId> {
+        GetMusicsByAlbumId(
+            musicRepository = get()
         )
     }
 }
