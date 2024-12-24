@@ -36,7 +36,7 @@ class MusicListAdapter: RecyclerView.Adapter<MusicListAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMusicListBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun onBind(music: Music, position: Int) {
-            binding.numberView.text = position.toString()
+            binding.numberView.text = (position + 1).toString()
             binding.musicTextView.text = music.name
         }
     }

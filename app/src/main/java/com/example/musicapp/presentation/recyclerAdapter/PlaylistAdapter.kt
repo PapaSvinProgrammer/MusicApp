@@ -58,7 +58,7 @@ class PlaylistAdapter(
 
             val bundle = Bundle()
             bundle.putLong(ALBUM_KEY, item?.playlistEntity?.id ?: 0L)
-            navController.navigate(R.id.action_global_albumFragment, bundle)
+            navController.navigate(R.id.action_global_playlistItemFragment, bundle)
         }
     }
 

@@ -7,14 +7,14 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
-class GetMusicsByAlbumIdImpl {
-    suspend fun execute(albumId: String): List<Music> {
+class GetMusicsByFieldIdImpl {
+    suspend fun execute(anyId: String, field: String): List<Music> {
         val result = arrayListOf<Music>()
         val database = Firebase.firestore
 
         database
             .collection(CollectionConst.MUSIC_COLLECTION)
-            .whereEqualTo(MusicConst.MUSIC_ALBUM_FIELD, albumId)
+            .whereEqualTo(field, anyId)
             .get()
             .await()
             .documents

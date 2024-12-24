@@ -21,7 +21,7 @@ import com.example.musicapp.presentation.bottomSheet.PlaylistBottomSheet
 import com.example.musicapp.presentation.dialog.NewPlaylistDialog
 import com.example.musicapp.presentation.dialog.DeletePlaylistDialog
 import com.example.musicapp.presentation.dialog.NewNameDialog
-import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
+import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.presentation.recyclerAdapter.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +29,7 @@ class PlaylistItemFragment: Fragment() {
     private lateinit var binding: FragmentItemPlaylistBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<PlaylistItemViewModel>()
-    private val recyclerAdapter by lazy { MusicAdapter() }
+    private val recyclerAdapter by lazy { MusicResultAdapter() }
     private val settingsBottomSheet by lazy { PlaylistBottomSheet() }
 
     override fun onCreateView(

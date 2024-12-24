@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
-import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
+import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFavoriteFragment: Fragment() {
     private lateinit var binding: FragmentPlaylistFavoriteBinding
     private val viewModel by viewModel<PlaylistFavoriteViewModel>()
-    private val musicAdapter by lazy { MusicAdapter() }
+    private val musicResultAdapter by lazy { MusicResultAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,14 +33,14 @@ class PlaylistFavoriteFragment: Fragment() {
         viewModel.getPlaylistResult.observe(viewLifecycleOwner) {
             Glide.with(binding.root)
                 .load(it?.playlistEntity?.imageUrl)
-                .into(binding.backImage)
+                .into(binding.appBar.backImage)
 
-            musicAdapter.setData(it?.musicResult?.reversed() ?: arrayListOf())
-            binding.recyclerView.adapter = musicAdapter
-            binding.collapsingToolbar.title = it?.playlistEntity?.name
+            musicResultAdapter.setData(it?.musicResult?.reversed() ?: arrayListOf())
+            binding.recyclerView.adapter = musicResultAdapter
+            binding.appBar.collapsingToolbar.title = it?.playlistEntity?.name
         }
 
-        binding.toolbar.setNavigationOnClickListener {
+        binding.appBar.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
     }

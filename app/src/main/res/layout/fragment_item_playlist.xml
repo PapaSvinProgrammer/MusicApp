@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/app_bar"
-        layout="@layout/layout_collapsing_app_bar_album"/>
+        layout="@layout/layout_collapsing_app_bar_playlist"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

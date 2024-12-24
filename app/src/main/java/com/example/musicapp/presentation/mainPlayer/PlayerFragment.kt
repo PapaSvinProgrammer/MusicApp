@@ -24,6 +24,7 @@ import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
+import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
@@ -253,7 +254,10 @@ class PlayerFragment: Fragment() {
                     shareToOut()
                 }
 
-                SettingsPlayer.MOVE_TO_GROUP -> {}
+                SettingsPlayer.MOVE_TO_GROUP -> {
+                    bottomSheetDialog.dialog?.hide()
+                    executeMoveToAuthor()
+                }
 
                 SettingsPlayer.MOVE_TO_ALBUM -> {
                     bottomSheetDialog.dialog?.hide()
@@ -273,6 +277,15 @@ class PlayerFragment: Fragment() {
                 else -> {}
             }
         }
+    }
+
+    private fun executeMoveToAuthor() {
+        val bundle = Bundle()
+        val firebaseId = arrayViewPager[viewModel.currentPosition.value ?: 0].groupId
+        bundle.putString(AuthorFragment.AUTHOR_KEY, firebaseId)
+
+        navController.popBackStack()
+        navController.navigate(R.id.action_global_authorFragment, bundle)
     }
 
     private fun executeMoveToAlbum() {

@@ -1,13 +1,15 @@
 package com.example.musicapp.data.repository
 
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
+import com.example.musicapp.data.firebase.getGroup.GetGroupByIdImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.repository.GroupRepository
 
 class GroupRepositoryFirebase(
     private val getGroupAllImpl: GetGroupAllImpl,
-    private val getGroupWithFilterOnGenresImpl: GetGroupWithFilterOnGenresImpl
+    private val getGroupWithFilterOnGenresImpl: GetGroupWithFilterOnGenresImpl,
+    private val getGroupByIdImpl: GetGroupByIdImpl
 ): GroupRepository {
     override suspend fun getGroupWithFilterOnName(): List<Group> {
         TODO("Not yet implemented")
@@ -22,6 +24,6 @@ class GroupRepositoryFirebase(
     }
 
     override suspend fun getGroupById(id: String): Group {
-        TODO("Not yet implemented")
+        return getGroupByIdImpl.execute(id)
     }
 }

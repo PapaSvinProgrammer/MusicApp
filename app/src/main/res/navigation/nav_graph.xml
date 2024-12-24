@@ -172,4 +172,27 @@
         android:name="com.example.musicapp.presentation.album.AlbumFragment"
         android:label="fragment_album"
         tools:layout="@layout/fragment_album" />
+    <fragment
+        android:id="@+id/authorFragment"
+        android:name="com.example.musicapp.presentation.author.AuthorFragment"
+        android:label="fragment_author"
+        tools:layout="@layout/fragment_author" />
+    <action
+        android:id="@+id/action_global_authorFragment"
+        app:destination="@id/authorFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <fragment
+        android:id="@+id/playlistItemFragment"
+        android:name="com.example.musicapp.presentation.playlistItem.PlaylistItemFragment"
+        android:label="PlaylistItemFragment" />
+    <action
+        android:id="@+id/action_global_playlistItemFragment"
+        app:destination="@id/playlistItemFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
 </navigation>

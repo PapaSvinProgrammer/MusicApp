@@ -6,4 +6,5 @@ interface AlbumRepository {
     suspend fun getAlbumWithFilterOnGenre(): List<Album>
     suspend fun getAlbumAll(): List<Album>
     suspend fun getAlbumById(id: String): Album
+    suspend fun getAlbumByAuthorId(authorId: String): List<Album>
 }

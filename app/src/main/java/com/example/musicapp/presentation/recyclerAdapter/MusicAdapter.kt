@@ -5,43 +5,39 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.musicapp.R
-import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
+import com.example.musicapp.domain.module.Music
 
 class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
-    class ViewHolder(val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(music: MusicResult?) {
+    class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
+        fun onBind(music: Music) {
             Glide.with(binding.root)
-                .load(music?.albumEntity?.imageLow)
-                .error(R.drawable.ic_error_music)
+                .load(music.imageLow)
                 .into(binding.imageView)
 
-            binding.musicTextView.text = music?.musicEntity?.name
-            binding.groupTextView.text = music?.authorEntity?.name
+            binding.musicTextView.text = music.name
+            binding.groupTextView.text = music.group
         }
     }
 
-    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicResultDiffUtilCallback)
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMusicBinding.inflate(inflater, parent, false)
+
         return ViewHolder(binding)
     }
+
+    override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position]
         holder.onBind(music)
     }
 
-    override fun getItemCount(): Int = asyncListDiffer.currentList.size
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
 
-    fun setData(newList: List<MusicResult?>) {
-        asyncListDiffer.submitList(newList)
+    fun setData(newLIst: List<Music>) {
+        asyncListDiffer.submitList(newLIst)
     }
 }

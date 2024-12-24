@@ -6,4 +6,5 @@ object AlbumConst {
     const val ALBUM_IMAGE_FIELD = "Image"
     const val ALBUM_NAME_FIELD = "Name"
     const val ALBUM_TIME_FIELD = "Time"
+    const val ALBUM_GROUP_FIELD = "GroupId"
 }

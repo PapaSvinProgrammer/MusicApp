@@ -4,10 +4,13 @@ import com.example.musicapp.domain.usecase.convert.ConvertAnyText
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
+import com.example.musicapp.domain.usecase.getGroup.GetGroupById
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
+import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -204,6 +207,24 @@ val domainModule = module {
 
     factory<GetMusicsByAlbumId> {
         GetMusicsByAlbumId(
+            musicRepository = get()
+        )
+    }
+
+    factory<GetAlbumsByAuthorId> {
+        GetAlbumsByAuthorId(
+            albumRepository = get()
+        )
+    }
+
+    factory {
+        GetGroupById(
+            groupRepository = get()
+        )
+    }
+
+    factory {
+        GetMusicsByAuthorId(
             musicRepository = get()
         )
     }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemRecyclerMusicListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
+import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 
 class MusicPagerAdapter: RecyclerView.Adapter<MusicPagerAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecyclerMusicListBinding): RecyclerView.ViewHolder(binding.root) {
@@ -25,7 +25,7 @@ class MusicPagerAdapter: RecyclerView.Adapter<MusicPagerAdapter.ViewHolder>() {
                 startPosition = size
             }
 
-            val recyclerAdapter = MusicAdapter()
+            val recyclerAdapter = MusicResultAdapter()
             recyclerAdapter.setData(list.subList(startPosition, endPosition))
             binding.recyclerView.adapter = recyclerAdapter
         }

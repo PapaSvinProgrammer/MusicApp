@@ -1,6 +1,5 @@
-package com.example.musicapp.data.firebase
+package com.example.musicapp.data.firebase.getAlbum
 
-import android.util.Log
 import com.example.musicapp.data.constant.AlbumConst
 import com.example.musicapp.data.constant.CollectionConst
 import com.example.musicapp.domain.module.Album
@@ -20,7 +19,7 @@ class GetAlbumByIdImpl {
 
         return Album(
             id = document.id,
-            date = document.getString(AlbumConst.ALBUM_GENRE_FIELD).toString(),
+            date = document.getString(AlbumConst.ALBUM_DATE_FIELD).toString(),
             genre = document[AlbumConst.ALBUM_GENRE_FIELD].toString(),
             image = document[AlbumConst.ALBUM_IMAGE_FIELD].toString(),
             name = document[AlbumConst.ALBUM_NAME_FIELD].toString(),
