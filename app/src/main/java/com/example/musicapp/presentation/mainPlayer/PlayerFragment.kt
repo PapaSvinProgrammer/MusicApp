@@ -3,6 +3,8 @@ package com.example.musicapp.presentation.mainPlayer
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
@@ -56,6 +59,8 @@ class PlayerFragment: Fragment() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+
+        initBlur()
 
         HorizontalOffsetController().setPreviewOffsetMainPager(
             viewPager2 = binding.viewPager,
@@ -322,6 +327,10 @@ class PlayerFragment: Fragment() {
             viewModel.getMusicById(
                 id = arrayViewPager[position].id
             )
+
+            Glide.with(binding.root)
+                .load(arrayViewPager[position].imageHigh)
+                .into(binding.backImage)
         }
     }
 
@@ -473,5 +482,11 @@ class PlayerFragment: Fragment() {
 
         binding.musicTextView.text = newObj.name
         binding.groupTextView.text = newObj.group
+    }
+
+    @SuppressLint("NewApi")
+    private fun initBlur() {
+        val blurRenderEffect = RenderEffect.createBlurEffect(200f, 200f, Shader.TileMode.CLAMP)
+        binding.backImage.setRenderEffect(blurRenderEffect)
     }
 }

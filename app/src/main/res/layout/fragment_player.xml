@@ -7,6 +7,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.mainPlayer.PlayerFragment">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/back_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -176,14 +182,14 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/repeat_view"
+            style="@style/IconSelectedColorStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            style="@style/IconSelectedColorStyle"
             android:padding="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/note_view"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/note_view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/note_view"
             app:srcCompat="@drawable/ic_repeat" />
 
         <View
@@ -202,7 +208,7 @@
             android:layout_height="48dp"
             android:padding="11dp"
             style="@style/IconSelectedColorStyle"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/shuffle_view"
             app:layout_constraintStart_toEndOf="@+id/repeat_view"
@@ -221,14 +227,14 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shuffle_view"
             style="@style/IconSelectedColorStyle"
-            app:srcCompat="@drawable/ic_shuffle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/note_view"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/note_view"
-            app:layout_constraintTop_toTopOf="@+id/note_view" />
+            app:srcCompat="@drawable/ic_shuffle" />
 
         <View
             android:id="@+id/shuffle_dot"

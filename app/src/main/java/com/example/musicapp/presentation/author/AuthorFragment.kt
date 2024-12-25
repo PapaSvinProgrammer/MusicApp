@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.author
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentAuthorBinding
+import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
+import com.example.musicapp.presentation.pagerAdapter.MusicListPagerAdapter
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
-import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
-import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthorFragment: Fragment() {
@@ -21,9 +21,10 @@ class AuthorFragment: Fragment() {
     }
 
     private lateinit var binding: FragmentAuthorBinding
-    private val viewModel by viewModel<AuthorViewModel>()
     private lateinit var navController: NavController
-    private val musicAdapter by lazy { MusicAdapter() }
+
+    private val viewModel by viewModel<AuthorViewModel>()
+    private val musicPager by lazy { MusicListPagerAdapter() }
     private val albumAdapter by lazy { AlbumAdapter() }
 
     override fun onCreateView(
@@ -37,6 +38,12 @@ class AuthorFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+
+        HorizontalOffsetController().setPreviewOffsetBottomPager(
+            viewPager2 = binding.musicViewPager,
+            nextItemVisibleSize = R.dimen.viewpager_item_visible,
+            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
+        )
 
         viewModel.getAuthorResult.observe(viewLifecycleOwner) { author ->
             Glide.with(binding.root)
@@ -52,8 +59,8 @@ class AuthorFragment: Fragment() {
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
-            musicAdapter.setData(list)
-            binding.musicRecyclerView.adapter = musicAdapter
+            musicPager.setData(list)
+            binding.musicViewPager.adapter = musicPager
         }
 
         binding.appBar.toolbar.setNavigationOnClickListener {
