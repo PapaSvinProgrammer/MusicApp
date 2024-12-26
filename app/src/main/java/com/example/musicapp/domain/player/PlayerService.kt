@@ -117,6 +117,7 @@ class PlayerService: Service() {
 
     fun setMusicList(list: List<Music>) {
         this.musicList = list
+        audioPlayer?.setList(list)
     }
 
     fun setCurrentPosition(position: Int) {
@@ -125,12 +126,8 @@ class PlayerService: Service() {
         if (musicList == null) return
 
         currentPosition.value = position
-        currentObject = musicList!![position]
 
-        audioPlayer?.addNewObjectAndStart(
-            music = currentObject!!,
-            isPlay = isPlay.value ?: false
-        )
+        audioPlayer?.setPosition(position, isPlay.value ?: false)
 
         maxDuration.value = 0
         updateDurations()
@@ -172,18 +169,7 @@ class PlayerService: Service() {
 
         if (musicList == null) return
 
-        if (currentObject == null) {
-            currentObject = musicList!![currentPosition.value ?: 0]
-
-            audioPlayer?.addNewObjectAndStart(
-                music = currentObject!!,
-                isPlay = isPlay.value ?: false
-            )
-        }
-        else {
-            audioPlayer?.play()
-        }
-
+        audioPlayer?.play()
         updateDurations()
 
         if (musicList != null) {
@@ -195,28 +181,12 @@ class PlayerService: Service() {
         if ((currentPosition.value ?: 0) - 1 < 0) return
 
         currentPosition.value = (currentPosition.value ?: 0) - 1
-        currentObject = musicList!![currentPosition.value ?: 0]
-
-        audioPlayer?.addNewObjectAndStart(
-            music = currentObject!!,
-            isPlay = isPlay.value ?: false
-        )
-
-        updateDurations()
-        audioNotification?.execute(musicList!![currentPosition.value ?: 0])
+        setCurrentPosition(currentPosition.value ?: 0)
     }
 
     private fun next() {
         currentPosition.value = (currentPosition.value ?: 0) + 1
-        currentObject = musicList!![currentPosition.value ?: 0]
-
-        audioPlayer?.addNewObjectAndStart(
-            music = currentObject!!,
-            isPlay = isPlay.value ?: false
-        )
-
-        updateDurations()
-        audioNotification?.execute(musicList!![currentPosition.value ?: 0])
+        setCurrentPosition(currentPosition.value ?: 0)
     }
 
     private fun updateDurations() {
@@ -229,17 +199,6 @@ class PlayerService: Service() {
                 }
 
                 currentDuration.value = audioPlayer?.getCurrentDuration()
-
-                if ((maxDuration.value ?: 0) > 0L && (currentDuration.value ?: 0) >= (maxDuration.value ?: 0)) {
-                    if (isRepeat.value == true) {
-                        reset()
-                    }
-                    else {
-                        currentPosition.value = (currentPosition.value ?: 0) + 1
-                        setCurrentPosition(currentPosition.value ?: 0)
-                    }
-                }
-
                 delay(1000)
             }
         }

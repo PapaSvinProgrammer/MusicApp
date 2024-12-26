@@ -73,20 +73,24 @@ class Player(context: Context) : AudioPlayer {
         return exoPlayer.duration
     }
 
-    override fun addNewObjectAndStart(music: Music, isPlay: Boolean) {
-        val mediaItem = MediaItem.fromUri(music.url)
+    override fun seekTo(msec: Long) {
+        exoPlayer.seekTo(msec)
+    }
 
-        if (music.url.isEmpty()) return
+    override fun setList(list: List<Music>) {
+        val mediaItems = list.asSequence().map {
+            MediaItem.fromUri(it.url)
+        }.toList()
 
-        exoPlayer.setMediaItem(mediaItem)
+        exoPlayer.setMediaItems(mediaItems)
         exoPlayer.prepare()
+    }
+
+    override fun setPosition(position: Int, isPlay: Boolean) {
+        exoPlayer.seekToDefaultPosition(position)
 
         if (!isPlay) return
 
-        exoPlayer.playWhenReady = true
-    }
-
-    override fun seekTo(msec: Long) {
-        exoPlayer.seekTo(msec)
+        exoPlayer.play()
     }
 }

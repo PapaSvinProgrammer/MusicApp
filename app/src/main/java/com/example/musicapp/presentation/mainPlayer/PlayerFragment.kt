@@ -195,6 +195,10 @@ class PlayerFragment: Fragment() {
             }
         })
 
+        binding.musicLayout.setOnClickListener {
+            executeMoveToAuthor()
+        }
+
         viewModel.isBound.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
@@ -331,6 +335,10 @@ class PlayerFragment: Fragment() {
             Glide.with(binding.root)
                 .load(arrayViewPager[position].imageHigh)
                 .into(binding.backImage)
+
+            Glide.with(binding.root)
+                .load(arrayViewPager[position].imageGroup)
+                .into(binding.groupImageView)
         }
     }
 
