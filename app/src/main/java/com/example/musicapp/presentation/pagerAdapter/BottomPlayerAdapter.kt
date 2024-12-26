@@ -52,6 +52,13 @@ class BottomPlayerAdapter(
                 }
             }
 
+            if (music.movieUrl.isNotEmpty()) {
+                binding.iconMovieView.visibility = View.VISIBLE
+            }
+            else {
+                binding.iconMovieView.visibility = View.GONE
+            }
+
             viewModel.statePlayer.observe(livecycleOwner) {
                 when (it) {
                     StatePlayer.PLAY -> {

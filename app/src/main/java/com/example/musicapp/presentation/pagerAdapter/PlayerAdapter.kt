@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.pagerAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,13 @@ class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
                     .load(music.imageHigh)
                     .error(R.drawable.ic_error_music)
                     .into(binding.imageView)
+            }
+
+            if (music.movieUrl.isNotEmpty()) {
+                binding.iconVideo.visibility = View.VISIBLE
+            }
+            else {
+                binding.iconVideo.visibility = View.GONE
             }
         }
     }

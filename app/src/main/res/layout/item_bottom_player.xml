@@ -35,8 +35,9 @@
         <TextView
             android:id="@+id/name_text_view"
             style="@style/TextColorOnSurface"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="180dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
@@ -44,23 +45,33 @@
             android:lines="1"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/group_text_view"
-            app:layout_constraintEnd_toStartOf="@+id/icon_favorite_view"
             app:layout_constraintStart_toEndOf="@+id/icon_view"
             app:layout_constraintTop_toTopOf="@+id/icon_view"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Name the song" />
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/icon_movie_view"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            style="@style/IconBottomSheetColor"
+            app:srcCompat="@drawable/ic_video_music"
+            app:layout_constraintBottom_toTopOf="@+id/group_text_view"
+            app:layout_constraintStart_toEndOf="@+id/name_text_view"
+            app:layout_constraintTop_toTopOf="@+id/name_text_view" />
+
         <TextView
             android:id="@+id/group_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="180dp"
             android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_medium"
             android:lines="1"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@+id/icon_view"
-            app:layout_constraintEnd_toStartOf="@+id/icon_favorite_view"
             app:layout_constraintStart_toStartOf="@+id/name_text_view"
             app:layout_constraintTop_toBottomOf="@+id/name_text_view"
             tools:text="Name the group" />

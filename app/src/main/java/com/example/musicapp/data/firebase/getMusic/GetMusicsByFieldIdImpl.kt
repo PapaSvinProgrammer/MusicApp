@@ -29,7 +29,8 @@ class GetMusicsByFieldIdImpl {
                         imageLow = document[MusicConst.MUSIC_IMAGE_LOW_FIELD].toString(),
                         imageHigh = document[MusicConst.MUSIC_IMAGE_HIGH_FIELD].toString(),
                         groupId = document[MusicConst.MUSIC_GROUP_ID_FIELD].toString(),
-                        imageGroup = document[MusicConst.MUSIC_IMAGE_GROUP_FIELD].toString()
+                        imageGroup = document[MusicConst.MUSIC_IMAGE_GROUP_FIELD].toString(),
+                        movieUrl = document[MusicConst.MUSIC_MOVIE_FIELD].toString()
                     )
                 )
             }
