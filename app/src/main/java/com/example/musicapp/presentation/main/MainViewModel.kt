@@ -27,8 +27,8 @@ class MainViewModel(
     private val getMusicAll: GetMusicAll,
     private val addPlaylistInSQLite: AddPlaylistInSQLite
 ): ViewModel() {
-    lateinit var durationLiveData: LiveData<Int>
-    lateinit var maxDurationLiveData: LiveData<Int>
+    lateinit var durationLiveData: LiveData<Long>
+    lateinit var maxDurationLiveData: LiveData<Long>
     lateinit var isPlayService: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
     @SuppressLint("StaticFieldLeak")

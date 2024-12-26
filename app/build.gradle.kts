@@ -44,6 +44,9 @@ android {
 dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.room.ktx)
     implementation(libs.lottie)
     implementation(libs.firebase.auth)

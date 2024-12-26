@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
+import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.module.AudioBinder
 import com.example.musicapp.domain.player.module.AudioPlayer
@@ -40,12 +42,13 @@ class PlayerService: Service() {
     private var job: Job? = null
 
     private var isFavorite = MutableLiveData<Boolean>()
-    private val currentDuration = MutableLiveData<Int>()
-    private val maxDuration = MutableLiveData<Int>()
+    private val currentDuration = MutableLiveData<Long>()
+    private val maxDuration = MutableLiveData<Long>()
     private var isPlay = MutableLiveData<Boolean>()
     private val isRepeat = MutableLiveData<Boolean>()
     private var currentPosition = MutableLiveData<Int>()
 
+    @OptIn(UnstableApi::class)
     override fun onCreate() {
         Log.d("RRRR", "Create service")
         super.onCreate()
@@ -64,7 +67,7 @@ class PlayerService: Service() {
             likePendingIntent = likePendingIntent()
         )
 
-        audioPlayer = Player()
+        audioPlayer = Player(applicationContext)
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -135,7 +138,7 @@ class PlayerService: Service() {
     }
 
     fun seekTo(msec: Int) {
-        audioPlayer?.seekTo(msec)
+        audioPlayer?.seekTo(msec.toLong())
     }
 
     fun reset() {
@@ -221,11 +224,13 @@ class PlayerService: Service() {
 
         job = CoroutineScope(Dispatchers.Main).launch {
             while (isPlay.value == true) {
-                if (maxDuration.value == 0) maxDuration.value = audioPlayer?.getMaxDuration()
+                if ((maxDuration.value ?: 0) <= 0L) {
+                    maxDuration.value = audioPlayer?.getMaxDuration()
+                }
 
                 currentDuration.value = audioPlayer?.getCurrentDuration()
 
-                if (maxDuration.value != 0 && (currentDuration.value ?: 0) >= (maxDuration.value ?: 0)) {
+                if ((maxDuration.value ?: 0) > 0L && (currentDuration.value ?: 0) >= (maxDuration.value ?: 0)) {
                     if (isRepeat.value == true) {
                         reset()
                     }

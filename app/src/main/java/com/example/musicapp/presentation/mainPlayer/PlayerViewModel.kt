@@ -28,8 +28,8 @@ class PlayerViewModel(
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
 ): ViewModel() {
-    lateinit var durationLiveData: LiveData<Int>
-    lateinit var maxDurationLiveData: LiveData<Int>
+    lateinit var durationLiveData: LiveData<Long>
+    lateinit var maxDurationLiveData: LiveData<Long>
     lateinit var isPlay: LiveData<Boolean>
     lateinit var isRepeat: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
@@ -67,7 +67,7 @@ class PlayerViewModel(
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun getMissTime(current: Int?) {
+    fun getMissTime(current: Long?) {
         viewModelScope.launch {
             if (current == null) return@launch
             val result = (maxDurationLiveData.value ?: 0) - current
@@ -81,7 +81,7 @@ class PlayerViewModel(
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun getPassTime(current: Int) {
+    fun getPassTime(current: Long) {
         viewModelScope.launch {
             val simpleDateFormat = SimpleDateFormat("m:ss")
             val calendar = Calendar.getInstance()

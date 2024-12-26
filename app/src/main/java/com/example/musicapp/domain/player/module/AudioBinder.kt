@@ -7,8 +7,8 @@ import com.example.musicapp.domain.module.Music
 
 interface AudioBinder {
     fun getService(): Service
-    fun getCurrentDuration(): MutableLiveData<Int>
-    fun getMaxDuration(): MutableLiveData<Int>
+    fun getCurrentDuration(): MutableLiveData<Long>
+    fun getMaxDuration(): MutableLiveData<Long>
     fun isPlay(): MutableLiveData<Boolean>
     fun isRepeat(): MutableLiveData<Boolean>
     fun getCurrentPosition(): MutableLiveData<Int>

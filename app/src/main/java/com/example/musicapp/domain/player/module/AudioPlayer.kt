@@ -7,8 +7,8 @@ interface AudioPlayer {
     fun pause()
     fun reset()
     fun repeat(state: Boolean)
-    fun getCurrentDuration(): Int
-    fun getMaxDuration(): Int
+    fun getCurrentDuration(): Long
+    fun getMaxDuration():Long
     fun addNewObjectAndStart(music: Music, isPlay: Boolean = false)
-    fun seekTo(msec: Int)
+    fun seekTo(msec: Long)
 }

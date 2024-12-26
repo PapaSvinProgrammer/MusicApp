@@ -6,12 +6,16 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -31,11 +35,12 @@ class MainActivity: AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        enableEdgeToEdge()
 
         val navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
@@ -113,7 +118,8 @@ class MainActivity: AppCompatActivity() {
             if (destination.id == R.id.playerFragment ||
                 destination.id == R.id.loginFragment ||
                 destination.id == R.id.registrationFragment ||
-                destination.id == R.id.startFragment)
+                destination.id == R.id.startFragment ||
+                destination.id == R.id.settingPreferencesFragment)
             {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.viewPagerLayout.visibility = View.GONE

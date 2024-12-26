@@ -11,8 +11,6 @@ import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 
 class HomeViewModel: ViewModel() {
-    lateinit var durationLiveData: LiveData<Int>
-    lateinit var maxDurationLiveData: LiveData<Int>
     lateinit var isPlayService: LiveData<Boolean>
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
@@ -29,8 +27,6 @@ class HomeViewModel: ViewModel() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as PlayerService.PlayerBinder
             servicePlayer = binder.getService()
-            maxDurationLiveData = binder.getMaxDuration()
-            durationLiveData = binder.getCurrentDuration()
             isPlayService = binder.isPlay()
             isBound.value = true
         }

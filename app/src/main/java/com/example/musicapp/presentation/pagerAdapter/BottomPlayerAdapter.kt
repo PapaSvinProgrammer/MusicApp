@@ -79,11 +79,11 @@ class BottomPlayerAdapter(
             }
 
             viewModel.maxDurationLiveData.observe(livecycleOwner) {
-                binding.progressIndicator.max = it
+                binding.progressIndicator.max = it.toInt()
             }
 
             viewModel.durationLiveData.observe(livecycleOwner) {
-                binding.progressIndicator.progress = it
+                binding.progressIndicator.progress = it.toInt()
             }
 
             viewModel.currentPosition.observe(livecycleOwner) {

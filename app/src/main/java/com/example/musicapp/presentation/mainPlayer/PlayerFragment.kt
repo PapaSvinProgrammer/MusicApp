@@ -191,7 +191,7 @@ class PlayerFragment: Fragment() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 viewModel.seekTo(seekBar?.progress)
-                viewModel.getMissTime(seekBar?.progress)
+                viewModel.getMissTime(seekBar?.progress?.toLong())
             }
         })
 
@@ -304,13 +304,13 @@ class PlayerFragment: Fragment() {
 
     private fun initSeekBar() {
         viewModel.maxDurationLiveData.observe(viewLifecycleOwner) {
-            binding.seekBar.max = it
+            binding.seekBar.max = it.toInt()
             viewModel.getMissTime(it)
             viewModel.getPassTime(it)
         }
 
         viewModel.durationLiveData.observe(viewLifecycleOwner) {
-            binding.seekBar.progress = it
+            binding.seekBar.progress = it.toInt()
             viewModel.getMissTime(it)
             viewModel.getPassTime(it)
         }
@@ -486,7 +486,7 @@ class PlayerFragment: Fragment() {
 
     @SuppressLint("NewApi")
     private fun initBlur() {
-        val blurRenderEffect = RenderEffect.createBlurEffect(200f, 200f, Shader.TileMode.CLAMP)
+        val blurRenderEffect = RenderEffect.createBlurEffect(500f, 500f, Shader.TileMode.CLAMP)
         binding.backImage.setRenderEffect(blurRenderEffect)
     }
 }
