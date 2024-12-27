@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.GenresConst
 import com.example.musicapp.databinding.FragmentSettingPreferencesBinding
-import com.example.musicapp.presentation.recyclerAdapter.SearchPreferencesAdapter
+import com.example.musicapp.presentation.recyclerAdapter.SearchGroupAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SettingsPerformancesAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -30,7 +30,7 @@ class SettingPreferencesFragment: Fragment() {
 
     private lateinit var binding: FragmentSettingPreferencesBinding
     private lateinit var recyclerAdapter: SettingsPerformancesAdapter
-    private lateinit var searchRecyclerAdapter: SearchPreferencesAdapter
+    private lateinit var searchRecyclerAdapter: SearchGroupAdapter
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
 
     private var filterFlag = false
@@ -224,7 +224,7 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private fun setSearchAdapter() {
-        searchRecyclerAdapter = SearchPreferencesAdapter(viewModel)
+        searchRecyclerAdapter = SearchGroupAdapter(viewModel)
         binding.searchRecyclerView.adapter = searchRecyclerAdapter
 
         binding.searchView.editText.addTextChangedListener { text->

@@ -23,7 +23,7 @@ class GroupRepositoryFirebase(
         return getGroupAllImpl.execute()
     }
 
-    override suspend fun getGroupById(id: String): Group {
+    override suspend fun getGroupById(id: String): Group? {
         return getGroupByIdImpl.execute(id)
     }
 }

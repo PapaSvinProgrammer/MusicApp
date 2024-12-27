@@ -6,5 +6,5 @@ interface GroupRepository {
     suspend fun getGroupWithFilterOnName(): List<Group>
     suspend fun getGroupWithFilterOnGenre(filter: List<String>): List<Group>
     suspend fun getGroupAll(): List<Group>
-    suspend fun getGroupById(id: String): Group
+    suspend fun getGroupById(id: String): Group?
 }

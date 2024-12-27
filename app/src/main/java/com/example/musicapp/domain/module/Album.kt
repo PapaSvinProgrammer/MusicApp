@@ -2,17 +2,20 @@ package com.example.musicapp.domain.module
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentId
 
 data class Album (
-    val id: String = "",
-    val date: String = "",
-    val genre: String = "",
-    val image: String = "",
-    val name: String = "",
-    val time: String = "",
-    val countMusic: Int = 0
+    @DocumentId var id: String = "",
+    var date: String = "",
+    var genre: String = "",
+    var image: String = "",
+    var name: String = "",
+    var time: String = "",
+    var groupId: String = "",
+    var countMusic: Int = 0
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -33,6 +36,7 @@ data class Album (
         parcel.writeString(image)
         parcel.writeString(time)
         parcel.writeString(genre)
+        parcel.writeString(groupId)
         parcel.writeInt(countMusic)
     }
 

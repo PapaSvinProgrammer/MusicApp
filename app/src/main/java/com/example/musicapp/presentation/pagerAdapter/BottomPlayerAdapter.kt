@@ -52,7 +52,7 @@ class BottomPlayerAdapter(
                 }
             }
 
-            if (music.movieUrl.isNotEmpty()) {
+            if (!music.movieUrl.isNullOrEmpty()) {
                 binding.iconMovieView.visibility = View.VISIBLE
             }
             else {

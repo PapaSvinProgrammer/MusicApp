@@ -20,32 +20,33 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
 
     private fun convertAlbum(music: Music): AlbumEntity {
         return AlbumEntity(
-            firebaseId = music.album,
+            firebaseId = music.albumId.toString(),
             name = "album_name",
-            imageLow = music.imageLow,
-            imageHigh = music.imageHigh
+            imageLow = music.imageLow.toString(),
+            imageHigh = music.imageHigh.toString()
         )
     }
 
     private fun convertAuthor(music: Music): AuthorEntity {
         return AuthorEntity(
             id = 0,
-            firebaseId = music.groupId,
-            name = music.group,
-            imageUrl = music.imageGroup
+            firebaseId = music.groupId.toString(),
+            name = music.group.toString(),
+            imageUrl = music.imageGroup.toString()
         )
     }
 
     private fun convertMusic(music: Music, playlistId: Long): MusicEntity {
         return MusicEntity(
             id = 0,
-            firebaseId = music.id,
-            name = music.name,
+            firebaseId = music.id.toString(),
+            name = music.name.toString(),
             playlistId = playlistId,
-            albumId = music.album,
-            authorId = music.groupId,
-            url = music.url,
+            albumId = music.albumId.toString(),
+            authorId = music.groupId.toString(),
+            url = music.url.toString(),
             saveUri = "",
+            movieUrl = music.movieUrl.toString()
         )
     }
 }

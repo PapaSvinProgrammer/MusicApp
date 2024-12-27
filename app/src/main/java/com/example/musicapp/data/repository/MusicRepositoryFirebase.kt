@@ -1,6 +1,6 @@
 package com.example.musicapp.data.repository
 
-import com.example.musicapp.data.constant.MusicConst
+import com.example.musicapp.data.constant.DocumentConst
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.domain.module.Music
@@ -33,14 +33,14 @@ class MusicRepositoryFirebase(
     override suspend fun getMusicsByAlbumId(albumId: String): List<Music> {
         return getMusicsByFieldIdImpl.execute(
             anyId = albumId,
-            field = MusicConst.MUSIC_ALBUM_FIELD
+            field = DocumentConst.MUSIC_ALBUM_FIELD
         )
     }
 
     override suspend fun getMusicByAuthorId(authorId: String): List<Music> {
         return getMusicsByFieldIdImpl.execute(
             anyId = authorId,
-            field = MusicConst.MUSIC_GROUP_ID_FIELD
+            field = DocumentConst.MUSIC_GROUP_ID_FIELD
         )
     }
 }

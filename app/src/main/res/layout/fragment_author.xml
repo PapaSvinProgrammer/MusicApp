@@ -94,6 +94,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/album_recycler_view"
                 android:layout_width="match_parent"
+                android:paddingEnd="5dp"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

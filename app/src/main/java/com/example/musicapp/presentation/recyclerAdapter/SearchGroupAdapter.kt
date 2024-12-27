@@ -13,9 +13,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchPreferencesAdapter(
+class SearchGroupAdapter(
     private val viewModel: SettingsPreferencesViewModel
-): RecyclerView.Adapter<SearchPreferencesAdapter.ViewHolder>() {
+): RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemSelectedGroupListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(group: Group) {

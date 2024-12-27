@@ -152,7 +152,7 @@ class PlayerService: Service() {
     }
 
     fun shuffle() {
-
+        audioPlayer?.shuffle()
     }
 
     private fun pause() {

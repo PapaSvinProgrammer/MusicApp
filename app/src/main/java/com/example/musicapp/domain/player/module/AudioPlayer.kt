@@ -12,4 +12,5 @@ interface AudioPlayer {
     fun seekTo(msec: Long)
     fun setList(list: List<Music>)
     fun setPosition(position: Int, isPlay: Boolean)
+    fun shuffle()
 }

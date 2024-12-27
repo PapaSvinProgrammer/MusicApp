@@ -115,7 +115,7 @@ class HomeFragment: Fragment() {
                 binding.searchRecyclerView.visibility = View.VISIBLE
 
                 viewModel.getMusicResult.value?.filter { item ->
-                    (item.name.trim().lowercase() + item.group.trim().lowercase())
+                    (item.name?.trim()?.lowercase() + item.group?.trim()?.lowercase())
                         .contains(text.toString().trim().lowercase())
                 }?.toList().let {
                     if (it != null) musicAdapter.setData(it)

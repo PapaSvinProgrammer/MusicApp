@@ -79,7 +79,7 @@ class Player(context: Context) : AudioPlayer {
 
     override fun setList(list: List<Music>) {
         val mediaItems = list.asSequence().map {
-            MediaItem.fromUri(it.url)
+            MediaItem.fromUri(it.url.toString())
         }.toList()
 
         exoPlayer.setMediaItems(mediaItems)
@@ -92,5 +92,9 @@ class Player(context: Context) : AudioPlayer {
         if (!isPlay) return
 
         exoPlayer.play()
+    }
+
+    override fun shuffle() {
+        exoPlayer.shuffleModeEnabled = true
     }
 }

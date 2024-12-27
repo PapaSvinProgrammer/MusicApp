@@ -240,7 +240,7 @@ class PlayerFragment: Fragment() {
         }
 
         viewModel.getMusicById(
-            id = arrayViewPager[binding.viewPager.currentItem].id
+            id = arrayViewPager[binding.viewPager.currentItem].id.toString()
         )
     }
 
@@ -299,7 +299,7 @@ class PlayerFragment: Fragment() {
 
     private fun executeMoveToAlbum() {
         val bundle = Bundle()
-        val firebaseId = arrayViewPager[viewModel.currentPosition.value ?: 0].album
+        val firebaseId = arrayViewPager[viewModel.currentPosition.value ?: 0].albumId
         bundle.putString(AlbumFragment.FIREBASE_KEY, firebaseId)
 
         navController.popBackStack()
@@ -329,7 +329,7 @@ class PlayerFragment: Fragment() {
             binding.viewPager.setCurrentItem(position, false)
 
             viewModel.getMusicById(
-                id = arrayViewPager[position].id
+                id = arrayViewPager[position].id.toString()
             )
 
             Glide.with(binding.root)
@@ -422,7 +422,7 @@ class PlayerFragment: Fragment() {
             true -> {
                 viewModel.isFavorite = false
                 binding.likeView.isSelected = false
-                viewModel.deleteMusic(arrayViewPager[binding.viewPager.currentItem].id)
+                viewModel.deleteMusic(arrayViewPager[binding.viewPager.currentItem].id.toString())
             }
 
             false -> {

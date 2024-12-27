@@ -1,31 +1,29 @@
 package com.example.musicapp.data.firebase.getGroup
 
+import android.util.Log
 import com.example.musicapp.data.constant.CollectionConst
-import com.example.musicapp.data.constant.GroupConst
 import com.example.musicapp.domain.module.Group
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
 class GetGroupByIdImpl {
-    suspend fun execute(groupId: String): Group {
+    suspend fun execute(groupId: String): Group? {
         val database = Firebase.firestore
+        var result: Group? = null
 
-        val document = database
-            .collection(CollectionConst.GROUP_COLLECTION)
-            .document(groupId)
-            .get()
-            .await()
+        try {
+            result = database
+                .collection(CollectionConst.GROUP_COLLECTION)
+                .document(groupId)
+                .get()
+                .await()
+                .toObject<Group>()
+        } catch (e: Exception) {
+            Log.e("FirebaseError", "GetGroupByIdImpl - Error")
+        }
 
-        return Group(
-            name = document[GroupConst.GROUP_NAME_FIELD].toString(),
-            albums = arrayListOf(),
-            compound = arrayListOf(),
-            genre = document[GroupConst.GROUP_GENRE_FIELD].toString(),
-            country = document[GroupConst.GROUP_COUNTRY_FIELD].toString(),
-            musics = arrayListOf(),
-            year = document[GroupConst.GROUP_YEARS_FIELD].toString(),
-            image = document[GroupConst.GROUP_IMAGE_FIELD].toString()
-        )
+        return result
     }
 }

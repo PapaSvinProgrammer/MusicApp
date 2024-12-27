@@ -24,7 +24,7 @@ class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
                     .into(binding.imageView)
             }
 
-            if (music.movieUrl.isNotEmpty()) {
+            if (!music.movieUrl.isNullOrEmpty()) {
                 binding.iconVideo.visibility = View.VISIBLE
             }
             else {

@@ -6,7 +6,7 @@ import com.example.musicapp.domain.repository.AlbumRepository
 class GetAlbumById(
     private val albumRepository: AlbumRepository
 ) {
-    suspend fun execute(id: String): Album {
+    suspend fun execute(id: String): Album? {
         return albumRepository.getAlbumById(id)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,13 @@ class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
 
             binding.musicTextView.text = music.name
             binding.groupTextView.text = music.group
+
+            if (!music.movieUrl.isNullOrEmpty()) {
+                binding.iconMovieView.visibility = View.VISIBLE
+            }
+            else {
+                binding.iconMovieView.visibility = View.GONE
+            }
         }
     }
 

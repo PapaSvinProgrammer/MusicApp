@@ -4,22 +4,16 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Group (
-    var name: String?,
-    var albums: ArrayList<String>?,
-    var compound: ArrayList<String>?,
-    var genre: String?,
-    var country: String?,
-    var musics: ArrayList<String>?,
-    var year: String?,
-    var image: String?
+    var name: String? = null,
+    var genre: String? = null,
+    var country: String? = null,
+    var year: String? = null,
+    var image: String? = null
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        parcel.createStringArrayList(),
-        parcel.createStringArrayList(),
         parcel.readString(),
         parcel.readString(),
-        parcel.createStringArrayList(),
         parcel.readString(),
         parcel.readString()
     )
