@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.MusicText
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
+import com.example.musicapp.domain.usecase.getMusicText.GetMusicText
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
@@ -26,7 +28,8 @@ private const val PLAYLIST_ID_FAVORITE = 1L
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
-    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
+    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
+    private val getMusicText: GetMusicText
 ): ViewModel() {
     lateinit var durationLiveData: LiveData<Long>
     lateinit var maxDurationLiveData: LiveData<Long>
@@ -47,12 +50,15 @@ class PlayerViewModel(
     private val missTimeLiveData = MutableLiveData<String>()
     private val passTimeLiveData = MutableLiveData<String>()
     private val getFavoriteMusicLiveData = MutableLiveData<MusicResult?>()
+    private val getMusicTextLiveData = MutableLiveData<MusicText?>()
 
     val controlPlayer: LiveData<ControlPlayer> = controlPlayerLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val missTimeResult: LiveData<String> = missTimeLiveData
     val passTimeResult: LiveData<String> = passTimeLiveData
     val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
+    val getMusicTextResult: LiveData<MusicText?> = getMusicTextLiveData
+
     var lastPosition = 0
 
     fun setStatePlayer(state: StatePlayer) {
@@ -110,6 +116,12 @@ class PlayerViewModel(
     fun deleteMusic(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteMusicFromSQLite.execute(id)
+        }
+    }
+
+    fun getMusicText(musicId: String) {
+        viewModelScope.launch {
+            getMusicTextLiveData.value = getMusicText.getTextById(musicId)
         }
     }
 

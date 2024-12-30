@@ -9,6 +9,7 @@ import com.example.musicapp.data.firebase.getGroup.GetGroupByIdImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
+import com.example.musicapp.data.firebase.getMusicText.GetMusicTextById
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
 import com.example.musicapp.data.internalStorage.SaveInternalStorageImpl
@@ -17,6 +18,7 @@ import com.example.musicapp.data.repository.GroupRepositoryFirebase
 import com.example.musicapp.data.repository.MusicInternalStorageRepository
 import com.example.musicapp.data.repository.MusicRepositoryFirebase
 import com.example.musicapp.data.repository.MusicSQLiteRepository
+import com.example.musicapp.data.repository.MusicTextRepositoryFirebase
 import com.example.musicapp.data.repository.PlaylistSQLiteRepository
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
@@ -28,6 +30,7 @@ import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import com.example.musicapp.domain.repository.MusicRepository
 import com.example.musicapp.domain.repository.MusicStorageRepository
+import com.example.musicapp.domain.repository.MusicTextRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
@@ -148,5 +151,15 @@ val dataModule = module {
 
     single<GetAlbumsAllImpl> {
         GetAlbumsAllImpl()
+    }
+
+    single<MusicTextRepository> {
+        MusicTextRepositoryFirebase(
+            getMusicTextById = get()
+        )
+    }
+
+    single<GetMusicTextById> {
+        GetMusicTextById()
     }
 }

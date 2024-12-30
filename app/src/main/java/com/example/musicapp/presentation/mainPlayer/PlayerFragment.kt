@@ -28,6 +28,7 @@ import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
+import com.example.musicapp.presentation.bottomSheet.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
@@ -251,41 +252,27 @@ class PlayerFragment: Fragment() {
 
     private fun initPlayerBottomSheet(bottomSheetDialog: PlayerBottomSheet) {
         bottomSheetDialog.settingsStateResult.observe(viewLifecycleOwner) {
+            bottomSheetDialog.dialog?.hide()
+
             when (it) {
-                SettingsPlayer.LIKE -> {
-                    bottomSheetDialog.dialog?.hide()
-                    executeLike()
-                }
-
+                SettingsPlayer.LIKE -> executeLike()
                 SettingsPlayer.ADD_TO_PLAYLIST -> {}
-
-                SettingsPlayer.SHARE -> {
-                    shareToOut()
-                }
-
-                SettingsPlayer.MOVE_TO_GROUP -> {
-                    bottomSheetDialog.dialog?.hide()
-                    executeMoveToAuthor()
-                }
-
-                SettingsPlayer.MOVE_TO_ALBUM -> {
-                    bottomSheetDialog.dialog?.hide()
-                    executeMoveToAlbum()
-                }
-
+                SettingsPlayer.SHARE -> shareToOut()
+                SettingsPlayer.MOVE_TO_GROUP -> executeMoveToAuthor()
+                SettingsPlayer.MOVE_TO_ALBUM -> executeMoveToAlbum()
                 SettingsPlayer.DELETE -> {}
                 SettingsPlayer.DOWNLOAD -> {}
                 SettingsPlayer.INFO -> {}
-
-                SettingsPlayer.HATE -> {
-                    bottomSheetDialog.dialog?.hide()
-                    executeDislike()
-                }
-
+                SettingsPlayer.HATE -> executeDislike()
                 SettingsPlayer.REPORT_PROBLEM -> {}
+                SettingsPlayer.SHOW_MUSIC_TEXT -> getMusicText()
                 else -> {}
             }
         }
+    }
+
+    private fun getMusicText() {
+        viewModel.getMusicText(arrayViewPager[viewModel.currentPosition.value ?: 0].id.toString())
     }
 
     private fun executeMoveToAuthor() {
@@ -360,16 +347,14 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeNote() {
-        when (binding.noteView.isSelected) {
-            true -> {
-                binding.noteView.isSelected = false
-                binding.noteDot.visibility = View.GONE
-            }
+        val bottomSheetText = MusicTextBottomSheet(viewModel)
 
-            false -> {
-                binding.noteView.isSelected = true
-                binding.noteDot.visibility = View.VISIBLE
-            }
+        val bundle = Bundle()
+        bundle.putParcelable(MusicTextBottomSheet.MUSIC_KEY, arrayViewPager[viewModel.currentPosition.value ?: 0])
+
+        bottomSheetText.arguments = bundle
+        requireActivity().supportFragmentManager.let {
+            bottomSheetText.show(it, MusicTextBottomSheet.TAG)
         }
     }
 

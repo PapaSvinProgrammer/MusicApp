@@ -12,6 +12,7 @@ import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
+import com.example.musicapp.domain.usecase.getMusicText.GetMusicText
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -233,6 +234,12 @@ val domainModule = module {
     factory {
         GetAlbumAll(
             albumRepository = get()
+        )
+    }
+
+    factory {
+        GetMusicText(
+            musicTextRepository = get()
         )
     }
 }

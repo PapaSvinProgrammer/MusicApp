@@ -12,5 +12,6 @@ enum class SettingsPlayer {
     DOWNLOAD,
     INFO,
     HATE,
-    REPORT_PROBLEM
+    REPORT_PROBLEM,
+    SHOW_MUSIC_TEXT
 }
