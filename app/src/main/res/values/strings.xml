@@ -68,4 +68,11 @@
     <string name="error_check_password_text">"Пароли не совпадают"</string>
     <string name="error_login_text">"Неверны логин или пароль"</string>
     <string name="error_registration_text">"Такой пользователь уже существует"</string>
+
+    <string-array name="search_filter_array">
+        <item>"Все"</item>
+        <item>"Трек"</item>
+        <item>"Исполнитель"</item>
+        <item>"Альбом"</item>
+    </string-array>
 </resources>

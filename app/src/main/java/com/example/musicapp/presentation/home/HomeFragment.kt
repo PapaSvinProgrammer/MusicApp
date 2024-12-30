@@ -7,14 +7,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
@@ -33,6 +37,8 @@ class HomeFragment: Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        createSearchChipGroup()
+
         viewModel.setStatePlayer(StatePlayer.NONE)
         binding.searchRecyclerView.adapter = searchAdapter
 
@@ -60,6 +66,10 @@ class HomeFragment: Fragment() {
             }
 
             true
+        }
+
+        binding.searchChipGroup.setOnCheckedStateChangeListener { group, _ ->
+            chipGroupListener(group)
         }
 
         viewModel.statePlayer.observe(viewLifecycleOwner) {
@@ -92,6 +102,55 @@ class HomeFragment: Fragment() {
         viewModel.searchResult.observe(viewLifecycleOwner) { list ->
             searchAdapter.setData(list)
         }
+
+        viewModel.searchFilterStateResult.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                SearchFilterState.ALL -> viewModel.setAllInSearchList()
+                SearchFilterState.MUSIC -> viewModel.setMusicInSearchList()
+                SearchFilterState.ALBUM -> viewModel.setAlbumInSearchList()
+                SearchFilterState.AUTHOR -> viewModel.setGroupInSearchList()
+                else -> {}
+            }
+        }
+    }
+
+    private fun chipGroupListener(group: ChipGroup) {
+        when (group.checkedChipId) {
+            2 -> viewModel.setSearchFilterState(SearchFilterState.ALL)
+            3 -> viewModel.setSearchFilterState(SearchFilterState.MUSIC)
+            4 -> viewModel.setSearchFilterState(SearchFilterState.AUTHOR)
+            5 -> viewModel.setSearchFilterState(SearchFilterState.ALBUM)
+        }
+    }
+
+    private fun createSearchChipGroup() {
+        for (item in resources.getStringArray(R.array.search_filter_array)) {
+            binding.searchChipGroup.addView(createChip(item))
+        }
+
+        val chip: Chip = binding.searchChipGroup[0] as Chip
+        chip.isChecked = true
+    }
+
+    private fun createChip(item: String?): View {
+        val newChip = Chip(binding.root.context)
+
+        newChip.setChipDrawable(
+            ChipDrawable.createFromAttributes(
+                binding.root.context,
+                null,
+                0,
+                com.google.android.material.R.style.Widget_Material3_Chip_Filter
+            )
+        )
+
+        newChip.let {
+            it.text = item
+            it.isCheckable = true
+            it.isFocusable = true
+        }
+
+        return newChip
     }
 
     private fun addPermissionIndex() {

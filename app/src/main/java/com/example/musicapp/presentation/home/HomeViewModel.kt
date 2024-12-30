@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
@@ -28,7 +30,7 @@ class HomeViewModel(
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
-    private val searchList = arrayListOf<Music>()
+    private var searchList = arrayListOf<Music>()
 
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
@@ -36,6 +38,7 @@ class HomeViewModel(
     private val getAlbumLiveData = MutableLiveData<List<Album>>()
     private val searchLiveData = MutableLiveData<List<Music>>()
     private val permissionForSearchLiveData = MutableLiveData<Int>()
+    private val searchFilterStateLiveData = MutableLiveData<SearchFilterState>()
 
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
@@ -43,6 +46,7 @@ class HomeViewModel(
     val getGroupResult: LiveData<List<Group>> = getGroupLiveData
     val getAlbumResult: LiveData<List<Album>> = getAlbumLiveData
     val permissionForSearchResult: LiveData<Int> = permissionForSearchLiveData
+    val searchFilterStateResult: LiveData<SearchFilterState> = searchFilterStateLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -89,6 +93,32 @@ class HomeViewModel(
 
     fun addGroupInSearchList(list: List<Group>) {
         searchList.addAll(convertGroupList(list))
+    }
+
+    fun setAllInSearchList() {
+        searchList.clear()
+        searchList.addAll(getMusicLiveData.value ?: listOf())
+        searchList.addAll(convertAlbumList(getAlbumLiveData.value ?: listOf()))
+        searchList.addAll(convertGroupList(getGroupLiveData.value ?: listOf()))
+    }
+
+    fun setMusicInSearchList() {
+        searchList.clear()
+        searchList.addAll(getMusicLiveData.value ?: listOf())
+    }
+
+    fun setAlbumInSearchList() {
+        searchList.clear()
+        searchList.addAll(convertAlbumList(getAlbumLiveData.value ?: listOf()))
+    }
+
+    fun setGroupInSearchList() {
+        searchList.clear()
+        searchList.addAll(convertGroupList(getGroupLiveData.value ?: listOf()))
+    }
+
+    fun setSearchFilterState(state: SearchFilterState) {
+        searchFilterStateLiveData.value = state
     }
 
     val connectionToPlayerService = object: ServiceConnection {

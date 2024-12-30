@@ -206,7 +206,6 @@ class SettingPreferencesFragment: Fragment() {
 
         newChip.isCheckable = true
         newChip.isFocusable = true
-        newChip.isCheckable = true
         newChip.text = text.replaceFirstChar(Char::titlecase)
 
         return newChip
