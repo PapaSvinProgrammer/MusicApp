@@ -73,6 +73,14 @@ class Player(context: Context) : AudioPlayer {
         return exoPlayer.duration
     }
 
+    override fun getBufferedPosition(): Long {
+        return exoPlayer.bufferedPosition
+    }
+
+    override fun getCurrentItem(): Int {
+        return exoPlayer.currentMediaItemIndex
+    }
+
     override fun seekTo(msec: Long) {
         exoPlayer.seekTo(msec)
     }

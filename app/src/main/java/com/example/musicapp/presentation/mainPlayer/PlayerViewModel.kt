@@ -33,6 +33,7 @@ class PlayerViewModel(
     lateinit var isPlay: LiveData<Boolean>
     lateinit var isRepeat: LiveData<Boolean>
     lateinit var currentPosition: LiveData<Int>
+    lateinit var bufferedPosition: LiveData<Long>
     @SuppressLint("StaticFieldLeak")
     lateinit var servicePlayer: PlayerService
 
@@ -121,6 +122,7 @@ class PlayerViewModel(
             isPlay = bind.isPlay()
             isRepeat = bind.isRepeat()
             currentPosition = bind.getCurrentPosition()
+            bufferedPosition = bind.getBufferedPosition()
             isBound.value = true
         }
 

@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:strokeWidth="0dp">
+    app:strokeWidth="0dp"
+    android:backgroundTint="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,14 +16,28 @@
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearance="@style/ImageCornerRadius8dp"
+        <FrameLayout
+            android:id="@+id/image_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/ImageCornerRadius8dp" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/author_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/ImageCornerRadiusCircle" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/group_text_view"
@@ -30,13 +45,13 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:fontFamily="@font/roboto_medium"
-            android:maxWidth="200dp"
+            android:maxWidth="180dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textSize="14sp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintStart_toEndOf="@+id/image_layout"
             app:layout_constraintTop_toBottomOf="@+id/music_text_view"
             tools:text="Название исполнителя" />
 
@@ -48,13 +63,13 @@
             android:ellipsize="marquee"
             android:fontFamily="@font/roboto_bold"
             android:marqueeRepeatLimit="marquee_forever"
-            android:maxWidth="200dp"
+            android:maxWidth="180dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textSize="16sp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toTopOf="@+id/group_text_view"
-            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintStart_toEndOf="@+id/image_layout"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Название песни" />
 
@@ -70,7 +85,7 @@
             app:srcCompat="@drawable/ic_video_music" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton4"
+            android:id="@+id/settings_button"
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="48dp"
             android:layout_height="48dp"

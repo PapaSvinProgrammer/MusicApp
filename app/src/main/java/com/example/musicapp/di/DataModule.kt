@@ -3,6 +3,7 @@ package com.example.musicapp.di
 import androidx.room.Room
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
+import com.example.musicapp.data.firebase.getAlbum.GetAlbumsAllImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupByIdImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImpl
@@ -72,7 +73,8 @@ val dataModule = module {
     single<AlbumRepository> {
         AlbumRepositoryFirebase(
             getAlbumByIdImpl = get(),
-            getAlbumByFieldIdImpl = get()
+            getAlbumByFieldIdImpl = get(),
+            getAlbumsAllImpl = get()
         )
     }
 
@@ -142,5 +144,9 @@ val dataModule = module {
 
     single<GetAlbumByFieldIdImpl> {
         GetAlbumByFieldIdImpl()
+    }
+
+    single<GetAlbumsAllImpl> {
+        GetAlbumsAllImpl()
     }
 }

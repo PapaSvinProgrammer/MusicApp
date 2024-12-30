@@ -88,7 +88,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
-                    android:textColor="@color/gray_color"
+                    android:textColor="@color/gray_light_color"
                     android:textSize="15sp"
                     tools:text="Название исполнителя" />
             </LinearLayout>
@@ -124,9 +124,11 @@
 
         <SeekBar
             android:id="@+id/seekBar"
-            style="@style/SeekBarPlayerStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:thumbTint="@color/background_color_white"
+            android:progressTint="@color/background_color_white"
+            android:secondaryProgressTint="@color/gray_light_color"
             android:layout_marginStart="14dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="25dp"

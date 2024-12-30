@@ -340,6 +340,10 @@ class PlayerFragment: Fragment() {
                 .load(arrayViewPager[position].imageGroup)
                 .into(binding.groupImageView)
         }
+
+        viewModel.bufferedPosition.observe(viewLifecycleOwner) {
+            binding.seekBar.secondaryProgress = it.toInt()
+        }
     }
 
     private fun resetControlPlayerUI() {
@@ -451,12 +455,12 @@ class PlayerFragment: Fragment() {
 
     private fun previousMusic() {
         if (viewModel.isRepeat.value == true) {
-            viewModel.servicePlayer.reset()
             return
         }
 
         if ((viewModel.durationLiveData.value ?: 0) > COUNT_MSEC_TO_RESET) {
             viewModel.servicePlayer.reset()
+            binding.seekBar.progress = 0
             return
         }
 

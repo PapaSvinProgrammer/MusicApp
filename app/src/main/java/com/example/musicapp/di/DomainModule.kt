@@ -3,6 +3,7 @@ package com.example.musicapp.di
 import com.example.musicapp.domain.usecase.convert.ConvertAnyText
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
@@ -226,6 +227,12 @@ val domainModule = module {
     factory {
         GetMusicsByAuthorId(
             musicRepository = get()
+        )
+    }
+
+    factory {
+        GetAlbumAll(
+            albumRepository = get()
         )
     }
 }

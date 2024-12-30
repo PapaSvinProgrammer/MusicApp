@@ -2,8 +2,10 @@ package com.example.musicapp.domain.module
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentId
 
 data class Group (
+    @DocumentId var id: String? = null,
     var name: String? = null,
     var genre: String? = null,
     var country: String? = null,
@@ -15,10 +17,12 @@ data class Group (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(name)
         parcel.writeString(country)
         parcel.writeString(year)

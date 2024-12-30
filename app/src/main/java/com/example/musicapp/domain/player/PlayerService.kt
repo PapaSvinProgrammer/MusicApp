@@ -10,7 +10,6 @@ import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.module.AudioBinder
 import com.example.musicapp.domain.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +43,7 @@ class PlayerService: Service() {
     private var isFavorite = MutableLiveData<Boolean>()
     private val currentDuration = MutableLiveData<Long>()
     private val maxDuration = MutableLiveData<Long>()
+    private val bufferedPosition = MutableLiveData<Long>()
     private var isPlay = MutableLiveData<Boolean>()
     private val isRepeat = MutableLiveData<Boolean>()
     private var currentPosition = MutableLiveData<Int>()
@@ -91,18 +91,20 @@ class PlayerService: Service() {
         return START_STICKY
     }
 
-    inner class PlayerBinder: Binder(), AudioBinder {
-        override fun getService(): PlayerService = this@PlayerService
+    inner class PlayerBinder: Binder() {
+        fun getService(): PlayerService = this@PlayerService
 
-        override fun getCurrentDuration() = this@PlayerService.currentDuration
+        fun getCurrentDuration() = this@PlayerService.currentDuration
 
-        override fun getMaxDuration() = this@PlayerService.maxDuration
+        fun getMaxDuration() = this@PlayerService.maxDuration
 
-        override fun isPlay() = this@PlayerService.isPlay
+        fun isPlay() = this@PlayerService.isPlay
 
-        override fun isRepeat() = this@PlayerService.isRepeat
+        fun isRepeat() = this@PlayerService.isRepeat
 
-        override fun getCurrentPosition() = this@PlayerService.currentPosition
+        fun getCurrentPosition() = this@PlayerService.currentPosition
+
+        fun getBufferedPosition() = this@PlayerService.bufferedPosition
     }
 
     fun setPlayerState(state: StatePlayer) {
@@ -121,6 +123,10 @@ class PlayerService: Service() {
     }
 
     fun setCurrentPosition(position: Int) {
+        if (position == audioPlayer?.getCurrentItem()) {
+            return
+        }
+
         job?.cancel()
 
         if (musicList == null) return
@@ -199,6 +205,13 @@ class PlayerService: Service() {
                 }
 
                 currentDuration.value = audioPlayer?.getCurrentDuration()
+                bufferedPosition.value = audioPlayer?.getBufferedPosition()
+
+                if ((currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
+                    currentPosition.value = audioPlayer?.getCurrentItem()
+                    maxDuration.value = 0
+                }
+
                 delay(1000)
             }
         }

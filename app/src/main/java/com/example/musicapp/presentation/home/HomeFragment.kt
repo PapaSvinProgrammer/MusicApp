@@ -14,12 +14,13 @@ import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
+import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModel<HomeViewModel>()
-    private val musicAdapter by lazy { MusicAdapter() }
+    private val searchAdapter by lazy { SearchAllAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +34,7 @@ class HomeFragment: Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.setStatePlayer(StatePlayer.NONE)
+        binding.searchRecyclerView.adapter = searchAdapter
 
         requireActivity().apply {
             bindService(
@@ -73,11 +75,29 @@ class HomeFragment: Fragment() {
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
-            musicAdapter.setData(list)
-
-            binding.searchRecyclerView.adapter = musicAdapter
-            binding.searchProgressIndicator.visibility = View.GONE
+            viewModel.addMusicInSearchList(list)
+            addPermissionIndex()
         }
+
+        viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->
+            viewModel.addAlbumInSearchList(list)
+            addPermissionIndex()
+        }
+
+        viewModel.getGroupResult.observe(viewLifecycleOwner) { list ->
+            viewModel.addGroupInSearchList(list)
+            addPermissionIndex()
+        }
+
+        viewModel.searchResult.observe(viewLifecycleOwner) { list ->
+            searchAdapter.setData(list)
+        }
+    }
+
+    private fun addPermissionIndex() {
+        viewModel.setPermissionIndex(
+            (viewModel.permissionForSearchResult.value ?: 0) + 1
+        )
     }
 
     private fun initServiceTools() {
@@ -106,20 +126,14 @@ class HomeFragment: Fragment() {
 
     private fun setSearch() {
         if (viewModel.getMusicResult.value.isNullOrEmpty()) {
-            binding.searchProgressIndicator.visibility = View.VISIBLE
-            viewModel.musicForSearch()
+            viewModel.dataForSearch()
         }
 
         binding.searchView.editText.addTextChangedListener { text ->
             if (!text.isNullOrEmpty()) {
                 binding.searchRecyclerView.visibility = View.VISIBLE
 
-                viewModel.getMusicResult.value?.filter { item ->
-                    (item.name?.trim()?.lowercase() + item.group?.trim()?.lowercase())
-                        .contains(text.toString().trim().lowercase())
-                }?.toList().let {
-                    if (it != null) musicAdapter.setData(it)
-                }
+                viewModel.search(text.toString())
             }
         }
     }

@@ -9,6 +9,8 @@ interface AudioPlayer {
     fun repeat(state: Boolean)
     fun getCurrentDuration(): Long
     fun getMaxDuration():Long
+    fun getBufferedPosition(): Long
+    fun getCurrentItem(): Int
     fun seekTo(msec: Long)
     fun setList(list: List<Music>)
     fun setPosition(position: Int, isPlay: Boolean)

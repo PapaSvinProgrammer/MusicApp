@@ -110,12 +110,6 @@
         <item name="android:tint">@color/ic_selected_color_blue</item>
     </style>
 
-    <style name="SeekBarPlayerStyle">
-        <item name="android:thumbTint">@color/background_color_white</item>
-        <item name="android:progressTint">@color/background_color_white</item>
-        <item name="android:progressBackgroundTint">@color/gray_color</item>
-    </style>
-
     <style name="TitleListStyle" parent="TextColorOnSurface">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">17sp</item>

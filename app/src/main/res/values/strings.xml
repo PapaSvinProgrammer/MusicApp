@@ -59,6 +59,7 @@
     <string name="progress_text">"Загрузка"</string>
     <string name="listen_text">"Слушать"</string>
     <string name="favorite_text">"Нравится"</string>
+    <string name="search_hint_text">"Трек, альбом, исполнитель"</string>
 
     <string name="error_duplicate_text">"Название не поменялось"</string>
     <string name="error_empty_line_text">"Пустая строка"</string>
