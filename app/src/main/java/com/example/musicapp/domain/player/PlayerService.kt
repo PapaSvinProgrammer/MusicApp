@@ -36,10 +36,9 @@ class PlayerService: Service() {
 
     private var audioNotification: AudioNotification? = null
     private var audioPlayer: AudioPlayer? = null
-    private var currentObject: Music? = null
-    private var musicList: List<Music>? = null
     private var job: Job? = null
 
+    private var musicList = MutableLiveData<List<Music>>()
     private var isFavorite = MutableLiveData<Boolean>()
     private val currentDuration = MutableLiveData<Long>()
     private val maxDuration = MutableLiveData<Long>()
@@ -47,6 +46,7 @@ class PlayerService: Service() {
     private var isPlay = MutableLiveData<Boolean>()
     private val isRepeat = MutableLiveData<Boolean>()
     private var currentPosition = MutableLiveData<Int>()
+    private val currentObject = MutableLiveData<Music>()
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
@@ -105,6 +105,10 @@ class PlayerService: Service() {
         fun getCurrentPosition() = this@PlayerService.currentPosition
 
         fun getBufferedPosition() = this@PlayerService.bufferedPosition
+
+        fun getCurrentObject() = this@PlayerService.currentObject
+
+        fun getMusicList() = this@PlayerService.musicList
     }
 
     fun setPlayerState(state: StatePlayer) {
@@ -118,7 +122,9 @@ class PlayerService: Service() {
     }
 
     fun setMusicList(list: List<Music>) {
-        this.musicList = list
+        this.musicList.value = list
+
+        currentObject.value = musicList.value!![currentPosition.value ?: 0]
         audioPlayer?.setList(list)
     }
 
@@ -129,15 +135,17 @@ class PlayerService: Service() {
 
         job?.cancel()
 
-        if (musicList == null) return
+        if (musicList.value == null) return
 
         currentPosition.value = position
+        currentObject.value = musicList.value!![position]
 
         audioPlayer?.setPosition(position, isPlay.value ?: false)
 
         maxDuration.value = 0
         updateDurations()
-        audioNotification?.execute(musicList!![position])
+
+        audioNotification?.execute(currentObject.value!!)
     }
 
     fun seekTo(msec: Int) {
@@ -165,22 +173,20 @@ class PlayerService: Service() {
         isPlay.value = false
         audioPlayer?.pause()
 
-        if (musicList != null) {
-            audioNotification?.execute(musicList!![currentPosition.value ?: 0])
+        if (musicList.value != null) {
+            audioNotification?.execute(currentObject.value ?: Music())
         }
     }
 
     private fun play() {
         isPlay.value = true
 
-        if (musicList == null) return
+        if (musicList.value == null) return
 
         audioPlayer?.play()
         updateDurations()
 
-        if (musicList != null) {
-            audioNotification?.execute(musicList!![currentPosition.value ?: 0])
-        }
+        audioNotification?.execute(currentObject.value ?: Music())
     }
 
     private fun previous() {

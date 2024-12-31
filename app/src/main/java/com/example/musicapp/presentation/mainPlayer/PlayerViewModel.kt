@@ -31,19 +31,20 @@ class PlayerViewModel(
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
     private val getMusicText: GetMusicText
 ): ViewModel() {
-    lateinit var durationLiveData: LiveData<Long>
-    lateinit var maxDurationLiveData: LiveData<Long>
-    lateinit var isPlay: LiveData<Boolean>
-    lateinit var isRepeat: LiveData<Boolean>
-    lateinit var currentPosition: LiveData<Int>
-    lateinit var bufferedPosition: LiveData<Long>
+    var durationLiveData: LiveData<Long>? = null
+    var maxDurationLiveData: LiveData<Long>? = null
+    var isPlay: LiveData<Boolean>? = null
+    var isRepeat: LiveData<Boolean>? = null
+    var currentPosition: LiveData<Int>? = null
+    var bufferedPosition: LiveData<Long>? = null
+    var musicList: LiveData<List<Music>>? = null
+    var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
-    lateinit var servicePlayer: PlayerService
+    var servicePlayer: PlayerService? = null
 
     val isBound = MutableLiveData<Boolean>()
     var isFavorite = false
     var isDownloaded = false
-    var isCreated = false
 
     private val controlPlayerLiveData = MutableLiveData<ControlPlayer>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
@@ -59,8 +60,6 @@ class PlayerViewModel(
     val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
     val getMusicTextResult: LiveData<MusicText?> = getMusicTextLiveData
 
-    var lastPosition = 0
-
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
     }
@@ -70,18 +69,18 @@ class PlayerViewModel(
     }
 
     fun seekTo(msec: Int?) {
-        if (msec != null) servicePlayer.seekTo(msec)
+        if (msec != null) servicePlayer?.seekTo(msec)
     }
 
     @SuppressLint("SimpleDateFormat")
     fun getMissTime(current: Long?) {
         viewModelScope.launch {
             if (current == null) return@launch
-            val result = (maxDurationLiveData.value ?: 0) - current
+            val result = (maxDurationLiveData?.value ?: 0) - current
 
             val simpleDateFormat = SimpleDateFormat("m:ss")
             val calendar = Calendar.getInstance()
-            calendar.timeInMillis = result.toLong()
+            calendar.timeInMillis = result
 
             missTimeLiveData.value = simpleDateFormat.format(calendar.time)
         }
@@ -92,7 +91,7 @@ class PlayerViewModel(
         viewModelScope.launch {
             val simpleDateFormat = SimpleDateFormat("m:ss")
             val calendar = Calendar.getInstance()
-            calendar.timeInMillis = current.toLong()
+            calendar.timeInMillis = current
 
             passTimeLiveData.value = simpleDateFormat.format(calendar.time)
         }
@@ -135,6 +134,8 @@ class PlayerViewModel(
             isRepeat = bind.isRepeat()
             currentPosition = bind.getCurrentPosition()
             bufferedPosition = bind.getBufferedPosition()
+            currentObject = bind.getCurrentObject()
+            musicList = bind.getMusicList()
             isBound.value = true
         }
 

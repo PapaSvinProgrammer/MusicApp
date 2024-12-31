@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.musicapp.R
@@ -115,12 +117,24 @@ class HomeFragment: Fragment() {
     }
 
     private fun chipGroupListener(group: ChipGroup) {
-        when (group.checkedChipId) {
-            2 -> viewModel.setSearchFilterState(SearchFilterState.ALL)
-            3 -> viewModel.setSearchFilterState(SearchFilterState.MUSIC)
-            4 -> viewModel.setSearchFilterState(SearchFilterState.AUTHOR)
-            5 -> viewModel.setSearchFilterState(SearchFilterState.ALBUM)
+        when (checkedChipId(group)) {
+            0 -> viewModel.setSearchFilterState(SearchFilterState.ALL)
+            1 -> viewModel.setSearchFilterState(SearchFilterState.MUSIC)
+            2 -> viewModel.setSearchFilterState(SearchFilterState.AUTHOR)
+            3 -> viewModel.setSearchFilterState(SearchFilterState.ALBUM)
         }
+    }
+
+    private fun checkedChipId(group: ChipGroup): Int {
+        for (i in 0..<group.size) {
+            val chip = group[i] as Chip
+
+            if (chip.isChecked) {
+                return i
+            }
+        }
+
+        return 0
     }
 
     private fun createSearchChipGroup() {

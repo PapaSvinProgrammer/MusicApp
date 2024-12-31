@@ -1,75 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:strokeWidth="0dp"
+    app:cardCornerRadius="0dp"
+    android:backgroundTint="@android:color/transparent"
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/image_view"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearance="@style/ImageCornerRadius8dp" />
-
-    <TextView
-        android:id="@+id/group_text_view"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:fontFamily="@font/roboto_medium"
-        android:maxWidth="180dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:textSize="14sp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_view"
-        app:layout_constraintTop_toBottomOf="@+id/music_text_view"
-        tools:text="Название исполнителя" />
+        android:paddingTop="10dp"
+        android:paddingStart="15dp"
+        android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/music_text_view"
-        style="@style/TextColorOnSurface"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:fontFamily="@font/roboto_bold"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:maxWidth="180dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:textSize="16sp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/group_text_view"
-        app:layout_constraintStart_toEndOf="@+id/image_view"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Название песни" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ImageCornerRadius8dp" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/icon_movie_view"
-        style="@style/IconBottomSheetColor"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/music_text_view"
-        app:layout_constraintStart_toEndOf="@+id/music_text_view"
-        app:layout_constraintTop_toTopOf="@+id/music_text_view"
-        app:srcCompat="@drawable/ic_video_music" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/play_anim"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view"
+            app:layout_constraintEnd_toEndOf="@+id/image_view"
+            app:layout_constraintStart_toStartOf="@+id/image_view"
+            app:layout_constraintTop_toTopOf="@+id/image_view"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_play_music" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/settings_button"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="10dp"
-        app:icon="@drawable/ic_more_horiz"
-        app:iconTint="?attr/colorControlNormal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/group_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/roboto_medium"
+            android:maxWidth="180dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintTop_toBottomOf="@+id/music_text_view"
+            tools:text="Название исполнителя" />
+
+        <TextView
+            android:id="@+id/music_text_view"
+            style="@style/TextColorOnSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/roboto_bold"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxWidth="180dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/group_text_view"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Название песни" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/icon_movie_view"
+            style="@style/IconBottomSheetColor"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/music_text_view"
+            app:layout_constraintStart_toEndOf="@+id/music_text_view"
+            app:layout_constraintTop_toTopOf="@+id/music_text_view"
+            app:srcCompat="@drawable/ic_video_music" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="10dp"
+            app:icon="@drawable/ic_more_horiz"
+            app:iconTint="?attr/colorControlNormal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

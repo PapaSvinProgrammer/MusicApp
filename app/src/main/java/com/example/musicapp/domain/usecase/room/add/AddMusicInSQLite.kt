@@ -46,7 +46,8 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             authorId = music.groupId.toString(),
             url = music.url.toString(),
             saveUri = "",
-            movieUrl = music.movieUrl.toString()
+            movieUrl = music.movieUrl ?: "",
+            time = music.time.toString()
         )
     }
 }

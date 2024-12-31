@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
@@ -35,10 +36,8 @@ class MainActivity: AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -57,6 +56,7 @@ class MainActivity: AppCompatActivity() {
             navController = navController,
             viewModel = viewModel
         )
+        binding.bottomViewPager.adapter = bottomPlayerAdapter
 
         bindService(
             Intent(this, PlayerService::class.java),
@@ -76,19 +76,7 @@ class MainActivity: AppCompatActivity() {
         }
 
         viewModel.getMusicResult.observe(this) { array->
-            viewModel.lastDownloadArray.addAll(array)
-
-            lifecycleScope.launch {
-                viewModel.servicePlayer?.setMusicList(array)
-
-                bottomPlayerAdapter.setData(array)
-                binding.bottomViewPager.adapter = bottomPlayerAdapter
-
-                binding.bottomViewPager.doOnPreDraw {
-                    binding.bottomViewPager.currentItem = viewModel.lastPosition
-                }
-            }
-
+            viewModel.servicePlayer?.setMusicList(array)
             binding.progressIndicator.visibility = View.GONE
         }
 
@@ -99,7 +87,7 @@ class MainActivity: AppCompatActivity() {
         }
 
         viewModel.startDownloadResult.observe(this) {
-            if (viewModel.lastDownloadArray.isEmpty()) {
+            if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
                 viewModel.getMusic()
             }
@@ -107,8 +95,7 @@ class MainActivity: AppCompatActivity() {
 
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (positionOffset == 0f && position != viewModel.lastPosition) {
-                    viewModel.lastPosition = position
+                if (positionOffset == 0f) {
                     viewModel.servicePlayer?.setCurrentPosition(position)
                 }
             }
@@ -133,14 +120,19 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initServiceTools() {
-        viewModel.currentPosition.observe(this) { position->
-            binding.bottomViewPager.setCurrentItem(position, false)
+        viewModel.currentPosition?.observe(this) { position->
+            binding.bottomViewPager.doOnPreDraw {
+                binding.bottomViewPager.setCurrentItem(position, false)
+            }
+        }
+
+        viewModel.musicList?.observe(this) { list ->
+            bottomPlayerAdapter.setData(list)
         }
     }
 
     override fun onStart() {
         super.onStart()
-
         viewModel.getUserKey()
         viewModel.addFavoritePlaylist()
     }

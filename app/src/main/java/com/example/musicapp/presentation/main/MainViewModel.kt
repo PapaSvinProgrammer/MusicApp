@@ -27,19 +27,17 @@ class MainViewModel(
     private val getMusicAll: GetMusicAll,
     private val addPlaylistInSQLite: AddPlaylistInSQLite
 ): ViewModel() {
-    lateinit var durationLiveData: LiveData<Long>
-    lateinit var maxDurationLiveData: LiveData<Long>
-    lateinit var isPlayService: LiveData<Boolean>
-    lateinit var currentPosition: LiveData<Int>
+    var durationLiveData: LiveData<Long>? = null
+    var maxDurationLiveData: LiveData<Long>? = null
+    var isPlayService: LiveData<Boolean>? = null
+    var currentPosition: LiveData<Int>? = null
+    var musicList: LiveData<List<Music>>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
     var darkModeResult: Boolean = false
     var userKeyResult: String? = null
-
-    var lastPosition = 0
-    val lastDownloadArray = ArrayList<Music>()
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
@@ -88,6 +86,7 @@ class MainViewModel(
             durationLiveData = binder.getCurrentDuration()
             currentPosition = binder.getCurrentPosition()
             isPlayService = binder.isPlay()
+            musicList = binder.getMusicList()
             isBound.value = true
         }
 

@@ -24,8 +24,6 @@ class BottomPlayerAdapter(
     private val viewModel: MainViewModel
 ): RecyclerView.Adapter<BottomPlayerAdapter.ViewHolder>() {
     companion object {
-        const val POSITION_ARG = "currentPosition"
-        const val ARRAY_ARG = "array"
         const val PARENT_ARG = "parentArg"
         const val PARENT_ARG_HOME = "home"
     }
@@ -81,19 +79,19 @@ class BottomPlayerAdapter(
         }
 
         private fun initServiceTools(position: Int) {
-            viewModel.isPlayService.observe(livecycleOwner) {
+            viewModel.isPlayService?.observe(livecycleOwner) {
                 binding.iconPlayView.isSelected = it
             }
 
-            viewModel.maxDurationLiveData.observe(livecycleOwner) {
+            viewModel.maxDurationLiveData?.observe(livecycleOwner) {
                 binding.progressIndicator.max = it.toInt()
             }
 
-            viewModel.durationLiveData.observe(livecycleOwner) {
+            viewModel.durationLiveData?.observe(livecycleOwner) {
                 binding.progressIndicator.progress = it.toInt()
             }
 
-            viewModel.currentPosition.observe(livecycleOwner) {
+            viewModel.currentPosition?.observe(livecycleOwner) {
                 if (position != it) {
                     binding.progressIndicator.visibility = View.GONE
                     binding.iconPlayView.visibility = View.GONE
@@ -129,9 +127,6 @@ class BottomPlayerAdapter(
 
         holder.binding.root.setOnClickListener {
             val bundle = Bundle()
-
-            bundle.putInt(POSITION_ARG, position)
-            bundle.putParcelableArrayList(ARRAY_ARG, viewModel.lastDownloadArray)
             bundle.putString(PARENT_ARG, PARENT_ARG_HOME)
 
             navController.navigate(R.id.action_global_playerFragment2, bundle)
