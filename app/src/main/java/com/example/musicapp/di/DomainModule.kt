@@ -6,13 +6,14 @@ import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
+import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupById
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
-import com.example.musicapp.domain.usecase.getMusicText.GetMusicText
+import com.example.musicapp.domain.usecase.getAnother.GetMusicText
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -240,6 +241,12 @@ val domainModule = module {
     factory {
         GetMusicText(
             musicTextRepository = get()
+        )
+    }
+
+    factory {
+        GetMusicInfo(
+            musicInfoRepository = get()
         )
     }
 }

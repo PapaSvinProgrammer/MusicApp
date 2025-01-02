@@ -2,6 +2,7 @@ package com.example.musicapp.data.firebase.getGroup
 
 import android.util.Log
 import com.example.musicapp.data.constant.CollectionConst
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Group
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -21,7 +22,7 @@ class GetGroupByIdImpl {
                 .await()
                 .toObject<Group>()
         } catch (e: Exception) {
-            Log.e("FirebaseError", "GetGroupByIdImpl - Error")
+            Log.e(ErrorConst.FIREBASE_ERROR, "GetGroupByIdImpl - Error")
         }
 
         return result

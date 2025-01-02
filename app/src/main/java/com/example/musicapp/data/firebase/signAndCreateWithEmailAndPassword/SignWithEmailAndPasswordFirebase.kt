@@ -1,6 +1,7 @@
 package com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword
 
 import android.util.Log
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.LoginData
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -20,7 +21,7 @@ class SignWithEmailAndPasswordFirebase {
 
         }
         catch (e: Exception) {
-            Log.e("Error", "SignWithEmailAndPasswordFirebase - Error")
+            Log.e(ErrorConst.FIREBASE_ERROR, "SignWithEmailAndPasswordFirebase - Error")
         }
 
         return userId

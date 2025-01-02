@@ -3,24 +3,23 @@ package com.example.musicapp.presentation.bottomSheet
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import com.example.musicapp.databinding.BottomSheetMusicTextBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.presentation.mainPlayer.PlayerViewModel
+import com.example.musicapp.domain.module.MusicText
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class MusicTextBottomSheet(
-    private val viewModel: PlayerViewModel
+    private val getMusicTextResult: LiveData<MusicText?>? = null
 ): BottomSheetDialogFragment() {
     companion object {
         const val TAG = "Music text bottom sheet"
-        const val MUSIC_KEY = "MusicIdKey"
     }
 
     private lateinit var binding: BottomSheetMusicTextBinding
@@ -43,7 +42,7 @@ class MusicTextBottomSheet(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.getMusicTextResult.observe(viewLifecycleOwner) {
+        getMusicTextResult?.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.textView.text = it.text
                 binding.musicView.text = currentMusic?.name
@@ -59,8 +58,5 @@ class MusicTextBottomSheet(
     override fun onStart() {
         super.onStart()
         binding.progressIndicator.visibility = View.VISIBLE
-
-        currentMusic = arguments?.getParcelable(MUSIC_KEY, Music::class.java)
-        viewModel.getMusicText(currentMusic?.id.toString())
     }
 }

@@ -10,11 +10,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.MusicInfo
 import com.example.musicapp.domain.module.MusicText
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.domain.usecase.getMusicText.GetMusicText
+import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
+import com.example.musicapp.domain.usecase.getAnother.GetMusicText
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
@@ -29,7 +31,8 @@ class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
-    private val getMusicText: GetMusicText
+    private val getMusicText: GetMusicText,
+    private val getMusicInfo: GetMusicInfo
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -41,8 +44,8 @@ class PlayerViewModel(
     var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
-
     val isBound = MutableLiveData<Boolean>()
+
     var isFavorite = false
     var isDownloaded = false
 
@@ -52,6 +55,7 @@ class PlayerViewModel(
     private val passTimeLiveData = MutableLiveData<String>()
     private val getFavoriteMusicLiveData = MutableLiveData<MusicResult?>()
     private val getMusicTextLiveData = MutableLiveData<MusicText?>()
+    private val getMusicInfoLIveData = MutableLiveData<MusicInfo?>()
 
     val controlPlayer: LiveData<ControlPlayer> = controlPlayerLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
@@ -59,6 +63,7 @@ class PlayerViewModel(
     val passTimeResult: LiveData<String> = passTimeLiveData
     val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
     val getMusicTextResult: LiveData<MusicText?> = getMusicTextLiveData
+    val getMusicInfoResult: LiveData<MusicInfo?> = getMusicInfoLIveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -118,9 +123,19 @@ class PlayerViewModel(
         }
     }
 
-    fun getMusicText(musicId: String) {
+    fun getMusicText() {
         viewModelScope.launch {
-            getMusicTextLiveData.value = getMusicText.getTextById(musicId)
+            getMusicTextLiveData.value = getMusicText.getTextById(
+                musicId = currentObject?.value?.id.toString()
+            )
+        }
+    }
+
+    fun getMusicInfo() {
+        viewModelScope.launch {
+            getMusicInfoLIveData.value = getMusicInfo.execute(
+                musicId = currentObject?.value?.id.toString()
+            )
         }
     }
 

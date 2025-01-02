@@ -86,7 +86,8 @@ val appModule = module {
             addMusicInSQLite = get(),
             deleteMusicFromSQLite = get(),
             findFavoriteMusicFromSQLite = get(),
-            getMusicText = get()
+            getMusicText = get(),
+            getMusicInfo = get()
         )
     }
 

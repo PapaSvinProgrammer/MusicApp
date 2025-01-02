@@ -1,27 +1,29 @@
-package com.example.musicapp.data.firebase.getMusicText
+package com.example.musicapp.data.firebase.getAnother
 
 import android.util.Log
 import com.example.musicapp.data.constant.CollectionConst
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.MusicText
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.tasks.await
 
 class GetMusicTextById {
-    suspend fun execute(musicId: String): List<MusicText> {
+    suspend fun execute(musicId: String): MusicText? {
         val database = Firebase.firestore
-        var result = listOf<MusicText>()
+        var result: MusicText? = null
 
         try {
             result = database
                 .collection(CollectionConst.MUSIC_TEXT_COLLECTION)
-                .whereEqualTo("musicId", musicId)
+                .document(musicId)
                 .get()
                 .await()
-                .toObjects<MusicText>()
+                .toObject<MusicText>()
         } catch (e: Exception) {
-            Log.d("FirebaseError", "GetMusicTextById - Error")
+            Log.d(ErrorConst.FIREBASE_ERROR, "GetMusicTextById - Error")
         }
 
         return result

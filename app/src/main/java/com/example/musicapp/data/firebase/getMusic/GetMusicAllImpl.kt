@@ -2,6 +2,7 @@ package com.example.musicapp.data.firebase.getMusic
 
 import android.util.Log
 import com.example.musicapp.data.constant.CollectionConst
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Music
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -20,7 +21,7 @@ class GetMusicAllImpl {
                 .toObjects(Music::class.java)
         }
         catch (e: Exception) {
-            Log.e("FirebaseError", "GetMusicAllImpl - Error")
+            Log.e(ErrorConst.FIREBASE_ERROR, "GetMusicAllImpl - Error")
         }
 
         return result

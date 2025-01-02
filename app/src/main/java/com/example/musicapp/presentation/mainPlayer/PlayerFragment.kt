@@ -30,6 +30,7 @@ import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheet.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheet.MusicBottomSheet
+import com.example.musicapp.presentation.bottomSheet.MusicInfoBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
@@ -256,17 +257,25 @@ class PlayerFragment: Fragment() {
                 }
                 SettingsPlayer.DELETE -> {}
                 SettingsPlayer.DOWNLOAD -> {}
-                SettingsPlayer.INFO -> {}
+                SettingsPlayer.INFO -> musicInfo()
                 SettingsPlayer.HATE -> executeDislike()
                 SettingsPlayer.REPORT_PROBLEM -> {}
-                SettingsPlayer.SHOW_MUSIC_TEXT -> getMusicText()
+                SettingsPlayer.SHOW_MUSIC_TEXT -> executeNote()
                 else -> {}
             }
         }
     }
 
-    private fun getMusicText() {
-        viewModel.getMusicText(viewModel.currentObject?.value?.id.toString())
+    private fun musicInfo() {
+        viewModel.getMusicInfo()
+
+        val musicInfoBottomSheet = MusicInfoBottomSheet(
+            getMusicInfoResult = viewModel.getMusicInfoResult
+        )
+
+        requireActivity().supportFragmentManager.let {
+            musicInfoBottomSheet.show(it, MusicInfoBottomSheet.TAG)
+        }
     }
 
     private fun executeMoveToAuthor() {
@@ -349,12 +358,10 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeNote() {
-        val bottomSheetText = MusicTextBottomSheet(viewModel)
+        viewModel.getMusicText()
 
-        val bundle = Bundle()
-        bundle.putParcelable(MusicTextBottomSheet.MUSIC_KEY, viewModel.currentObject?.value)
+        val bottomSheetText = MusicTextBottomSheet(viewModel.getMusicTextResult)
 
-        bottomSheetText.arguments = bundle
         requireActivity().supportFragmentManager.let {
             bottomSheetText.show(it, MusicTextBottomSheet.TAG)
         }
