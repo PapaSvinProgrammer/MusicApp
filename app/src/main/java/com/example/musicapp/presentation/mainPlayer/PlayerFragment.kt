@@ -29,7 +29,7 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheet.MusicTextBottomSheet
-import com.example.musicapp.presentation.bottomSheet.PlayerBottomSheet
+import com.example.musicapp.presentation.bottomSheet.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
@@ -155,19 +155,19 @@ class PlayerFragment: Fragment() {
         }
 
         binding.settingsButton.setOnClickListener {
-            val bottomSheetDialog = PlayerBottomSheet()
+            val bottomSheetDialog = MusicBottomSheet()
 
             val bundle = Bundle()
-            bundle.putParcelable(PlayerBottomSheet.CURRENT_MUSIC, viewModel.currentObject?.value)
-            bundle.putBoolean(PlayerBottomSheet.IS_FAVORITE, viewModel.isFavorite)
-            bundle.putBoolean(PlayerBottomSheet.IS_DOWNLOADED, viewModel.isDownloaded)
+            bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, viewModel.currentObject?.value)
+            bundle.putBoolean(MusicBottomSheet.IS_FAVORITE, viewModel.isFavorite)
+            bundle.putBoolean(MusicBottomSheet.IS_DOWNLOADED, viewModel.isDownloaded)
             bundle.putString(BottomPlayerAdapter.PARENT_ARG, arguments?.getString(BottomPlayerAdapter.PARENT_ARG))
 
             bottomSheetDialog.arguments = bundle
             initPlayerBottomSheet(bottomSheetDialog)
 
             requireActivity().supportFragmentManager.let {
-                bottomSheetDialog.show(it, PlayerBottomSheet.TAG)
+                bottomSheetDialog.show(it, MusicBottomSheet.TAG)
             }
         }
 
@@ -237,7 +237,7 @@ class PlayerFragment: Fragment() {
         super.onDestroy()
     }
 
-    private fun initPlayerBottomSheet(bottomSheetDialog: PlayerBottomSheet) {
+    private fun initPlayerBottomSheet(bottomSheetDialog: MusicBottomSheet) {
         bottomSheetDialog.settingsStateResult.observe(viewLifecycleOwner) {
             when (it) {
                 SettingsPlayer.LIKE -> {

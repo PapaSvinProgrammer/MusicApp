@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
+import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
@@ -28,10 +29,11 @@ class FavoriteViewModel(
     private val convertTextCount: ConvertTextCount,
     private val getPlaylistFromSQLite: GetPlaylistFromSQLite
 ): ViewModel() {
-    lateinit var isPlay: LiveData<Boolean>
-    lateinit var currentPosition: LiveData<Int>
+    var isPlay: LiveData<Boolean>? = null
+    var currentPosition: LiveData<Int>? = null
+    var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
-    lateinit var servicePlayer: PlayerService
+    var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
     var musicListSize = 0
@@ -77,6 +79,7 @@ class FavoriteViewModel(
             servicePlayer = bind.getService()
             isPlay = bind.isPlay()
             currentPosition = bind.getCurrentPosition()
+            currentObject = bind.getCurrentObject()
             isBound.value = true
         }
 

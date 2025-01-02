@@ -14,7 +14,7 @@ import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class PlayerBottomSheet: BottomSheetDialogFragment() {
+class MusicBottomSheet: BottomSheetDialogFragment() {
     companion object {
         const val TAG = "PlayerBottomSheetDialog"
         const val CURRENT_MUSIC = "currentObject"

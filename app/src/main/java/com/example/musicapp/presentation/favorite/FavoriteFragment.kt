@@ -22,7 +22,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class FavoriteFragment: Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private val viewModel by viewModel<FavoriteViewModel>()
-    private val musicPagerAdapter by lazy { MusicPagerAdapter() }
+    private val musicPagerAdapter by lazy {
+        MusicPagerAdapter(
+            requireActivity().supportFragmentManager,
+            servicePlayer = viewModel.servicePlayer,
+            isPlay = viewModel.isPlay,
+            currentObject = viewModel.currentObject
+        )
+    }
     private val authorAdapter by lazy { AuthorAdapter() }
 
     override fun onCreateView(
@@ -49,7 +56,7 @@ class FavoriteFragment: Fragment() {
         HorizontalOffsetController().setPreviewOffsetBottomPager(
             viewPager2 = binding.musicViewPager,
             nextItemVisibleSize = R.dimen.viewpager_item_visible,
-            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
+            currentItemHorizontalMargin = R.dimen.viewpager_horiz_music
         )
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->

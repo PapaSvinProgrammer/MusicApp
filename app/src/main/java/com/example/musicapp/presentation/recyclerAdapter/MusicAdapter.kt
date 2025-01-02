@@ -3,6 +3,7 @@ package com.example.musicapp.presentation.recyclerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,21 +11,22 @@ import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 
+
 class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music) {
             Glide.with(binding.root)
                 .load(music.imageLow)
-                .into(binding.imageView)
+                .into(binding.musicLayout.imageView)
 
-            binding.musicTextView.text = music.name
-            binding.groupTextView.text = music.group
+            binding.musicLayout.musicTextView.text = music.name
+            binding.musicLayout.groupTextView.text = music.group
 
             if (!music.movieUrl.isNullOrEmpty()) {
-                binding.iconMovieView.visibility = View.VISIBLE
+                binding.musicLayout.iconMovieView.visibility = View.VISIBLE
             }
             else {
-                binding.iconMovieView.visibility = View.GONE
+                binding.musicLayout.iconMovieView.visibility = View.GONE
             }
         }
     }
@@ -32,7 +34,6 @@ class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMusicBinding.inflate(inflater, parent, false)
-
         return ViewHolder(binding)
     }
 

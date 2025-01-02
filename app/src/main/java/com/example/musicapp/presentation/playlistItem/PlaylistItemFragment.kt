@@ -29,7 +29,9 @@ class PlaylistItemFragment: Fragment() {
     private lateinit var binding: FragmentItemPlaylistBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<PlaylistItemViewModel>()
-    private val recyclerAdapter by lazy { MusicResultAdapter() }
+    private val recyclerAdapter by lazy {
+        MusicResultAdapter(requireActivity().supportFragmentManager)
+    }
     private val settingsBottomSheet by lazy { PlaylistBottomSheet() }
 
     override fun onCreateView(

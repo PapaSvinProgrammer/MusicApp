@@ -12,13 +12,22 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
 import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFavoriteFragment: Fragment() {
     private lateinit var binding: FragmentPlaylistFavoriteBinding
     private val viewModel by viewModel<PlaylistFavoriteViewModel>()
-    private val musicResultAdapter by lazy { MusicResultAdapter() }
+    private val musicResultAdapter by lazy {
+        MusicResultAdapter(
+            supportFragmentManager = requireActivity().supportFragmentManager,
+            musicType = MusicType.VERTICAL,
+            servicePlayer = viewModel.servicePlayer,
+            currentObject = viewModel.currentObject,
+            isPlay = viewModel.isPlay
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +41,6 @@ class PlaylistFavoriteFragment: Fragment() {
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val navController = view.findNavController()
-        musicResultAdapter.setViewModel(viewModel)
 
         requireActivity().apply {
             bindService(
