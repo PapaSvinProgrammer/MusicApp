@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class EmailValidTest {
-    private val emailValid = EmailValid()
-
     @Test
     fun correctEmailAddressProcessing() {
+        val emailValid = EmailValid()
+
         val expected = true
         val actual1 = emailValid.execute("ura@yandex.ru")
         val actual2 = emailValid.execute("u12312@gmail.com")
@@ -20,6 +20,8 @@ class EmailValidTest {
 
     @Test
     fun invalidEmailAddressProcessing() {
+        val emailValid = EmailValid()
+
         val expected = false
         val actual1 = emailValid.execute("ura@yandex.")
         val actual2 = emailValid.execute("@gmail.com")

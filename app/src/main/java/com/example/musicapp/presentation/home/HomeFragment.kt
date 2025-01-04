@@ -102,7 +102,7 @@ class HomeFragment: Fragment() {
         }
 
         viewModel.searchResult.observe(viewLifecycleOwner) { list ->
-            searchAdapter.setData(list)
+            list?.let { searchAdapter.setData(it) }
         }
 
         viewModel.searchFilterStateResult.observe(viewLifecycleOwner) { state ->

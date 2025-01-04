@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,12 +17,14 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
+import com.example.musicapp.domain.usecase.search.SearchAll
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getMusicAll: GetMusicAll,
     private val getAlbumsAll: GetAlbumAll,
-    private val getGroupAll: GetGroupAll
+    private val getGroupAll: GetGroupAll,
+    private val searchAll: SearchAll
 ): ViewModel() {
     lateinit var isPlayService: LiveData<Boolean>
     @SuppressLint("StaticFieldLeak")
@@ -36,13 +37,13 @@ class HomeViewModel(
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val getGroupLiveData = MutableLiveData<List<Group>>()
     private val getAlbumLiveData = MutableLiveData<List<Album>>()
-    private val searchLiveData = MutableLiveData<List<Music>>()
+    private val searchLiveData = MutableLiveData<List<Music>?>()
     private val permissionForSearchLiveData = MutableLiveData<Int>()
     private val searchFilterStateLiveData = MutableLiveData<SearchFilterState>()
 
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
-    val searchResult: LiveData<List<Music>> = searchLiveData
+    val searchResult: LiveData<List<Music>?> = searchLiveData
     val getGroupResult: LiveData<List<Group>> = getGroupLiveData
     val getAlbumResult: LiveData<List<Album>> = getAlbumLiveData
     val permissionForSearchResult: LiveData<Int> = permissionForSearchLiveData
@@ -67,15 +68,13 @@ class HomeViewModel(
     }
 
     fun search(text: String) {
-        if (text.length < 2) return
-
-        if (permissionForSearchLiveData.value != 3) return
+        if (permissionForSearchResult.value != 3) return
 
         viewModelScope.launch {
-            searchLiveData.value = searchList.filter { item ->
-                (item.name?.trim()?.lowercase() + item.group?.trim()?.lowercase() + item.albumName?.trim()?.lowercase())
-                    .contains(text.trim().lowercase())
-            }.toList()
+            searchLiveData.value = searchAll.execute(
+                text = text,
+                list = searchList
+            )
         }
     }
 

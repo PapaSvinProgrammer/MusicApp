@@ -1,0 +1,44 @@
+package com.example.musicapp.domain.usecase.savePreferences
+
+import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+
+class SaveLoginStateTest {
+    private val repository = mock<SharedPreferencesRepository>()
+
+    @AfterEach
+    fun reset() {
+        Mockito.reset(repository)
+    }
+
+    @Test
+    fun correctSave() {
+        val testResult = true
+        val useCase = SaveLoginState(repository)
+
+        Mockito.`when`(repository.saveLoginState(any())).thenReturn(testResult)
+
+        val expected = true
+        val actual = useCase.execute(true)
+
+        Assertions.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun invalidSave() {
+        val testResult = false
+        val useCase = SaveLoginState(repository)
+
+        Mockito.`when`(repository.saveLoginState(any())).thenReturn(testResult)
+
+        val expected = false
+        val actual = useCase.execute(true)
+
+        Assertions.assertEquals(expected, actual)
+    }
+}

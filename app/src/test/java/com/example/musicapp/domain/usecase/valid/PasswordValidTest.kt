@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class PasswordValidTest {
-    private val passwordValid = PasswordValid()
-
     @Test
     fun correctPasswordValidProcessing() {
+        val passwordValid = PasswordValid()
+
         val expected = true
         val actual = passwordValid.execute("123456")
 
@@ -16,6 +16,8 @@ class PasswordValidTest {
 
     @Test
     fun notCorrectPasswordValidProcessing() {
+        val passwordValid = PasswordValid()
+
         val expected = false
         val actual = passwordValid.execute("123")
 

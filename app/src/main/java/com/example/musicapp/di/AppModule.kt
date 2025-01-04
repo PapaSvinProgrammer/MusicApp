@@ -77,7 +77,8 @@ val appModule = module {
         HomeViewModel(
             getMusicAll = get(),
             getAlbumsAll = get(),
-            getGroupAll = get()
+            getGroupAll = get(),
+            searchAll = get()
         )
     }
 
