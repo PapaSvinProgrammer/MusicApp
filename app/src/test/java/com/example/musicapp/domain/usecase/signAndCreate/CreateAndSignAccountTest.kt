@@ -5,6 +5,7 @@ import com.example.musicapp.domain.repository.SignAndCreateRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -15,7 +16,7 @@ class CreateAndSignAccountTest {
     private val useCase = CreateAccount(signAndCreateRepository)
 
     @Test
-    fun correctAccountProcessing() {
+    fun correctAccountProcessing() = runTest {
         val testEmail = "email@yandex.ru"
         val testPassword = "password"
         val testLoginData = LoginData(
@@ -24,18 +25,16 @@ class CreateAndSignAccountTest {
         )
         val testUserId = "userId"
 
-       CoroutineScope(Dispatchers.Unconfined).launch {
-            Mockito
-                .`when`(
-                    signAndCreateRepository.createWithEmailAndPassword(testLoginData)
-                )
-                .thenReturn(testUserId)
+        Mockito
+            .`when`(
+                signAndCreateRepository.createWithEmailAndPassword(testLoginData)
+            )
+            .thenReturn(testUserId)
 
-            val expected = testUserId
-            val actual = useCase.execute(testEmail, testPassword)
+        val expected = "userId"
+        val actual = useCase.execute(testEmail, testPassword)
 
-            Assertions.assertEquals(expected, actual)
-        }
+        Assertions.assertEquals(expected, actual)
     }
 
     @Test

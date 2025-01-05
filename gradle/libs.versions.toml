@@ -6,10 +6,13 @@ koinAndroid = "4.0.0"
 kotlin = "2.0.20"
 coreKtx = "1.15.0"
 appcompat = "1.7.0"
+kotlinxCoroutinesTest = "1.10.1"
 lottie = "3.4.0"
 material = "1.12.0"
 media3Exoplayer = "1.5.1"
-mockitoCore = "4.0.0"
+mockitoCore = "5.14.2"
+mockitoInline = "5.2.0"
+mockitoKotlin = "5.4.0"
 navigationFragmentKtx = "2.8.5"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
@@ -17,7 +20,6 @@ firebaseFirestore = "25.1.1"
 legacySupportV4 = "1.0.0"
 fragmentTesting = "1.8.5"
 roomRuntime = "2.6.1"
-junitKtx = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,17 +38,17 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinAndroid" }
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 androidx-fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragmentTesting" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoCore" }
-androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-

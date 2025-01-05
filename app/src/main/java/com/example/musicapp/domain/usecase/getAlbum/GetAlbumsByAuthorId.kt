@@ -5,6 +5,10 @@ import com.example.musicapp.domain.repository.AlbumRepository
 
 class GetAlbumsByAuthorId(private val albumRepository: AlbumRepository) {
     suspend fun execute(authorId: String): List<Album> {
+        if (authorId.isEmpty()) {
+            return listOf()
+        }
+
         return albumRepository.getAlbumByAuthorId(authorId)
     }
 }

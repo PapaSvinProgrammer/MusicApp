@@ -30,14 +30,14 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     buildFeatures.viewBinding = true
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     tasks.withType<Test> { useJUnitPlatform() }
@@ -63,8 +63,12 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.testing)
+
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
+    //testImplementation("androidx.arch.core:core-testing:2.2.0")
 }

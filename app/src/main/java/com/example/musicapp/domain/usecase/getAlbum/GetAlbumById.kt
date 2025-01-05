@@ -7,6 +7,8 @@ class GetAlbumById(
     private val albumRepository: AlbumRepository
 ) {
     suspend fun execute(id: String): Album? {
+        if (id.isEmpty()) return null
+
         return albumRepository.getAlbumById(id)
     }
 }
