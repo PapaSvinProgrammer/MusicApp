@@ -37,9 +37,6 @@ data class MusicEntity(
     @ColumnInfo(name = "url")
     val url: String,
 
-    @ColumnInfo(name = "save_uri")
-    val saveUri: String,
-
     @ColumnInfo(name = "movie_url")
     val movieUrl: String,
 

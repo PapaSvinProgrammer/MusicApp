@@ -107,7 +107,6 @@ class PlayerFragment: Fragment() {
         viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
             viewModel.isFavorite = it != null
             binding.likeView.isSelected = it != null
-            viewModel.isDownloaded = it?.musicEntity?.saveUri?.isNotEmpty() ?: false
         }
 
         binding.nextView.setOnClickListener {

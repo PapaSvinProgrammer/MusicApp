@@ -22,11 +22,13 @@ import com.example.musicapp.data.repository.MusicRepositoryFirebase
 import com.example.musicapp.data.repository.MusicSQLiteRepository
 import com.example.musicapp.data.repository.MusicTextRepositoryFirebase
 import com.example.musicapp.data.repository.PlaylistSQLiteRepository
+import com.example.musicapp.data.repository.SaveMusicInternalRepository
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
 import com.example.musicapp.data.room.AppDatabase
 import com.example.musicapp.data.room.dao.MusicDao
 import com.example.musicapp.data.room.dao.PlaylistDao
+import com.example.musicapp.data.room.dao.SaveMusicDao
 import com.example.musicapp.domain.repository.AlbumRepository
 import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicInfoRepository
@@ -35,6 +37,7 @@ import com.example.musicapp.domain.repository.MusicRepository
 import com.example.musicapp.domain.repository.MusicStorageRepository
 import com.example.musicapp.domain.repository.MusicTextRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
+import com.example.musicapp.domain.repository.SaveMusicRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
@@ -119,7 +122,7 @@ val dataModule = module {
         Room.databaseBuilder(
             get(),
             AppDatabase::class.java,
-            "musicAppDatabase.db"
+            get<SharedPreferencesRepository>().getUserKey()
         ).build()
     }
 
@@ -129,6 +132,10 @@ val dataModule = module {
 
     single<PlaylistDao> {
         get<AppDatabase>().getPlaylistDao()
+    }
+
+    single<SaveMusicDao> {
+        get<AppDatabase>().getSaveMusicDao()
     }
 
     single<PlaylistRepository> {
@@ -175,5 +182,11 @@ val dataModule = module {
 
     single<GetMusicInfoById> {
         GetMusicInfoById()
+    }
+
+    single<SaveMusicRepository> {
+        SaveMusicInternalRepository(
+            saveMusicDao = get()
+        )
     }
 }

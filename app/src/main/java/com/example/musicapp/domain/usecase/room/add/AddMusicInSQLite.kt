@@ -1,5 +1,6 @@
 package com.example.musicapp.domain.usecase.room.add
 
+import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
@@ -13,7 +14,8 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             MusicResult(
                 musicEntity = convertMusic(music, playlistId),
                 albumEntity = convertAlbum(music),
-                authorEntity = convertAuthor(music)
+                authorEntity = convertAuthor(music),
+                saveMusicEntity = SaveMusicEntity()
             )
         )
     }
@@ -21,7 +23,7 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
     private fun convertAlbum(music: Music): AlbumEntity {
         return AlbumEntity(
             firebaseId = music.albumId.toString(),
-            name = "album_name",
+            name = music.albumName.toString(),
             imageLow = music.imageLow.toString(),
             imageHigh = music.imageHigh.toString()
         )
@@ -45,7 +47,6 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             albumId = music.albumId.toString(),
             authorId = music.groupId.toString(),
             url = music.url.toString(),
-            saveUri = "",
             movieUrl = music.movieUrl ?: "",
             time = music.time.toString()
         )

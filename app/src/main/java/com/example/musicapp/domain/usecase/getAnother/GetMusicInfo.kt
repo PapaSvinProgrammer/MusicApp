@@ -5,6 +5,10 @@ import com.example.musicapp.domain.repository.MusicInfoRepository
 
 class GetMusicInfo(private val musicInfoRepository: MusicInfoRepository) {
     suspend fun execute(musicId: String): MusicInfo? {
+        if (musicId.isEmpty()) {
+            return null
+        }
+
         return musicInfoRepository.getInfoById(musicId)
     }
 }

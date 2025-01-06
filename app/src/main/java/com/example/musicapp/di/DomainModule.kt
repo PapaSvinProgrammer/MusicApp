@@ -24,10 +24,13 @@ import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeletePlaylistFromSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
+import com.example.musicapp.domain.usecase.room.get.GetSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
 import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
@@ -253,5 +256,23 @@ val domainModule = module {
 
     factory {
         SearchAll()
+    }
+
+    factory {
+        AddSaveMusicInSQLite(
+            saveMusicRepository = get()
+        )
+    }
+
+    factory {
+        DeleteSaveMusicFromSQLite(
+            saveMusicRepository = get()
+        )
+    }
+
+    factory {
+        GetSaveMusicFromSQLite(
+            saveMusicRepository = get()
+        )
     }
 }
