@@ -1,4 +1,4 @@
-package com.example.musicapp.presentation.bottomSheet
+package com.example.musicapp.presentation.bottomSheetMusicText
 
 import android.app.Dialog
 import android.os.Build
@@ -7,22 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
 import com.example.musicapp.databinding.BottomSheetMusicTextBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.module.MusicText
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MusicTextBottomSheet(
-    private val getMusicTextResult: LiveData<MusicText?>? = null
-): BottomSheetDialogFragment() {
+class MusicTextBottomSheet: BottomSheetDialogFragment() {
     companion object {
         const val TAG = "Music text bottom sheet"
+        const val ID_KEY = "FirebaseId"
     }
 
     private lateinit var binding: BottomSheetMusicTextBinding
+    private val viewModel by viewModel<MusicTextBottomSheetViewModel>()
     private var currentMusic: Music? = null
 
     override fun onCreateView(
@@ -42,7 +41,7 @@ class MusicTextBottomSheet(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getMusicTextResult?.observe(viewLifecycleOwner) {
+        viewModel.musicTextResult.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.textView.text = it.text
                 binding.musicView.text = currentMusic?.name
@@ -58,5 +57,10 @@ class MusicTextBottomSheet(
     override fun onStart() {
         super.onStart()
         binding.progressIndicator.visibility = View.VISIBLE
+
+        val id = arguments?.getString(ID_KEY)
+        id?.let {
+            viewModel.getText(it)
+        }
     }
 }

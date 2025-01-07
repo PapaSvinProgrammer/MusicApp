@@ -8,6 +8,9 @@ import com.example.musicapp.presentation.home.HomeViewModel
 import com.example.musicapp.presentation.login.LoginViewModel
 import com.example.musicapp.presentation.main.MainViewModel
 import com.example.musicapp.presentation.mainPlayer.PlayerViewModel
+import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheetViewModel
+import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheetViewModel
+import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheetViewModel
 import com.example.musicapp.presentation.playlist.PlaylistViewModel
 import com.example.musicapp.presentation.playlistFavorite.PlaylistFavoriteViewModel
 import com.example.musicapp.presentation.registration.RegistrationViewModel
@@ -135,6 +138,26 @@ val appModule = module {
             getAlbumsByAuthorId = get(),
             getGroupById = get(),
             getMusicsByAuthorId = get()
+        )
+    }
+
+    viewModel {
+        MusicBottomSheetViewModel(
+            findSaveMusicFromSQLite = get(),
+            findFavoriteMusicFromSQLite = get(),
+            addMusicInSQLite = get()
+        )
+    }
+
+    viewModel {
+        MusicInfoBottomSheetViewModel(
+            getMusicInfo = get()
+        )
+    }
+
+    viewModel {
+        MusicTextBottomSheetViewModel(
+            getMusicText = get()
         )
     }
 }

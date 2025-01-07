@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
-import com.example.musicapp.presentation.bottomSheet.MusicBottomSheet
+import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -142,10 +141,8 @@ class MusicResultAdapter(
             val bundle = Bundle()
 
             bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, convertItem(music))
-            bundle.putBoolean(MusicBottomSheet.IS_FAVORITE, false)
-            bundle.putBoolean(MusicBottomSheet.IS_DOWNLOADED, false)
-
             musicBottomSheet.arguments = bundle
+
             supportFragmentManager?.let {
                 musicBottomSheet.show(it, MusicBottomSheet.TAG)
             }

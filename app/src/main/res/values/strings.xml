@@ -72,6 +72,7 @@
     <string name="error_check_password_text">"Пароли не совпадают"</string>
     <string name="error_login_text">"Неверны логин или пароль"</string>
     <string name="error_registration_text">"Такой пользователь уже существует"</string>
+    <string name="show_text">Показать текст</string>
 
     <string-array name="search_filter_array">
         <item>"Все"</item>
@@ -79,4 +80,13 @@
         <item>"Исполнитель"</item>
         <item>"Альбом"</item>
     </string-array>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

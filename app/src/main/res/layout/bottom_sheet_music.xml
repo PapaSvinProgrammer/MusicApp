@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.bottomSheet.MusicBottomSheet">
+    tools:context=".presentation.bottomSheetMusic.MusicBottomSheet">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bottom_sheet_drag"
@@ -19,7 +19,7 @@
         android:layout_height="70dp"
         android:layout_marginStart="15dp"
         android:scaleType="centerCrop"
-        app:shapeAppearance="@style/ImageCornerRadius"
+        app:shapeAppearance="@style/ImageCornerRadius8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_drag" />
 
@@ -397,6 +397,42 @@
                             android:textSize="16sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/icon_download"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            style="@style/ColorLine"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/show_text_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/icon_show_text"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            style="@style/IconBottomSheetColor"
+                            app:srcCompat="@drawable/ic_note"
+                            android:layout_margin="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_show_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextColorOnSurface"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/show_text"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/icon_show_text"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View

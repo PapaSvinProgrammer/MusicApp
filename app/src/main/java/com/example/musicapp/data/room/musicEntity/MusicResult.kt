@@ -27,5 +27,5 @@ data class MusicResult(
         parentColumn = "firebase_id",
         entityColumn = "firebase_id"
     )
-    val saveMusicEntity: SaveMusicEntity
+    val saveMusicEntity: SaveMusicEntity?
 )

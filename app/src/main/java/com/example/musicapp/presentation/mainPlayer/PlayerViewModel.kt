@@ -19,7 +19,7 @@ import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
 import com.example.musicapp.domain.usecase.getAnother.GetMusicText
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -47,23 +47,18 @@ class PlayerViewModel(
     val isBound = MutableLiveData<Boolean>()
 
     var isFavorite = false
-    var isDownloaded = false
 
     private val controlPlayerLiveData = MutableLiveData<ControlPlayer>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val missTimeLiveData = MutableLiveData<String>()
     private val passTimeLiveData = MutableLiveData<String>()
     private val getFavoriteMusicLiveData = MutableLiveData<MusicResult?>()
-    private val getMusicTextLiveData = MutableLiveData<MusicText?>()
-    private val getMusicInfoLIveData = MutableLiveData<MusicInfo?>()
 
     val controlPlayer: LiveData<ControlPlayer> = controlPlayerLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val missTimeResult: LiveData<String> = missTimeLiveData
     val passTimeResult: LiveData<String> = passTimeLiveData
     val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
-    val getMusicTextResult: LiveData<MusicText?> = getMusicTextLiveData
-    val getMusicInfoResult: LiveData<MusicInfo?> = getMusicInfoLIveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -102,7 +97,7 @@ class PlayerViewModel(
         }
     }
 
-    fun getMusicById(id: String) {
+    fun getFavoriteMusic(id: String) {
         viewModelScope.launch {
             getFavoriteMusicLiveData.value = findFavoriteMusicFromSQLite.execute(id)
         }
@@ -120,22 +115,6 @@ class PlayerViewModel(
     fun deleteMusic(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteMusicFromSQLite.execute(id)
-        }
-    }
-
-    fun getMusicText() {
-        viewModelScope.launch {
-            getMusicTextLiveData.value = getMusicText.getTextById(
-                musicId = currentObject?.value?.id.toString()
-            )
-        }
-    }
-
-    fun getMusicInfo() {
-        viewModelScope.launch {
-            getMusicInfoLIveData.value = getMusicInfo.execute(
-                musicId = currentObject?.value?.id.toString()
-            )
         }
     }
 

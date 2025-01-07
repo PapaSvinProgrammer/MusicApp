@@ -23,10 +23,11 @@ import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeletePlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
@@ -163,6 +164,12 @@ val domainModule = module {
     factory<FindFavoriteMusicFromSQLite> {
         FindFavoriteMusicFromSQLite(
             musicLiteRepository = get()
+        )
+    }
+
+    factory<FindSaveMusicFromSQLite> {
+        FindSaveMusicFromSQLite(
+            saveMusicRepository = get()
         )
     }
 

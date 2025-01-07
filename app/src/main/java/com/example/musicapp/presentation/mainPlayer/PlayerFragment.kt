@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,20 +23,14 @@ import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.player.PlayerService
-import com.example.musicapp.domain.state.SettingsPlayer
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
-import com.example.musicapp.presentation.bottomSheet.MusicTextBottomSheet
-import com.example.musicapp.presentation.bottomSheet.MusicBottomSheet
-import com.example.musicapp.presentation.bottomSheet.MusicInfoBottomSheet
-import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
+import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
+import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-private const val COUNT_MSEC_TO_RESET = 3000
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
@@ -159,13 +152,8 @@ class PlayerFragment: Fragment() {
 
             val bundle = Bundle()
             bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, viewModel.currentObject?.value)
-            bundle.putBoolean(MusicBottomSheet.IS_FAVORITE, viewModel.isFavorite)
-            bundle.putBoolean(MusicBottomSheet.IS_DOWNLOADED, viewModel.isDownloaded)
-            bundle.putString(BottomPlayerAdapter.PARENT_ARG, arguments?.getString(BottomPlayerAdapter.PARENT_ARG))
 
             bottomSheetDialog.arguments = bundle
-            initPlayerBottomSheet(bottomSheetDialog)
-
             requireActivity().supportFragmentManager.let {
                 bottomSheetDialog.show(it, MusicBottomSheet.TAG)
             }
@@ -220,14 +208,7 @@ class PlayerFragment: Fragment() {
     @SuppressLint("NewApi")
     override fun onStart() {
         super.onStart()
-
-        val parent = arguments?.getString(BottomPlayerAdapter.PARENT_ARG)
-
-        if (parent == BottomPlayerAdapter.PARENT_ARG_HOME) {
-            binding.shuffleView.visibility = View.GONE
-        }
-
-        viewModel.getMusicById(
+        viewModel.getFavoriteMusic(
             id = viewModel.currentObject?.value?.id.toString()
         )
     }
@@ -237,46 +218,6 @@ class PlayerFragment: Fragment() {
         super.onDestroy()
     }
 
-    private fun initPlayerBottomSheet(bottomSheetDialog: MusicBottomSheet) {
-        bottomSheetDialog.settingsStateResult.observe(viewLifecycleOwner) {
-            when (it) {
-                SettingsPlayer.LIKE -> {
-                    bottomSheetDialog.dismiss()
-                    executeLike()
-                }
-                SettingsPlayer.ADD_TO_PLAYLIST -> {}
-                SettingsPlayer.SHARE -> shareToOut()
-                SettingsPlayer.MOVE_TO_GROUP -> {
-                    bottomSheetDialog.dismiss()
-                    executeMoveToAuthor()
-                }
-                SettingsPlayer.MOVE_TO_ALBUM -> {
-                    bottomSheetDialog.dismiss()
-                    executeMoveToAlbum()
-                }
-                SettingsPlayer.DELETE -> {}
-                SettingsPlayer.DOWNLOAD -> {}
-                SettingsPlayer.INFO -> musicInfo()
-                SettingsPlayer.HATE -> executeDislike()
-                SettingsPlayer.REPORT_PROBLEM -> {}
-                SettingsPlayer.SHOW_MUSIC_TEXT -> executeNote()
-                else -> {}
-            }
-        }
-    }
-
-    private fun musicInfo() {
-        viewModel.getMusicInfo()
-
-        val musicInfoBottomSheet = MusicInfoBottomSheet(
-            getMusicInfoResult = viewModel.getMusicInfoResult
-        )
-
-        requireActivity().supportFragmentManager.let {
-            musicInfoBottomSheet.show(it, MusicInfoBottomSheet.TAG)
-        }
-    }
-
     private fun executeMoveToAuthor() {
         val bundle = Bundle()
         val firebaseId = viewModel.currentObject?.value?.groupId
@@ -284,15 +225,6 @@ class PlayerFragment: Fragment() {
 
         navController.popBackStack()
         navController.navigate(R.id.action_global_authorFragment, bundle)
-    }
-
-    private fun executeMoveToAlbum() {
-        val bundle = Bundle()
-        val firebaseId = viewModel.currentObject?.value?.albumId
-        bundle.putString(AlbumFragment.FIREBASE_KEY, firebaseId)
-
-        navController.popBackStack()
-        navController.navigate(R.id.action_global_albumFragment, bundle)
     }
 
     private fun initSeekBar() {
@@ -319,7 +251,7 @@ class PlayerFragment: Fragment() {
         }
 
         viewModel.currentPosition?.observe(viewLifecycleOwner) { position ->
-            viewModel.getMusicById(
+            viewModel.getFavoriteMusic(
                 id = viewModel.currentObject?.value?.id.toString()
             )
 
@@ -333,9 +265,7 @@ class PlayerFragment: Fragment() {
                 .load(obj.imageGroup)
                 .into(binding.groupImageView)
 
-            binding.viewPager.doOnPreDraw {
-                binding.viewPager.setCurrentItem(position, false)
-            }
+            binding.viewPager.currentItem = position
         }
 
         viewModel.bufferedPosition?.observe(viewLifecycleOwner) {
@@ -357,10 +287,15 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeNote() {
-        viewModel.getMusicText()
+        val bottomSheetText = MusicTextBottomSheet()
 
-        val bottomSheetText = MusicTextBottomSheet(viewModel.getMusicTextResult)
+        val bundle = Bundle()
+        bundle.putString(
+            MusicTextBottomSheet.ID_KEY,
+            viewModel.currentObject?.value?.id
+        )
 
+        bottomSheetText.arguments = bundle
         requireActivity().supportFragmentManager.let {
             bottomSheetText.show(it, MusicTextBottomSheet.TAG)
         }
@@ -437,28 +372,13 @@ class PlayerFragment: Fragment() {
     }
 
     private fun nextMusic() {
-        if (viewModel.isRepeat?.value == true) {
-            viewModel.servicePlayer?.reset()
-            return
-        }
-
-        binding.viewPager.currentItem += 1
-        changeNameAndGroupView()
+        binding.seekBar.progress = 0
+        viewModel.servicePlayer?.next()
     }
 
     private fun previousMusic() {
-        if (viewModel.isRepeat?.value == true) {
-            return
-        }
-
-        if ((viewModel.durationLiveData?.value ?: 0) > COUNT_MSEC_TO_RESET) {
-            viewModel.servicePlayer?.reset()
-            binding.seekBar.progress = 0
-            return
-        }
-
-        binding.viewPager.currentItem -= 1
-        changeNameAndGroupView()
+        binding.seekBar.progress = 0
+        viewModel.servicePlayer?.previous()
     }
 
     private fun pauseMusic() {
@@ -483,7 +403,7 @@ class PlayerFragment: Fragment() {
     }
 
     private fun changeNameAndGroupView() {
-        val newObj = viewModel.currentObject?.value ?: Music()
+        val newObj = viewModel.musicList?.value!![viewModel.currentPosition?.value ?: 0]
 
         binding.musicTextView.text = newObj.name
         binding.groupTextView.text = newObj.group

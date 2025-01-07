@@ -17,6 +17,10 @@ interface SaveMusicDao {
     suspend fun delete(firebaseId: String)
 
     @Transaction
+    @Query("SELECT * FROM save_musics WHERE firebase_id = :firebaseId")
+    suspend fun getMusicById(firebaseId: String): SaveMusicEntity?
+
+    @Transaction
     @Query("SELECT * FROM save_musics")
     fun getAll(): Flow<List<SaveMusicEntity?>>
 }

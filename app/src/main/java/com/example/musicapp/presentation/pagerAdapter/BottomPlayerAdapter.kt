@@ -23,11 +23,6 @@ class BottomPlayerAdapter(
     private val navController: NavController,
     private val viewModel: MainViewModel
 ): RecyclerView.Adapter<BottomPlayerAdapter.ViewHolder>() {
-    companion object {
-        const val PARENT_ARG = "parentArg"
-        const val PARENT_ARG_HOME = "home"
-    }
-
     inner class ViewHolder(
         private val livecycleOwner: LifecycleOwner,
         val binding: ItemBottomPlayerBinding
@@ -126,10 +121,7 @@ class BottomPlayerAdapter(
         holder.onBind(music, position)
 
         holder.binding.root.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString(PARENT_ARG, PARENT_ARG_HOME)
-
-            navController.navigate(R.id.action_global_playerFragment2, bundle)
+            navController.navigate(R.id.action_global_playerFragment2)
         }
     }
 

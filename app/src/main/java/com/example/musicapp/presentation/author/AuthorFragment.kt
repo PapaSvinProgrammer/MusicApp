@@ -48,10 +48,10 @@ class AuthorFragment: Fragment() {
 
         viewModel.getAuthorResult.observe(viewLifecycleOwner) { author ->
             Glide.with(binding.root)
-                .load(author.image)
+                .load(author?.image ?: "")
                 .into(binding.appBar.backImage)
 
-            binding.appBar.collapsingToolbar.title = author.name
+            binding.appBar.collapsingToolbar.title = author?.name
         }
 
         viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->

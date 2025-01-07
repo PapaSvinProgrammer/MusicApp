@@ -18,6 +18,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+private const val COUNT_MSEC_TO_RESET = 3000
+
 class PlayerService: Service() {
     companion object {
         const val ACTION_PLAY = "play"
@@ -137,8 +139,8 @@ class PlayerService: Service() {
 
         if (musicList.value == null) return
 
-        currentPosition.value = position
         currentObject.value = musicList.value!![position]
+        currentPosition.value = position
 
         audioPlayer?.setPosition(position, isPlay.value ?: false)
 
@@ -189,14 +191,27 @@ class PlayerService: Service() {
         audioNotification?.execute(currentObject.value ?: Music())
     }
 
-    private fun previous() {
+    fun previous() {
         if ((currentPosition.value ?: 0) - 1 < 0) return
+
+        if (isRepeat.value == true) {
+            return
+        }
+
+        if ((currentDuration.value ?: 0) > COUNT_MSEC_TO_RESET) {
+            reset()
+            return
+        }
 
         currentPosition.value = (currentPosition.value ?: 0) - 1
         setCurrentPosition(currentPosition.value ?: 0)
     }
 
-    private fun next() {
+    fun next() {
+        if (isRepeat.value == true) {
+            return
+        }
+
         currentPosition.value = (currentPosition.value ?: 0) + 1
         setCurrentPosition(currentPosition.value ?: 0)
     }
@@ -214,6 +229,7 @@ class PlayerService: Service() {
                 bufferedPosition.value = audioPlayer?.getBufferedPosition()
 
                 if ((currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
+                    currentObject.value = musicList.value!![currentPosition.value ?: 0]
                     currentPosition.value = audioPlayer?.getCurrentItem()
                     maxDuration.value = 0
                 }

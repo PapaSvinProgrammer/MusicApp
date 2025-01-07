@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface SaveMusicRepository {
     suspend fun insert(music: SaveMusicEntity)
     suspend fun delete(firebaseId: String)
+    suspend fun getMusicById(firebaseId: String): SaveMusicEntity?
     fun getAll(): Flow<List<SaveMusicEntity?>>
 }

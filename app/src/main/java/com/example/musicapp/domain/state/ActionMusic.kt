@@ -1,6 +1,6 @@
 package com.example.musicapp.domain.state
 
-enum class SettingsPlayer {
+enum class ActionMusic {
     LIKE,
     ADD_TO_PLAYLIST,
     SHARE,

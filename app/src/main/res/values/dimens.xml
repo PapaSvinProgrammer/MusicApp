@@ -5,4 +5,7 @@
     <dimen name="viewpager_current_item_horizontal_margin_main">30dp</dimen>
     <dimen name="viewpager_horiz_music">20dp</dimen>
     <dimen name="viewpager_current_item_horizontal_margin">20dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fragment_horizontal_margin">16dp</dimen>
+    <dimen name="fragment_vertical_margin">16dp</dimen>
 </resources>

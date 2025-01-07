@@ -43,14 +43,14 @@ class AlbumFragment: Fragment() {
 
         viewModel.getAlbumResult.observe(viewLifecycleOwner) { album ->
             Glide.with(binding.root)
-                .load(album.image)
+                .load(album?.image)
                 .into(binding.appBar.backImage)
 
             Glide.with(binding.root)
-                .load(album.image)
+                .load(album?.image)
                 .into(binding.appBar.frontImage)
 
-            binding.appBar.collapsingToolbar.title = album.name
+            binding.appBar.collapsingToolbar.title = album?.name
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->

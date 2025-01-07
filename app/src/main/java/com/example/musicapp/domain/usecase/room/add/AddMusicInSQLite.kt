@@ -9,7 +9,11 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicLiteRepository
 
 class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
-    suspend fun execute(music: Music, playlistId: Long = 1) {
+    suspend fun execute(music: Music?, playlistId: Long = 1) {
+        if (music == null) {
+            return
+        }
+
         musicLiteRepository.add(
             MusicResult(
                 musicEntity = convertMusic(music, playlistId),

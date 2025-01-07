@@ -17,11 +17,11 @@ class AuthorViewModel(
     private val getMusicsByAuthorId: GetMusicsByAuthorId,
     private val getAlbumsByAuthorId: GetAlbumsByAuthorId
 ): ViewModel() {
-    private val getAuthorLiveData = MutableLiveData<Group>()
+    private val getAuthorLiveData = MutableLiveData<Group?>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val getAlbumLiveData = MutableLiveData<List<Album>>()
 
-    val getAuthorResult: LiveData<Group> = getAuthorLiveData
+    val getAuthorResult: LiveData<Group?> = getAuthorLiveData
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val getAlbumResult: LiveData<List<Album>> = getAlbumLiveData
 

@@ -195,4 +195,9 @@
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"
         app:popExitAnim="@anim/slide_in_right" />
+    <dialog
+        android:id="@+id/musicBottomSheet"
+        android:name="com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet"
+        android:label="bottom_sheet_music"
+        tools:layout="@layout/bottom_sheet_music" /><action android:id="@+id/action_global_musicBottomSheet" app:destination="@id/musicBottomSheet"/>
 </navigation>

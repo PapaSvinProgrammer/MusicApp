@@ -14,10 +14,10 @@ class AlbumViewModel(
     private val getAlbumById: GetAlbumById,
     private val getMusicsByAlbumId: GetMusicsByAlbumId
 ): ViewModel() {
-    private val getAlbumLiveData = MutableLiveData<Album>()
+    private val getAlbumLiveData = MutableLiveData<Album?>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
 
-    val getAlbumResult: LiveData<Album> = getAlbumLiveData
+    val getAlbumResult: LiveData<Album?> = getAlbumLiveData
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
 
     fun getAlbum(id: String) {
