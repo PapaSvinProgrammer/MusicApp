@@ -19,13 +19,15 @@ import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.search.SearchAll
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getMusicAll: GetMusicAll,
     private val getAlbumsAll: GetAlbumAll,
     private val getGroupAll: GetGroupAll,
-    private val searchAll: SearchAll
+    private val searchAll: SearchAll,
+    private val addPlaylistInSQLite: AddPlaylistInSQLite
 ): ViewModel() {
     lateinit var isPlayService: LiveData<Boolean>
     @SuppressLint("StaticFieldLeak")
@@ -152,5 +154,14 @@ class HomeViewModel(
                 imageHigh = it.image
             )
         }.toList()
+    }
+
+    fun addFavoritePlaylist() {
+        viewModelScope.launch(Dispatchers.IO) {
+            addPlaylistInSQLite.execute(
+                name = HomeConst.PLAYLIST_FAVORITE_NAME,
+                image = HomeConst.PLAYLIST_FAVORITE_URL
+            )
+        }
     }
 }

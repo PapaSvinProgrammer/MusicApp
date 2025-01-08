@@ -19,8 +19,5 @@ data class SaveMusicEntity(
     val id: Long = 0,
 
     @ColumnInfo(name = "firebase_id")
-    val firebaseId: String? = null,
-
-    @ColumnInfo(name = "uri")
-    val uri: String? = null
+    val firebaseId: String? = null
 )

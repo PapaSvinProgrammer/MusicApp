@@ -124,7 +124,7 @@ val dataModule = module {
         Room.databaseBuilder(
             get(),
             AppDatabase::class.java,
-            get<SharedPreferencesRepository>().getUserKey()
+            get<SharedPreferencesRepository>().getUserKey() + ".db"
         ).build()
     }
 

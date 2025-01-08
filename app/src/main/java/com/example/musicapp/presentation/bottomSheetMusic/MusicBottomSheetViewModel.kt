@@ -1,6 +1,5 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
-import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +11,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
+import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.find.FindSaveMusicFromSQLite
 import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
@@ -23,7 +23,8 @@ class MusicBottomSheetViewModel(
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
     private val findSaveMusicFromSQLite: FindSaveMusicFromSQLite,
     private val addMusicInSQLite: AddMusicInSQLite,
-    private val audioDownloadHelper: AudioDownloadHelper
+    private val audioDownloadHelper: AudioDownloadHelper,
+    private val addSaveMusicInSQLite: AddSaveMusicInSQLite
 ): ViewModel() {
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
@@ -60,7 +61,10 @@ class MusicBottomSheetViewModel(
             return
         }
 
-        Log.d("RRRR", "DOWNLOAD")
+        viewModelScope.launch {
+            addSaveMusicInSQLite.execute(musicId)
+        }
+
         audioDownloadHelper.download(
             musicId = musicId,
             url = url

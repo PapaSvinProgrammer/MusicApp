@@ -43,8 +43,6 @@ class SettingsFragment: Fragment() {
         val navController = view.findNavController()
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            Log.d("RRRR", "DARK MODE")
-
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 viewModel.saveDarkMode(true)

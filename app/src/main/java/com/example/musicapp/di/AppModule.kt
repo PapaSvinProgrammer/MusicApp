@@ -55,8 +55,7 @@ val appModule = module {
         MainViewModel(
             getDarkModeState = get(),
             getUserKey = get(),
-            getMusicAll = get(),
-            addPlaylistInSQLite = get()
+            getMusicAll = get()
         )
     }
 
@@ -81,7 +80,8 @@ val appModule = module {
             getMusicAll = get(),
             getAlbumsAll = get(),
             getGroupAll = get(),
-            searchAll = get()
+            searchAll = get(),
+            addPlaylistInSQLite = get()
         )
     }
 
@@ -89,9 +89,7 @@ val appModule = module {
         PlayerViewModel(
             addMusicInSQLite = get(),
             deleteMusicFromSQLite = get(),
-            findFavoriteMusicFromSQLite = get(),
-            getMusicText = get(),
-            getMusicInfo = get()
+            findFavoriteMusicFromSQLite = get()
         )
     }
 
@@ -146,7 +144,8 @@ val appModule = module {
             findSaveMusicFromSQLite = get(),
             findFavoriteMusicFromSQLite = get(),
             addMusicInSQLite = get(),
-            audioDownloadHelper = get()
+            audioDownloadHelper = get(),
+            addSaveMusicInSQLite = get()
         )
     }
 

@@ -3,7 +3,6 @@ package com.example.musicapp.presentation.bottomSheetMusic
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -136,6 +135,7 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
 
     private fun like() {
         viewModel.like(currentMusic)
+        dismiss()
     }
 
     private fun addToPlaylist() {
@@ -190,6 +190,7 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
             musicId = currentMusic?.id ?: "",
             url = currentMusic?.url ?: ""
         )
+        dismiss()
     }
 
     private fun moveToAlbum() {
@@ -227,5 +228,6 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
 
         binding.groupTextView.text = currentMusic?.group
         binding.musicTextView.text = currentMusic?.name
+        binding.timeView.text = currentMusic?.time
     }
 }

@@ -10,13 +10,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.module.MusicInfo
-import com.example.musicapp.domain.module.MusicText
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
-import com.example.musicapp.domain.usecase.getAnother.GetMusicText
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
@@ -30,9 +26,7 @@ private const val PLAYLIST_ID_FAVORITE = 1L
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
-    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
-    private val getMusicText: GetMusicText,
-    private val getMusicInfo: GetMusicInfo
+    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null

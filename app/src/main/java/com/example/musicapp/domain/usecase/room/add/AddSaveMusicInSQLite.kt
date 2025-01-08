@@ -7,17 +7,16 @@ import com.example.musicapp.domain.repository.SaveMusicRepository
 class AddSaveMusicInSQLite(
     private val saveMusicRepository: SaveMusicRepository
 ) {
-    suspend fun execute(music: SaveMusic) {
+    suspend fun execute(musicId: String) {
         saveMusicRepository.insert(
-            music = convertData(music)
+            music = convertData(musicId)
         )
     }
 
-    private fun convertData(music: SaveMusic): SaveMusicEntity {
+    private fun convertData(musicId: String): SaveMusicEntity {
         return SaveMusicEntity(
             id = 0,
-            firebaseId = music.id,
-            uri = music.uri
+            firebaseId = musicId
         )
     }
 }

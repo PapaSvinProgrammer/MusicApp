@@ -18,14 +18,10 @@ import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private const val PLAYLIST_FAVORITE_NAME = "Мне нравится"
-private const val PLAYLIST_FAVORITE_URL = "https://i.pinimg.com/736x/3f/53/e0/3f53e0e8e2da84c69f814e0d8f629e8f.jpg"
-
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
     private val getUserKey: GetUserKey,
-    private val getMusicAll: GetMusicAll,
-    private val addPlaylistInSQLite: AddPlaylistInSQLite
+    private val getMusicAll: GetMusicAll
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -38,14 +34,17 @@ class MainViewModel(
 
     var darkModeResult: Boolean = false
     var userKeyResult: String? = null
+    var initSuccess: Boolean = false
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
+    private val startInitLiveData = MutableLiveData<Boolean>()
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
+    val startInitResult: LiveData<Boolean> = startInitLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -65,17 +64,12 @@ class MainViewModel(
         }
     }
 
-    fun addFavoritePlaylist() {
-        viewModelScope.launch(Dispatchers.IO) {
-            addPlaylistInSQLite.execute(
-                name = PLAYLIST_FAVORITE_NAME,
-                image = PLAYLIST_FAVORITE_URL
-            )
-        }
-    }
-
     fun setStartState(state: Boolean) {
         startDownloadLiveData.value = state
+    }
+
+    fun setStartInitState(state: Boolean) {
+        startInitLiveData.value = state
     }
 
     val connectionToPlayerService = object: ServiceConnection {

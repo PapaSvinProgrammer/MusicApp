@@ -22,14 +22,8 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class App: Application() {
-    @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
-
-        AudioManager.audioDownloadManager = AudioDownloadManager(
-            this,
-            SharedPreferencesRepositoryImpl(this)
-        )
 
         startKoin {
             androidLogger(Level.DEBUG)

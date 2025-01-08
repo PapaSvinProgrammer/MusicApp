@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.bottomSheetMusic.MusicBottomSheet">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:id="@+id/bottom_sheet_drag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_view"
@@ -19,44 +18,67 @@
         android:layout_height="70dp"
         android:layout_marginStart="15dp"
         android:scaleType="centerCrop"
-        app:shapeAppearance="@style/ImageCornerRadius8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_drag" />
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_drag"
+        app:shapeAppearance="@style/ImageCornerRadius8dp" />
 
-    <LinearLayout
-        android:id="@+id/music_layout"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/music_text_view"
+        style="@style/TextColorOnSurface"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:maxWidth="200dp"
+        android:ellipsize="marquee"
+        android:fontFamily="@font/roboto_bold"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textSize="17sp"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view"
+        app:layout_constraintBottom_toTopOf="@+id/group_text_view"
         app:layout_constraintStart_toEndOf="@+id/image_view"
-        app:layout_constraintTop_toTopOf="@+id/image_view">
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_drag"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Название песни" />
 
-        <TextView
-            android:id="@+id/music_text_view"
-            style="@style/TextColorOnSurface"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:fontFamily="@font/roboto_bold"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="17sp"
-            tools:text="Название песни"/>
+    <TextView
+        android:id="@+id/group_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:maxWidth="200dp"
+        android:fontFamily="@font/roboto_medium"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintStart_toEndOf="@+id/image_view"
+        app:layout_constraintTop_toBottomOf="@+id/music_text_view"
+        tools:text="Название исполнителя" />
 
-        <TextView
-            android:id="@+id/group_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:fontFamily="@font/roboto_medium"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textSize="15sp"
-            tools:text="Название исполнителя"/>
-    </LinearLayout>
+    <View
+        android:id="@+id/dot"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:background="@drawable/corner_circle"
+        android:backgroundTint="?attr/colorControlNormal"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/group_text_view"
+        app:layout_constraintTop_toTopOf="@+id/group_text_view"
+        app:layout_constraintStart_toEndOf="@id/group_text_view"/>
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/dot"
+        app:layout_constraintStart_toEndOf="@+id/dot"
+        app:layout_constraintTop_toTopOf="@+id/dot"
+        tools:text="4:34" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -70,12 +92,12 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
+                style="@style/MaterialCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                style="@style/MaterialCard">
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,20 +111,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_favorite"
+                            style="@style/IconBlueSelectedColorStyle"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBlueSelectedColorStyle"
-                            app:srcCompat="@drawable/ic_check_favorite"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_check_favorite" />
 
                         <TextView
                             android:id="@+id/text_favorite"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/like_text"
@@ -112,10 +134,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,20 +147,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_add_in_playlist"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_add_note"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_add_note" />
 
                         <TextView
                             android:id="@+id/text_add_in_playlist"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/add_in_playlist_text"
@@ -148,10 +170,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -161,20 +183,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_share"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_share_treangle"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_share_treangle" />
 
                         <TextView
                             android:id="@+id/text_share"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/share_text"
@@ -184,10 +206,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -197,20 +219,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_play_next"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_play_next"
-                            style="@style/IconBottomSheetColor"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_play_next" />
 
                         <TextView
                             android:id="@+id/text_play_next"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/play_next_text"
@@ -220,10 +242,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -233,20 +255,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_add_in_queue"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_add_to_queue"
-                            style="@style/IconBottomSheetColor"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_add_to_queue" />
 
                         <TextView
                             android:id="@+id/text_add_in_queue"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/add_in_queue_text"
@@ -256,10 +278,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -269,20 +291,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_move_to_group"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_artist"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_artist" />
 
                         <TextView
                             android:id="@+id/text_move_to_group"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/move_to_group_text"
@@ -292,10 +314,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -305,20 +327,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_move_to_album"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_album"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_album" />
 
                         <TextView
                             android:id="@+id/text_move_to_album"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/move_to_album_text"
@@ -328,10 +350,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -341,20 +363,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_delete"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_delete"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_delete" />
 
                         <TextView
                             android:id="@+id/text_delete"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/delete_from_device_text"
@@ -364,10 +386,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -377,20 +399,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_download"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_download"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_download" />
 
                         <TextView
                             android:id="@+id/text_download"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/download_text"
@@ -400,10 +422,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -413,20 +435,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_show_text"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_note"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_note" />
 
                         <TextView
                             android:id="@+id/text_show_text"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/show_text"
@@ -436,10 +458,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -449,20 +471,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_about_music"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_info"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_info" />
 
                         <TextView
                             android:id="@+id/text_about_music"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="@string/about_music_text"
@@ -475,13 +497,13 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                style="@style/MaterialCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                style="@style/MaterialCard">
+                android:layout_marginBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -495,20 +517,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_hate"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_hate"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_hate" />
 
                         <TextView
                             android:id="@+id/text_hate"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Добавить в черный список"
@@ -518,10 +540,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            style="@style/ColorLine"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            style="@style/ColorLine"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toBottomOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -531,20 +553,20 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_report_problem"
+                            style="@style/IconBottomSheetColor"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:srcCompat="@drawable/ic_flag"
                             android:layout_margin="10dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_flag" />
 
                         <TextView
                             android:id="@+id/text_report_problem"
+                            style="@style/TextColorOnSurface"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Сообщить о проблеме"
