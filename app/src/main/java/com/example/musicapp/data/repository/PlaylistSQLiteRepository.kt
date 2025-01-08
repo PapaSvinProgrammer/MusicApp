@@ -8,13 +8,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 class PlaylistSQLiteRepository(
     private val playlistDao: PlaylistDao
 ): PlaylistRepository {
-    override suspend fun add(playlistEntity: PlaylistEntity) {
-        playlistDao.insert(playlistEntity)
+    override suspend fun add(playlistEnum: PlaylistEntity) {
+        playlistDao.insert(playlistEnum)
     }
 
     override suspend fun delete(id: String) {

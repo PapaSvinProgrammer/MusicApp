@@ -17,7 +17,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class MusicResultAdapter(
     private val supportFragmentManager: FragmentManager? = null,
-    private var musicType: MusicType = MusicType.VERTICAL ,
+    private var musicType: MusicType = MusicType.VERTICAL,
     private var servicePlayer: PlayerService? = null,
     private var currentObject: LiveData<Music>? = null,
     private var isPlay: LiveData<Boolean>? = null,

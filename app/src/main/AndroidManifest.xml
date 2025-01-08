@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
 
     <application
         android:name=".app.App"
@@ -31,9 +32,14 @@
         </activity>
 
         <service
-            android:name=".domain.player.PlayerService"
+            android:name=".service.player.PlayerService"
             android:exported="false"
             android:enabled="true"
             android:foregroundServiceType="mediaPlayback"/>
+
+        <service
+            android:name=".service.audioDownloader.AudioDownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"/>
     </application>
 </manifest>

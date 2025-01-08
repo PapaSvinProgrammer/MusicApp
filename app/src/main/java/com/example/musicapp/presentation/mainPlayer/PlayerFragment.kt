@@ -22,7 +22,7 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet

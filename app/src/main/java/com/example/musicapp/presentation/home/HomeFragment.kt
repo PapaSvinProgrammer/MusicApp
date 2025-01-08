@@ -14,7 +14,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter

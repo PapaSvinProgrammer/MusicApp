@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel

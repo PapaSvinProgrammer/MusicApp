@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.databinding.FragmentFavoriteBinding
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.MusicPagerAdapter
 import com.example.musicapp.presentation.recyclerAdapter.AuthorAdapter

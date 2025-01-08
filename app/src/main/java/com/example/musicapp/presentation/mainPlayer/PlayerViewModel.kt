@@ -12,7 +12,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.module.MusicInfo
 import com.example.musicapp.domain.module.MusicText
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo

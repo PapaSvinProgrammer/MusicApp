@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import kotlinx.coroutines.launch
 

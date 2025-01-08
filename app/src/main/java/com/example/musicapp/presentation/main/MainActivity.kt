@@ -23,7 +23,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ActivityMainBinding
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import kotlinx.coroutines.launch

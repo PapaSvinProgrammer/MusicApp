@@ -145,7 +145,8 @@ val appModule = module {
         MusicBottomSheetViewModel(
             findSaveMusicFromSQLite = get(),
             findFavoriteMusicFromSQLite = get(),
-            addMusicInSQLite = get()
+            addMusicInSQLite = get(),
+            audioDownloadHelper = get()
         )
     }
 

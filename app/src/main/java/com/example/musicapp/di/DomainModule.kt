@@ -189,12 +189,6 @@ val domainModule = module {
         )
     }
 
-    factory<AddPlaylistInSQLite> {
-        AddPlaylistInSQLite(
-            playlistRepository = get()
-        )
-    }
-
     factory<UpdatePlaylistName> {
         UpdatePlaylistName(
             playlistRepository = get()
@@ -280,6 +274,12 @@ val domainModule = module {
     factory {
         GetSaveMusicFromSQLite(
             saveMusicRepository = get()
+        )
+    }
+
+    factory {
+        AddPlaylistInSQLite(
+            playlistRepository = get()
         )
     }
 }

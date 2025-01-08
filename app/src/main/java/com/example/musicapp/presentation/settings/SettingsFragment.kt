@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentSettingsBinding
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.dialog.ExitDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

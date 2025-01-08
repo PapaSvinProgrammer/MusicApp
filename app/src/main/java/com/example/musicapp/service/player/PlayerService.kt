@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.player
+package com.example.musicapp.service.player
 
 import android.app.PendingIntent
 import android.app.Service
@@ -10,7 +10,7 @@ import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.module.AudioPlayer
+import com.example.musicapp.service.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +80,7 @@ class PlayerService: Service() {
         CoroutineScope(Dispatchers.Main).launch {
             intent?.let {
                 when (intent.action) {
-                    ACTION_PLAY-> play()
+                    ACTION_PLAY -> play()
                     ACTION_PAUSE -> pause()
                     ACTION_NEXT -> next()
                     ACTION_PREV -> previous()

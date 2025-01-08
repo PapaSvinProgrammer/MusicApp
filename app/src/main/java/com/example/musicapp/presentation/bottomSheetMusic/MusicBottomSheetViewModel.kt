@@ -1,9 +1,12 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
+import android.util.Log
+import androidx.annotation.OptIn
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
@@ -11,13 +14,16 @@ import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.find.FindSaveMusicFromSQLite
+import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@OptIn(UnstableApi::class)
 class MusicBottomSheetViewModel(
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
     private val findSaveMusicFromSQLite: FindSaveMusicFromSQLite,
-    private val addMusicInSQLite: AddMusicInSQLite
+    private val addMusicInSQLite: AddMusicInSQLite,
+    private val audioDownloadHelper: AudioDownloadHelper
 ): ViewModel() {
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
@@ -47,5 +53,17 @@ class MusicBottomSheetViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             addMusicInSQLite.execute(music)
         }
+    }
+
+    fun download(musicId: String, url: String) {
+        if (musicId.isEmpty() || url.isEmpty()) {
+            return
+        }
+
+        Log.d("RRRR", "DOWNLOAD")
+        audioDownloadHelper.download(
+            musicId = musicId,
+            url = url
+        )
     }
 }

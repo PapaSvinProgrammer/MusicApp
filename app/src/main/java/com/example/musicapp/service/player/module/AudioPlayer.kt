@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.player.module
+package com.example.musicapp.service.player.module
 
 import com.example.musicapp.domain.module.Music
 

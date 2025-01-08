@@ -10,7 +10,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemRecyclerMusicListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 

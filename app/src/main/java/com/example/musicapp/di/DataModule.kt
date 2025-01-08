@@ -1,5 +1,6 @@
 package com.example.musicapp.di
 
+import android.annotation.SuppressLint
 import androidx.room.Room
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
@@ -40,9 +41,10 @@ import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SaveMusicRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
-import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
+import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
 import org.koin.dsl.module
 
+@SuppressLint("UnsafeOptInUsageError")
 val dataModule = module {
     single<SharedPreferencesRepository> {
         SharedPreferencesRepositoryImpl(
@@ -138,12 +140,6 @@ val dataModule = module {
         get<AppDatabase>().getSaveMusicDao()
     }
 
-    single<PlaylistRepository> {
-        PlaylistSQLiteRepository(
-            playlistDao = get()
-        )
-    }
-
     single<GetAlbumByIdImpl> {
         GetAlbumByIdImpl()
     }
@@ -187,6 +183,18 @@ val dataModule = module {
     single<SaveMusicRepository> {
         SaveMusicInternalRepository(
             saveMusicDao = get()
+        )
+    }
+
+    single<PlaylistRepository> {
+        PlaylistSQLiteRepository(
+            playlistDao = get()
+        )
+    }
+
+    single<AudioDownloadHelper> {
+        AudioDownloadHelper(
+            context = get()
         )
     }
 }

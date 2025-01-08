@@ -13,7 +13,7 @@ import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.usecase.convert.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite

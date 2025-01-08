@@ -7,7 +7,7 @@ import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.musicapp.domain.player.PlayerService
+import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState

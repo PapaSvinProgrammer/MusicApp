@@ -186,7 +186,10 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun download() {
-        TODO("Not yet implemented")
+        viewModel.download(
+            musicId = currentMusic?.id ?: "",
+            url = currentMusic?.url ?: ""
+        )
     }
 
     private fun moveToAlbum() {
