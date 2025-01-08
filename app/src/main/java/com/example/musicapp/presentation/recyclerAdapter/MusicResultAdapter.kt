@@ -9,6 +9,8 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,9 +19,12 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
+import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
+import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +37,7 @@ class MusicResultAdapter(
     private var isPlay: LiveData<Boolean>? = null,
     private var musicList: List<MusicResult?>? = null
 ): RecyclerView.Adapter<MusicResultAdapter.ViewHolder>() {
+    @UnstableApi
     inner class ViewHolder(
         val binding: ItemMusicBinding,
         private val lifecycleOwner: LifecycleOwner
@@ -97,6 +103,7 @@ class MusicResultAdapter(
 
     private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicResultDiffUtilCallback)
 
+    @UnstableApi
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -111,6 +118,7 @@ class MusicResultAdapter(
         )
     }
 
+    @UnstableApi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position] as MusicResult
         holder.onBind(music)

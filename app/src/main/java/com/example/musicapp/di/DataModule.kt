@@ -14,11 +14,9 @@ import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicTextById
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
-import com.example.musicapp.data.internalStorage.SaveInternalStorageImpl
 import com.example.musicapp.data.repository.AlbumRepositoryFirebase
 import com.example.musicapp.data.repository.GroupRepositoryFirebase
 import com.example.musicapp.data.repository.MusicInfoRepositoryFirebase
-import com.example.musicapp.data.repository.MusicInternalStorageRepository
 import com.example.musicapp.data.repository.MusicRepositoryFirebase
 import com.example.musicapp.data.repository.MusicSQLiteRepository
 import com.example.musicapp.data.repository.MusicTextRepositoryFirebase
@@ -34,7 +32,6 @@ import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicInfoRepository
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import com.example.musicapp.domain.repository.MusicRepository
-import com.example.musicapp.domain.repository.MusicStorageRepository
 import com.example.musicapp.domain.repository.MusicTextRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
@@ -88,12 +85,6 @@ val dataModule = module {
         )
     }
 
-    single<MusicStorageRepository> {
-        MusicInternalStorageRepository(
-            saveInternalStorageImpl = get()
-        )
-    }
-
     single<GetMusicAllImpl> {
         GetMusicAllImpl()
     }
@@ -104,12 +95,6 @@ val dataModule = module {
 
     single<GetGroupWithFilterOnGenresImpl> {
         GetGroupWithFilterOnGenresImpl()
-    }
-
-    single<SaveInternalStorageImpl> {
-        SaveInternalStorageImpl(
-            context = get()
-        )
     }
 
     single<MusicLiteRepository> {

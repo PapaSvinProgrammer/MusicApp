@@ -30,11 +30,10 @@ import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
-import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
-import com.example.musicapp.domain.usecase.saveMusic.DeleteDownloadMusic
-import com.example.musicapp.domain.usecase.saveMusic.DownloadMusic
-import com.example.musicapp.domain.usecase.saveMusic.GetDownloadedMusic
-import com.example.musicapp.domain.usecase.saveMusic.ManageDownload
+import com.example.musicapp.domain.usecase.downloadMusic.DeleteDownloadMusic
+import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.downloadMusic.ManageDownload
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -128,12 +127,6 @@ val domainModule = module {
     factory<GetGroupWithFilterOnGenres> {
         GetGroupWithFilterOnGenres(
             groupRepository = get()
-        )
-    }
-
-    factory<SaveInternalStorage> {
-        SaveInternalStorage(
-            musicStorageRepository = get()
         )
     }
 

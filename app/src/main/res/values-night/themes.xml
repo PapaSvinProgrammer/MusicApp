@@ -18,6 +18,10 @@
         <item name="android:tint">@color/purple_200</item>
     </style>
 
+    <style name="IconDownloadTintColor">
+        <item name="android:tint">@color/green_200</item>
+    </style>
+
     <style name="ToolbarNavigationIconTintColor" parent="Widget.Material3.Toolbar">
         <item name="navigationIconTint">@color/purple_200</item>
     </style>

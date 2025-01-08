@@ -35,6 +35,10 @@
         <item name="android:tint">@color/background_color</item>
     </style>
 
+    <style name="IconDownloadTintColor">
+        <item name="android:tint">@color/green_700</item>
+    </style>
+
     <style name="ColorLine">
         <item name="android:background">@color/gray_color</item>
     </style>

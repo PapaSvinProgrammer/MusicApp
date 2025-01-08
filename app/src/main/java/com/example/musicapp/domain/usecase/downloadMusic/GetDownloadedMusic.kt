@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.saveMusic
+package com.example.musicapp.domain.usecase.downloadMusic
 
 import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.domain.repository.DownloadMusicRepository

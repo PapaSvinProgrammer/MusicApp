@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:fontFamily="@font/roboto_medium"
-        android:maxWidth="180dp"
+        android:maxWidth="170dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textSize="14sp"
@@ -53,7 +53,7 @@
         android:ellipsize="marquee"
         android:fontFamily="@font/roboto_bold"
         android:marqueeRepeatLimit="marquee_forever"
-        android:maxWidth="180dp"
+        android:maxWidth="170dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textSize="16sp"
@@ -73,6 +73,18 @@
         app:layout_constraintStart_toEndOf="@+id/music_text_view"
         app:layout_constraintTop_toTopOf="@+id/music_text_view"
         app:srcCompat="@drawable/ic_video_music" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/icon_download_view"
+        style="@style/IconDownloadTintColor"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="5dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/settings_button"
+        app:layout_constraintEnd_toStartOf="@+id/settings_button"
+        app:layout_constraintTop_toTopOf="@+id/settings_button"
+        app:srcCompat="@drawable/ic_download" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settings_button"
