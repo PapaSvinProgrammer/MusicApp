@@ -24,17 +24,17 @@ import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeletePlaylistFromSQLite
-import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.find.FindSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
-import com.example.musicapp.domain.usecase.room.get.GetSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
 import com.example.musicapp.domain.usecase.saveInternalStorage.SaveInternalStorage
+import com.example.musicapp.domain.usecase.saveMusic.DeleteDownloadMusic
+import com.example.musicapp.domain.usecase.saveMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.saveMusic.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.saveMusic.ManageDownload
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -167,12 +167,6 @@ val domainModule = module {
         )
     }
 
-    factory<FindSaveMusicFromSQLite> {
-        FindSaveMusicFromSQLite(
-            saveMusicRepository = get()
-        )
-    }
-
     factory<ConvertTextCount> {
         ConvertTextCountImpl(
             ConvertAnyText()
@@ -260,26 +254,32 @@ val domainModule = module {
     }
 
     factory {
-        AddSaveMusicInSQLite(
-            saveMusicRepository = get()
-        )
-    }
-
-    factory {
-        DeleteSaveMusicFromSQLite(
-            saveMusicRepository = get()
-        )
-    }
-
-    factory {
-        GetSaveMusicFromSQLite(
-            saveMusicRepository = get()
-        )
-    }
-
-    factory {
         AddPlaylistInSQLite(
             playlistRepository = get()
+        )
+    }
+
+    factory {
+        DownloadMusic(
+            downloadMusicRepository = get()
+        )
+    }
+
+    factory {
+        DeleteDownloadMusic(
+            downloadMusicRepository = get()
+        )
+    }
+
+    factory {
+        GetDownloadedMusic(
+            downloadMusicRepository = get()
+        )
+    }
+
+    factory {
+        ManageDownload(
+            downloadMusicRepository = get()
         )
     }
 }

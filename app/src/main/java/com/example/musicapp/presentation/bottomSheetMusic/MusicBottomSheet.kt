@@ -218,7 +218,10 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun delete() {
-
+        viewModel.delete(
+            musicId = currentMusic?.id ?: ""
+        )
+        dismiss()
     }
 
     private fun initTopView(currentMusic: Music?) {

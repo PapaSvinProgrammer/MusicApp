@@ -1,6 +1,5 @@
 package com.example.musicapp.domain.usecase.room.add
 
-import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
@@ -18,8 +17,7 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             MusicResult(
                 musicEntity = convertMusic(music, playlistId),
                 albumEntity = convertAlbum(music),
-                authorEntity = convertAuthor(music),
-                saveMusicEntity = SaveMusicEntity()
+                authorEntity = convertAuthor(music)
             )
         )
     }

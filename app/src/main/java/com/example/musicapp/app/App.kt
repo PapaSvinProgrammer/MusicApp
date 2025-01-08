@@ -8,13 +8,10 @@ import android.os.Build
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.R
-import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.di.appModule
 import com.example.musicapp.di.dataModule
 import com.example.musicapp.di.domainModule
-import com.example.musicapp.service.audioDownloader.AudioDownloadManager
 import com.example.musicapp.service.audioDownloader.AudioDownloadService
-import com.example.musicapp.service.audioDownloader.AudioManager
 import com.example.musicapp.service.player.PlayerService
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

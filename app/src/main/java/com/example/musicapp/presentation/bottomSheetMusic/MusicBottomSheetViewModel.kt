@@ -6,33 +6,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
-import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
-import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.find.FindSaveMusicFromSQLite
-import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
+import com.example.musicapp.domain.usecase.saveMusic.DeleteDownloadMusic
+import com.example.musicapp.domain.usecase.saveMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.saveMusic.GetDownloadedMusic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(UnstableApi::class)
 class MusicBottomSheetViewModel(
     private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
-    private val findSaveMusicFromSQLite: FindSaveMusicFromSQLite,
     private val addMusicInSQLite: AddMusicInSQLite,
-    private val audioDownloadHelper: AudioDownloadHelper,
-    private val addSaveMusicInSQLite: AddSaveMusicInSQLite
+    private val getDownloadedMusic: GetDownloadedMusic,
+    private val downloadMusic: DownloadMusic,
+    private val deleteDownloadMusic: DeleteDownloadMusic
 ): ViewModel() {
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
-    private val isDownloadLiveData = MutableLiveData<SaveMusicEntity?>()
+    private val isDownloadLiveData = MutableLiveData<SaveMusic?>()
 
     val actionResult: LiveData<ActionMusic> = actionLiveData
     val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
-    val isDownloadResult: LiveData<SaveMusicEntity?> = isDownloadLiveData
+    val isDownloadResult: LiveData<SaveMusic?> = isDownloadLiveData
 
     fun setAction(action: ActionMusic) {
         actionLiveData.value = action
@@ -46,7 +46,7 @@ class MusicBottomSheetViewModel(
 
     fun isDownload(id: String) {
         viewModelScope.launch {
-            isDownloadLiveData.value = findSaveMusicFromSQLite.execute(id)
+            isDownloadLiveData.value = getDownloadedMusic.getDownload(id)
         }
     }
 
@@ -57,17 +57,13 @@ class MusicBottomSheetViewModel(
     }
 
     fun download(musicId: String, url: String) {
-        if (musicId.isEmpty() || url.isEmpty()) {
-            return
-        }
-
-        viewModelScope.launch {
-            addSaveMusicInSQLite.execute(musicId)
-        }
-
-        audioDownloadHelper.download(
+        downloadMusic.execute(
             musicId = musicId,
             url = url
         )
+    }
+
+    fun delete(musicId: String) {
+        deleteDownloadMusic.execute(musicId)
     }
 }

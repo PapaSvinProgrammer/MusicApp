@@ -14,8 +14,6 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
-import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(

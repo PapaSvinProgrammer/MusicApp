@@ -141,11 +141,11 @@ val appModule = module {
 
     viewModel {
         MusicBottomSheetViewModel(
-            findSaveMusicFromSQLite = get(),
             findFavoriteMusicFromSQLite = get(),
             addMusicInSQLite = get(),
-            audioDownloadHelper = get(),
-            addSaveMusicInSQLite = get()
+            downloadMusic = get(),
+            deleteDownloadMusic = get(),
+            getDownloadedMusic = get()
         )
     }
 

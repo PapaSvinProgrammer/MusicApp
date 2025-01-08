@@ -1,22 +1,18 @@
 package com.example.musicapp.presentation.home
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.R
-import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState

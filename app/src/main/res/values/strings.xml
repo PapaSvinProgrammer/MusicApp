@@ -91,4 +91,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="channel_name_download_text">AudioDwonload\n</string>
     <string name="channel_description_download_text">AudioDownloadDescription</string>
+    <string name="add_in_black_list_text">Добавить в черный список</string>
+    <string name="report_problem_text">Сообщить о проблеме</string>
 </resources>

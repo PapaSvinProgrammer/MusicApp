@@ -1,8 +1,8 @@
 package com.example.musicapp.domain.usecase.room.add
 
+import androidx.core.net.toUri
 import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
 import com.example.musicapp.domain.module.SaveMusic
-import com.example.musicapp.domain.repository.SaveMusicRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -21,12 +21,14 @@ class AddSaveMusicInSQLiteTest {
     @Test
     fun correctDataInput(): Unit = runBlocking {
         val useCase = AddSaveMusicInSQLite(repository)
-        val music = SaveMusic()
+        val music = SaveMusic(
+            id = "testId",
+            uri = "testUri".toUri()
+        )
 
-        val testData =  SaveMusicEntity(
+        val testData = SaveMusicEntity(
             id = 0,
-            firebaseId = music.id,
-            uri = music.uri
+            firebaseId = music.id
         )
 
         useCase.execute(music)
