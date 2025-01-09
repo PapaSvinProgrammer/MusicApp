@@ -1,5 +1,7 @@
 [versions]
 agp = "8.5.2"
+androidSdkCore = "4.1.0"
+androidSdkApi = "4.1.0"
 glide = "4.16.0"
 gson = "2.11.0"
 junitJupiterApi = "5.11.4"
@@ -23,6 +25,8 @@ fragmentTesting = "1.8.5"
 roomRuntime = "2.6.1"
 
 [libraries]
+android-sdk-api = { module = "com.vk:android-sdk-api", version.ref = "androidSdkApi" }
+android-sdk-core = { module = "com.vk:android-sdk-core", version.ref = "androidSdkCore" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }

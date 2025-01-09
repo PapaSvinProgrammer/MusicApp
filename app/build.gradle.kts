@@ -64,7 +64,8 @@ dependencies {
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.testing)
     implementation(libs.gson)
-
+    implementation(libs.android.sdk.core)
+    implementation(libs.android.sdk.api)
 
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)

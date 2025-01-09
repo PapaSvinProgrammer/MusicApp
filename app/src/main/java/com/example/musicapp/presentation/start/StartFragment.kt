@@ -1,5 +1,8 @@
 package com.example.musicapp.presentation.start
 
+import android.annotation.SuppressLint
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +32,6 @@ class StartFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
         viewModel.loginStateResult.observe(viewLifecycleOwner) {

@@ -1,67 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.start.StartFragment">
 
+
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageView"
-        style="@style/IconStart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/main_image"
         android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blur_name_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.6"
+        android:background="@drawable/corner15dp"
+        android:backgroundTint="@color/background_color"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/blur_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_start_logo" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageView2"
-        style="@style/IconStart"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="@+id/shapeableImageView"
-        app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
-        app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
-        app:srcCompat="@drawable/ic_start_text" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/accid"
+            android:text="MusicApp"
+            android:textColor="@color/white"
+            android:textSize="52sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_button"
-        style="@style/MaterialButtonBackground"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blur_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:alpha="0.9"
+        android:background="@drawable/corner_top"
+        android:backgroundTint="@color/background_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/constraintLayout"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/login_text"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/registration_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:paddingTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/registration_button"
-        style="@style/MaterialButtonBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/registration_text"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/background_color_white"
+            android:text="@string/login_text"
+            android:textColor="@color/background_color"
+            android:textSize="16sp"
+            app:strokeWidth="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/registration_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/registration_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_color_white"
+            android:text="@string/registration_text"
+            android:textColor="@color/background_color"
+            android:textSize="16sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="65dp"
+            app:layout_constraintBottom_toTopOf="@+id/vk_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/vk_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_color_white"
+            android:text="Вконтакте"
+            android:textColor="@color/background_color"
+            android:textSize="16sp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="5dp"
+            app:icon="@drawable/ic_vk"
+            app:iconSize="24dp"
+            app:iconTint="@color/purple_500"
+            app:layout_constraintBottom_toTopOf="@+id/google_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/google_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/background_color_white"
+            android:text="Google"
+            android:textColor="@color/background_color"
+            android:textSize="16sp"
+            android:layout_marginBottom="5dp"
+            app:icon="@drawable/ic_google"
+            app:iconSize="24dp"
+            app:iconTint="@null"
+            app:layout_constraintBottom_toTopOf="@+id/github_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/github_button"
+            android:backgroundTint="@color/background_color_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="60dp"
+            android:text="Github"
+            android:textColor="@color/background_color"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_github"
+            app:iconSize="24dp"
+            app:iconTint="@color/background_color"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/help_entry_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Войти с помощью"
+            android:textColor="@color/gray_light_color"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/vk_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registration_button" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_light_color"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/help_entry_view"
+            app:layout_constraintEnd_toStartOf="@+id/help_entry_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/help_entry_view" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_light_color"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/help_entry_view"
+            app:layout_constraintStart_toEndOf="@+id/help_entry_view"
+            app:layout_constraintTop_toTopOf="@+id/help_entry_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/dark_mode_button"
         style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        app:shapeAppearance="@style/ImageCornerRadius"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_margin="15dp"
+        app:shapeAppearance="@style/ImageCornerRadius"
         app:icon="@drawable/ic_dark_mode_fill"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:strokeColor="@color/purple_500"
+        app:strokeWidth="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="30dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

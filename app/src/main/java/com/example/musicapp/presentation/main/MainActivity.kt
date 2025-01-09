@@ -50,12 +50,6 @@ class MainActivity: AppCompatActivity() {
         )
         binding.bottomViewPager.adapter = bottomPlayerAdapter
 
-        bindService(
-            Intent(this, PlayerService::class.java),
-            viewModel.connectionToPlayerService,
-            Context.BIND_AUTO_CREATE
-        )
-
         HorizontalOffsetController().setPreviewOffsetBottomPager(
             viewPager2 = binding.bottomViewPager,
             nextItemVisibleSize = R.dimen.viewpager_item_visible,
@@ -80,19 +74,18 @@ class MainActivity: AppCompatActivity() {
 
         viewModel.startDownloadResult.observe(this) {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
-                Log.d("RRRR", "DOWNLOAD HOME")
+                Log.d("RRRR", "INIT MAIN")
                 binding.progressIndicator.visibility = View.VISIBLE
+
                 viewModel.getMusic()
-            }
-        }
-
-        viewModel.startInitResult.observe(this) {
-            if (!viewModel.initSuccess) {
-                Log.d("RRRR", "INIT ")
-                viewModel.initSuccess = true
-
                 initDownloadManager()
                 intiPermission()
+
+                bindService(
+                    Intent(this, PlayerService::class.java),
+                    viewModel.connectionToPlayerService,
+                    Context.BIND_AUTO_CREATE
+                )
             }
         }
 
@@ -115,8 +108,8 @@ class MainActivity: AppCompatActivity() {
                 binding.viewPagerLayout.visibility = View.GONE
             }
             else {
+                Log.d("RRRR", "SET START")
                 viewModel.setStartState(true)
-                viewModel.setStartInitState(true)
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
             }

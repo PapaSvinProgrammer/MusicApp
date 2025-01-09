@@ -33,16 +33,16 @@ class MainViewModel(
     var darkModeResult: Boolean = false
     var userKeyResult: String? = null
     var initSuccess: Boolean = false
+    var initPlayerSuccess: Boolean = false
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
-    private val startInitLiveData = MutableLiveData<Boolean>()
+
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
-    val startInitResult: LiveData<Boolean> = startInitLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -64,10 +64,6 @@ class MainViewModel(
 
     fun setStartState(state: Boolean) {
         startDownloadLiveData.value = state
-    }
-
-    fun setStartInitState(state: Boolean) {
-        startInitLiveData.value = state
     }
 
     val connectionToPlayerService = object: ServiceConnection {
