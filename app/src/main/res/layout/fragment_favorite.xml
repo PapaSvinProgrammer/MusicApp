@@ -157,7 +157,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
                                     android:visibility="gone"
-                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp"
                                     android:scaleType="centerCrop"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +171,7 @@
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:visibility="gone"
-                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp"
                                     android:scaleType="centerCrop"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +183,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_margin="10dp"
-                                    app:shapeAppearance="@style/ImageCornerRadius8dp"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp"
                                     android:scaleType="centerCrop" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -336,6 +336,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
                                     android:visibility="gone"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
@@ -348,12 +349,22 @@
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:visibility="gone"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/downloaded_image_default"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="gone"
+                                    android:layout_margin="10dp"
+                                    app:shapeAppearance="@style/ImageCornerRadius4dp" />
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:id="@+id/ic_download"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_margin="10dp"
@@ -369,7 +380,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 
-class PlaylistSQLiteRepository(
+class PlaylistRepositoryRoom(
     private val playlistDao: PlaylistDao
 ): PlaylistRepository {
     override suspend fun add(playlistEnum: PlaylistEntity) {
@@ -36,6 +36,24 @@ class PlaylistSQLiteRepository(
         playlistDao.saveName(name, id)
     }
 
+    override suspend fun getCount(): Int {
+        return CoroutineScope(Dispatchers.IO).async {
+            playlistDao.getCount()
+        }.await()
+    }
+
+    override suspend fun getOnlyPlaylist(): List<PlaylistEntity?> {
+        return CoroutineScope(Dispatchers.IO).async {
+            playlistDao.getOnlyPlaylist()
+        }.await()
+    }
+
+    override suspend fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity?> {
+        return CoroutineScope(Dispatchers.IO).async {
+            playlistDao.getOnlyPlaylistLimit(limit)
+        }.await()
+    }
+
     override fun getAllById(): Flow<List<PlaylistResult?>> {
         return playlistDao.getAllById()
     }
@@ -46,9 +64,5 @@ class PlaylistSQLiteRepository(
 
     override fun getAllByDate(): Flow<List<PlaylistResult?>> {
         return playlistDao.getAllByDate()
-    }
-
-    override fun getOnlyPlaylist(): Flow<List<PlaylistEntity?>> {
-        return playlistDao.getOnlyPlaylist()
     }
 }

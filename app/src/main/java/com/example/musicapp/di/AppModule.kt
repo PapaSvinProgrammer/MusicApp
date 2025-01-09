@@ -98,7 +98,11 @@ val appModule = module {
             getMusicFromSQLite = get(),
             getAuthorsFromSQLite = get(),
             convertTextCount = get(),
-            getPlaylistFromSQLite = get()
+            getPlaylistFromSQLite = get(),
+            getDownloadedMusic = get(),
+            getCountPlaylist = get(),
+            getCountDownloadMusic = get(),
+            getCountMusic = get()
         )
     }
 
@@ -145,7 +149,9 @@ val appModule = module {
             addMusicInSQLite = get(),
             downloadMusic = get(),
             deleteDownloadMusic = get(),
-            getDownloadedMusic = get()
+            getDownloadedMusic = get(),
+            addSaveMusicInSQLite = get(),
+            deleteSaveMusicFromSQLite = get()
         )
     }
 

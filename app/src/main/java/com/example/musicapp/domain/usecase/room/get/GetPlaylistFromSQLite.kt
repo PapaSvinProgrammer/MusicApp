@@ -6,8 +6,16 @@ import com.example.musicapp.domain.repository.PlaylistRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) {
-    fun getOnlyPlaylists(): Flow<List<PlaylistEntity?>> {
+    suspend fun getOnlyPlaylists(): List<PlaylistEntity?> {
         return playlistRepository.getOnlyPlaylist()
+    }
+
+    suspend fun getOnlyPlaylists(limit: Int): List<PlaylistEntity?> {
+        if (limit <= 0) {
+            return getOnlyPlaylists()
+        }
+
+        return playlistRepository.getOnlyPlaylistLimit(limit)
     }
 
     suspend fun getById(id: Long): PlaylistResult? {

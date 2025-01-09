@@ -1,16 +1,14 @@
 package com.example.musicapp.data.repository
 
 import com.example.musicapp.data.room.dao.MusicDao
-import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
-import com.example.musicapp.data.room.musicEntity.MusicEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
-class MusicSQLiteRepository(private val musicDao: MusicDao): MusicLiteRepository {
+class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
     override suspend fun add(musicResult: MusicResult) {
         musicDao.insertAlbum(musicResult.albumEntity)
 
@@ -59,6 +57,14 @@ class MusicSQLiteRepository(private val musicDao: MusicDao): MusicLiteRepository
     override suspend fun getAllAuthor(): List<AuthorEntity?> {
         val job = CoroutineScope(Dispatchers.IO).async {
             musicDao.getAllAuthor()
+        }
+
+        return job.await()
+    }
+
+    override suspend fun getCount(): Int {
+        val job = CoroutineScope(Dispatchers.IO).async {
+            musicDao.getCount()
         }
 
         return job.await()

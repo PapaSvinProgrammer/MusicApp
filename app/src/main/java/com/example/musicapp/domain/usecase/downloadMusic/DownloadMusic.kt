@@ -1,18 +1,16 @@
 package com.example.musicapp.domain.usecase.downloadMusic
 
+import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.DownloadMusicRepository
 
 class DownloadMusic(
     private val downloadMusicRepository: DownloadMusicRepository
 ) {
-    fun execute(musicId: String, url: String) {
-        if (musicId.isEmpty() || url.isEmpty()) {
+    fun execute(music: Music) {
+        if (music.id.isNullOrEmpty()) {
             return
         }
 
-        downloadMusicRepository.download(
-            musicId = musicId,
-            url = url
-        )
+        downloadMusicRepository.download(music)
     }
 }

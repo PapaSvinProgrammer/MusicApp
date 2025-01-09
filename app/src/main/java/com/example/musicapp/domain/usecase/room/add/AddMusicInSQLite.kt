@@ -17,7 +17,8 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             MusicResult(
                 musicEntity = convertMusic(music, playlistId),
                 albumEntity = convertAlbum(music),
-                authorEntity = convertAuthor(music)
+                authorEntity = convertAuthor(music),
+                saveMusicEntity = null
             )
         )
     }

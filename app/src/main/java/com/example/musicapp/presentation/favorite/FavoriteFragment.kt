@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.databinding.FragmentFavoriteBinding
+import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.MusicPagerAdapter
@@ -61,8 +63,6 @@ class FavoriteFragment: Fragment() {
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
-                viewModel.musicListSize = list.size
-                viewModel.convertTextCountMusic(viewModel.musicListSize)
                 musicPagerAdapter.setData(list)
                 binding.musicViewPager.adapter = musicPagerAdapter
             }
@@ -77,9 +77,7 @@ class FavoriteFragment: Fragment() {
 
         viewModel.getPlaylistResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
-                viewModel.playlistSize = list.size
                 drawPlaylists(list)
-                viewModel.convertTextCountPlaylist(viewModel.playlistSize)
             }
         }
 
@@ -89,6 +87,16 @@ class FavoriteFragment: Fragment() {
 
         viewModel.convertCountPlaylistResult.observe(viewLifecycleOwner) { text ->
             binding.playlistCountView.text = text
+        }
+
+        viewModel.convertDownloadedResult.observe(viewLifecycleOwner) { text ->
+            binding.downloadedCountView.text = text
+        }
+
+        viewModel.getDownloadedMusicResult.observe(viewLifecycleOwner) { list ->
+            if (list.isNotEmpty()) {
+                drawDownloaded(list)
+            }
         }
 
         binding.playlistCardView.setOnClickListener {
@@ -102,8 +110,15 @@ class FavoriteFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         viewModel.getMusic()
         viewModel.getAuthor()
+        viewModel.getPlaylist()
+        viewModel.getDownloadedMusic()
+
+        viewModel.getCountDownloadedMusic()
+        viewModel.getCountMusic()
+        viewModel.getCountPlaylist()
     }
 
     private fun drawPlaylists(list: List<PlaylistEntity?>) {
@@ -114,12 +129,12 @@ class FavoriteFragment: Fragment() {
 
             Glide.with(binding.root)
                 .load(list[0]?.imageUrl)
-                .error(R.drawable.ic_error_music)
+                .error(R.drawable.ic_error_image)
                 .into(binding.playlistImageFront)
 
             Glide.with(binding.root)
                 .load(list[1]?.imageUrl)
-                .error(R.drawable.ic_error_music)
+                .error(R.drawable.ic_error_image)
                 .into(binding.playlistImageBack)
         }
         else {
@@ -127,8 +142,35 @@ class FavoriteFragment: Fragment() {
 
             Glide.with(binding.root)
                 .load(list[0]?.imageUrl)
-                .error(R.drawable.ic_error_music)
+                .error(R.drawable.ic_error_image)
                 .into(binding.playlistImageDefault)
+        }
+    }
+
+    private fun drawDownloaded(list: List<Music?>) {
+        if (list.size > 1) {
+            binding.downloadedImageFront.visibility = View.VISIBLE
+            binding.downloadedImageBack.visibility = View.VISIBLE
+            binding.icDownload.visibility = View.GONE
+
+            Glide.with(binding.root)
+                .load(list[0]?.imageLow)
+                .error(R.drawable.ic_error_image)
+                .into(binding.downloadedImageFront)
+
+            Glide.with(binding.root)
+                .load(list[1]?.imageLow)
+                .error(R.drawable.ic_error_image)
+                .into(binding.downloadedImageBack)
+        }
+        else {
+            binding.icDownload.visibility = View.GONE
+            binding.downloadedImageDefault.visibility = View.VISIBLE
+
+            Glide.with(binding.root)
+                .load(list[0]?.imageLow)
+                .error(R.drawable.ic_error_image)
+                .into(binding.downloadedImageDefault)
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.musicapp.domain.usecase.room.delete
 
-import com.example.musicapp.data.room.internalMusic.SaveMusicEntity
-import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach

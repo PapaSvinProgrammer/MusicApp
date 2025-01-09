@@ -5,19 +5,19 @@ import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId
 
 data class Music(
-    @DocumentId var id: String? = null,
-    var albumId: String? = null,
-    var albumName: String? = null,
-    var extraGroup: Map<String, Map<String, String>>? = null,
-    var group: String? = null,
-    var groupId: String? = null,
-    var imageGroup: String? = null,
-    var imageHigh: String? = null,
-    var imageLow: String? = null,
-    var movieUrl: String? = null,
-    var name: String? = null,
-    var time: String? = null,
-    var url: String? = null
+    @DocumentId val id: String? = null,
+    val albumId: String? = null,
+    val albumName: String? = null,
+    val extraGroup: Map<String, Map<String, String>>? = null,
+    val group: String? = null,
+    val groupId: String? = null,
+    val imageGroup: String? = null,
+    val imageHigh: String? = null,
+    val imageLow: String? = null,
+    val movieUrl: String? = null,
+    val name: String? = null,
+    val time: String? = null,
+    val url: String? = null
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

@@ -8,13 +8,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import com.example.musicapp.domain.usecase.downloadMusic.DeleteDownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -24,15 +25,17 @@ class MusicBottomSheetViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val getDownloadedMusic: GetDownloadedMusic,
     private val downloadMusic: DownloadMusic,
-    private val deleteDownloadMusic: DeleteDownloadMusic
+    private val deleteDownloadMusic: DeleteDownloadMusic,
+    private val addSaveMusicInSQLite: AddSaveMusicInSQLite,
+    private val deleteSaveMusicFromSQLite: DeleteSaveMusicFromSQLite
 ): ViewModel() {
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
-    private val isDownloadLiveData = MutableLiveData<SaveMusic?>()
+    private val isDownloadLiveData = MutableLiveData<Music?>()
 
     val actionResult: LiveData<ActionMusic> = actionLiveData
     val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
-    val isDownloadResult: LiveData<SaveMusic?> = isDownloadLiveData
+    val isDownloadResult: LiveData<Music?> = isDownloadLiveData
 
     fun setAction(action: ActionMusic) {
         actionLiveData.value = action
@@ -56,14 +59,23 @@ class MusicBottomSheetViewModel(
         }
     }
 
-    fun download(musicId: String, url: String) {
-        downloadMusic.execute(
-            musicId = musicId,
-            url = url
-        )
+    fun download(music: Music?) {
+        if (music == null) {
+            return
+        }
+
+        downloadMusic.execute(music)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            addSaveMusicInSQLite.execute(music.id ?: "")
+        }
     }
 
     fun delete(musicId: String) {
         deleteDownloadMusic.execute(musicId)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteSaveMusicFromSQLite.execute(musicId)
+        }
     }
 }

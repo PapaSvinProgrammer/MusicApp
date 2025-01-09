@@ -186,10 +186,7 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun download() {
-        viewModel.download(
-            musicId = currentMusic?.id ?: "",
-            url = currentMusic?.url ?: ""
-        )
+        viewModel.download(currentMusic)
         dismiss()
     }
 

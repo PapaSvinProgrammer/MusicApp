@@ -43,4 +43,7 @@ interface MusicDao {
 
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")
     suspend fun deleteMusicById(firebaseId: String)
+
+    @Query("SELECT COUNT(*) FROM favorite_music")
+    suspend fun getCount(): Int
 }

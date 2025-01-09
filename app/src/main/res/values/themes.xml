@@ -89,6 +89,13 @@
         <item name="cornerSizeBottomRight">8dp</item>
     </style>
 
+    <style name="ImageCornerRadius4dp">
+        <item name="cornerSizeTopLeft">4dp</item>
+        <item name="cornerSizeTopRight">4dp</item>
+        <item name="cornerSizeBottomLeft">4dp</item>
+        <item name="cornerSizeBottomRight">4dp</item>
+    </style>
+
     <style name="BottomColor">
         <item name="android:background">@color/bottom_color_light</item>
     </style>

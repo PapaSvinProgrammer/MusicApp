@@ -31,8 +31,12 @@ interface PlaylistDao {
     fun getAllByDate(): Flow<List<PlaylistResult?>>
 
     @Transaction
-    @Query("SELECT * FROM playlists")
-    fun getOnlyPlaylist(): Flow<List<PlaylistEntity?>>
+    @Query("SELECT * FROM playlists ORDER BY id DESC LIMIT :limit")
+    fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity?>
+
+    @Transaction
+    @Query("SELECT * FROM playlists ORDER BY id DESC")
+    fun getOnlyPlaylist(): List<PlaylistEntity?>
 
     @Transaction
     @Query("DELETE FROM playlists WHERE id = :id")
@@ -45,4 +49,7 @@ interface PlaylistDao {
     @Transaction
     @Query("UPDATE playlists SET name_playlist = :name WHERE id = :id")
     suspend fun saveName(name: String, id: String)
+
+    @Query("SELECT COUNT(*) FROM playlists")
+    suspend fun getCount(): Int
 }

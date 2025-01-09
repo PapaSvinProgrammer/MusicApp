@@ -32,8 +32,13 @@ import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
 import com.example.musicapp.domain.usecase.downloadMusic.DeleteDownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.downloadMusic.GetCountDownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.downloadMusic.ManageDownload
+import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.get.GetCountMusic
+import com.example.musicapp.domain.usecase.room.get.GetCountPlaylist
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -272,6 +277,36 @@ val domainModule = module {
 
     factory {
         ManageDownload(
+            downloadMusicRepository = get()
+        )
+    }
+
+    factory {
+        AddSaveMusicInSQLite(
+            saveMusicRepository = get()
+        )
+    }
+
+    factory {
+        DeleteSaveMusicFromSQLite(
+            saveMusicRepository = get()
+        )
+    }
+
+    factory {
+        GetCountMusic(
+            musicLiteRepository = get()
+        )
+    }
+
+    factory {
+        GetCountPlaylist(
+            playlistRepository = get()
+        )
+    }
+
+    factory {
+        GetCountDownloadMusic(
             downloadMusicRepository = get()
         )
     }

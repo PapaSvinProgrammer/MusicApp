@@ -9,7 +9,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +18,9 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.module.SaveMusic
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
-import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,6 +54,13 @@ class MusicResultAdapter(
             }
             else {
                 binding.musicLayout.iconMovieView.visibility = View.GONE
+            }
+
+            if (music?.saveMusicEntity != null) {
+                binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
+            }
+            else {
+                binding.musicLayout.iconDownloadView.visibility = View.GONE
             }
 
             currentObject?.observe(lifecycleOwner) {
