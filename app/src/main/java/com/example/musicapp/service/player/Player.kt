@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.cache.CacheDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.RenderersFactory
 import androidx.media3.exoplayer.audio.MediaCodecAudioRenderer
@@ -13,10 +16,11 @@ import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.flac.FlacExtractor
 import androidx.media3.extractor.mp3.Mp3Extractor
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.service.audioDownloader.AudioManager
 import com.example.musicapp.service.player.module.AudioPlayer
 
 @UnstableApi
-class Player(context: Context) : AudioPlayer {
+class Player(private val context: Context) : AudioPlayer {
     private var exoPlayer: ExoPlayer
 
     init {
@@ -38,7 +42,14 @@ class Player(context: Context) : AudioPlayer {
             )
         }
 
+        val cacheDataSourceFactory: DataSource.Factory =
+            CacheDataSource.Factory()
+                .setCache(AudioManager.audioDownloadManager.downloadCache)
+                .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+                .setCacheWriteDataSinkFactory(null)
+
         val mediaSource = DefaultMediaSourceFactory(context, extractor)
+            .setDataSourceFactory(cacheDataSourceFactory)
 
         val exoPlayerBuilder = ExoPlayer.Builder(context)
         exoPlayerBuilder.setRenderersFactory(renderersFactory)
@@ -83,7 +94,7 @@ class Player(context: Context) : AudioPlayer {
         exoPlayer.seekTo(msec)
     }
 
-    override fun setList(list: List<Music>) {
+    override fun setData(list: List<Music>) {
         val mediaItems = list.asSequence().map {
             MediaItem.fromUri(it.url.toString())
         }.toList()

@@ -12,7 +12,7 @@ interface AudioPlayer {
     fun getBufferedPosition(): Long
     fun getCurrentItem(): Int
     fun seekTo(msec: Long)
-    fun setList(list: List<Music>)
+    fun setData(list: List<Music>)
     fun setPosition(position: Int, isPlay: Boolean)
     fun shuffle()
 }

@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.testing)
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation(libs.gson)
 
 
     testImplementation(libs.junit.jupiter.api)

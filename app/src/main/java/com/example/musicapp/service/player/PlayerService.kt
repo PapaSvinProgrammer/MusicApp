@@ -127,7 +127,7 @@ class PlayerService: Service() {
         this.musicList.value = list
 
         currentObject.value = musicList.value!![currentPosition.value ?: 0]
-        audioPlayer?.setList(list)
+        audioPlayer?.setData(list)
     }
 
     fun setCurrentPosition(position: Int) {
