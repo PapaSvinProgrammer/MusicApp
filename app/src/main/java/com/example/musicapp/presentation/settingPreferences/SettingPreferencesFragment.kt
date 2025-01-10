@@ -88,7 +88,7 @@ class SettingPreferencesFragment: Fragment() {
         }
 
         binding.nextButton.setOnClickListener {
-            navController.navigate(R.id.action_settingPreferencesFragment_to_homeFragment)
+            navController.navigate(R.id.action_global_homeFragment)
         }
 
         binding.bottomBar.setOnClickListener {

@@ -80,17 +80,16 @@
         <item>"Исполнитель"</item>
         <item>"Альбом"</item>
     </string-array>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="channel_name_download_text">AudioDwonload\n</string>
+
+    <string name="channel_name_download_text">AudioDownload</string>
     <string name="channel_description_download_text">AudioDownloadDescription</string>
     <string name="add_in_black_list_text">Добавить в черный список</string>
     <string name="report_problem_text">Сообщить о проблеме</string>
+    <string name="vk_text">Вконтакте</string>
+    <string name="google_text">Google</string>
+    <string name="entry_with_help">Войти с помощью</string>
+    <string name="yandex_text">Yandex</string>
+
+    <integer name="com_vk_sdk_AppId">52904280</integer>
+    <string name="web_client_id">"1023919895894-gl8agajjd5066gb48erhhqijttbol8ga.apps.googleusercontent.com"</string>
 </resources>

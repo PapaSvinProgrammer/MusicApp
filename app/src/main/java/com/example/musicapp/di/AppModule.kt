@@ -47,7 +47,10 @@ val appModule = module {
         StartViewModel(
             getLoginState = get(),
             saveDarkModeState = get(),
-            getDarkModeState = get()
+            getDarkModeState = get(),
+            saveEmail = get(),
+            saveUserKey = get(),
+            saveLoginState = get()
         )
     }
 

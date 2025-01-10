@@ -7,49 +7,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.start.StartFragment">
 
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/main_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/main_image"
-        android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/blur_name_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.6"
-        android:background="@drawable/corner15dp"
-        android:backgroundTint="@color/background_color"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout2" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:padding="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/blur_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/accid"
-            android:text="MusicApp"
-            android:textColor="@color/white"
-            android:textSize="52sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/blur_layout"
         android:layout_width="match_parent"
@@ -64,105 +21,53 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:layout_marginBottom="10dp"
             android:backgroundTint="@color/background_color_white"
             android:text="@string/login_text"
             android:textColor="@color/background_color"
             android:textSize="16sp"
-            app:strokeWidth="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/registration_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/registration_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/registration_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:backgroundTint="@color/background_color_white"
             android:text="@string/registration_text"
             android:textColor="@color/background_color"
             android:textSize="16sp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="65dp"
-            app:layout_constraintBottom_toTopOf="@+id/vk_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/vk_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_color_white"
-            android:text="Вконтакте"
-            android:textColor="@color/background_color"
-            android:textSize="16sp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="5dp"
-            app:icon="@drawable/ic_vk"
-            app:iconSize="24dp"
-            app:iconTint="@color/purple_500"
-            app:layout_constraintBottom_toTopOf="@+id/google_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/google_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:backgroundTint="@color/background_color_white"
-            android:text="Google"
-            android:textColor="@color/background_color"
-            android:textSize="16sp"
-            android:layout_marginBottom="5dp"
-            app:icon="@drawable/ic_google"
-            app:iconSize="24dp"
-            app:iconTint="@null"
-            app:layout_constraintBottom_toTopOf="@+id/github_button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/github_button"
-            android:backgroundTint="@color/background_color_white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="60dp"
-            android:text="Github"
-            android:textColor="@color/background_color"
-            android:textSize="16sp"
-            app:icon="@drawable/ic_github"
-            app:iconSize="24dp"
-            app:iconTint="@color/background_color"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/guideline6" />
 
         <TextView
             android:id="@+id/help_entry_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:text="Войти с помощью"
+            android:text="@string/entry_with_help"
             android:textColor="@color/gray_light_color"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/vk_button"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registration_button" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline6" />
 
         <View
             android:id="@+id/view6"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray_light_color"
             android:layout_marginEnd="10dp"
+            android:background="@color/gray_light_color"
             app:layout_constraintBottom_toBottomOf="@+id/help_entry_view"
             app:layout_constraintEnd_toStartOf="@+id/help_entry_view"
             app:layout_constraintStart_toStartOf="parent"
@@ -171,12 +76,70 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray_light_color"
             android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/gray_light_color"
             app:layout_constraintBottom_toBottomOf="@+id/help_entry_view"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/help_entry_view"
             app:layout_constraintTop_toTopOf="@+id/help_entry_view" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="130dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/yandex_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_color_white"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            app:icon="@drawable/ic_yandex"
+            app:iconSize="24dp"
+            app:iconTint="@null"
+            app:layout_constraintEnd_toStartOf="@+id/google_button"
+            app:layout_constraintStart_toEndOf="@+id/vk_button"
+            app:shapeAppearance="@style/ImageCornerRadius"
+            app:layout_constraintTop_toBottomOf="@id/help_entry_view"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/google_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_color_white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginStart="15dp"
+            app:icon="@drawable/ic_google"
+            app:iconSize="24dp"
+            app:iconTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/yandex_button"
+            app:shapeAppearance="@style/ImageCornerRadius"
+            app:layout_constraintTop_toBottomOf="@id/help_entry_view"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/vk_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_color_white"
+            android:layout_marginTop="20dp"
+            app:icon="@drawable/ic_vk"
+            app:iconSize="24dp"
+            app:iconTint="@color/purple_500"
+            app:layout_constraintEnd_toStartOf="@+id/yandex_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/help_entry_view"
+            app:shapeAppearance="@style/ImageCornerRadius" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton

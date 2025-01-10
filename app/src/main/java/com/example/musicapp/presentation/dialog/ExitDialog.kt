@@ -18,7 +18,7 @@ class ExitDialog(
             .setMessage(R.string.message_dialog_exit_text)
             .setPositiveButton(R.string.exit_text) { dialog, _ ->
                 viewModel.saveLoginState()
-                navController.navigate(R.id.action_settingsFragment_to_startFragment)
+                navController.navigate(R.id.action_global_startFragment)
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel_text) { dialog, _ ->

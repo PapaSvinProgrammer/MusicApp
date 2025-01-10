@@ -66,7 +66,7 @@ class LoginFragment: Fragment() {
                 viewModel.saveEmail(binding.emailEditText.text.toString())
 
 
-                navController.navigate(R.id.action_loginFragment_to_homeFragment)
+                navController.navigate(R.id.action_global_homeFragment)
             }
             else {
                 Snackbar.make(view, R.string.error_login_text, Snackbar.LENGTH_SHORT).show()

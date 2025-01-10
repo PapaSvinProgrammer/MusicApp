@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -19,7 +18,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
-import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.databinding.ActivityMainBinding
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
@@ -74,7 +72,6 @@ class MainActivity: AppCompatActivity() {
 
         viewModel.startDownloadResult.observe(this) {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
-                Log.d("RRRR", "INIT MAIN")
                 binding.progressIndicator.visibility = View.VISIBLE
 
                 viewModel.getMusic()
@@ -108,7 +105,6 @@ class MainActivity: AppCompatActivity() {
                 binding.viewPagerLayout.visibility = View.GONE
             }
             else {
-                Log.d("RRRR", "SET START")
                 viewModel.setStartState(true)
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
@@ -146,9 +142,6 @@ class MainActivity: AppCompatActivity() {
 
     @UnstableApi
     private fun initDownloadManager() {
-        AudioManager.audioDownloadManager = AudioDownloadManager(
-            this,
-            SharedPreferencesRepositoryImpl(this)
-        )
+        AudioManager.audioDownloadManager = AudioDownloadManager(this)
     }
 }
