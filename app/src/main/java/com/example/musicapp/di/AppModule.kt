@@ -50,7 +50,8 @@ val appModule = module {
             getDarkModeState = get(),
             saveEmail = get(),
             saveUserKey = get(),
-            saveLoginState = get()
+            saveLoginState = get(),
+            signWithGoogle = get()
         )
     }
 

@@ -92,4 +92,5 @@
 
     <integer name="com_vk_sdk_AppId">52904280</integer>
     <string name="web_client_id">"1023919895894-gl8agajjd5066gb48erhhqijttbol8ga.apps.googleusercontent.com"</string>
+    <string name="error_text">Ошибка: %1$s</string>
 </resources>

@@ -44,6 +44,7 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.search.SearchAll
+import com.example.musicapp.domain.usecase.signAndCreate.SignWithGoogle
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import org.koin.dsl.module
@@ -308,6 +309,12 @@ val domainModule = module {
     factory {
         GetCountDownloadMusic(
             downloadMusicRepository = get()
+        )
+    }
+
+    factory {
+        SignWithGoogle(
+            signWithRepository = get()
         )
     }
 }

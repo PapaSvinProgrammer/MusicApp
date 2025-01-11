@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentStartBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -33,6 +34,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
+private const val BUNDLE_EMAIL_KEY = "com.google.android.libraries.identity.googleid.BUNDLE_KEY_ID"
+private const val BUNDLE_UID_KEY = "com.google.android.libraries.identity.googleid.BUNDLE_KEY_ID_TOKEN"
 
 class StartFragment: Fragment() {
     private lateinit var binding: FragmentStartBinding
@@ -106,31 +110,7 @@ class StartFragment: Fragment() {
         }
 
         binding.googleButton.setOnClickListener {
-            //TODO
-
-            val credentialManager = CredentialManager.create(requireActivity())
-
-            val googleIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId(getString(R.string.web_client_id))
-                .build()
-
-            val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
-                .build()
-
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    val result = credentialManager.getCredential(
-                        request = request,
-                        context = requireActivity()
-                    )
-
-                    Log.d("RRRR", result.credential.data.toString())
-                } catch (e: Exception) {
-                    Log.d("RRRR", e.message.toString())
-                }
-            }
+            googleAuth()
         }
     }
 
@@ -147,7 +127,11 @@ class StartFragment: Fragment() {
     }
 
     private fun onFailureYandex(exception: YandexAuthException) {
-        Snackbar.make(binding.root, "Ошибка: ${exception.message}", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.error_text, exception.message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun vkAuthResult(result: VKAuthenticationResult) {
@@ -160,12 +144,63 @@ class StartFragment: Fragment() {
     private fun onFailureVk(exception: VKAuthException) {
         if (exception.webViewError == 0) return
 
-        Snackbar.make(binding.root, "Ошибка: ${exception.message}", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(
+            binding.root,
+            getString(R.string.error_text, exception.message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     private fun onSuccessVk(token: VKAccessToken) {
         viewModel.saveEmail(token.email ?: "VkEmail@example.ru")
         viewModel.saveUserKey(token.userId.value.toString())
+        viewModel.saveLoginState(true)
+
+        navController.navigate(R.id.action_global_homeFragment)
+    }
+
+    private fun googleAuth() {
+        val credentialManager = CredentialManager.create(requireActivity())
+
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(getString(R.string.web_client_id))
+            .build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = requireActivity()
+                )
+
+                viewModel.signWithGoogle(result.credential)
+                onSuccessGoogle(result.credential.data)
+            } catch (e: Exception) {
+                onFailureGoogle()
+                Log.d(ErrorConst.FIREBASE_ERROR, e.message.toString())
+            }
+        }
+    }
+
+    private fun onFailureGoogle() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.error_text),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun onSuccessGoogle(data: Bundle) {
+        val email = data.getString(BUNDLE_EMAIL_KEY)
+        val uid = data.getString(BUNDLE_UID_KEY)
+
+        viewModel.saveEmail(email ?: "")
+        viewModel.saveUserKey(uid?.substring(0, 29) ?: "")
         viewModel.saveLoginState(true)
 
         navController.navigate(R.id.action_global_homeFragment)

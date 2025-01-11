@@ -32,8 +32,6 @@ class MainViewModel(
 
     var darkModeResult: Boolean = false
     var userKeyResult: String? = null
-    var initSuccess: Boolean = false
-    var initPlayerSuccess: Boolean = false
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
