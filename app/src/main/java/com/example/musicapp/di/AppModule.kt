@@ -51,7 +51,8 @@ val appModule = module {
             saveEmail = get(),
             saveUserKey = get(),
             saveLoginState = get(),
-            signWithGoogle = get()
+            getUserGoogle = get(),
+            getUserYandex = get()
         )
     }
 

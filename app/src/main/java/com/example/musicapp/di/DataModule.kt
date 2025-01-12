@@ -1,7 +1,6 @@
 package com.example.musicapp.di
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.room.Room
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
@@ -14,8 +13,9 @@ import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicTextById
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
+import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.GetUserGoogleImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
-import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithGoogleImpl
+import com.example.musicapp.data.http.get.GetUserYandexImpl
 import com.example.musicapp.data.repository.AlbumRepositoryFirebase
 import com.example.musicapp.data.repository.GroupRepositoryFirebase
 import com.example.musicapp.data.repository.MusicInfoRepositoryFirebase
@@ -26,7 +26,7 @@ import com.example.musicapp.data.repository.PlaylistRepositoryRoom
 import com.example.musicapp.data.repository.SaveMusicRepositoryRoom
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
-import com.example.musicapp.data.repository.SignWithRepositoryGoogle
+import com.example.musicapp.data.repository.UserRepositoryImpl
 import com.example.musicapp.data.room.AppDatabase
 import com.example.musicapp.data.room.dao.MusicDao
 import com.example.musicapp.data.room.dao.PlaylistDao
@@ -42,7 +42,7 @@ import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SaveMusicRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
-import com.example.musicapp.domain.repository.SignWithRepository
+import com.example.musicapp.domain.repository.UserRepository
 import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
 import org.koin.dsl.module
 
@@ -188,13 +188,19 @@ val dataModule = module {
         )
     }
 
-    single<SignWithRepository> {
-        SignWithRepositoryGoogle(
-            signWithGoogleImpl = get()
+    single<UserRepository> {
+        UserRepositoryImpl(
+            getUserYandexImpl = get(),
+            getUserVkImpl = get(),
+            getUserGoogleImpl = get()
         )
     }
 
-    single<SignWithGoogleImpl> {
-        SignWithGoogleImpl()
+    single<GetUserGoogleImpl> {
+        GetUserGoogleImpl()
+    }
+
+    single<GetUserYandexImpl> {
+        GetUserYandexImpl()
     }
 }

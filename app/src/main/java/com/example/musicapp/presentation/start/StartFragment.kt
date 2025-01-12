@@ -10,20 +10,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentStartBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.material.snackbar.Snackbar
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthenticationResult
-import com.vk.api.sdk.auth.VKScope
-import com.vk.api.sdk.exceptions.VKAuthException
 import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
@@ -35,9 +30,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-private const val BUNDLE_EMAIL_KEY = "com.google.android.libraries.identity.googleid.BUNDLE_KEY_ID"
-private const val BUNDLE_UID_KEY = "com.google.android.libraries.identity.googleid.BUNDLE_KEY_ID_TOKEN"
-
 class StartFragment: Fragment() {
     private lateinit var binding: FragmentStartBinding
     private lateinit var navController: NavController
@@ -45,7 +37,6 @@ class StartFragment: Fragment() {
 
     private lateinit var sdk: YandexAuthSdk
     private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
-    private lateinit var vkAuthLauncher: ActivityResultLauncher<Collection<VKScope>>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,9 +46,6 @@ class StartFragment: Fragment() {
             yandexAuthResult(result)
         }
 
-        vkAuthLauncher = registerForActivityResult(VK.getVKAuthActivityResultContract()) { result ->
-            vkAuthResult(result)
-        }
     }
 
     override fun onCreateView(
@@ -82,6 +70,47 @@ class StartFragment: Fragment() {
             }
         }
 
+        viewModel.userYandexResult.observe(viewLifecycleOwner) { user ->
+            binding.progressBar.visibility = View.GONE
+
+            if (user == null) {
+                onFailureYandex(YandexAuthException(getString(R.string.error_get_user_yandex_text)))
+            }
+
+            viewModel.saveEmail(user?.defaultEmail ?: "")
+            viewModel.saveUserKey(user?.id ?: "")
+            viewModel.saveLoginState(true)
+
+            navController.navigate(R.id.action_global_homeFragment)
+        }
+
+        viewModel.userGoogleResult.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = View.GONE
+
+            if (it == null) {
+                onFailureGoogle()
+                return@observe
+            }
+
+            viewModel.saveEmail(it.user?.email ?: "")
+            viewModel.saveUserKey(it.user?.uid ?: "")
+            viewModel.saveLoginState(true)
+
+            navController.navigate(R.id.action_global_homeFragment)
+        }
+
+        viewModel.userVkResult.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = View.GONE
+
+            Log.d("RRRR","VK RESULT = " + it)
+
+//            viewModel.saveEmail(it.email)
+//            viewModel.saveUserKey(it.userId)
+//            viewModel.saveLoginState(true)
+//
+//            navController.navigate(R.id.action_global_homeFragment)
+        }
+
         binding.loginButton.setOnClickListener {
             navController.navigate(R.id.action_startFragment_to_loginFragment)
         }
@@ -101,7 +130,7 @@ class StartFragment: Fragment() {
         }
 
         binding.vkButton.setOnClickListener {
-            vkAuthLauncher.launch(arrayListOf(VKScope.WALL, VKScope.PHOTOS, VKScope.EMAIL))
+
         }
         
         binding.yandexButton.setOnClickListener {
@@ -123,7 +152,8 @@ class StartFragment: Fragment() {
     }
 
     private fun onSuccessYandex(token: YandexAuthToken) {
-        //TODO
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.getUserYandex(token)
     }
 
     private fun onFailureYandex(exception: YandexAuthException) {
@@ -132,31 +162,6 @@ class StartFragment: Fragment() {
             getString(R.string.error_text, exception.message),
             Snackbar.LENGTH_SHORT
         ).show()
-    }
-
-    private fun vkAuthResult(result: VKAuthenticationResult) {
-        when (result) {
-            is VKAuthenticationResult.Success -> onSuccessVk(result.token)
-            is VKAuthenticationResult.Failed -> onFailureVk(result.exception)
-        }
-    }
-
-    private fun onFailureVk(exception: VKAuthException) {
-        if (exception.webViewError == 0) return
-
-        Snackbar.make(
-            binding.root,
-            getString(R.string.error_text, exception.message),
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun onSuccessVk(token: VKAccessToken) {
-        viewModel.saveEmail(token.email ?: "VkEmail@example.ru")
-        viewModel.saveUserKey(token.userId.value.toString())
-        viewModel.saveLoginState(true)
-
-        navController.navigate(R.id.action_global_homeFragment)
     }
 
     private fun googleAuth() {
@@ -178,13 +183,17 @@ class StartFragment: Fragment() {
                     context = requireActivity()
                 )
 
-                viewModel.signWithGoogle(result.credential)
-                onSuccessGoogle(result.credential.data)
+                onSuccessGoogle(result)
             } catch (e: Exception) {
                 onFailureGoogle()
-                Log.d(ErrorConst.FIREBASE_ERROR, e.message.toString())
+                Log.d(ErrorConst.AUTH_ERROR, e.message.toString())
             }
         }
+    }
+
+    private fun onSuccessGoogle(result: GetCredentialResponse) {
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.getUserGoogle(result.credential)
     }
 
     private fun onFailureGoogle() {
@@ -193,16 +202,5 @@ class StartFragment: Fragment() {
             getString(R.string.error_text),
             Snackbar.LENGTH_SHORT
         ).show()
-    }
-
-    private fun onSuccessGoogle(data: Bundle) {
-        val email = data.getString(BUNDLE_EMAIL_KEY)
-        val uid = data.getString(BUNDLE_UID_KEY)
-
-        viewModel.saveEmail(email ?: "")
-        viewModel.saveUserKey(uid?.substring(0, 29) ?: "")
-        viewModel.saveLoginState(true)
-
-        navController.navigate(R.id.action_global_homeFragment)
     }
 }

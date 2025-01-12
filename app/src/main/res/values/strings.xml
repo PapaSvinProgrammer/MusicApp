@@ -10,7 +10,7 @@
     <string name="check_password_string">"Подтверждение пароля"</string>
     <string name="start_title_text">"“Там, где кончаются слова, начинается музыка“ — Генрих Гейне"</string>
     <string name="dark_mode_text">"Темная тема"</string>
-    <string name="clear_storage_text">"Очистить память"</string>
+    <string name="storage_text">"Хранилище"</string>
     <string name="delete_account_text">"Удалить аккаунт"</string>
     <string name="blacklist_text">"Черный список"</string>
     <string name="change_preferences_text">"Изменить предпочтения"</string>
@@ -93,4 +93,6 @@
     <integer name="com_vk_sdk_AppId">52904280</integer>
     <string name="web_client_id">"1023919895894-gl8agajjd5066gb48erhhqijttbol8ga.apps.googleusercontent.com"</string>
     <string name="error_text">Ошибка: %1$s</string>
+    <string name="error_get_user_yandex_text">Error on the Yandex side</string>
+    <string name="error_get_user_vk_text">Error on the Vk side</string>
 </resources>

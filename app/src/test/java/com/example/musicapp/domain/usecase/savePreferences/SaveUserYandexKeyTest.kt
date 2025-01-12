@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
-class SaveUserKeyTest {
+class SaveUserYandexKeyTest {
     private val repository = mock<SharedPreferencesRepository>()
 
     @AfterEach

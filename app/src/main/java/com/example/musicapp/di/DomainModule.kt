@@ -35,6 +35,8 @@ import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetCountDownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.downloadMusic.ManageDownload
+import com.example.musicapp.domain.usecase.http.GetUserGoogle
+import com.example.musicapp.domain.usecase.http.GetUserYandex
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
@@ -44,7 +46,6 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.search.SearchAll
-import com.example.musicapp.domain.usecase.signAndCreate.SignWithGoogle
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import org.koin.dsl.module
@@ -313,8 +314,14 @@ val domainModule = module {
     }
 
     factory {
-        SignWithGoogle(
-            signWithRepository = get()
+        GetUserYandex(
+            userRepository = get()
+        )
+    }
+
+    factory {
+        GetUserGoogle(
+            userRepository = get()
         )
     }
 }
