@@ -35,6 +35,7 @@ import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetCountDownloadMusic
 import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.downloadMusic.ManageDownload
+import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.http.GetUserGoogle
 import com.example.musicapp.domain.usecase.http.GetUserYandex
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
@@ -322,6 +323,12 @@ val domainModule = module {
     factory {
         GetUserGoogle(
             userRepository = get()
+        )
+    }
+
+    factory {
+        GetRandomMusic(
+            musicRepository = get()
         )
     }
 }

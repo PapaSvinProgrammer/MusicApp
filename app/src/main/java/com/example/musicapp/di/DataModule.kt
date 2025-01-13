@@ -12,6 +12,7 @@ import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImp
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicTextById
+import com.example.musicapp.data.firebase.getMusic.GetRandomMusicImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.GetUserGoogleImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
@@ -72,7 +73,8 @@ val dataModule = module {
     single<MusicRepository> {
         MusicRepositoryFirebase(
             getMusicAllImpl = get(),
-            getMusicsByFieldIdImpl = get()
+            getMusicsByFieldIdImpl = get(),
+            getRandomMusicImpl = get()
         )
     }
 
@@ -191,7 +193,6 @@ val dataModule = module {
     single<UserRepository> {
         UserRepositoryImpl(
             getUserYandexImpl = get(),
-            getUserVkImpl = get(),
             getUserGoogleImpl = get()
         )
     }
@@ -202,5 +203,9 @@ val dataModule = module {
 
     single<GetUserYandexImpl> {
         GetUserYandexImpl()
+    }
+
+    single<GetRandomMusicImpl> {
+        GetRandomMusicImpl()
     }
 }

@@ -1,9 +1,9 @@
 package com.example.musicapp.presentation.pagerAdapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.bundle.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -15,9 +15,6 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.main.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class BottomPlayerAdapter(
     private val navController: NavController,
@@ -28,12 +25,10 @@ class BottomPlayerAdapter(
         val binding: ItemBottomPlayerBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music, position: Int) {
-            CoroutineScope(Dispatchers.Main).launch {
-                Glide.with(binding.root)
-                    .load(music.imageLow)
-                    .error(R.drawable.ic_error_music)
-                    .into(binding.iconView)
-            }
+            Glide.with(binding.root)
+                .load(music.imageLow)
+                .error(R.drawable.ic_error_music)
+                .into(binding.iconView)
 
             binding.nameTextView.text = music.name
             binding.groupTextView.text = music.group
@@ -42,6 +37,13 @@ class BottomPlayerAdapter(
                 when (binding.iconPlayView.isSelected) {
                     true -> viewModel.setStatePlayer(StatePlayer.PAUSE)
                     false -> viewModel.setStatePlayer(StatePlayer.PLAY)
+                }
+            }
+
+            binding.iconFavoriteView.setOnClickListener {
+                when (binding.iconFavoriteView.isSelected) {
+                    true -> dislike(music.id ?: "")
+                    false -> like(music)
                 }
             }
 
@@ -99,6 +101,16 @@ class BottomPlayerAdapter(
                 }
             }
         }
+
+        private fun like(music: Music) {
+            binding.iconFavoriteView.isSelected = true
+            viewModel.addMusic(music)
+        }
+
+        private fun dislike(musicId: String) {
+            binding.iconFavoriteView.isSelected = false
+            viewModel.deleteMusic(musicId)
+        }
     }
 
     private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
@@ -119,6 +131,7 @@ class BottomPlayerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position]
         holder.onBind(music, position)
+        Log.d("RRRR", "BIN VIEW HOLDER")
 
         holder.binding.root.setOnClickListener {
             navController.navigate(R.id.action_global_playerFragment2)

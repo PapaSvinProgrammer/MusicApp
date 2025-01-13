@@ -41,6 +41,7 @@ class PlayerService: Service() {
     private var job: Job? = null
 
     private var musicList = MutableLiveData<List<Music>>()
+    private val addMusic = MutableLiveData<Music>()
     private var isFavorite = MutableLiveData<Boolean>()
     private val currentDuration = MutableLiveData<Long>()
     private val maxDuration = MutableLiveData<Long>()
@@ -111,6 +112,8 @@ class PlayerService: Service() {
         fun getCurrentObject() = this@PlayerService.currentObject
 
         fun getMusicList() = this@PlayerService.musicList
+
+        fun getAddMusic() = this@PlayerService.addMusic
     }
 
     fun setPlayerState(state: StatePlayer) {
@@ -128,6 +131,15 @@ class PlayerService: Service() {
 
         currentObject.value = musicList.value!![currentPosition.value ?: 0]
         audioPlayer?.setData(list)
+    }
+
+    fun addMusic(music: Music) {
+        addMusic.value = music
+        audioPlayer?.addMusic(music)
+
+        val currentList = musicList.value?.toMutableList()
+        currentList?.add(music)
+        musicList.value = currentList ?: listOf()
     }
 
     fun setCurrentPosition(position: Int) {

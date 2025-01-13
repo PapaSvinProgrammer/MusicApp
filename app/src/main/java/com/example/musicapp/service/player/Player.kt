@@ -114,4 +114,18 @@ class Player(private val context: Context) : AudioPlayer {
     override fun shuffle() {
         exoPlayer.shuffleModeEnabled = true
     }
+
+    override fun addMusic(music: Music) {
+        val mediaItem = MediaItem.fromUri(music.url.toString())
+
+        exoPlayer.addMediaItem(mediaItem)
+    }
+
+    override fun addInQueue(music: Music) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addNext(music: Music) {
+        TODO("Not yet implemented")
+    }
 }

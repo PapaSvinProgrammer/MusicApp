@@ -15,4 +15,7 @@ interface AudioPlayer {
     fun setData(list: List<Music>)
     fun setPosition(position: Int, isPlay: Boolean)
     fun shuffle()
+    fun addMusic(music: Music)
+    fun addInQueue(music: Music)
+    fun addNext(music: Music)
 }

@@ -5,6 +5,10 @@ import com.example.musicapp.domain.repository.MusicLiteRepository
 
 class FindFavoriteMusicFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
     suspend fun execute(id: String): MusicResult? {
+        if (id.isEmpty()) {
+            return null
+        }
+
         return musicLiteRepository.findUserById(id)
     }
 }

@@ -7,6 +7,7 @@ interface MusicRepository {
     suspend fun getMusicWithFilterOnGenre(): List<Music>
     suspend fun getMusicWithFilterOnAlbum(): List<Music>
     suspend fun getMusicWithFilterOnName(): List<Music>
+    suspend fun getRandomMusic(limit: Long): List<Music>
     suspend fun getMusicAll(): List<Music>
     suspend fun getMusicsByAlbumId(albumId: String): List<Music>
     suspend fun getMusicByAuthorId(authorId: String): List<Music>

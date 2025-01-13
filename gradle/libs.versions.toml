@@ -1,5 +1,7 @@
 [versions]
 agp = "8.5.2"
+androidSdkCore = "4.1.0"
+androidSdkApi = "4.1.0"
 authsdk = "3.1.3"
 credentials = "1.3.0"
 credentialsPlayServicesAuth = "1.3.0"
@@ -30,6 +32,8 @@ roomRuntime = "2.6.1"
 lifecycleLivedataKtx = "2.8.7"
 
 [libraries]
+android-sdk-api = { module = "com.vk:android-sdk-api", version.ref = "androidSdkApi" }
+android-sdk-core = { module = "com.vk:android-sdk-core", version.ref = "androidSdkCore" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }

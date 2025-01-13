@@ -16,9 +16,16 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.ErrorConst
+import com.example.musicapp.data.http.controller.UserControllerYandex
+import com.example.musicapp.data.module.UserYandex
 import com.example.musicapp.databinding.FragmentStartBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.vk.api.sdk.auth.VKScope
 import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
@@ -29,23 +36,71 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class StartFragment: Fragment() {
     private lateinit var binding: FragmentStartBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<StartViewModel>()
 
+    private lateinit var authLauncher: ActivityResultLauncher<Collection<VKScope>>
     private lateinit var sdk: YandexAuthSdk
     private lateinit var yandexAuthLauncher: ActivityResultLauncher<YandexAuthLoginOptions>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        VK.initialize(context)
+
+        authLauncher = VK.login(requireActivity()) { result : VKAuthenticationResult ->
+            when (result) {
+                is VKAuthenticationResult.Success -> {
+                    val BASE_URL = "https://id.vk.com"
+
+                    val token = result.token
+
+                    Log.d("RRRR", token.userId.toString())
+
+                    val gson = GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()
+
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build()
+
+                    val controller = retrofit.create(Controller::class.java)
+
+                    val call: Call<UserVk> = controller.getUser(
+                        clientId = "52904280",
+                        token = token.accessToken
+                    )
+
+                    call.enqueue(object: Callback<UserVk> {
+                        override fun onResponse(p0: Call<UserVk>, p1: Response<UserVk>) {
+                            Log.d("RRRR", "RESULT = " + p1.body().toString())
+                        }
+
+                        override fun onFailure(p0: Call<UserVk>, p1: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+                }
+                is VKAuthenticationResult.Failed -> {
+                    // User didn't pass authorization
+                }
+            }
+        }
 
         sdk = YandexAuthSdk.create(YandexAuthOptions(context))
         yandexAuthLauncher = registerForActivityResult(sdk.contract) { result ->
             yandexAuthResult(result)
         }
-
     }
 
     override fun onCreateView(
@@ -99,17 +154,17 @@ class StartFragment: Fragment() {
             navController.navigate(R.id.action_global_homeFragment)
         }
 
-        viewModel.userVkResult.observe(viewLifecycleOwner) {
-            binding.progressBar.visibility = View.GONE
-
-            Log.d("RRRR","VK RESULT = " + it)
-
+//        viewModel.userVkResult.observe(viewLifecycleOwner) {
+//            binding.progressBar.visibility = View.GONE
+//
+//            Log.d("RRRR","VK RESULT = " + it)
+//
 //            viewModel.saveEmail(it.email)
 //            viewModel.saveUserKey(it.userId)
 //            viewModel.saveLoginState(true)
 //
 //            navController.navigate(R.id.action_global_homeFragment)
-        }
+//        }
 
         binding.loginButton.setOnClickListener {
             navController.navigate(R.id.action_startFragment_to_loginFragment)
@@ -130,7 +185,7 @@ class StartFragment: Fragment() {
         }
 
         binding.vkButton.setOnClickListener {
-
+            authLauncher.launch(arrayListOf(VKScope.EMAIL, VKScope.WALL))
         }
         
         binding.yandexButton.setOnClickListener {

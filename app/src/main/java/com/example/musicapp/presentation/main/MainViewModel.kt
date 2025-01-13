@@ -11,15 +11,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
+import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
+import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
+import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import kotlinx.coroutines.launch
+
+private const val DEFAULT_COUNT_MUSIC = 3L
 
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
     private val getUserKey: GetUserKey,
-    private val getMusicAll: GetMusicAll
+    private val addMusicInSQLite: AddMusicInSQLite,
+    private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
+    private val getRandomMusic: GetRandomMusic
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -31,12 +37,11 @@ class MainViewModel(
     val isBound = MutableLiveData<Boolean>()
 
     var darkModeResult: Boolean = false
-    var userKeyResult: String? = null
+    var countMusicList = 0
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
-
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
@@ -50,18 +55,36 @@ class MainViewModel(
         darkModeResult = getDarkModeState.execute()
     }
 
-    fun getUserKey() {
-        userKeyResult = getUserKey.execute()
+    fun setStartState(state: Boolean) {
+        startDownloadLiveData.value = state
     }
 
-    fun getMusic() {
+    fun deleteMusic(musicId: String) {
         viewModelScope.launch {
-            getMusicLiveData.value = getMusicAll.execute()
+            deleteMusicFromSQLite.execute(musicId)
         }
     }
 
-    fun setStartState(state: Boolean) {
-        startDownloadLiveData.value = state
+    fun addMusic(music: Music) {
+        viewModelScope.launch {
+            addMusicInSQLite.execute(music)
+        }
+    }
+
+    fun getRandomMusic() {
+        viewModelScope.launch {
+            getMusicLiveData.value = getRandomMusic.getMusics(DEFAULT_COUNT_MUSIC)
+        }
+    }
+
+    fun addRandomMusic() {
+        viewModelScope.launch {
+            val music = getRandomMusic.getMusicSingle()
+
+            if (music != null) {
+                servicePlayer?.addMusic(music)
+            }
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {

@@ -74,7 +74,7 @@ class MainActivity: AppCompatActivity() {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
 
-                viewModel.getMusic()
+                viewModel.getRandomMusic()
                 initDownloadManager()
                 intiPermission()
 
@@ -112,13 +112,12 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.getUserKey()
-    }
-
     private fun initServiceTools() {
         viewModel.currentPosition?.observe(this) { position->
+            if (position == viewModel.countMusicList - 1) {
+                viewModel.addRandomMusic()
+            }
+
             binding.bottomViewPager.doOnPreDraw {
                 binding.bottomViewPager.setCurrentItem(position, false)
             }
@@ -126,6 +125,7 @@ class MainActivity: AppCompatActivity() {
 
         viewModel.musicList?.observe(this) { list ->
             bottomPlayerAdapter.setData(list)
+            viewModel.countMusicList = list.size
         }
     }
 

@@ -3,12 +3,14 @@ package com.example.musicapp.data.repository
 import com.example.musicapp.data.constant.DocumentConst
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
+import com.example.musicapp.data.firebase.getMusic.GetRandomMusicImpl
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicRepository
 
 class MusicRepositoryFirebase(
     private val getMusicAllImpl: GetMusicAllImpl,
-    private val getMusicsByFieldIdImpl: GetMusicsByFieldIdImpl
+    private val getMusicsByFieldIdImpl: GetMusicsByFieldIdImpl,
+    private val getRandomMusicImpl: GetRandomMusicImpl
 ): MusicRepository {
     override suspend fun getMusicWithFilterOnGroup(): List<Music> {
         TODO("Not yet implemented")
@@ -24,6 +26,10 @@ class MusicRepositoryFirebase(
 
     override suspend fun getMusicWithFilterOnName(): List<Music> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getRandomMusic(limit: Long): List<Music> {
+        return getRandomMusicImpl.execute(limit)
     }
 
     override suspend fun getMusicAll(): List<Music> {

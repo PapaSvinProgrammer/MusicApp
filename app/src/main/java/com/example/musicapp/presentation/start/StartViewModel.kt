@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-import com.example.musicapp.data.module.UserVK
 import com.example.musicapp.data.module.UserYandex
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetLoginState
@@ -36,13 +35,13 @@ class StartViewModel(
     private val darkModeStateLiveData = MutableLiveData<Boolean>()
     private val userYandexLiveData = MutableLiveData<UserYandex?>()
     private val userGoogleLiveData = MutableLiveData<AuthResult?>()
-    private val userVkLiveData = MutableLiveData<UserVK?>()
+    //private val userVkLiveData = MutableLiveData<UserVK?>()
 
     val loginStateResult: LiveData<Boolean> = loginStateLiveData
     val getDarkModeStateResult: LiveData<Boolean> = darkModeStateLiveData
     val userYandexResult: LiveData<UserYandex?> = userYandexLiveData
     val userGoogleResult: LiveData<AuthResult?> = userGoogleLiveData
-    val userVkResult: LiveData<UserVK?> = userVkLiveData
+    //val userVkResult: LiveData<UserVK?> = userVkLiveData
 
     fun getLoginSate() {
         loginStateLiveData.value = getLoginState.execute()
