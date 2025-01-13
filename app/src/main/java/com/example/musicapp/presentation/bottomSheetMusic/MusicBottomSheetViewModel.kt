@@ -11,9 +11,9 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
-import com.example.musicapp.domain.usecase.downloadMusic.DeleteDownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.room.delete.DeleteDownloadMusic
+import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import kotlinx.coroutines.Dispatchers

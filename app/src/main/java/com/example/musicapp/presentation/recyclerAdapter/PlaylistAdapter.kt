@@ -11,8 +11,8 @@ import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.databinding.ItemPlaylistBinding
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.domain.usecase.convert.ConvertAnyText
-import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
+import com.example.musicapp.domain.usecase.convert.text.ConvertAnyText
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCountImpl
 
 class PlaylistAdapter(
     private val navController: NavController

@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.BottomSheetPlaylistBinding
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.state.SettingsPlaylist
-import com.example.musicapp.domain.usecase.convert.ConvertAnyText
-import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
+import com.example.musicapp.domain.usecase.convert.text.ConvertAnyText
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCountImpl
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PlaylistBottomSheet: BottomSheetDialogFragment() {

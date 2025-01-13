@@ -25,7 +25,7 @@ class FavoriteFragment: Fragment() {
     private val viewModel by viewModel<FavoriteViewModel>()
     private val musicPagerAdapter by lazy {
         MusicPagerAdapter(
-            requireActivity().supportFragmentManager,
+            supportFragmentManager = requireActivity().supportFragmentManager,
             servicePlayer = viewModel.servicePlayer,
             isPlay = viewModel.isPlay,
             currentObject = viewModel.currentObject
@@ -107,7 +107,7 @@ class FavoriteFragment: Fragment() {
         }
 
         binding.downloadCardView.setOnClickListener {
-
+            navController.navigate(R.id.action_favoriteFragment_to_downloadFragment)
         }
     }
 

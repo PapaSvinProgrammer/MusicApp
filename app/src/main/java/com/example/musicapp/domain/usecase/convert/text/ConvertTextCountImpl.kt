@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.convert
+package com.example.musicapp.domain.usecase.convert.text
 
 private const val MUSIC_TEXT = " трек"
 private const val ALBUM_TEXT = " альбом"

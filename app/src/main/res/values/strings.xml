@@ -95,4 +95,7 @@
     <string name="error_text">Ошибка: %1$s</string>
     <string name="error_get_user_yandex_text">Error on the Yandex side</string>
     <string name="error_get_user_vk_text">Error on the Vk side</string>
+    <string name="download_music_text">Скачанные треки</string>
+    <string name="download_album_text">Скачанные альбомы</string>
+    <string name="title_downloaded_text">Скачанное</string>
 </resources>

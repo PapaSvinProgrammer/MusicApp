@@ -3,19 +3,12 @@ package com.example.musicapp.presentation.recyclerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
-import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
-import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MusicAdapter: RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {

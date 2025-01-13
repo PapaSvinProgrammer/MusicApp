@@ -1,8 +1,8 @@
 package com.example.musicapp.di
 
-import com.example.musicapp.domain.usecase.convert.ConvertAnyText
-import com.example.musicapp.domain.usecase.convert.ConvertTextCount
-import com.example.musicapp.domain.usecase.convert.ConvertTextCountImpl
+import com.example.musicapp.domain.usecase.convert.text.ConvertAnyText
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCount
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
@@ -30,11 +30,11 @@ import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
-import com.example.musicapp.domain.usecase.downloadMusic.DeleteDownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.DownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.GetCountDownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
-import com.example.musicapp.domain.usecase.downloadMusic.ManageDownload
+import com.example.musicapp.domain.usecase.room.delete.DeleteDownloadMusic
+import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
+import com.example.musicapp.domain.usecase.room.get.GetCountDownloadMusic
+import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.room.downloadMusic.ManageDownload
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.http.GetUserGoogle
 import com.example.musicapp.domain.usecase.http.GetUserYandex

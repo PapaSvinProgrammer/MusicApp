@@ -13,9 +13,9 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.domain.usecase.convert.ConvertTextCount
-import com.example.musicapp.domain.usecase.downloadMusic.GetCountDownloadMusic
-import com.example.musicapp.domain.usecase.downloadMusic.GetDownloadedMusic
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCount
+import com.example.musicapp.domain.usecase.room.get.GetCountDownloadMusic
+import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.domain.usecase.room.get.GetCountPlaylist

@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -125,6 +126,8 @@ class MusicResultAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position] as MusicResult
         holder.onBind(music)
+
+        Log.d("RRRR", servicePlayer.toString())
 
         holder.binding.root.setOnClickListener {
             if (!musicList.isNullOrEmpty()) {

@@ -92,7 +92,7 @@
                 android:textSize="25sp"
                 android:text="@string/all_collection_text"
                 android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp" />
+                android:layout_marginStart="15dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -380,9 +380,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:padding="15dp">
 
                 <TextView
                     style="@style/TextColorOnSurface"
@@ -391,14 +389,12 @@
                     android:fontFamily="@font/accid"
                     android:text="@string/favorite_artist_text"
                     android:textSize="25sp"
-                    android:layout_marginStart="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
