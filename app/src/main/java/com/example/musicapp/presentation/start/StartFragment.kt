@@ -16,8 +16,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.ErrorConst
-import com.example.musicapp.data.http.controller.UserControllerYandex
-import com.example.musicapp.data.module.UserYandex
 import com.example.musicapp.databinding.FragmentStartBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.material.snackbar.Snackbar

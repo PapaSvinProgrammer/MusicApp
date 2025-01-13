@@ -73,6 +73,13 @@ class BottomPlayerAdapter(
             viewModel.isBound.observe(livecycleOwner) {
                 if (it) initServiceTools(position)
             }
+
+            viewModel.isFavoriteResult.observe(livecycleOwner) { musicResult ->
+                when (musicResult?.musicEntity?.firebaseId == music.id) {
+                    true -> binding.iconFavoriteView.isSelected = true
+                    false -> binding.iconFavoriteView.isSelected = false
+                }
+            }
         }
 
         private fun initServiceTools(position: Int) {
@@ -131,7 +138,6 @@ class BottomPlayerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position]
         holder.onBind(music, position)
-        Log.d("RRRR", "BIN VIEW HOLDER")
 
         holder.binding.root.setOnClickListener {
             navController.navigate(R.id.action_global_playerFragment2)

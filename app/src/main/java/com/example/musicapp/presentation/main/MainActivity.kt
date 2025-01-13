@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -60,6 +61,10 @@ class MainActivity: AppCompatActivity() {
         }
 
         viewModel.getMusicResult.observe(this) { array->
+            if (viewModel.countMusicList != 0) {
+                return@observe
+            }
+
             viewModel.servicePlayer?.setMusicList(array)
             binding.progressIndicator.visibility = View.GONE
         }
@@ -120,6 +125,11 @@ class MainActivity: AppCompatActivity() {
 
             binding.bottomViewPager.doOnPreDraw {
                 binding.bottomViewPager.setCurrentItem(position, false)
+            }
+
+            viewModel.musicList?.value?.let {
+                val currentObject = it[viewModel.currentPosition?.value ?: 0]
+                viewModel.isFavorite(currentObject.id ?: "")
             }
         }
 

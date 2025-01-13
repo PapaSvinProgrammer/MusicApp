@@ -59,10 +59,10 @@ val appModule = module {
     viewModel {
         MainViewModel(
             getDarkModeState = get(),
-            getUserKey = get(),
             addMusicInSQLite = get(),
             deleteMusicFromSQLite = get(),
-            getRandomMusic = get()
+            getRandomMusic = get(),
+            findFavoriteMusicFromSQLite = get()
         )
     }
 

@@ -113,7 +113,6 @@ class PlayerService: Service() {
 
         fun getMusicList() = this@PlayerService.musicList
 
-        fun getAddMusic() = this@PlayerService.addMusic
     }
 
     fun setPlayerState(state: StatePlayer) {

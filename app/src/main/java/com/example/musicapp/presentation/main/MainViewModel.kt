@@ -8,24 +8,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
-import com.example.musicapp.domain.usecase.getPreferences.GetUserKey
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
 import kotlinx.coroutines.launch
 
 private const val DEFAULT_COUNT_MUSIC = 3L
 
 class MainViewModel(
     private val getDarkModeState: GetDarkModeState,
-    private val getUserKey: GetUserKey,
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
-    private val getRandomMusic: GetRandomMusic
+    private val getRandomMusic: GetRandomMusic,
+    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -42,10 +43,12 @@ class MainViewModel(
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
+    private val isFavoriteLiveData = MutableLiveData<MusicResult?>()
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
+    val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -84,6 +87,12 @@ class MainViewModel(
             if (music != null) {
                 servicePlayer?.addMusic(music)
             }
+        }
+    }
+
+    fun isFavorite(musicId: String) {
+        viewModelScope.launch {
+            isFavoriteLiveData.value = findFavoriteMusicFromSQLite.execute(musicId)
         }
     }
 
