@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     id("com.google.devtools.ksp")
+    id("vkid.manifest.placeholders")
 }
 
 val secretPropertiesFile = rootProject.file("secrets.properties")
@@ -22,17 +23,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        addManifestPlaceholders(
-            mapOf(
-                "VKIDClientID" to secretProperties["VKIDClientId"].toString(),
-                "VKIDClientSecret" to secretProperties["VKIDClientSecret"].toString(),
-                "VKIDRedirectHost" to "vk.com",
-                "VKIDRedirectScheme" to "vk${secretProperties["VKIDClientId"]}",
-                "YANDEX_CLIENT_ID" to secretProperties["YandexClientId"].toString()
-            )
-        )
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["YANDEX_CLIENT_ID"] = secretProperties["YandexClientId"].toString()
     }
 
     buildTypes {

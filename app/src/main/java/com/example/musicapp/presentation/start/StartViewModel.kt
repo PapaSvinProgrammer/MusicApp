@@ -56,7 +56,7 @@ class StartViewModel(
     }
     private val vkidRefreshTokenCallback = object: VKIDRefreshTokenCallback {
         override fun onFail(fail: VKIDRefreshTokenFail) {
-            vkFailLiveData.value = fail
+            vkRefreshTokenFailLiveData.value = fail
         }
 
         override fun onSuccess(token: AccessToken) {
@@ -79,14 +79,16 @@ class StartViewModel(
     private val userYandexLiveData = MutableLiveData<UserYandex?>()
     private val userGoogleLiveData = MutableLiveData<AuthResult?>()
     private val userVkLiveData = MutableLiveData<UserVk>()
-    private val vkFailLiveData = MutableLiveData<VKIDRefreshTokenFail>()
+    private val vkAuthFailLiveData = MutableLiveData<VKIDAuthFail>()
+    private val vkRefreshTokenFailLiveData = MutableLiveData<VKIDRefreshTokenFail>()
 
     val loginStateResult: LiveData<Boolean> = loginStateLiveData
     val getDarkModeStateResult: LiveData<Boolean> = darkModeStateLiveData
     val userYandexResult: LiveData<UserYandex?> = userYandexLiveData
     val userGoogleResult: LiveData<AuthResult?> = userGoogleLiveData
     val userVkResult: LiveData<UserVk> = userVkLiveData
-    val vkFailResult: LiveData<VKIDRefreshTokenFail> = vkFailLiveData
+    val vkAuthFailResult: LiveData<VKIDAuthFail> = vkAuthFailLiveData
+    val vkRefreshTokenFailResult: LiveData<VKIDRefreshTokenFail> = vkRefreshTokenFailLiveData
 
     fun getLoginSate() {
         loginStateLiveData.value = getLoginState.execute()
@@ -140,7 +142,9 @@ class StartViewModel(
 
     private fun onFailureVk(fail: VKIDAuthFail) {
         when (fail) {
-            is VKIDAuthFail.Canceled -> {}
+            is VKIDAuthFail.Canceled -> {
+                vkAuthFailLiveData.value = fail
+            }
             else -> {
                 refreshToken()
             }

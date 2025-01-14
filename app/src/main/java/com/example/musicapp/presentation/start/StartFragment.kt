@@ -19,8 +19,8 @@ import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentStartBinding
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.material.snackbar.Snackbar
+import com.vk.id.VKIDAuthFail
 import com.vk.id.refresh.VKIDRefreshTokenFail
-import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthResult
@@ -74,7 +74,7 @@ class StartFragment: Fragment() {
             binding.progressBar.visibility = View.GONE
 
             if (user == null) {
-                onFailureYandex(YandexAuthException(getString(R.string.error_get_user_yandex_text)))
+                onFailureYandex()
             }
 
             saveUserData(
@@ -101,7 +101,7 @@ class StartFragment: Fragment() {
             navController.navigate(R.id.action_global_homeFragment)
         }
 
-        viewModel.vkFailResult.observe(viewLifecycleOwner) {
+        viewModel.vkRefreshTokenFailResult.observe(viewLifecycleOwner) {
             onFailureVk(it)
         }
 
@@ -114,6 +114,12 @@ class StartFragment: Fragment() {
             )
 
             navController.navigate(R.id.action_global_homeFragment)
+        }
+
+        viewModel.vkAuthFailResult.observe(viewLifecycleOwner) {
+            if (it is VKIDAuthFail.Canceled) {
+                binding.progressBar.visibility = View.GONE
+            }
         }
 
         binding.loginButton.setOnClickListener {
@@ -152,7 +158,7 @@ class StartFragment: Fragment() {
     private fun yandexAuthResult(result: YandexAuthResult) {
         when (result) {
             is YandexAuthResult.Success -> onSuccessYandex(result.token)
-            is YandexAuthResult.Failure -> onFailureYandex(result.exception)
+            is YandexAuthResult.Failure -> onFailureYandex()
             YandexAuthResult.Cancelled -> { }
         }
     }
@@ -162,10 +168,10 @@ class StartFragment: Fragment() {
         viewModel.getUserYandex(token)
     }
 
-    private fun onFailureYandex(exception: YandexAuthException) {
+    private fun onFailureYandex() {
         Snackbar.make(
             binding.root,
-            getString(R.string.error_text, exception.message),
+            getString(R.string.login_failed_text),
             Snackbar.LENGTH_SHORT
         ).show()
     }
@@ -205,7 +211,7 @@ class StartFragment: Fragment() {
     private fun onFailureGoogle() {
         Snackbar.make(
             binding.root,
-            getString(R.string.error_text),
+            getString(R.string.login_failed_text),
             Snackbar.LENGTH_SHORT
         ).show()
     }
