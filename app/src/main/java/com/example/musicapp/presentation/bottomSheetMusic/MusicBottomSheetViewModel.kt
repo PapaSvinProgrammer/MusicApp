@@ -1,5 +1,9 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
+import android.annotation.SuppressLint
+import android.content.ComponentName
+import android.content.ServiceConnection
+import android.os.IBinder
 import androidx.annotation.OptIn
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +20,7 @@ import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
+import com.example.musicapp.service.player.PlayerService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,6 +34,10 @@ class MusicBottomSheetViewModel(
     private val addSaveMusicInSQLite: AddSaveMusicInSQLite,
     private val deleteSaveMusicFromSQLite: DeleteSaveMusicFromSQLite
 ): ViewModel() {
+    @SuppressLint("StaticFieldLeak")
+    var servicePlayer: PlayerService? = null
+    val isBound = MutableLiveData<Boolean>()
+    
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
     private val isDownloadLiveData = MutableLiveData<Music?>()
@@ -76,6 +85,34 @@ class MusicBottomSheetViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             deleteSaveMusicFromSQLite.execute(musicId)
+        }
+    }
+
+    fun playNext(music: Music?) {
+        if (music == null) {
+            return
+        }
+
+        servicePlayer?.playNext(music)
+    }
+
+    fun addToQueue(music: Music?) {
+        if (music == null) {
+            return
+        }
+
+        servicePlayer?.addToQueue(music)
+    }
+
+    val connectionToPlayerService = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as PlayerService.PlayerBinder
+            servicePlayer = binder.getService()
+            isBound.value = true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound.value = false
         }
     }
 }

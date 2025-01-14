@@ -90,8 +90,8 @@
     <string name="entry_with_help">Войти с помощью</string>
     <string name="yandex_text">Yandex</string>
 
-    <integer name="com_vk_sdk_AppId">52904280</integer>
     <string name="web_client_id">"1023919895894-gl8agajjd5066gb48erhhqijttbol8ga.apps.googleusercontent.com"</string>
+
     <string name="login_failed_text">"Вход не выполнен"</string>
     <string name="error_get_user_yandex_text">Error on the Yandex side</string>
     <string name="error_get_user_vk_text">Error on the Vk side</string>

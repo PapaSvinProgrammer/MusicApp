@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
+import com.example.musicapp.service.player.PlayerService
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,6 +40,14 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = findNavController()
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, PlayerService::class.java),
+                viewModel.connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
 
         binding.favoriteLayout.setOnClickListener {
             viewModel.setAction(ActionMusic.LIKE)
@@ -207,11 +217,13 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun addToQueue() {
-        TODO("Not yet implemented")
+        viewModel.addToQueue(currentMusic)
+        dismiss()
     }
 
     private fun playNext() {
-        TODO("Not yet implemented")
+        viewModel.playNext(currentMusic)
+        dismiss()
     }
 
     private fun delete() {

@@ -22,6 +22,7 @@ import com.example.musicapp.service.player.module.AudioPlayer
 @UnstableApi
 class Player(private val context: Context) : AudioPlayer {
     private var exoPlayer: ExoPlayer
+    private var lastIndexInQueue = 0
 
     init {
         val extractor = ExtractorsFactory {
@@ -122,10 +123,27 @@ class Player(private val context: Context) : AudioPlayer {
     }
 
     override fun addInQueue(music: Music) {
-        TODO("Not yet implemented")
+        val mediaItem = MediaItem.fromUri(music.url.toString())
+
+        if (exoPlayer.currentMediaItemIndex > lastIndexInQueue) {
+            lastIndexInQueue = exoPlayer.currentMediaItemIndex + 1
+        }
+        else {
+            lastIndexInQueue++
+        }
+
+        if (lastIndexInQueue > exoPlayer.mediaItemCount) {
+            exoPlayer.addMediaItem(mediaItem)
+        }
+        else {
+            exoPlayer.addMediaItem(lastIndexInQueue, mediaItem)
+        }
     }
 
     override fun addNext(music: Music) {
-        TODO("Not yet implemented")
+        val mediaItem = MediaItem.fromUri(music.url.toString())
+        val currentPosition = exoPlayer.currentMediaItemIndex
+
+        exoPlayer.addMediaItem(currentPosition + 1, mediaItem)
     }
 }

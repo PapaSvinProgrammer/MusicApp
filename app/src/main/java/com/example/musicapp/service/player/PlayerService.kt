@@ -39,6 +39,7 @@ class PlayerService: Service() {
     private var audioNotification: AudioNotification? = null
     private var audioPlayer: AudioPlayer? = null
     private var job: Job? = null
+    private var lastIndexToQueue = 0
 
     private var musicList = MutableLiveData<List<Music>>()
     private val addMusic = MutableLiveData<Music>()
@@ -139,6 +140,38 @@ class PlayerService: Service() {
         val currentList = musicList.value?.toMutableList()
         currentList?.add(music)
         musicList.value = currentList ?: listOf()
+    }
+
+    fun playNext(music: Music) {
+        audioPlayer?.addNext(music)
+
+        val currentPosition = currentPosition.value ?: 0
+        val currentList = musicList.value?.toMutableList()
+        currentList?.add(currentPosition + 1, music)
+
+        musicList.value = currentList ?: listOf()
+    }
+
+    fun addToQueue(music: Music) {
+        audioPlayer?.addInQueue(music)
+
+        if ((currentPosition.value ?: 0) > lastIndexToQueue) {
+            lastIndexToQueue = (currentPosition.value ?: 0) + 1
+        }
+        else {
+            lastIndexToQueue++
+        }
+
+        val currentMusicList = musicList.value?.toMutableList()
+
+        if (lastIndexToQueue > (musicList.value?.size ?: 0)) {
+            currentMusicList?.add(music)
+        }
+        else {
+            currentMusicList?.add(lastIndexToQueue, music)
+        }
+
+        musicList.value = currentMusicList ?: listOf()
     }
 
     fun setCurrentPosition(position: Int) {

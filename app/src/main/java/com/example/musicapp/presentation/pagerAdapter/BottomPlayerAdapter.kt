@@ -71,7 +71,7 @@ class BottomPlayerAdapter(
             }
 
             viewModel.isBound.observe(livecycleOwner) {
-                if (it) initServiceTools(position)
+                if (it) initServiceTools(music)
             }
 
             viewModel.isFavoriteResult.observe(livecycleOwner) { musicResult ->
@@ -82,7 +82,7 @@ class BottomPlayerAdapter(
             }
         }
 
-        private fun initServiceTools(position: Int) {
+        private fun initServiceTools(music: Music) {
             viewModel.isPlayService?.observe(livecycleOwner) {
                 binding.iconPlayView.isSelected = it
             }
@@ -95,8 +95,8 @@ class BottomPlayerAdapter(
                 binding.progressIndicator.progress = it.toInt()
             }
 
-            viewModel.currentPosition?.observe(livecycleOwner) {
-                if (position != it) {
+            viewModel.currentObject?.observe(livecycleOwner) {
+                if (music.id != it.id) {
                     binding.progressIndicator.visibility = View.GONE
                     binding.iconPlayView.visibility = View.GONE
                     binding.iconFavoriteView.visibility = View.GONE
