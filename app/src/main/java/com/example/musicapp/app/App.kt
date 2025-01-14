@@ -13,6 +13,7 @@ import com.example.musicapp.di.dataModule
 import com.example.musicapp.di.domainModule
 import com.example.musicapp.service.audioDownloader.AudioDownloadService
 import com.example.musicapp.service.player.PlayerService
+import com.vk.id.VKID
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -21,6 +22,8 @@ import org.koin.core.logger.Level
 class App: Application() {
     override fun onCreate() {
         super.onCreate()
+
+        VKID.init(this)
 
         startKoin {
             androidLogger(Level.DEBUG)

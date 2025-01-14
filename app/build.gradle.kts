@@ -1,9 +1,16 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     id("com.google.devtools.ksp")
 }
+
+val secretPropertiesFile = rootProject.file("secrets.properties")
+val secretProperties = Properties()
+secretProperties.load(FileInputStream(secretPropertiesFile))
 
 android {
     namespace = "com.example.musicapp"
@@ -17,7 +24,15 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders["YANDEX_CLIENT_ID"] = "14e4968bd5104304a62234e22f2d6242"
+        addManifestPlaceholders(
+            mapOf(
+                "VKIDClientID" to secretProperties["VKIDClientId"].toString(),
+                "VKIDClientSecret" to secretProperties["VKIDClientSecret"].toString(),
+                "VKIDRedirectHost" to "vk.com",
+                "VKIDRedirectScheme" to "vk${secretProperties["VKIDClientId"]}",
+                "YANDEX_CLIENT_ID" to secretProperties["YandexClientId"].toString()
+            )
+        )
     }
 
     buildTypes {
@@ -33,9 +48,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
-    buildFeatures.viewBinding = true
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 
     kotlinOptions {
         jvmTarget = "11"
@@ -48,6 +67,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.gson)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     /**
      * ExoPlayer
@@ -112,8 +132,7 @@ dependencies {
     /**
      * VK ID
      */
-    implementation("com.vk:android-sdk-core:4.1.0")
-    implementation("com.vk:android-sdk-api:4.1.0")
+    implementation(libs.vkid)
 
     /**
      * Test dependencies

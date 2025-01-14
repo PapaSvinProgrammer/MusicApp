@@ -98,4 +98,7 @@
     <string name="download_music_text">Скачанные треки</string>
     <string name="download_album_text">Скачанные альбомы</string>
     <string name="title_downloaded_text">Скачанное</string>
+    <string name="error_api_text">Ошибка на стороне сервера</string>
+    <string name="error_auth_yet_text">Авторизируйтесь заново</string>
+    <string name="error_need_auth_text">Нужно авторизироваться</string>
 </resources>
