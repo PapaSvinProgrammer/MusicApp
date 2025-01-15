@@ -23,6 +23,7 @@ import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import kotlinx.coroutines.launch
 
+private const val DEFAULT_PLAYLIST_ID = 1L
 private const val AUTHOR_LIMIT = 8
 private const val MUSIC_LIMIT = 12
 private const val DOWNLOAD_LIMIT = 2
@@ -96,7 +97,7 @@ class FavoriteViewModel(
     fun getCountMusic() {
         viewModelScope.launch {
             convertCountMusicLiveData.value =
-                convertTextCountMusic(getCountMusic.execute())
+                convertTextCountMusic(getCountMusic.getCount(DEFAULT_PLAYLIST_ID))
         }
     }
 
@@ -123,14 +124,14 @@ class FavoriteViewModel(
     }
 
     private fun convertTextCountMusic(count: Int): String {
-        return convertTextCount.convertMusic(count)
+        return count.toString() + convertTextCount.convertMusic(count)
     }
 
     private fun convertTextCountPlaylist(count: Int): String {
-        return convertTextCount.convertPlaylist(count)
+        return count.toString() + convertTextCount.convertPlaylist(count)
     }
 
     private fun convertTextCountDownloadedMusic(count: Int): String {
-        return convertTextCount.convertMusic(count)
+        return count.toString() + convertTextCount.convertMusic(count)
     }
 }

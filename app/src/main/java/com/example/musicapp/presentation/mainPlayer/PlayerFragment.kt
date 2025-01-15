@@ -29,6 +29,7 @@ import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomShe
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
+import com.example.musicapp.service.video.VideoService
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,6 +65,14 @@ class PlayerFragment: Fragment() {
             bindService(
                 Intent(this, PlayerService::class.java),
                 viewModel.connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, VideoService::class.java),
+                viewModel.connectionToVideoService,
                 Context.BIND_AUTO_CREATE
             )
         }
@@ -197,10 +206,16 @@ class PlayerFragment: Fragment() {
             executeMoveToAuthor()
         }
 
-        viewModel.isBound.observe(viewLifecycleOwner) {
+        viewModel.isBoundAudio.observe(viewLifecycleOwner) {
             if (it) {
                 initSeekBar()
-                initServiceTools()
+                initPlayerServiceTools()
+            }
+        }
+
+        viewModel.isBoundVideo.observe(viewLifecycleOwner) {
+            if (it == true) {
+                initVideoServiceTools()
             }
         }
     }
@@ -215,6 +230,7 @@ class PlayerFragment: Fragment() {
 
     override fun onDestroy() {
         requireActivity().unbindService(viewModel.connectionToPlayerService)
+        requireActivity().unbindService(viewModel.connectionToVideoService)
         super.onDestroy()
     }
 
@@ -241,7 +257,7 @@ class PlayerFragment: Fragment() {
         }
     }
 
-    private fun initServiceTools() {
+    private fun initPlayerServiceTools() {
         if (viewModel.isPlay?.value == true) {
             binding.playStopView.isSelected = true
         }
@@ -271,6 +287,10 @@ class PlayerFragment: Fragment() {
         viewModel.bufferedPosition?.observe(viewLifecycleOwner) {
             binding.seekBar.secondaryProgress = it.toInt()
         }
+    }
+
+    private fun initVideoServiceTools() {
+
     }
 
     private fun resetControlPlayerUI() {

@@ -42,6 +42,7 @@ import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.domain.usecase.room.get.GetCountPlaylist
+import com.example.musicapp.domain.usecase.room.get.GetTimePlaylist
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
@@ -329,6 +330,12 @@ val domainModule = module {
     factory {
         GetRandomMusic(
             musicRepository = get()
+        )
+    }
+
+    factory {
+        GetTimePlaylist(
+            musicLiteRepository = get()
         )
     }
 }

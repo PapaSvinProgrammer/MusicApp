@@ -12,23 +12,23 @@ class ConvertAnyText {
 
     private fun convertSmallNumber(number: Int, text: String): String {
         if (number == 1) {
-            return number.toString() + text
+            return text
         }
         else if (number in 2..4) {
-            return number.toString() + text + "а"
+            return text + "а"
         }
 
-        return number.toString() + text + "ов"
+        return text + "ов"
     }
 
     private fun convertBigNumber(number: Int, text: String): String {
         if (number % 10 == 1) {
-            return number.toString() + text
+            return text
         }
         else if (number % 10 in 2..4) {
-            return number.toString() + text + "а"
+            return text + "а"
         }
 
-        return  number.toString() + text + "ов"
+        return  text + "ов"
     }
 }

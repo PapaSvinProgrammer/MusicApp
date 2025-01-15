@@ -131,6 +131,10 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
         viewModel.isFavoriteResult.observe(viewLifecycleOwner) {
             binding.iconFavorite.isSelected = it != null
         }
+
+        viewModel.convertTimeResult.observe(viewLifecycleOwner) { time ->
+            binding.timeView.text = time
+        }
     }
 
     @SuppressLint("NewApi")
@@ -243,8 +247,8 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
             .load(currentMusic?.imageHigh)
             .into(binding.imageView)
 
+        viewModel.convertTime(currentMusic?.time)
         binding.groupTextView.text = currentMusic?.group
         binding.musicTextView.text = currentMusic?.name
-        binding.timeView.text = currentMusic?.time
     }
 }

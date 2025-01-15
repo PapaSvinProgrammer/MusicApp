@@ -59,19 +59,21 @@ class PlaylistBottomSheet: BottomSheetDialogFragment() {
         }
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint("NewApi", "SetTextI18n")
     override fun onStart() {
         super.onStart()
 
         val currentPlaylist = arguments?.getParcelable(PLAYLIST_KEY, Album::class.java)
 
         currentPlaylist?.let {
+            val countMusicStr = it.countMusic.toString()
+
             Glide.with(binding.root)
                 .load(it.image)
                 .into(binding.imageView)
 
             binding.playlistTextView.text = it.name
-            binding.countTextView.text = convertTextCount.convertMusic(it.countMusic)
+            binding.countTextView.text = countMusicStr + convertTextCount.convertMusic(it.countMusic)
         }
     }
 }

@@ -60,6 +60,14 @@ class PlaylistFavoriteFragment: Fragment() {
             binding.appBar.collapsingToolbar.title = it?.playlistEntity?.name
         }
 
+        viewModel.countTextMusicResult.observe(viewLifecycleOwner) { text ->
+            binding.appBar.countMusicView.countView.text = text
+        }
+
+        viewModel.timePlaylistResult.observe(viewLifecycleOwner) { text ->
+            binding.appBar.countTimeView.countView.text = text
+        }
+
         binding.appBar.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
@@ -67,6 +75,9 @@ class PlaylistFavoriteFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         viewModel.getPlaylist()
+        viewModel.getCount()
+        viewModel.getTime()
     }
 }

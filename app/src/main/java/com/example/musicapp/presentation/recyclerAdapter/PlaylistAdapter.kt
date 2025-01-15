@@ -1,5 +1,6 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ class PlaylistAdapter(
     private val convertTextCount = ConvertTextCountImpl(ConvertAnyText())
 
     inner class ViewHolder(val binding: ItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun onBind(item: PlaylistResult?) {
             val countMusic = item?.musicResult?.size ?: 0
 
@@ -33,7 +35,7 @@ class PlaylistAdapter(
                 .into(binding.imageView)
 
             binding.nameView.text = item?.playlistEntity?.name
-            binding.countView.text = convertTextCount.convertMusic(countMusic)
+            binding.countView.text = countMusic.toString() + convertTextCount.convertMusic(countMusic)
             binding.dateView.text = item?.playlistEntity?.date
         }
     }

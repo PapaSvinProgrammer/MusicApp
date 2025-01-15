@@ -48,11 +48,11 @@
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
                 android:backgroundTint="@color/gray_color"
-                app:layout_constraintBottom_toBottomOf="@+id/materialButton"
-                app:layout_constraintEnd_toEndOf="@+id/materialButton" />
+                app:layout_constraintBottom_toBottomOf="@+id/listen_button"
+                app:layout_constraintEnd_toEndOf="@+id/listen_button" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/listen_button"
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -64,7 +64,7 @@
                 app:iconSize="36dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/materialButton2"
+                app:layout_constraintStart_toEndOf="@+id/download_button"
                 app:strokeWidth="0dp"/>
 
             <View
@@ -74,11 +74,11 @@
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
                 android:backgroundTint="@color/gray_color"
-                app:layout_constraintBottom_toBottomOf="@+id/materialButton2"
-                app:layout_constraintEnd_toEndOf="@+id/materialButton2" />
+                app:layout_constraintBottom_toBottomOf="@+id/download_button"
+                app:layout_constraintEnd_toEndOf="@+id/download_button" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton2"
+                android:id="@+id/download_button"
                 style="@style/Widget.Material3.Button.IconButton.Outlined"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -87,11 +87,11 @@
                 app:iconTint="@color/white"
                 app:iconSize="36dp"
                 app:strokeWidth="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/materialButton"
-                app:layout_constraintEnd_toStartOf="@+id/materialButton"
+                app:layout_constraintBottom_toBottomOf="@+id/listen_button"
+                app:layout_constraintEnd_toStartOf="@+id/listen_button"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/materialButton" />
+                app:layout_constraintTop_toTopOf="@+id/listen_button" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -101,9 +101,9 @@
                 android:text="@string/listen_text"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="@+id/materialButton"
-                app:layout_constraintStart_toStartOf="@+id/materialButton"
-                app:layout_constraintTop_toBottomOf="@+id/materialButton" />
+                app:layout_constraintEnd_toEndOf="@+id/listen_button"
+                app:layout_constraintStart_toStartOf="@+id/listen_button"
+                app:layout_constraintTop_toBottomOf="@+id/listen_button" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,9 +113,9 @@
                 android:text="@string/download_text"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="@+id/materialButton2"
-                app:layout_constraintStart_toStartOf="@+id/materialButton2"
-                app:layout_constraintTop_toBottomOf="@+id/materialButton2" />
+                app:layout_constraintEnd_toEndOf="@+id/download_button"
+                app:layout_constraintStart_toStartOf="@+id/download_button"
+                app:layout_constraintTop_toBottomOf="@+id/download_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.appbar.MaterialToolbar

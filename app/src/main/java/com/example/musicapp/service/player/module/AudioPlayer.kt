@@ -18,4 +18,5 @@ interface AudioPlayer {
     fun addMusic(music: Music)
     fun addInQueue(music: Music)
     fun addNext(music: Music)
+    fun release()
 }

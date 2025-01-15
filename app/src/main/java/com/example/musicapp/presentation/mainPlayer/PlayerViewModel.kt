@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
@@ -16,6 +17,7 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
+import com.example.musicapp.service.video.VideoService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -38,7 +40,12 @@ class PlayerViewModel(
     var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
-    val isBound = MutableLiveData<Boolean>()
+    val isBoundAudio = MutableLiveData<Boolean>()
+
+    var videoPlayer: ExoPlayer? = null
+    @SuppressLint("StaticFieldLeak")
+    var videoService: VideoService? = null
+    val isBoundVideo = MutableLiveData<Boolean>()
 
     var isFavorite = false
 
@@ -124,11 +131,24 @@ class PlayerViewModel(
             bufferedPosition = bind.getBufferedPosition()
             currentObject = bind.getCurrentObject()
             musicList = bind.getMusicList()
-            isBound.value = true
+            isBoundAudio.value = true
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
+            isBoundAudio.value = false
+        }
+    }
+
+    val connectionToVideoService = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val bind = service as VideoService.VideoBinder
+            videoPlayer = bind.getExoPlayer()
+            videoService = bind.getService()
+            isBoundVideo.value = true
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            isBoundVideo.value = false
         }
     }
 }

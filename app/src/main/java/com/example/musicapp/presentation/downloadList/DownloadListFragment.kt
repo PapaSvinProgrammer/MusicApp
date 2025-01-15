@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentDownloadListBinding
 import com.example.musicapp.domain.usecase.convert.objects.ConvertMusic
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
@@ -37,6 +38,8 @@ class DownloadListFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        navController = view.findNavController()
+
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),

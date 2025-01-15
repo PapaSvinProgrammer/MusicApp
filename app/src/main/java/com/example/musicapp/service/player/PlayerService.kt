@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
@@ -54,7 +53,6 @@ class PlayerService: Service() {
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
-        Log.d("RRRR", "Create service")
         super.onCreate()
 
         isPlay.value = false
@@ -336,7 +334,8 @@ class PlayerService: Service() {
     }
 
     override fun onDestroy() {
-        Log.d("RRRR", "Destroy Service")
+        audioPlayer?.release()
+
         super.onDestroy()
     }
 }

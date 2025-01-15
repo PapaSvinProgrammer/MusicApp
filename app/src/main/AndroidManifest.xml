@@ -41,5 +41,10 @@
             android:name=".service.audioDownloader.AudioDownloadService"
             android:exported="false"
             android:foregroundServiceType="dataSync"/>
+
+        <service
+            android:name=".service.video.VideoService"
+            android:exported="false"
+            android:enabled="true"/>
     </application>
 </manifest>

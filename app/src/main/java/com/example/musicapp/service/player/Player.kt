@@ -146,4 +146,8 @@ class Player(private val context: Context) : AudioPlayer {
 
         exoPlayer.addMediaItem(currentPosition + 1, mediaItem)
     }
+
+    override fun release() {
+        exoPlayer.release()
+    }
 }

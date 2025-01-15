@@ -10,12 +10,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.usecase.convert.text.ConvertTextCount
+import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
+import com.example.musicapp.domain.usecase.room.get.GetTimePlaylist
 import kotlinx.coroutines.launch
 
+private const val DEFAULT_PLAYLIST_ID = 1L
+
 class PlaylistFavoriteViewModel(
-    private val getPlaylistFromSQLite: GetPlaylistFromSQLite
+    private val getPlaylistFromSQLite: GetPlaylistFromSQLite,
+    private val getCountMusic: GetCountMusic,
+    private val convertTextCount: ConvertTextCount,
+    private val getTimePlaylist: GetTimePlaylist
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
@@ -25,12 +33,55 @@ class PlaylistFavoriteViewModel(
     val isBound = MutableLiveData<Boolean>()
 
     private val getPlaylistLiveData = MutableLiveData<PlaylistResult?>()
+    private val countTextMusicLiveData = MutableLiveData<String>()
+    private val timePlaylistLiveData = MutableLiveData<String>()
+
     val getPlaylistResult: LiveData<PlaylistResult?> = getPlaylistLiveData
+    val countTextMusicResult: LiveData<String> = countTextMusicLiveData
+    val timePlaylistResult: LiveData<String> = timePlaylistLiveData
 
     fun getPlaylist() {
         viewModelScope.launch {
-            getPlaylistLiveData.value = getPlaylistFromSQLite.getById(1)
+            getPlaylistLiveData.value = getPlaylistFromSQLite.getById(DEFAULT_PLAYLIST_ID)
         }
+    }
+
+    fun getCount() {
+        viewModelScope.launch {
+            convertMusicText(
+                count = getCountMusic.getCount(DEFAULT_PLAYLIST_ID)
+            )
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun getTime() {
+        viewModelScope.launch {
+            val time = getTimePlaylist.getTime(1L)
+            val localTime: String
+
+            if (time > 86400) {
+                localTime = String.format(
+                    "%d:%02d:%02d",
+                    time / 86400,
+                    (time / 3600) % 24,
+                    (time % 3600) / 60
+                )
+            }
+            else {
+                localTime = String.format(
+                    "%d:%02d",
+                    time / 3600,
+                    (time % 3600) / 60
+                )
+            }
+
+            timePlaylistLiveData.value = localTime + convertTextCount.convertTime((time / 3600 % 24).toInt())
+        }
+    }
+
+    private fun convertMusicText(count: Int) {
+        countTextMusicLiveData.value = count.toString() + convertTextCount.convertMusic(count)
     }
 
     val connectionToPlayerService = object: ServiceConnection {

@@ -44,6 +44,9 @@ interface MusicDao {
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")
     suspend fun deleteMusicById(firebaseId: String)
 
-    @Query("SELECT COUNT(*) FROM favorite_music")
-    suspend fun getCount(): Int
+    @Query("SELECT COUNT(*) FROM favorite_music WHERE playlist_id = :playlistId")
+    suspend fun getCount(playlistId: String): Int
+
+    @Query("SELECT sum(unixepoch(music_time) - unixepoch('00:00:00')) FROM favorite_music WHERE playlist_id = :playlistId")
+    suspend fun getTime(playlistId: String): Long
 }

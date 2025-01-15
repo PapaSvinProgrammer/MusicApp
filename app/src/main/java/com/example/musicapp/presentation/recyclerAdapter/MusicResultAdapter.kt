@@ -127,8 +127,6 @@ class MusicResultAdapter(
         val music = asyncListDiffer.currentList[position] as MusicResult
         holder.onBind(music)
 
-        Log.d("RRRR", servicePlayer.toString())
-
         holder.binding.root.setOnClickListener {
             if (!musicList.isNullOrEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {

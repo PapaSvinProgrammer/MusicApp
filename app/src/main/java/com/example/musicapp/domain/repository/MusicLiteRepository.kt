@@ -11,5 +11,7 @@ interface MusicLiteRepository {
     suspend fun getAuthorLimit(limit: String): List<AuthorEntity?>
     suspend fun getAllMusic(): List<MusicResult?>
     suspend fun getAllAuthor(): List<AuthorEntity?>
+    suspend fun getCount(playlistId: String): Int
     suspend fun getCount(): Int
+    suspend fun getTime(playlistId: String): Long
 }

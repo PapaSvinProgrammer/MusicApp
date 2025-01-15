@@ -23,6 +23,8 @@ import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.service.player.PlayerService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @OptIn(UnstableApi::class)
 class MusicBottomSheetViewModel(
@@ -41,10 +43,12 @@ class MusicBottomSheetViewModel(
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
     private val isDownloadLiveData = MutableLiveData<Music?>()
+    private val convertTimeLiveData = MutableLiveData<String>()
 
     val actionResult: LiveData<ActionMusic> = actionLiveData
     val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
     val isDownloadResult: LiveData<Music?> = isDownloadLiveData
+    val convertTimeResult: LiveData<String> = convertTimeLiveData
 
     fun setAction(action: ActionMusic) {
         actionLiveData.value = action
@@ -102,6 +106,21 @@ class MusicBottomSheetViewModel(
         }
 
         servicePlayer?.addToQueue(music)
+    }
+
+    fun convertTime(time: String?) {
+        if (time.isNullOrEmpty()) {
+            return
+        }
+
+        val originalFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val newFormat  = SimpleDateFormat("m:ss", Locale.getDefault())
+
+        val date = originalFormat.parse(time)
+
+        if (date != null) {
+            convertTimeLiveData.value = newFormat.format(date)
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {
