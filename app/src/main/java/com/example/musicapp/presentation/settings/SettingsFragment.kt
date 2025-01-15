@@ -68,6 +68,18 @@ class SettingsFragment: Fragment() {
             navController.navigate(R.id.action_settingsFragment_to_storageFragment)
         }
 
+        binding.hateLayout.setOnClickListener {
+            navController.navigate(R.id.action_settingsFragment_to_hateFragment)
+        }
+
+        binding.aboutLayout.setOnClickListener {
+            navController.navigate(R.id.action_settingsFragment_to_aboutFragment2)
+        }
+
+        binding.changePreferencesLayout.setOnClickListener {
+            navController.navigate(R.id.action_global_settingPreferencesFragment2)
+        }
+
         viewModel.getEmailResult.observe(viewLifecycleOwner) {
             binding.userNameView.text = it
         }

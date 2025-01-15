@@ -103,4 +103,6 @@
     <string name="error_need_auth_text">Нужно авторизироваться</string>
     <string name="send_text">Отправить</string>
     <string name="description_error_text">Описание ошибки</string>
+    <string name="account_text">Аккаунт</string>
+    <string name="about_app_text">О приложении</string>
 </resources>
