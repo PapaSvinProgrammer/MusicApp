@@ -66,7 +66,6 @@ class MainActivity: AppCompatActivity() {
             }
 
             viewModel.servicePlayer?.setMusicList(array)
-            viewModel.servicePlayer?.setCurrentPosition(1)
             binding.progressIndicator.visibility = View.GONE
         }
 

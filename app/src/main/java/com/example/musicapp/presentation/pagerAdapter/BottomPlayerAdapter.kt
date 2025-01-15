@@ -1,6 +1,5 @@
 package com.example.musicapp.presentation.pagerAdapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ class BottomPlayerAdapter(
         private val livecycleOwner: LifecycleOwner,
         val binding: ItemBottomPlayerBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(music: Music, position: Int) {
+        fun onBind(music: Music) {
             Glide.with(binding.root)
                 .load(music.imageLow)
                 .error(R.drawable.ic_error_music)
@@ -137,7 +136,7 @@ class BottomPlayerAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val music = asyncListDiffer.currentList[position]
-        holder.onBind(music, position)
+        holder.onBind(music)
 
         holder.binding.root.setOnClickListener {
             navController.navigate(R.id.action_global_playerFragment2)

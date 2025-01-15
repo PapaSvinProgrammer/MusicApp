@@ -101,4 +101,6 @@
     <string name="error_api_text">Ошибка на стороне сервера</string>
     <string name="error_auth_yet_text">Авторизируйтесь заново</string>
     <string name="error_need_auth_text">Нужно авторизироваться</string>
+    <string name="send_text">Отправить</string>
+    <string name="description_error_text">Описание ошибки</string>
 </resources>

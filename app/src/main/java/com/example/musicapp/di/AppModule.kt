@@ -11,6 +11,7 @@ import com.example.musicapp.presentation.mainPlayer.PlayerViewModel
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheetViewModel
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheetViewModel
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheetViewModel
+import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheetViewModel
 import com.example.musicapp.presentation.download.DownloadViewModel
 import com.example.musicapp.presentation.downloadList.DownloadListViewModel
 import com.example.musicapp.presentation.playlist.PlaylistViewModel
@@ -186,5 +187,9 @@ val appModule = module {
         DownloadListViewModel(
             getDownloadedMusic = get()
         )
+    }
+
+    viewModel {
+        ReportBottomSheetViewModel()
     }
 }

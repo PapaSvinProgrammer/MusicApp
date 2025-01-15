@@ -16,6 +16,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
+import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.service.player.PlayerService
@@ -188,7 +189,11 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun reportProblem() {
-        TODO("Not yet implemented")
+        val bottomSheetReport = ReportBottomSheet()
+
+        requireActivity().supportFragmentManager.let {
+            bottomSheetReport.show(it, ReportBottomSheet.TAG)
+        }
     }
 
     private fun hate() {
