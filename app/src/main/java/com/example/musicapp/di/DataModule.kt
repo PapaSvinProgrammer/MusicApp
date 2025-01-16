@@ -13,6 +13,10 @@ import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicTextById
 import com.example.musicapp.data.firebase.getMusic.GetRandomMusicImpl
+import com.example.musicapp.data.firebase.search.SearchAlbumImpl
+import com.example.musicapp.data.firebase.search.SearchAllImpl
+import com.example.musicapp.data.firebase.search.SearchGroupImpl
+import com.example.musicapp.data.firebase.search.SearchMusicImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.CreateWithEmailAndPasswordFirebase
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.GetUserGoogleImpl
 import com.example.musicapp.data.firebase.signAndCreateWithEmailAndPassword.SignWithEmailAndPasswordFirebase
@@ -25,6 +29,7 @@ import com.example.musicapp.data.repository.MusicRepositoryRoom
 import com.example.musicapp.data.repository.MusicTextRepositoryFirebase
 import com.example.musicapp.data.repository.PlaylistRepositoryRoom
 import com.example.musicapp.data.repository.SaveMusicRepositoryRoom
+import com.example.musicapp.data.repository.SearchRepositoryFirebase
 import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
 import com.example.musicapp.data.repository.UserRepositoryImpl
@@ -41,6 +46,7 @@ import com.example.musicapp.domain.repository.MusicRepository
 import com.example.musicapp.domain.repository.MusicTextRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SaveMusicRepository
+import com.example.musicapp.domain.repository.SearchRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.repository.UserRepository
@@ -207,5 +213,30 @@ val dataModule = module {
 
     single<GetRandomMusicImpl> {
         GetRandomMusicImpl()
+    }
+
+    single<SearchRepository> {
+        SearchRepositoryFirebase(
+            searchMusicImpl = get(),
+            searchAlbumImpl = get(),
+            searchGroupImpl = get(),
+            searchAllImpl = get()
+        )
+    }
+
+    single {
+        SearchMusicImpl()
+    }
+
+    single {
+        SearchAlbumImpl()
+    }
+
+    single {
+        SearchGroupImpl()
+    }
+
+    single {
+        SearchAllImpl()
     }
 }

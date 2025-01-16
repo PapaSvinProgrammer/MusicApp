@@ -4,7 +4,7 @@ import com.example.musicapp.data.module.SearchData
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.SearchRepository
 
-class SearchAll(
+class SearchMusic(
     private val searchRepository: SearchRepository
 ) {
     suspend fun execute(text: String): List<Music> {
@@ -12,7 +12,7 @@ class SearchAll(
             return listOf()
         }
 
-        return searchRepository.searchAll(
+        return searchRepository.searchName(
             searchData = convertData(text)
         )
     }

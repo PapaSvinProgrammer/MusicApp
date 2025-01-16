@@ -14,18 +14,18 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
-import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
-import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
+import com.example.musicapp.domain.usecase.search.SearchAlbum
 import com.example.musicapp.domain.usecase.search.SearchAll
+import com.example.musicapp.domain.usecase.search.SearchGroup
+import com.example.musicapp.domain.usecase.search.SearchMusic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getMusicAll: GetMusicAll,
-    private val getAlbumsAll: GetAlbumAll,
-    private val getGroupAll: GetGroupAll,
+    private val searchMusic: SearchMusic,
+    private val searchAlbum: SearchAlbum,
+    private val searchGroup: SearchGroup,
     private val searchAll: SearchAll,
     private val addPlaylistInSQLite: AddPlaylistInSQLite
 ): ViewModel() {
@@ -34,93 +34,38 @@ class HomeViewModel(
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
-    private var searchList = arrayListOf<Music>()
-
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
-    private val getMusicLiveData = MutableLiveData<List<Music>>()
-    private val getGroupLiveData = MutableLiveData<List<Group>>()
-    private val getAlbumLiveData = MutableLiveData<List<Album>>()
-    private val searchLiveData = MutableLiveData<List<Music>?>()
-    private val permissionForSearchLiveData = MutableLiveData<Int>()
-    private val searchFilterStateLiveData = MutableLiveData<SearchFilterState>()
+    private val searchLiveData = MutableLiveData<List<Music>>()
 
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
-    val getMusicResult: LiveData<List<Music>> = getMusicLiveData
-    val searchResult: LiveData<List<Music>?> = searchLiveData
-    val getGroupResult: LiveData<List<Group>> = getGroupLiveData
-    val getAlbumResult: LiveData<List<Album>> = getAlbumLiveData
-    val permissionForSearchResult: LiveData<Int> = permissionForSearchLiveData
-    val searchFilterStateResult: LiveData<SearchFilterState> = searchFilterStateLiveData
+    val searchResult: LiveData<List<Music>> = searchLiveData
+
+    private var searchFilterState = SearchFilterState.ALL
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
     }
 
-    fun dataForSearch() {
-        viewModelScope.launch {
-            getMusicLiveData.value = getMusicAll.execute()
-        }
-
-        viewModelScope.launch {
-            getGroupLiveData.value = getGroupAll.execute()
-        }
-
-        viewModelScope.launch {
-            getAlbumLiveData.value = getAlbumsAll.execute()
-        }
-    }
-
     fun search(text: String) {
-        if (permissionForSearchResult.value != 3) return
-
-        viewModelScope.launch {
-            searchLiveData.value = searchAll.execute(
-                text = text,
-                list = searchList
-            )
+        when (searchFilterState) {
+            SearchFilterState.ALL -> searchAll(text)
+            SearchFilterState.MUSIC -> searchMusicName(text)
+            SearchFilterState.ALBUM -> searchAlbumName(text)
+            SearchFilterState.AUTHOR -> searchAuthorName(text)
         }
-    }
-
-    fun setPermissionIndex(index: Int) {
-        permissionForSearchLiveData.value = index
-    }
-
-    fun addMusicInSearchList(list: List<Music>) {
-        searchList.addAll(list)
-    }
-
-    fun addAlbumInSearchList(list: List<Album>) {
-        searchList.addAll(convertAlbumList(list))
-    }
-
-    fun addGroupInSearchList(list: List<Group>) {
-        searchList.addAll(convertGroupList(list))
-    }
-
-    fun setAllInSearchList() {
-        searchList.clear()
-        searchList.addAll(getMusicLiveData.value ?: listOf())
-        searchList.addAll(convertAlbumList(getAlbumLiveData.value ?: listOf()))
-        searchList.addAll(convertGroupList(getGroupLiveData.value ?: listOf()))
-    }
-
-    fun setMusicInSearchList() {
-        searchList.clear()
-        searchList.addAll(getMusicLiveData.value ?: listOf())
-    }
-
-    fun setAlbumInSearchList() {
-        searchList.clear()
-        searchList.addAll(convertAlbumList(getAlbumLiveData.value ?: listOf()))
-    }
-
-    fun setGroupInSearchList() {
-        searchList.clear()
-        searchList.addAll(convertGroupList(getGroupLiveData.value ?: listOf()))
     }
 
     fun setSearchFilterState(state: SearchFilterState) {
-        searchFilterStateLiveData.value = state
+        searchFilterState = state
+    }
+
+    fun addFavoritePlaylist() {
+        viewModelScope.launch(Dispatchers.IO) {
+            addPlaylistInSQLite.execute(
+                name = HomeConst.PLAYLIST_FAVORITE_NAME,
+                image = HomeConst.PLAYLIST_FAVORITE_URL
+            )
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {
@@ -136,7 +81,31 @@ class HomeViewModel(
         }
     }
 
-    private fun convertGroupList(list: List<Group>): List<Music> {
+    private fun searchAuthorName(text: String) {
+        viewModelScope.launch {
+            searchLiveData.value = convertAuthorData(searchGroup.execute(text))
+        }
+    }
+
+    private fun searchAlbumName(text: String) {
+        viewModelScope.launch {
+            searchLiveData.value = convertAlbumData(searchAlbum.execute(text))
+        }
+    }
+
+    private fun searchMusicName(text: String) {
+        viewModelScope.launch {
+            searchLiveData.value = searchMusic.execute(text)
+        }
+    }
+
+    private fun searchAll(text: String) {
+        viewModelScope.launch {
+            searchLiveData.value = searchAll.execute(text)
+        }
+    }
+
+    private fun convertAuthorData(list: List<Group>): List<Music> {
         return list.map {
             Music(
                 group = it.name,
@@ -146,22 +115,14 @@ class HomeViewModel(
         }.toList()
     }
 
-    private fun convertAlbumList(list: List<Album>): List<Music> {
+    private fun convertAlbumData(list: List<Album>): List<Music> {
         return list.map {
             Music(
                 albumName = it.name,
                 albumId = it.id,
-                imageHigh = it.image
+                imageHigh = it.image,
+                group = it.groupName
             )
         }.toList()
-    }
-
-    fun addFavoritePlaylist() {
-        viewModelScope.launch(Dispatchers.IO) {
-            addPlaylistInSQLite.execute(
-                name = HomeConst.PLAYLIST_FAVORITE_NAME,
-                image = HomeConst.PLAYLIST_FAVORITE_URL
-            )
-        }
     }
 }

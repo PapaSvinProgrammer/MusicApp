@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.convert.objects
+package com.example.musicapp.support.convertAnother
 
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity

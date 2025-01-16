@@ -39,7 +39,7 @@ class MusicRepositoryFirebase(
     override suspend fun getMusicsByAlbumId(albumId: String): List<Music> {
         return getMusicsByFieldIdImpl.execute(
             anyId = albumId,
-            field = DocumentConst.MUSIC_ALBUM_FIELD
+            field = DocumentConst.MUSIC_ALBUM_ID_FIELD
         )
     }
 

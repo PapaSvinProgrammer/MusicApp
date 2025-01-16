@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.convert.text
+package com.example.musicapp.support.convertTextCount
 
 class ConvertAnyText {
     fun execute(number: Int, text: String): String {

@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemSearchAllBinding
+import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.DiffUtilObject
+import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.state.SearchFilterState
 
 class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemSearchAllBinding): RecyclerView.ViewHolder(binding.root) {
@@ -57,7 +60,7 @@ class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
                 .into(binding.imageView)
 
             binding.musicTextView.text = item.albumName
-            binding.groupTextView.text = "Group"
+            binding.groupTextView.text = item.group
 
             binding.musicTextView.visibility = View.VISIBLE
             binding.groupTextView.visibility = View.VISIBLE

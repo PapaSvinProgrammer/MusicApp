@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentDownloadListBinding
-import com.example.musicapp.domain.usecase.convert.objects.ConvertMusic
+import com.example.musicapp.support.convertAnother.ConvertMusic
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel

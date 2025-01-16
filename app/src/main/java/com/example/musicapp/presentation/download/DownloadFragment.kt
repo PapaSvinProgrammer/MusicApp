@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentDownloadBinding
-import com.example.musicapp.domain.usecase.convert.objects.ConvertMusic
+import com.example.musicapp.support.convertAnother.ConvertMusic
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.MusicPagerAdapter
 import com.example.musicapp.service.player.PlayerService

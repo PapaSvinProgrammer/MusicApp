@@ -1,8 +1,8 @@
 package com.example.musicapp.di
 
-import com.example.musicapp.domain.usecase.convert.text.ConvertAnyText
-import com.example.musicapp.domain.usecase.convert.text.ConvertTextCount
-import com.example.musicapp.domain.usecase.convert.text.ConvertTextCountImpl
+import com.example.musicapp.support.convertTextCount.ConvertAnyText
+import com.example.musicapp.support.convertTextCount.ConvertTextCount
+import com.example.musicapp.support.convertTextCount.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
@@ -47,7 +47,10 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
+import com.example.musicapp.domain.usecase.search.SearchAlbum
 import com.example.musicapp.domain.usecase.search.SearchAll
+import com.example.musicapp.domain.usecase.search.SearchGroup
+import com.example.musicapp.domain.usecase.search.SearchMusic
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import org.koin.dsl.module
@@ -252,7 +255,9 @@ val domainModule = module {
     }
 
     factory {
-        SearchAll()
+        SearchMusic(
+            searchRepository = get()
+        )
     }
 
     factory {
@@ -336,6 +341,24 @@ val domainModule = module {
     factory {
         GetTimePlaylist(
             musicLiteRepository = get()
+        )
+    }
+
+    factory {
+        SearchAlbum(
+            searchRepository = get()
+        )
+    }
+
+    factory {
+        SearchGroup(
+            searchRepository = get()
+        )
+    }
+
+    factory {
+        SearchAll(
+            searchRepository = get()
         )
     }
 }

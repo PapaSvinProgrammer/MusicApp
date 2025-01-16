@@ -12,9 +12,11 @@ data class Album (
     var name: String = "",
     var time: String = "",
     var groupId: String = "",
+    var groupName: String = "",
     var countMusic: Int = 0
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -37,6 +39,7 @@ data class Album (
         parcel.writeString(time)
         parcel.writeString(genre)
         parcel.writeString(groupId)
+        parcel.writeString(groupName)
         parcel.writeInt(countMusic)
     }
 

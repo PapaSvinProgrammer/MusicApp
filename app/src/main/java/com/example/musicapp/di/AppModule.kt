@@ -87,11 +87,11 @@ val appModule = module {
 
     viewModel {
         HomeViewModel(
-            getMusicAll = get(),
-            getAlbumsAll = get(),
-            getGroupAll = get(),
-            searchAll = get(),
-            addPlaylistInSQLite = get()
+            searchMusic = get(),
+            addPlaylistInSQLite = get(),
+            searchAlbum = get(),
+            searchGroup = get(),
+            searchAll = get()
         )
     }
 

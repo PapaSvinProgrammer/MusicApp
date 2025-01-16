@@ -84,33 +84,10 @@ class HomeFragment: Fragment() {
             if (it) initServiceTools()
         }
 
-        viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
-            viewModel.addMusicInSearchList(list)
-            addPermissionIndex()
-        }
-
-        viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->
-            viewModel.addAlbumInSearchList(list)
-            addPermissionIndex()
-        }
-
-        viewModel.getGroupResult.observe(viewLifecycleOwner) { list ->
-            viewModel.addGroupInSearchList(list)
-            addPermissionIndex()
-        }
-
         viewModel.searchResult.observe(viewLifecycleOwner) { list ->
-            list?.let { searchAdapter.setData(it) }
-        }
+            binding.searchProgressIndicator.visibility = View.GONE
 
-        viewModel.searchFilterStateResult.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                SearchFilterState.ALL -> viewModel.setAllInSearchList()
-                SearchFilterState.MUSIC -> viewModel.setMusicInSearchList()
-                SearchFilterState.ALBUM -> viewModel.setAlbumInSearchList()
-                SearchFilterState.AUTHOR -> viewModel.setGroupInSearchList()
-                else -> {}
-            }
+            list?.let { searchAdapter.setData(it) }
         }
     }
 
@@ -173,12 +150,6 @@ class HomeFragment: Fragment() {
         return newChip
     }
 
-    private fun addPermissionIndex() {
-        viewModel.setPermissionIndex(
-            (viewModel.permissionForSearchResult.value ?: 0) + 1
-        )
-    }
-
     private fun initServiceTools() {
         viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
             if (state) {
@@ -204,12 +175,9 @@ class HomeFragment: Fragment() {
     }
 
     private fun setSearch() {
-        if (viewModel.getMusicResult.value.isNullOrEmpty()) {
-            viewModel.dataForSearch()
-        }
-
         binding.searchView.editText.addTextChangedListener { text ->
             if (!text.isNullOrEmpty()) {
+                binding.searchProgressIndicator.visibility = View.VISIBLE
                 binding.searchRecyclerView.visibility = View.VISIBLE
 
                 viewModel.search(text.toString())

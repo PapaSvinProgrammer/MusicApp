@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.convert.text
+package com.example.musicapp.support.convertTextCount
 
 interface ConvertTextCount {
     fun convertMusic(count: Int): String
