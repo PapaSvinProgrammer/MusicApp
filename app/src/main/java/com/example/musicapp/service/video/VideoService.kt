@@ -15,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class VideoService: Service() {
-    private var exoPlayer: ExoPlayer? = null
     private val isSuccess = MutableLiveData<Boolean>()
 
     override fun onCreate() {
@@ -34,14 +33,13 @@ class VideoService: Service() {
     }
 
     inner class VideoBinder: Binder() {
-        fun getExoPlayer() = this@VideoService.exoPlayer
         fun getService() = this@VideoService
         fun isSuccess() = this@VideoService.isSuccess
     }
 
     override fun onDestroy() {
-        Log.d("RRRR", "DESTROY VIDEO SERVICE")
-        exoPlayer?.release()
+        VideoPlayer.exoPlayer?.release()
+        VideoPlayer.exoPlayer = null
 
         super.onDestroy()
     }
@@ -55,31 +53,31 @@ class VideoService: Service() {
             delay(2000)
 
             val mediaItem = MediaItem.fromUri(music.movieUrl.toString())
-            exoPlayer?.addMediaItem(mediaItem)
-            exoPlayer?.prepare()
+            VideoPlayer.exoPlayer?.addMediaItem(mediaItem)
+            VideoPlayer.exoPlayer?.prepare()
 
             delay(2000)
 
             isSuccess.value = true
-            exoPlayer?.playWhenReady = isPlay
+            VideoPlayer.exoPlayer?.playWhenReady = isPlay
         }
     }
 
     fun pause() {
-        exoPlayer?.pause()
+        VideoPlayer.exoPlayer?.pause()
     }
 
     fun play() {
-        exoPlayer?.play()
+        VideoPlayer.exoPlayer?.play()
     }
 
     fun reset() {
-        exoPlayer?.clearMediaItems()
+        VideoPlayer.exoPlayer?.clearMediaItems()
     }
 
     private fun initPlayer() {
-        exoPlayer = ExoPlayer.Builder(this@VideoService).build()
-        exoPlayer?.playWhenReady = true
-        exoPlayer?.volume = 0F
+        VideoPlayer.exoPlayer = ExoPlayer.Builder(this@VideoService).build()
+        VideoPlayer.exoPlayer?.playWhenReady = true
+        VideoPlayer.exoPlayer?.volume = 0F
     }
 }

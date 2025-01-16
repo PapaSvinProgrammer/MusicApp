@@ -42,7 +42,6 @@ class PlayerViewModel(
     var servicePlayer: PlayerService? = null
     val isBoundAudio = MutableLiveData<Boolean>()
 
-    var videoPlayer: ExoPlayer? = null
     @SuppressLint("StaticFieldLeak")
     var videoService: VideoService? = null
     var isSuccessVideo: LiveData<Boolean>? = null
@@ -143,7 +142,6 @@ class PlayerViewModel(
     val connectionToVideoService = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val bind = service as VideoService.VideoBinder
-            videoPlayer = bind.getExoPlayer()
             videoService = bind.getService()
             isSuccessVideo = bind.isSuccess()
             isBoundVideo.value = true

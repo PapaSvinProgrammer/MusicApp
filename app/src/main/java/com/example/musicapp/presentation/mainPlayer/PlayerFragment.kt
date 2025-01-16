@@ -29,6 +29,7 @@ import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomShe
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
+import com.example.musicapp.service.video.VideoPlayer
 import com.example.musicapp.service.video.VideoService
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -232,6 +233,7 @@ class PlayerFragment: Fragment() {
     override fun onStop() {
         requireActivity().unbindService(viewModel.connectionToPlayerService)
         requireActivity().unbindService(viewModel.connectionToVideoService)
+
         super.onStop()
     }
 
@@ -307,7 +309,7 @@ class PlayerFragment: Fragment() {
                     binding.videoPlayer.visibility = View.VISIBLE
                 }
 
-                binding.videoPlayer.player = viewModel.videoPlayer
+                binding.videoPlayer.player = VideoPlayer.exoPlayer
             }
         }
     }
