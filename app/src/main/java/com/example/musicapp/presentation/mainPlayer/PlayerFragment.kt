@@ -111,6 +111,19 @@ class PlayerFragment: Fragment() {
             binding.likeView.isSelected = it != null
         }
 
+        viewModel.isBoundAudio.observe(viewLifecycleOwner) {
+            if (it) {
+                initSeekBar()
+                initPlayerServiceTools()
+            }
+        }
+
+        viewModel.isBoundVideo.observe(viewLifecycleOwner) {
+            if (it == true) {
+                initVideoServiceTools()
+            }
+        }
+
         binding.nextView.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.NEXT)
         }
@@ -205,33 +218,21 @@ class PlayerFragment: Fragment() {
         binding.musicLayout.setOnClickListener {
             executeMoveToAuthor()
         }
-
-        viewModel.isBoundAudio.observe(viewLifecycleOwner) {
-            if (it) {
-                initSeekBar()
-                initPlayerServiceTools()
-            }
-        }
-
-        viewModel.isBoundVideo.observe(viewLifecycleOwner) {
-            if (it == true) {
-                initVideoServiceTools()
-            }
-        }
     }
 
     @SuppressLint("NewApi")
     override fun onStart() {
         super.onStart()
+
         viewModel.getFavoriteMusic(
             id = viewModel.currentObject?.value?.id.toString()
         )
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         requireActivity().unbindService(viewModel.connectionToPlayerService)
         requireActivity().unbindService(viewModel.connectionToVideoService)
-        super.onDestroy()
+        super.onStop()
     }
 
     private fun executeMoveToAuthor() {
@@ -267,11 +268,15 @@ class PlayerFragment: Fragment() {
         }
 
         viewModel.currentPosition?.observe(viewLifecycleOwner) { position ->
+            resetVideo()
+
             viewModel.getFavoriteMusic(
                 id = viewModel.currentObject?.value?.id.toString()
             )
 
             val obj = viewModel.musicList?.value!![viewModel.currentPosition?.value ?: 0]
+
+            viewModel.videoService?.setVideo(obj, viewModel.isPlay?.value ?: false)
 
             Glide.with(binding.root)
                 .load(obj.imageHigh)
@@ -290,7 +295,21 @@ class PlayerFragment: Fragment() {
     }
 
     private fun initVideoServiceTools() {
+        viewModel.videoService?.setVideo(
+            viewModel.currentObject?.value!!,
+            viewModel.isPlay?.value ?: false
+        )
 
+        viewModel.isSuccessVideo?.observe(viewLifecycleOwner) {
+            if (it == true) {
+
+                if (viewModel.isPlay?.value == true) {
+                    binding.videoPlayer.visibility = View.VISIBLE
+                }
+
+                binding.videoPlayer.player = viewModel.videoPlayer
+            }
+        }
     }
 
     private fun resetControlPlayerUI() {
@@ -404,11 +423,30 @@ class PlayerFragment: Fragment() {
     private fun pauseMusic() {
         binding.playStopView.isSelected = false
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
+
+        pauseVideo()
     }
 
     private fun playMusic() {
         binding.playStopView.isSelected = true
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
+
+        playVideo()
+    }
+
+    private fun playVideo() {
+        binding.videoPlayer.visibility = View.VISIBLE
+        viewModel.videoService?.play()
+    }
+
+    private fun pauseVideo() {
+        binding.videoPlayer.visibility = View.GONE
+        viewModel.videoService?.pause()
+    }
+
+    private fun resetVideo() {
+        binding.videoPlayer.visibility = View.GONE
+        viewModel.videoService?.reset()
     }
 
     private fun shareToOut() {

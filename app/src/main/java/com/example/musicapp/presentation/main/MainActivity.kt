@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -114,6 +115,14 @@ class MainActivity: AppCompatActivity() {
                 binding.viewPagerLayout.visibility = View.VISIBLE
             }
         }
+    }
+
+    @OptIn(UnstableApi::class)
+    override fun onDestroy() {
+        AudioManager.audioDownloadManager.downloadCache?.release()
+        AudioManager.audioDownloadManager.downloadCache = null
+
+        super.onDestroy()
     }
 
     private fun initServiceTools() {

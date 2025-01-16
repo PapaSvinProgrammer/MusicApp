@@ -45,6 +45,7 @@ class PlayerViewModel(
     var videoPlayer: ExoPlayer? = null
     @SuppressLint("StaticFieldLeak")
     var videoService: VideoService? = null
+    var isSuccessVideo: LiveData<Boolean>? = null
     val isBoundVideo = MutableLiveData<Boolean>()
 
     var isFavorite = false
@@ -144,6 +145,7 @@ class PlayerViewModel(
             val bind = service as VideoService.VideoBinder
             videoPlayer = bind.getExoPlayer()
             videoService = bind.getService()
+            isSuccessVideo = bind.isSuccess()
             isBoundVideo.value = true
         }
 

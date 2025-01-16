@@ -13,6 +13,21 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/video_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:use_controller="false"
+        app:surface_type="surface_view"
+        app:resize_mode="zoom"/>
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -24,12 +39,6 @@
         app:subtitleCentered="true"
         app:subtitleTextColor="@color/background_color_white"
         app:navigationIcon="@drawable/ic_drop_down" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

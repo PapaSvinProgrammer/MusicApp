@@ -15,7 +15,7 @@ class AudioDownloadManager(
     context: Context
 ) {
     var downloadManager: DownloadManager
-    var downloadCache: SimpleCache
+    var downloadCache: SimpleCache? = null
 
     init {
         val databaseProvider = StandaloneDatabaseProvider(context)
@@ -27,15 +27,13 @@ class AudioDownloadManager(
             databaseProvider
         )
 
-        downloadCache.release()
-
         val dataSourceFactory = DefaultHttpDataSource.Factory()
         val downloadExecutor = Executor(Runnable::run)
 
         downloadManager = DownloadManager(
             context,
             databaseProvider,
-            downloadCache,
+            downloadCache!!,
             dataSourceFactory,
             downloadExecutor
         )
