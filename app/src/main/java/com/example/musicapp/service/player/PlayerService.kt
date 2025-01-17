@@ -5,9 +5,11 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
@@ -131,6 +133,13 @@ class PlayerService: Service() {
         audioPlayer?.setData(list)
     }
 
+    fun setDownloadMusicList(list: List<Music>) {
+        this.musicList.value = list
+
+        currentObject.value = musicList.value!![currentPosition.value ?: 0]
+        audioPlayer?.setDataDownload(list)
+    }
+
     fun addMusic(music: Music) {
         addMusic.value = music
         audioPlayer?.addMusic(music)
@@ -181,7 +190,12 @@ class PlayerService: Service() {
 
         if (musicList.value == null) return
 
-        currentObject.value = musicList.value!![position]
+        try {
+            currentObject.value = musicList.value!![position]
+        } catch (e: IndexOutOfBoundsException) {
+            Log.d(ErrorConst.DEFAULT_ERROR, e.message.toString())
+        }
+
         currentPosition.value = position
 
         audioPlayer?.setPosition(position, isPlay.value ?: false)
@@ -234,14 +248,14 @@ class PlayerService: Service() {
     }
 
     fun previous() {
-        if ((currentPosition.value ?: 0) - 1 < 0) return
-
-        if (isRepeat.value == true) {
+        if ((currentDuration.value ?: 0) > COUNT_MSEC_TO_RESET) {
+            reset()
             return
         }
 
-        if ((currentDuration.value ?: 0) > COUNT_MSEC_TO_RESET) {
-            reset()
+        if ((currentPosition.value ?: 0) - 1 < 0) return
+
+        if (isRepeat.value == true) {
             return
         }
 
@@ -250,6 +264,10 @@ class PlayerService: Service() {
     }
 
     fun next() {
+        if ((currentPosition.value ?: 0) + 1 > (musicList.value?.size ?: 0) - 1) {
+            return
+        }
+
         if (isRepeat.value == true) {
             return
         }

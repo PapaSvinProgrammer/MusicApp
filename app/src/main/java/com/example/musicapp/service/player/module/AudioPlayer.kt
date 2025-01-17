@@ -13,6 +13,7 @@ interface AudioPlayer {
     fun getCurrentItem(): Int
     fun seekTo(msec: Long)
     fun setData(list: List<Music>)
+    fun setDataDownload(list: List<Music>)
     fun setPosition(position: Int, isPlay: Boolean)
     fun shuffle()
     fun addMusic(music: Music)

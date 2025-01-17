@@ -1,6 +1,7 @@
 package com.example.musicapp.service.player
 
 import android.content.Context
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -21,10 +22,17 @@ import com.example.musicapp.service.player.module.AudioPlayer
 
 @UnstableApi
 class Player(private val context: Context) : AudioPlayer {
-    private var exoPlayer: ExoPlayer
+    private lateinit var exoPlayer: ExoPlayer
     private var lastIndexInQueue = 0
+    private var defaultPlayer = true
 
     init {
+        initDefaultPlayer()
+    }
+
+    private fun initDefaultPlayer() {
+        defaultPlayer = true
+
         val dataSourceFactory = DefaultHttpDataSource.Factory()
 
         val extractor = ExtractorsFactory {
@@ -45,16 +53,47 @@ class Player(private val context: Context) : AudioPlayer {
             )
         }
 
-//        val cacheDataSourceFactory: DataSource.Factory =
-//            CacheDataSource.Factory()
-//                .setCache(AudioManager.audioDownloadManager.downloadCache!!)
-//                .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
-//                .setCacheWriteDataSinkFactory(null)
-
         val mediaSource = DefaultMediaSourceFactory(
             dataSourceFactory,
             extractor
         )
+
+        val exoPlayerBuilder = ExoPlayer.Builder(context)
+        exoPlayerBuilder.setRenderersFactory(renderersFactory)
+        exoPlayerBuilder.setMediaSourceFactory(mediaSource)
+
+        exoPlayer = exoPlayerBuilder.build()
+    }
+
+    private fun initDownloadPlayer() {
+        defaultPlayer = false
+
+        val extractor = ExtractorsFactory {
+            arrayOf(
+                Mp3Extractor(),
+                FlacExtractor()
+            )
+        }
+
+        val renderersFactory = RenderersFactory { eventHandler, _, rendererListener, _, _ ->
+            arrayOf(
+                MediaCodecAudioRenderer(
+                    context,
+                    MediaCodecSelector.DEFAULT,
+                    eventHandler,
+                    rendererListener
+                )
+            )
+        }
+
+        val cacheDataSourceFactory: DataSource.Factory =
+            CacheDataSource.Factory()
+                .setCache(AudioManager.audioDownloadManager.downloadCache!!)
+                .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+                .setCacheWriteDataSinkFactory(null)
+
+        val mediaSource = DefaultMediaSourceFactory(context, extractor)
+            .setDataSourceFactory(cacheDataSourceFactory)
 
         val exoPlayerBuilder = ExoPlayer.Builder(context)
         exoPlayerBuilder.setRenderersFactory(renderersFactory)
@@ -100,6 +139,25 @@ class Player(private val context: Context) : AudioPlayer {
     }
 
     override fun setData(list: List<Music>) {
+        if (!defaultPlayer) {
+            exoPlayer.release()
+            initDefaultPlayer()
+        }
+
+        val mediaItems = list.asSequence().map {
+            MediaItem.fromUri(it.url.toString())
+        }.toList()
+
+        exoPlayer.setMediaItems(mediaItems)
+        exoPlayer.prepare()
+    }
+
+    override fun setDataDownload(list: List<Music>) {
+        if (defaultPlayer) {
+            exoPlayer.release()
+            initDownloadPlayer()
+        }
+
         val mediaItems = list.asSequence().map {
             MediaItem.fromUri(it.url.toString())
         }.toList()

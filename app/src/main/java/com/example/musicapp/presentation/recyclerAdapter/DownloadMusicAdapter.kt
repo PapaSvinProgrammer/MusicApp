@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
@@ -26,46 +25,41 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MusicResultAdapter(
+class DownloadMusicAdapter(
     private val supportFragmentManager: FragmentManager? = null,
     private var musicType: MusicType = MusicType.VERTICAL,
     private var servicePlayer: PlayerService? = null,
     private var currentObject: LiveData<Music>? = null,
     private var isPlay: LiveData<Boolean>? = null,
-    private var musicList: List<MusicResult?>? = null
-): RecyclerView.Adapter<MusicResultAdapter.ViewHolder>() {
+    private var musicList: List<Music>? = null
+): RecyclerView.Adapter<DownloadMusicAdapter.ViewHolder>() {
     @UnstableApi
     inner class ViewHolder(
         val binding: ItemMusicBinding,
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(music: MusicResult?) {
+        fun onBind(music: Music) {
             initView()
 
             Glide.with(binding.root)
-                .load(music?.albumEntity?.imageLow)
+                .load(music.imageLow)
                 .error(R.drawable.ic_error_music)
                 .into(binding.musicLayout.imageView)
 
-            binding.musicLayout.musicTextView.text = music?.musicEntity?.name
-            binding.musicLayout.groupTextView.text = music?.authorEntity?.name
+            binding.musicLayout.musicTextView.text = music.name
+            binding.musicLayout.groupTextView.text = music.group
 
-            if (!music?.musicEntity?.movieUrl.isNullOrEmpty()) {
+            if (!music.movieUrl.isNullOrEmpty()) {
                 binding.musicLayout.iconMovieView.visibility = View.VISIBLE
             }
             else {
                 binding.musicLayout.iconMovieView.visibility = View.GONE
             }
 
-            if (music?.saveMusicEntity != null) {
-                binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
-            }
-            else {
-                binding.musicLayout.iconDownloadView.visibility = View.GONE
-            }
+            binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
 
             currentObject?.observe(lifecycleOwner) {
-                if (it.id == music?.musicEntity?.firebaseId) {
+                if (it.id == music.id) {
                     hoveredItem()
                 }
                 else {
@@ -105,7 +99,7 @@ class MusicResultAdapter(
         }
     }
 
-    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicResultDiffUtilCallback)
+    private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
 
     @UnstableApi
     override fun onCreateViewHolder(
@@ -124,7 +118,7 @@ class MusicResultAdapter(
 
     @UnstableApi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val music = asyncListDiffer.currentList[position] as MusicResult
+        val music = asyncListDiffer.currentList[position]
         holder.onBind(music)
 
         holder.binding.root.setOnClickListener {
@@ -132,8 +126,8 @@ class MusicResultAdapter(
                 CoroutineScope(Dispatchers.Main).launch {
                     servicePlayer?.setCurrentPosition(position)
 
-                    servicePlayer?.setMusicList(
-                        list = convertList(musicList!!)
+                    servicePlayer?.setDownloadMusicList(
+                        list = musicList!!
                     )
 
                     servicePlayer?.setPlayerState(StatePlayer.PLAY)
@@ -143,8 +137,8 @@ class MusicResultAdapter(
                 CoroutineScope(Dispatchers.Main).launch {
                     servicePlayer?.setCurrentPosition(position)
 
-                    servicePlayer?.setMusicList(
-                        list = convertList(asyncListDiffer.currentList)
+                    servicePlayer?.setDownloadMusicList(
+                        list = asyncListDiffer.currentList
                     )
 
                     servicePlayer?.setPlayerState(StatePlayer.PLAY)
@@ -156,7 +150,7 @@ class MusicResultAdapter(
             val musicBottomSheet = MusicBottomSheet()
             val bundle = Bundle()
 
-            bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, convertItem(music))
+            bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, music)
             musicBottomSheet.arguments = bundle
 
             supportFragmentManager?.let {
@@ -167,43 +161,7 @@ class MusicResultAdapter(
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
-    private fun convertList(list: List<MusicResult?>): List<Music> {
-        return list.map {
-            Music(
-                id = it?.musicEntity?.firebaseId,
-                albumId = it?.albumEntity?.firebaseId,
-                albumName = it?.albumEntity?.name,
-                groupId = it?.authorEntity?.firebaseId,
-                group = it?.authorEntity?.name,
-                imageGroup = it?.authorEntity?.imageUrl,
-                imageLow = it?.albumEntity?.imageLow,
-                imageHigh = it?.albumEntity?.imageHigh,
-                movieUrl = it?.musicEntity?.movieUrl,
-                name = it?.musicEntity?.name,
-                time = it?.musicEntity?.time,
-                url = it?.musicEntity?.url
-            )
-        }.toList()
-    }
-
-    private fun convertItem(it: MusicResult?): Music {
-        return Music(
-            id = it?.musicEntity?.firebaseId,
-            albumId = it?.albumEntity?.firebaseId,
-            albumName = it?.albumEntity?.name,
-            groupId = it?.authorEntity?.firebaseId,
-            group = it?.authorEntity?.name,
-            imageGroup = it?.authorEntity?.imageUrl,
-            imageLow = it?.albumEntity?.imageLow,
-            imageHigh = it?.albumEntity?.imageHigh,
-            movieUrl = it?.musicEntity?.movieUrl,
-            name = it?.musicEntity?.name,
-            time = it?.musicEntity?.time,
-            url = it?.musicEntity?.url
-        )
-    }
-
-    fun setData(newList: List<MusicResult?>) {
+    fun setData(newList: List<Music>) {
         asyncListDiffer.submitList(newList)
     }
 }

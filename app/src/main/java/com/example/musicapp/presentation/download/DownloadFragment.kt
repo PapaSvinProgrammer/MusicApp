@@ -11,9 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentDownloadBinding
-import com.example.musicapp.support.convertAnother.ConvertMusic
+import com.example.musicapp.presentation.pagerAdapter.DownloadMusicPagerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
-import com.example.musicapp.presentation.pagerAdapter.MusicPagerAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,7 +21,7 @@ class DownloadFragment: Fragment() {
     private lateinit var navController: NavController
     private val viewModel by viewModel<DownloadViewModel>()
     private val pagerAdapter by lazy {
-        MusicPagerAdapter(
+        DownloadMusicPagerAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
             servicePlayer = viewModel.servicePlayer,
             isPlay = viewModel.isPlay,
@@ -69,9 +68,7 @@ class DownloadFragment: Fragment() {
         }
 
         viewModel.musicResult.observe(viewLifecycleOwner) { list ->
-            pagerAdapter.setData(
-                ConvertMusic().convertListToMusicResultList(list)
-            )
+            pagerAdapter.setData(list)
             binding.viewPager.adapter = pagerAdapter
         }
 

@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentDownloadListBinding
-import com.example.musicapp.support.convertAnother.ConvertMusic
-import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
+import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +19,7 @@ class DownloadListFragment: Fragment() {
     private lateinit var navController: NavController
     private val viewModel by viewModel<DownloadListViewModel>()
     private val musicAdapter by lazy {
-        MusicResultAdapter(
+        DownloadMusicAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
             servicePlayer = viewModel.servicePlayer,
             currentObject = viewModel.currentObject,
@@ -59,9 +58,7 @@ class DownloadListFragment: Fragment() {
         }
 
         viewModel.musicResult.observe(viewLifecycleOwner) { list ->
-            musicAdapter.setData(
-                ConvertMusic().convertListToMusicResultList(list)
-            )
+            musicAdapter.setData(list)
 
             binding.recyclerView.adapter = musicAdapter
         }

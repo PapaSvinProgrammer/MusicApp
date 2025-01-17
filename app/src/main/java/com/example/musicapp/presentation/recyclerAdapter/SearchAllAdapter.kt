@@ -12,6 +12,7 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemSearchAllBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.service.player.PlayerService
@@ -67,6 +68,7 @@ class SearchAllAdapter(
                 playerService?.setMusicList(
                     list = listOf(item)
                 )
+                playerService?.setPlayerState(StatePlayer.PLAY)
             }
         }
 
