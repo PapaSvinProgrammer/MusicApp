@@ -43,6 +43,8 @@ class AudioNotification(
     private val likePendingIntent: PendingIntent?
 ) {
 
+    private val session = MediaSessionCompat(context, TAG)
+
     fun execute(music: Music) {
         Glide.with(context)
             .asBitmap()
@@ -74,8 +76,6 @@ class AudioNotification(
     }
 
     private fun drawNotification(image: Icon, music: Music) {
-        val session = MediaSessionCompat(context, TAG)
-
         val style = androidx.media.app.NotificationCompat.MediaStyle()
             .setShowActionsInCompactView(0, 1, 2, 3)
             .setMediaSession(session.sessionToken)

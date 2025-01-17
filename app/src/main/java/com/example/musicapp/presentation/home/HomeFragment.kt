@@ -12,12 +12,16 @@ import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.UnstableApi
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentHomeBinding
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
+import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -25,8 +29,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var navController: NavController
     private val viewModel by viewModel<HomeViewModel>()
-    private val searchAdapter by lazy { SearchAllAdapter() }
+
+    private val searchAdapter by lazy {
+        SearchAllAdapter(
+            navController = navController,
+            playerService = viewModel.servicePlayer
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +50,7 @@ class HomeFragment: Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setStatePlayer(StatePlayer.NONE)
-        binding.searchRecyclerView.adapter = searchAdapter
+        navController = view.findNavController()
 
         requireActivity().apply {
             bindService(
@@ -73,6 +83,11 @@ class HomeFragment: Fragment() {
         }
 
         viewModel.statePlayer.observe(viewLifecycleOwner) {
+            if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
+                viewModel.getRandomMusic()
+                return@observe
+            }
+
             when (it) {
                 StatePlayer.PLAY -> play()
                 StatePlayer.PAUSE -> pause()
@@ -88,6 +103,20 @@ class HomeFragment: Fragment() {
             binding.searchProgressIndicator.visibility = View.GONE
 
             list?.let { searchAdapter.setData(it) }
+        }
+
+        viewModel.randomMusicsResult.observe(viewLifecycleOwner) { list ->
+            DataPlayerType.setType(TypeDataPlayer.GENERATE)
+
+            viewModel.servicePlayer?.setCurrentPosition(0)
+            viewModel.servicePlayer?.setMusicList(list)
+            viewModel.setStatePlayer(StatePlayer.PLAY)
+        }
+
+        DataPlayerType.type.observe(viewLifecycleOwner) { type ->
+            if (type != TypeDataPlayer.GENERATE) {
+                binding.mainPlayButton.isSelected = false
+            }
         }
     }
 
@@ -151,26 +180,29 @@ class HomeFragment: Fragment() {
     }
 
     private fun initServiceTools() {
+        binding.searchRecyclerView.adapter = searchAdapter
+
         viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
+            if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
+                return@observe
+            }
+
             if (state) {
                 binding.mainPlayButton.isSelected = true
                 binding.lottieAnim.playAnimation()
             }
             else {
+                binding.mainPlayButton.isSelected = false
                 binding.lottieAnim.pauseAnimation()
             }
         }
     }
 
     private fun pause() {
-        binding.lottieAnim.pauseAnimation()
-        binding.mainPlayButton.isSelected = false
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
     }
 
     private fun play() {
-        binding.lottieAnim.playAnimation()
-        binding.mainPlayButton.isSelected = true
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
     }
 

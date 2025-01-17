@@ -14,6 +14,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
+import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.search.SearchAlbum
 import com.example.musicapp.domain.usecase.search.SearchAll
@@ -22,12 +23,15 @@ import com.example.musicapp.domain.usecase.search.SearchMusic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+private const val DEFAULT_COUNT_MUSIC = 3L
+
 class HomeViewModel(
     private val searchMusic: SearchMusic,
     private val searchAlbum: SearchAlbum,
     private val searchGroup: SearchGroup,
     private val searchAll: SearchAll,
-    private val addPlaylistInSQLite: AddPlaylistInSQLite
+    private val addPlaylistInSQLite: AddPlaylistInSQLite,
+    private val getRandomMusic: GetRandomMusic
 ): ViewModel() {
     lateinit var isPlayService: LiveData<Boolean>
     @SuppressLint("StaticFieldLeak")
@@ -36,9 +40,11 @@ class HomeViewModel(
 
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val searchLiveData = MutableLiveData<List<Music>>()
+    private val randomMusicsLIveData = MutableLiveData<List<Music>>()
 
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val searchResult: LiveData<List<Music>> = searchLiveData
+    val randomMusicsResult: LiveData<List<Music>> = randomMusicsLIveData
 
     private var searchFilterState = SearchFilterState.ALL
 
@@ -65,6 +71,12 @@ class HomeViewModel(
                 name = HomeConst.PLAYLIST_FAVORITE_NAME,
                 image = HomeConst.PLAYLIST_FAVORITE_URL
             )
+        }
+    }
+
+    fun getRandomMusic() {
+        viewModelScope.launch {
+            randomMusicsLIveData.value = getRandomMusic.getMusics(DEFAULT_COUNT_MUSIC)
         }
     }
 

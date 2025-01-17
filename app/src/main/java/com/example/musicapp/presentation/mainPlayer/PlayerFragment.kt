@@ -7,6 +7,7 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
+import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
@@ -231,8 +233,12 @@ class PlayerFragment: Fragment() {
     }
 
     override fun onStop() {
-        requireActivity().unbindService(viewModel.connectionToPlayerService)
-        requireActivity().unbindService(viewModel.connectionToVideoService)
+        try {
+            requireActivity().unbindService(viewModel.connectionToPlayerService)
+            requireActivity().unbindService(viewModel.connectionToVideoService)
+        } catch (e: Exception) {
+            Log.e(ErrorConst.DEFAULT_ERROR, e.message.toString())
+        }
 
         super.onStop()
     }
@@ -437,6 +443,10 @@ class PlayerFragment: Fragment() {
     }
 
     private fun playVideo() {
+        if (viewModel.currentObject?.value?.movieUrl.isNullOrEmpty()) {
+            return
+        }
+
         binding.videoPlayer.visibility = View.VISIBLE
         viewModel.videoService?.play()
     }

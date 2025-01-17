@@ -1,20 +1,28 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemSearchAllBinding
-import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.SearchFilterState
+import com.example.musicapp.presentation.album.AlbumFragment
+import com.example.musicapp.presentation.author.AuthorFragment
+import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.TypeDataPlayer
 
-class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
+class SearchAllAdapter(
+    private val navController: NavController? = null,
+    private val playerService: PlayerService? = null
+): RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
+
     inner class ViewHolder(val binding: ItemSearchAllBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Music) {
             if (!item.id.isNullOrEmpty()) {
@@ -51,6 +59,15 @@ class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
 
             binding.authorView.visibility = View.GONE
             binding.imageView.visibility = View.VISIBLE
+
+            binding.root.setOnClickListener {
+                DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
+                playerService?.setCurrentPosition(0)
+                playerService?.setMusicList(
+                    list = listOf(item)
+                )
+            }
         }
 
         private fun intiAlbumItem(item: Music) {
@@ -69,6 +86,15 @@ class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
 
             binding.authorView.visibility = View.GONE
             binding.imageView.visibility = View.VISIBLE
+
+            binding.root.setOnClickListener {
+                DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
+                val bundle = Bundle()
+                bundle.putString(AlbumFragment.FIREBASE_KEY, item.albumId)
+
+                navController?.navigate(R.id.action_global_albumFragment, bundle)
+            }
         }
 
         private fun initGroupItem(item: Music) {
@@ -86,6 +112,15 @@ class SearchAllAdapter: RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
 
             binding.authorView.visibility = View.VISIBLE
             binding.imageView.visibility = View.GONE
+
+            binding.root.setOnClickListener {
+                DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
+                val bundle = Bundle()
+                bundle.putString(AuthorFragment.AUTHOR_KEY, item.groupId)
+
+                navController?.navigate(R.id.action_global_authorFragment, bundle)
+            }
         }
     }
 

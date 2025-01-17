@@ -91,7 +91,8 @@ val appModule = module {
             addPlaylistInSQLite = get(),
             searchAlbum = get(),
             searchGroup = get(),
-            searchAll = get()
+            searchAll = get(),
+            getRandomMusic = get()
         )
     }
 

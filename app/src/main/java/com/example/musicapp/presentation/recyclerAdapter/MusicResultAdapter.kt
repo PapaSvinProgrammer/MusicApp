@@ -21,6 +21,8 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
+import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.TypeDataPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -127,22 +129,24 @@ class MusicResultAdapter(
         holder.onBind(music)
 
         holder.binding.root.setOnClickListener {
+            DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
             if (!musicList.isNullOrEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {
+                    servicePlayer?.setCurrentPosition(position)
+
                     servicePlayer?.setMusicList(
                         list = convertList(musicList!!)
                     )
-
-                    servicePlayer?.setCurrentPosition(position)
                 }
             }
             else {
                 CoroutineScope(Dispatchers.Main).launch {
+                    servicePlayer?.setCurrentPosition(position)
+
                     servicePlayer?.setMusicList(
                         list = convertList(asyncListDiffer.currentList)
                     )
-
-                    servicePlayer?.setCurrentPosition(position)
                 }
             }
         }

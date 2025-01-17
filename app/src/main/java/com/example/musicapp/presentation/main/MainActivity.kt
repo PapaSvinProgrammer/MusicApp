@@ -25,6 +25,8 @@ import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.service.audioDownloader.AudioDownloadManager
 import com.example.musicapp.service.audioDownloader.AudioManager
+import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.TypeDataPlayer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -65,6 +67,7 @@ class MainActivity: AppCompatActivity() {
                 return@observe
             }
 
+            DataPlayerType.setType(TypeDataPlayer.GENERATE)
             viewModel.servicePlayer?.setMusicList(array)
             binding.progressIndicator.visibility = View.GONE
         }

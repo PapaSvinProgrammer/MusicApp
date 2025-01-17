@@ -25,6 +25,8 @@ class Player(private val context: Context) : AudioPlayer {
     private var lastIndexInQueue = 0
 
     init {
+        val dataSourceFactory = DefaultHttpDataSource.Factory()
+
         val extractor = ExtractorsFactory {
             arrayOf(
                 Mp3Extractor(),
@@ -43,14 +45,16 @@ class Player(private val context: Context) : AudioPlayer {
             )
         }
 
-        val cacheDataSourceFactory: DataSource.Factory =
-            CacheDataSource.Factory()
-                .setCache(AudioManager.audioDownloadManager.downloadCache!!)
-                .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
-                .setCacheWriteDataSinkFactory(null)
+//        val cacheDataSourceFactory: DataSource.Factory =
+//            CacheDataSource.Factory()
+//                .setCache(AudioManager.audioDownloadManager.downloadCache!!)
+//                .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
+//                .setCacheWriteDataSinkFactory(null)
 
-        val mediaSource = DefaultMediaSourceFactory(context, extractor)
-            .setDataSourceFactory(cacheDataSourceFactory)
+        val mediaSource = DefaultMediaSourceFactory(
+            dataSourceFactory,
+            extractor
+        )
 
         val exoPlayerBuilder = ExoPlayer.Builder(context)
         exoPlayerBuilder.setRenderersFactory(renderersFactory)
