@@ -52,6 +52,7 @@ class AuthorFragment: Fragment() {
                 .into(binding.appBar.backImage)
 
             binding.appBar.collapsingToolbar.title = author?.name
+            binding.appBar.nameView.text = author?.name
         }
 
         viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +50,10 @@ class AlbumFragment: Fragment() {
                 .into(binding.appBar.frontImage)
 
             binding.appBar.collapsingToolbar.title = album?.name
+            binding.appBar.nameView.text = album?.name
+            binding.appBar.groupNameView.text = album?.groupName
+
+            viewModel.convertYear(album?.date)
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
@@ -59,6 +62,10 @@ class AlbumFragment: Fragment() {
 
             musicListAdapter.setData(list)
             binding.recyclerView.adapter = musicListAdapter
+        }
+
+        viewModel.convertYearResult.observe(viewLifecycleOwner) {
+            binding.appBar.yearView.text = it
         }
     }
 

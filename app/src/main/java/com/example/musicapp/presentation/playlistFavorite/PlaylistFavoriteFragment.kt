@@ -61,11 +61,11 @@ class PlaylistFavoriteFragment: Fragment() {
         }
 
         viewModel.countTextMusicResult.observe(viewLifecycleOwner) { text ->
-            binding.appBar.countMusicView.countView.text = text
+            binding.appBar.countMusicView.text = text
         }
 
         viewModel.timePlaylistResult.observe(viewLifecycleOwner) { text ->
-            binding.appBar.countTimeView.countView.text = text
+            binding.appBar.countTimeView.text = text
         }
 
         binding.appBar.toolbar.setNavigationOnClickListener {

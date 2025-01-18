@@ -34,10 +34,6 @@ import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
 import com.example.musicapp.service.video.VideoPlayer
 import com.example.musicapp.service.video.VideoService
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {

@@ -68,6 +68,7 @@ class PlaylistItemFragment: Fragment() {
 
             binding.recyclerView.adapter = recyclerAdapter
             binding.appBar.collapsingToolbar.title = album?.playlistEntity?.name
+            binding.appBar.nameView.text = album?.playlistEntity?.name
         }
 
         viewModel.deletePlaylistResult.observe(viewLifecycleOwner) {
@@ -153,11 +154,11 @@ class PlaylistItemFragment: Fragment() {
     private fun updateImageUI(url: String) {
         Glide.with(binding.root)
             .load(url)
+            .error(R.drawable.ic_error_image)
             .into(binding.appBar.frontImage)
 
         Glide.with(binding.root)
             .load(url)
-            .error(R.drawable.ic_error_music)
             .into(binding.appBar.backImage)
     }
 }

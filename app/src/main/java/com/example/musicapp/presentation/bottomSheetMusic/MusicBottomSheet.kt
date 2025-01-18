@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,8 @@ import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.service.player.PlayerService
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +36,13 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
     private lateinit var navController: NavController
     private val viewModel by viewModel<MusicBottomSheetViewModel>()
     private var currentMusic: Music? = null
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+        return dialog
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = BottomSheetMusicBinding.inflate(inflater, container, false)

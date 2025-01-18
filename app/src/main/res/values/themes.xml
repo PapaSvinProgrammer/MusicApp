@@ -130,4 +130,8 @@
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="FontTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fontFamily">@font/accid</item>
+    </style>
 </resources>
