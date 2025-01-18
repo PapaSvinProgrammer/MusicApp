@@ -16,10 +16,10 @@ import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
-import com.example.musicapp.domain.usecase.search.SearchAlbum
-import com.example.musicapp.domain.usecase.search.SearchAll
-import com.example.musicapp.domain.usecase.search.SearchGroup
-import com.example.musicapp.domain.usecase.search.SearchMusic
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAlbum
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAll
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchGroup
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchMusic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

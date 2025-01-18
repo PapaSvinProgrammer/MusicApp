@@ -11,6 +11,7 @@ import com.example.musicapp.presentation.mainPlayer.PlayerViewModel
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheetViewModel
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheetViewModel
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheetViewModel
+import com.example.musicapp.presentation.bottomSheetPlaylistFavorite.PlaylistFavoriteBottomSheetViewModel
 import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheetViewModel
 import com.example.musicapp.presentation.download.DownloadViewModel
 import com.example.musicapp.presentation.downloadList.DownloadListViewModel
@@ -120,7 +121,8 @@ val appModule = module {
     viewModel {
         PlaylistViewModel(
             getPlaylistFromSQLite = get(),
-            addPlaylistInSQLite = get()
+            addPlaylistInSQLite = get(),
+            searchPlaylistLocal = get()
         )
     }
 
@@ -138,7 +140,8 @@ val appModule = module {
             getPlaylistFromSQLite = get(),
             getCountMusic = get(),
             convertTextCount = get(),
-            getTimePlaylist = get()
+            getTimePlaylist = get(),
+            searchMusicLocal = get()
         )
     }
 
@@ -195,5 +198,9 @@ val appModule = module {
 
     viewModel {
         ReportBottomSheetViewModel()
+    }
+
+    viewModel {
+        PlaylistFavoriteBottomSheetViewModel()
     }
 }

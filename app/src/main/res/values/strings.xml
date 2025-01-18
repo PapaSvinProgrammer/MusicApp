@@ -105,4 +105,5 @@
     <string name="description_error_text">Описание ошибки</string>
     <string name="account_text">Аккаунт</string>
     <string name="about_app_text">О приложении</string>
+    <string name="filter_text">Фильтр</string>
 </resources>

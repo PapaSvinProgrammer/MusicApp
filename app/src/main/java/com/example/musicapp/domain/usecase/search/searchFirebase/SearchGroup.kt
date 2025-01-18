@@ -1,4 +1,4 @@
-package com.example.musicapp.domain.usecase.search
+package com.example.musicapp.domain.usecase.search.searchFirebase
 
 import com.example.musicapp.data.module.SearchData
 import com.example.musicapp.domain.module.Group

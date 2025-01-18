@@ -15,7 +15,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_view"
@@ -86,7 +87,7 @@
             tools:text="4:34" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -137,7 +138,6 @@
                                 app:srcCompat="@drawable/ic_check_favorite" />
 
                             <TextView
-                                android:id="@+id/text_favorite"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -183,7 +183,6 @@
                                 app:srcCompat="@drawable/ic_add_note" />
 
                             <TextView
-                                android:id="@+id/text_add_in_playlist"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -229,7 +228,6 @@
                                 app:srcCompat="@drawable/ic_share_treangle" />
 
                             <TextView
-                                android:id="@+id/text_share"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -275,7 +273,6 @@
                                 app:srcCompat="@drawable/ic_play_next" />
 
                             <TextView
-                                android:id="@+id/text_play_next"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -322,7 +319,6 @@
                                 app:srcCompat="@drawable/ic_add_to_queue" />
 
                             <TextView
-                                android:id="@+id/text_add_in_queue"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -369,7 +365,6 @@
                                 app:srcCompat="@drawable/ic_artist" />
 
                             <TextView
-                                android:id="@+id/text_move_to_group"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -415,7 +410,6 @@
                                 app:srcCompat="@drawable/ic_album" />
 
                             <TextView
-                                android:id="@+id/text_move_to_album"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -461,7 +455,6 @@
                                 app:srcCompat="@drawable/ic_upload" />
 
                             <TextView
-                                android:id="@+id/text_delete"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -507,7 +500,6 @@
                                 app:srcCompat="@drawable/ic_download" />
 
                             <TextView
-                                android:id="@+id/text_download"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -553,7 +545,6 @@
                                 app:srcCompat="@drawable/ic_note" />
 
                             <TextView
-                                android:id="@+id/text_show_text"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -599,7 +590,6 @@
                                 app:srcCompat="@drawable/ic_info" />
 
                             <TextView
-                                android:id="@+id/text_about_music"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -655,7 +645,6 @@
                                 app:srcCompat="@drawable/ic_hate" />
 
                             <TextView
-                                android:id="@+id/text_hate"
                                 style="@style/TextColorOnSurface"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -717,5 +706,5 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

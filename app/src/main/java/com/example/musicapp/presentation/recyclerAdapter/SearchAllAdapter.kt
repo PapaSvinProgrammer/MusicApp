@@ -18,6 +18,9 @@ import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.service.player.module.DataPlayerType
 import com.example.musicapp.service.player.module.TypeDataPlayer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SearchAllAdapter(
     private val navController: NavController? = null,
@@ -64,11 +67,13 @@ class SearchAllAdapter(
             binding.root.setOnClickListener {
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
-                playerService?.setCurrentPosition(0)
-                playerService?.setMusicList(
-                    list = listOf(item)
-                )
-                playerService?.setPlayerState(StatePlayer.PLAY)
+                CoroutineScope(Dispatchers.Main).launch {
+                    playerService?.setCurrentPosition(0)
+                    playerService?.setMusicList(
+                        list = listOf(item)
+                    )
+                    playerService?.setPlayerState(StatePlayer.PLAY)
+                }
             }
         }
 

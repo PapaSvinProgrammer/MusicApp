@@ -70,7 +70,7 @@ class HomeFragment: Fragment() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> {
-                    binding.searchView.show()
+                    binding.searchLayout.searchView.show()
                     setSearch()
                 }
             }
@@ -78,7 +78,7 @@ class HomeFragment: Fragment() {
             true
         }
 
-        binding.searchChipGroup.setOnCheckedStateChangeListener { group, _ ->
+        binding.searchLayout.searchChipGroup.setOnCheckedStateChangeListener { group, _ ->
             chipGroupListener(group)
         }
 
@@ -100,7 +100,7 @@ class HomeFragment: Fragment() {
         }
 
         viewModel.searchResult.observe(viewLifecycleOwner) { list ->
-            binding.searchProgressIndicator.visibility = View.GONE
+            binding.searchLayout.searchProgressIndicator.visibility = View.GONE
 
             list?.let { searchAdapter.setData(it) }
         }
@@ -151,10 +151,10 @@ class HomeFragment: Fragment() {
 
     private fun createSearchChipGroup() {
         for (item in resources.getStringArray(R.array.search_filter_array)) {
-            binding.searchChipGroup.addView(createChip(item))
+            binding.searchLayout.searchChipGroup.addView(createChip(item))
         }
 
-        val chip: Chip = binding.searchChipGroup[0] as Chip
+        val chip: Chip = binding.searchLayout.searchChipGroup[0] as Chip
         chip.isChecked = true
     }
 
@@ -180,7 +180,7 @@ class HomeFragment: Fragment() {
     }
 
     private fun initServiceTools() {
-        binding.searchRecyclerView.adapter = searchAdapter
+        binding.searchLayout.searchRecyclerView.adapter = searchAdapter
 
         viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
             if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
@@ -207,10 +207,10 @@ class HomeFragment: Fragment() {
     }
 
     private fun setSearch() {
-        binding.searchView.editText.addTextChangedListener { text ->
+        binding.searchLayout.searchView.editText.addTextChangedListener { text ->
             if (!text.isNullOrEmpty()) {
-                binding.searchProgressIndicator.visibility = View.VISIBLE
-                binding.searchRecyclerView.visibility = View.VISIBLE
+                binding.searchLayout.searchProgressIndicator.visibility = View.VISIBLE
+                binding.searchLayout.searchRecyclerView.visibility = View.VISIBLE
 
                 viewModel.search(text.toString())
             }

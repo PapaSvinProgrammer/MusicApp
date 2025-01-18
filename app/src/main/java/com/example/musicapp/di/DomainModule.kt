@@ -47,10 +47,12 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
-import com.example.musicapp.domain.usecase.search.SearchAlbum
-import com.example.musicapp.domain.usecase.search.SearchAll
-import com.example.musicapp.domain.usecase.search.SearchGroup
-import com.example.musicapp.domain.usecase.search.SearchMusic
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAlbum
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAll
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchGroup
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchMusic
+import com.example.musicapp.domain.usecase.search.searchSQLite.SearchMusicLocal
+import com.example.musicapp.domain.usecase.search.searchSQLite.SearchPlaylistLocal
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import org.koin.dsl.module
@@ -360,5 +362,13 @@ val domainModule = module {
         SearchAll(
             searchRepository = get()
         )
+    }
+
+    factory {
+        SearchPlaylistLocal()
+    }
+
+    factory {
+        SearchMusicLocal()
     }
 }

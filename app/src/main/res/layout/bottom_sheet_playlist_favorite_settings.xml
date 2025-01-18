@@ -89,8 +89,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@android:color/transparent"
-                        app:strokeWidth="0dp"
-                        app:cardCornerRadius="0dp">
+                        app:cardCornerRadius="0dp"
+                        app:strokeWidth="0dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -128,12 +128,55 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/delete_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="0dp"
+                        app:strokeWidth="0dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/icon_delete"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                style="@style/IconBlueSelectedColorStyle"
+                                app:srcCompat="@drawable/ic_upload"
+                                android:layout_margin="15dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextColorOnSurface"
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="@string/delete_text"
+                                android:textSize="16sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/icon_delete"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                style="@style/ColorLine"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/add_music_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@android:color/transparent"
-                        app:strokeWidth="0dp"
-                        app:cardCornerRadius="0dp">
+                        app:cardCornerRadius="0dp"
+                        app:strokeWidth="0dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -171,23 +214,23 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/edit_name_layout"
+                        android:id="@+id/share_playlist_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@android:color/transparent"
-                        app:strokeWidth="0dp"
-                        app:cardCornerRadius="0dp">
+                        app:cardCornerRadius="0dp"
+                        app:strokeWidth="0dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/icon_share"
+                                android:id="@+id/icon_share_playlis"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 style="@style/IconBottomSheetColor"
-                                app:srcCompat="@drawable/ic_text_select"
+                                app:srcCompat="@drawable/ic_share_treangle"
                                 android:layout_margin="15dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -199,96 +242,10 @@
                                 style="@style/TextColorOnSurface"
                                 android:layout_marginStart="10dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="@string/edit_name_text"
+                                android:text="@string/share_text"
                                 android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/icon_share"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                style="@style/ColorLine"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/edit_image_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:strokeWidth="0dp"
-                        app:cardCornerRadius="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/edit_image"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                app:srcCompat="@drawable/ic_image"
-                                style="@style/IconBottomSheetColor"
-                                android:layout_margin="15dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/TextColorOnSurface"
-                                android:layout_marginStart="10dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/edit_image_text"
-                                android:textSize="16sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/edit_image"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                style="@style/ColorLine"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/delete_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@android:color/transparent"
-                        app:strokeWidth="0dp"
-                        app:cardCornerRadius="0dp">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/icon_play_next"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                app:srcCompat="@drawable/ic_delete"
-                                style="@style/IconBottomSheetColor"
-                                android:layout_margin="15dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/TextColorOnSurface"
-                                android:layout_marginStart="10dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="@string/delete_playlist_text"
-                                android:textSize="16sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/icon_play_next"
+                                app:layout_constraintStart_toEndOf="@id/icon_share_playlis"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>

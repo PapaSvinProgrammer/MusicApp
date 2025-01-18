@@ -1,6 +1,7 @@
 package com.example.musicapp.domain.usecase.search
 
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

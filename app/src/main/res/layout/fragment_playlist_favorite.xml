@@ -8,6 +8,10 @@
     tools:context=".presentation.playlistFavorite.PlaylistFavoriteFragment">
 
     <include
+        android:id="@+id/search_layout"
+        layout="@layout/layout_search"/>
+
+    <include
         android:id="@+id/app_bar"
         layout="@layout/layout_collapsing_app_bar_favorite"/>
 

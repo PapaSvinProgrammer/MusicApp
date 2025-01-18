@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.author
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +71,6 @@ class AuthorFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         val firebaseId = arguments?.getString(AUTHOR_KEY).toString()
 
         viewModel.getAuthor(firebaseId)

@@ -1,18 +1,18 @@
-package com.example.musicapp.domain.usecase.search
+package com.example.musicapp.domain.usecase.search.searchFirebase
 
 import com.example.musicapp.data.module.SearchData
-import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.repository.SearchRepository
 
-class SearchMusic(
+class SearchAlbum(
     private val searchRepository: SearchRepository
 ) {
-    suspend fun execute(text: String): List<Music> {
+    suspend fun execute(text: String): List<Album> {
         if (text.length < 2) {
             return listOf()
         }
 
-        return searchRepository.searchName(
+        return searchRepository.searchAlbum(
             searchData = convertData(text)
         )
     }
