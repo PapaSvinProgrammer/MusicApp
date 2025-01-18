@@ -88,8 +88,7 @@ class PlaylistFavoriteViewModel(
     fun search(text: String) {
         viewModelScope.launch {
             searchLiveData.value = searchMusicLocal.execute(
-                text = text,
-                list = getPlaylistLiveData.value?.musicResult
+                text = text
             )
         }
     }

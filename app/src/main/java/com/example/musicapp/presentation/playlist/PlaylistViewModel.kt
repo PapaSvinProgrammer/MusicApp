@@ -52,7 +52,6 @@ class PlaylistViewModel(
     fun search(text: String) {
         viewModelScope.launch {
             searchLiveData.value = searchPlaylistLocal.execute(
-                list = getPlaylistResult.value,
                 text = text
             )
         }
