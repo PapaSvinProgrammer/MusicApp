@@ -1,16 +1,16 @@
 package com.example.musicapp.domain.usecase.search.searchSQLite
 
-import com.example.musicapp.data.room.musicEntity.MusicResult
+import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.domain.repository.MusicLiteRepository
 
-class SearchMusicLocal(
+class SearchGroupLocal(
     private val musicLiteRepository: MusicLiteRepository
 ) {
-    suspend fun execute(text: String): List<MusicResult?> {
+    suspend fun execute(text: String): List<AuthorEntity> {
         if (text.length < 2) {
             return listOf()
         }
 
-        return musicLiteRepository.searchMusic(text)
+        return musicLiteRepository.searchAuthor(text)
     }
 }

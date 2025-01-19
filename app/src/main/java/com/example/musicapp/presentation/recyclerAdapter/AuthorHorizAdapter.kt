@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
-import com.example.musicapp.databinding.ItemArtistBinding
+import com.example.musicapp.databinding.ItemArtistHorizBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.author.AuthorFragment
 
-class AuthorAdapter(
+class AuthorHorizAdapter(
     private val navController: NavController? = null
-): RecyclerView.Adapter<AuthorAdapter.ViewHolder>() {
-    inner class ViewHolder(val binding: ItemArtistBinding): RecyclerView.ViewHolder(binding.root) {
+): RecyclerView.Adapter<AuthorHorizAdapter.ViewHolder>() {
+    inner class ViewHolder(val binding: ItemArtistHorizBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(artist: AuthorEntity?) {
             Glide.with(binding.root)
                 .load(artist?.imageUrl)
@@ -38,7 +38,7 @@ class AuthorAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemArtistBinding.inflate(inflater, parent, false)
+        val binding = ItemArtistHorizBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -49,7 +49,7 @@ class AuthorAdapter(
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
-    fun setData(newList: List<AuthorEntity?>) {
+    fun setData(newList: List<AuthorEntity>) {
         asyncListDiffer.submitList(newList)
     }
 }

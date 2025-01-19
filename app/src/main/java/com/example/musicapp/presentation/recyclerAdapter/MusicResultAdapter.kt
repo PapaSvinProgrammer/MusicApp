@@ -8,7 +8,6 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +21,9 @@ import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
+import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.PlayerInfo
+import com.example.musicapp.service.player.module.TypeDataPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,9 +32,7 @@ class MusicResultAdapter(
     private val supportFragmentManager: FragmentManager? = null,
     private var musicType: MusicType = MusicType.VERTICAL,
     private var servicePlayer: PlayerService? = null,
-    private var currentObject: LiveData<Music>? = null,
-    private var isPlay: LiveData<Boolean>? = null,
-    private var musicList: List<MusicResult?>? = null
+    private var musicList: List<MusicResult>? = null
 ): RecyclerView.Adapter<MusicResultAdapter.ViewHolder>() {
     @UnstableApi
     inner class ViewHolder(
@@ -64,7 +64,7 @@ class MusicResultAdapter(
                 binding.musicLayout.iconDownloadView.visibility = View.GONE
             }
 
-            currentObject?.observe(lifecycleOwner) {
+            PlayerInfo.currentObject.observe(lifecycleOwner) {
                 if (it.id == music?.musicEntity?.firebaseId) {
                     hoveredItem()
                 }
@@ -73,7 +73,7 @@ class MusicResultAdapter(
                 }
             }
 
-            isPlay?.observe(lifecycleOwner) {
+            PlayerInfo.isPlay.observe(lifecycleOwner) {
                 if (it) {
                     binding.musicLayout.playAnim.playAnimation()
                 }
@@ -128,6 +128,8 @@ class MusicResultAdapter(
         holder.onBind(music)
 
         holder.binding.root.setOnClickListener {
+            DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
             if (!musicList.isNullOrEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {
                     servicePlayer?.setCurrentPosition(position)
@@ -141,10 +143,10 @@ class MusicResultAdapter(
             }
             else {
                 CoroutineScope(Dispatchers.Main).launch {
-                    servicePlayer?.setCurrentPosition(position)
+                    servicePlayer?.setCurrentPosition(0)
 
                     servicePlayer?.setMusicList(
-                        list = convertList(asyncListDiffer.currentList)
+                        list = listOf(convertItem(music))
                     )
 
                     servicePlayer?.setPlayerState(StatePlayer.PLAY)

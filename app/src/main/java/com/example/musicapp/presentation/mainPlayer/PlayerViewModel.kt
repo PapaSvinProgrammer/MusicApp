@@ -32,12 +32,9 @@ class PlayerViewModel(
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
-    var isPlay: LiveData<Boolean>? = null
     var isRepeat: LiveData<Boolean>? = null
-    var currentPosition: LiveData<Int>? = null
     var bufferedPosition: LiveData<Long>? = null
     var musicList: LiveData<List<Music>>? = null
-    var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
     val isBoundAudio = MutableLiveData<Boolean>()
@@ -125,11 +122,8 @@ class PlayerViewModel(
             servicePlayer = bind.getService()
             maxDurationLiveData = bind.getMaxDuration()
             durationLiveData = bind.getCurrentDuration()
-            isPlay = bind.isPlay()
             isRepeat = bind.isRepeat()
-            currentPosition = bind.getCurrentPosition()
             bufferedPosition = bind.getBufferedPosition()
-            currentObject = bind.getCurrentObject()
             musicList = bind.getMusicList()
             isBoundAudio.value = true
         }

@@ -31,6 +31,7 @@ import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomShe
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
+import com.example.musicapp.service.player.module.PlayerInfo
 import com.example.musicapp.service.video.VideoPlayer
 import com.example.musicapp.service.video.VideoService
 import com.google.android.material.snackbar.Snackbar
@@ -176,7 +177,10 @@ class PlayerFragment: Fragment() {
             val bottomSheetDialog = MusicBottomSheet()
 
             val bundle = Bundle()
-            bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, viewModel.currentObject?.value)
+            bundle.putParcelable(
+                MusicBottomSheet.CURRENT_MUSIC,
+                PlayerInfo.currentObject.value
+            )
 
             bottomSheetDialog.arguments = bundle
             requireActivity().supportFragmentManager.let {
@@ -228,7 +232,7 @@ class PlayerFragment: Fragment() {
         super.onStart()
 
         viewModel.getFavoriteMusic(
-            id = viewModel.currentObject?.value?.id.toString()
+            id = PlayerInfo.currentObject.value?.id.toString()
         )
     }
 
@@ -245,7 +249,7 @@ class PlayerFragment: Fragment() {
 
     private fun executeMoveToAuthor() {
         val bundle = Bundle()
-        val firebaseId = viewModel.currentObject?.value?.groupId
+        val firebaseId = PlayerInfo.currentObject.value?.groupId
         bundle.putString(AuthorFragment.AUTHOR_KEY, firebaseId)
 
         navController.popBackStack()
@@ -267,7 +271,7 @@ class PlayerFragment: Fragment() {
     }
 
     private fun initPlayerServiceTools() {
-        if (viewModel.isPlay?.value == true) {
+        if (PlayerInfo.isPlay.value == true) {
             binding.playStopView.isSelected = true
         }
 
@@ -275,16 +279,19 @@ class PlayerFragment: Fragment() {
             playerAdapter.setData(list)
         }
 
-        viewModel.currentPosition?.observe(viewLifecycleOwner) { position ->
+        PlayerInfo.currentPosition.observe(viewLifecycleOwner) { position ->
             resetVideo()
 
             viewModel.getFavoriteMusic(
-                id = viewModel.currentObject?.value?.id.toString()
+                id = PlayerInfo.currentObject.value?.id.toString()
             )
 
-            val obj = viewModel.musicList?.value!![viewModel.currentPosition?.value ?: 0]
+            val obj = viewModel.musicList?.value!![PlayerInfo.currentPosition.value ?: 0]
 
-            viewModel.videoService?.setVideo(obj, viewModel.isPlay?.value ?: false)
+            viewModel.videoService?.setVideo(
+                music = obj,
+                isPlay = PlayerInfo.isPlay.value ?: false
+            )
 
             Glide.with(binding.root)
                 .load(obj.imageHigh)
@@ -304,14 +311,14 @@ class PlayerFragment: Fragment() {
 
     private fun initVideoServiceTools() {
         viewModel.videoService?.setVideo(
-            viewModel.currentObject?.value!!,
-            viewModel.isPlay?.value ?: false
+            music = PlayerInfo.currentObject.value!!,
+            isPlay = PlayerInfo.isPlay.value ?: false
         )
 
         viewModel.isSuccessVideo?.observe(viewLifecycleOwner) {
             if (it == true) {
 
-                if (viewModel.isPlay?.value == true) {
+                if (PlayerInfo.isPlay.value == true) {
                     binding.videoPlayer.visibility = View.VISIBLE
                 }
 
@@ -339,7 +346,7 @@ class PlayerFragment: Fragment() {
         val bundle = Bundle()
         bundle.putString(
             MusicTextBottomSheet.ID_KEY,
-            viewModel.currentObject?.value?.id
+            PlayerInfo.currentObject.value?.id
         )
 
         bottomSheetText.arguments = bundle
@@ -401,7 +408,7 @@ class PlayerFragment: Fragment() {
             true -> {
                 viewModel.isFavorite = false
                 binding.likeView.isSelected = false
-                viewModel.deleteMusic(viewModel.currentObject?.value?.id.toString())
+                viewModel.deleteMusic(PlayerInfo.currentObject.value?.id.toString())
             }
 
             false -> {
@@ -413,7 +420,7 @@ class PlayerFragment: Fragment() {
 
                 viewModel.isFavorite = true
                 binding.likeView.isSelected = true
-                viewModel.addFavoriteMusic(viewModel.currentObject?.value ?: Music())
+                viewModel.addFavoriteMusic(PlayerInfo.currentObject.value ?: Music())
             }
         }
     }
@@ -443,7 +450,7 @@ class PlayerFragment: Fragment() {
     }
 
     private fun playVideo() {
-        if (viewModel.currentObject?.value?.movieUrl.isNullOrEmpty()) {
+        if (PlayerInfo.currentObject.value?.movieUrl.isNullOrEmpty()) {
             return
         }
 
@@ -473,7 +480,7 @@ class PlayerFragment: Fragment() {
     }
 
     private fun changeNameAndGroupView() {
-        val newObj = viewModel.musicList?.value!![viewModel.currentPosition?.value ?: 0]
+        val newObj = viewModel.musicList?.value!![PlayerInfo.currentPosition.value ?: 0]
 
         binding.musicTextView.text = newObj.name
         binding.groupTextView.text = newObj.group

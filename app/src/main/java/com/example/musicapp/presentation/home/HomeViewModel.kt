@@ -33,7 +33,6 @@ class HomeViewModel(
     private val addPlaylistInSQLite: AddPlaylistInSQLite,
     private val getRandomMusic: GetRandomMusic
 ): ViewModel() {
-    lateinit var isPlayService: LiveData<Boolean>
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
@@ -84,7 +83,6 @@ class HomeViewModel(
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as PlayerService.PlayerBinder
             servicePlayer = binder.getService()
-            isPlayService = binder.isPlay()
             isBound.value = true
         }
 

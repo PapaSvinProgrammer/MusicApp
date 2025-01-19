@@ -32,7 +32,8 @@ class MusicListPagerAdapter(
 
             val recyclerAdapter = MusicAdapter(
                 supportFragmentManager = supportFragmentManager,
-                playerService = playerService
+                playerService = playerService,
+                musicList = asyncListDiffer.currentList
             )
             recyclerAdapter.setData(list.subList(startPosition, endPosition))
             binding.recyclerView.adapter = recyclerAdapter

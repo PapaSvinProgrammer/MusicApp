@@ -41,8 +41,6 @@ class FavoriteViewModel(
     private val getCountPlaylist: GetCountPlaylist
 ): ViewModel() {
     var isPlay: LiveData<Boolean>? = null
-    var currentPosition: LiveData<Int>? = null
-    var currentObject: LiveData<Music>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
@@ -112,9 +110,6 @@ class FavoriteViewModel(
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val bind = service as PlayerService.PlayerBinder
             servicePlayer = bind.getService()
-            isPlay = bind.isPlay()
-            currentPosition = bind.getCurrentPosition()
-            currentObject = bind.getCurrentObject()
             isBound.value = true
         }
 

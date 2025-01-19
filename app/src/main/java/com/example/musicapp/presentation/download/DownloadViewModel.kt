@@ -20,8 +20,6 @@ class DownloadViewModel(
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
-    var isPlay: LiveData<Boolean>? = null
-    var currentObject: LiveData<Music>? = null
     val isBound = MutableLiveData<Boolean>()
 
     private val musicLiveData = MutableLiveData<List<Music>>()
@@ -37,8 +35,6 @@ class DownloadViewModel(
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val bind = service as PlayerService.PlayerBinder
             servicePlayer = bind.getService()
-            isPlay = bind.isPlay()
-            currentObject = bind.getCurrentObject()
             isBound.value = true
         }
 

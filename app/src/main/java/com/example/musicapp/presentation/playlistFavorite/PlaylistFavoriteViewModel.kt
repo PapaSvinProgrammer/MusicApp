@@ -30,17 +30,14 @@ class PlaylistFavoriteViewModel(
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
-    var currentPosition: LiveData<Int>? = null
-    var currentObject: LiveData<Music>? = null
-    var isPlay: LiveData<Boolean>? = null
     val isBound = MutableLiveData<Boolean>()
 
-    private val getPlaylistLiveData = MutableLiveData<PlaylistResult?>()
+    private val getPlaylistLiveData = MutableLiveData<PlaylistResult>()
     private val countTextMusicLiveData = MutableLiveData<String>()
     private val timePlaylistLiveData = MutableLiveData<String>()
     private val searchLiveData = MutableLiveData<List<MusicResult?>>()
 
-    val getPlaylistResult: LiveData<PlaylistResult?> = getPlaylistLiveData
+    val getPlaylistResult: LiveData<PlaylistResult> = getPlaylistLiveData
     val countTextMusicResult: LiveData<String> = countTextMusicLiveData
     val timePlaylistResult: LiveData<String> = timePlaylistLiveData
     val searchResult: LiveData<List<MusicResult?>> = searchLiveData
@@ -101,9 +98,6 @@ class PlaylistFavoriteViewModel(
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as PlayerService.PlayerBinder
             servicePlayer = binder.getService()
-            currentPosition = binder.getCurrentPosition()
-            currentObject = binder.getCurrentObject()
-            isPlay = binder.isPlay()
             isBound.value = true
         }
 

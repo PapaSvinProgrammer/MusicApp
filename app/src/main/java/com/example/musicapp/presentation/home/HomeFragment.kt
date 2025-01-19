@@ -21,6 +21,7 @@ import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
 import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.PlayerInfo
 import com.example.musicapp.service.player.module.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -183,7 +184,7 @@ class HomeFragment: Fragment() {
     private fun initServiceTools() {
         binding.searchLayout.searchRecyclerView.adapter = searchAdapter
 
-        viewModel.isPlayService.observe(viewLifecycleOwner) { state ->
+        PlayerInfo.isPlay.observe(viewLifecycleOwner) { state ->
             if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
                 return@observe
             }

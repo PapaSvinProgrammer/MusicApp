@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
@@ -22,16 +23,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment: Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
+    private lateinit var navController: NavController
     private val viewModel by viewModel<FavoriteViewModel>()
     private val musicPagerAdapter by lazy {
         MusicPagerAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
             servicePlayer = viewModel.servicePlayer,
-            isPlay = viewModel.isPlay,
-            currentObject = viewModel.currentObject
+
         )
     }
-    private val authorAdapter by lazy { AuthorAdapter() }
+    private val authorAdapter by lazy { AuthorAdapter(navController) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +45,7 @@ class FavoriteFragment: Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val navController = view.findNavController()
+        navController = view.findNavController()
 
         requireActivity().apply {
             bindService(
@@ -108,6 +109,10 @@ class FavoriteFragment: Fragment() {
 
         binding.downloadCardView.setOnClickListener {
             navController.navigate(R.id.action_favoriteFragment_to_downloadFragment)
+        }
+
+        binding.authorLayout.setOnClickListener {
+            navController.navigate(R.id.action_favoriteFragment_to_favoriteAuthorList)
         }
     }
 

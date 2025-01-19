@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_favoriteAuthorList"
+            app:destination="@id/favoriteAuthorList"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -236,7 +243,7 @@
         android:id="@+id/downloadListFragment"
         android:name="com.example.musicapp.presentation.downloadList.DownloadListFragment"
         android:label="fragment_download_list"
-        tools:layout="@layout/fragment_download_list" />
+        tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.musicapp.presentation.aboutApp.AboutFragment"
@@ -247,4 +254,8 @@
         android:name="com.example.musicapp.presentation.hate.HateFragment"
         android:label="fragment_hate"
         tools:layout="@layout/fragment_hate" />
+    <fragment
+        android:id="@+id/favoriteAuthorList"
+        android:name="com.example.musicapp.presentation.playlistFavoriteAuthorList.FavoriteAuthorList"
+        android:label="FavoriteAuthorList" />
 </navigation>

@@ -22,8 +22,6 @@ class SettingsViewModel(
     private val getEmail: GetEmail,
     private val getDarkModeState: GetDarkModeState
 ): ViewModel() {
-    lateinit var isPlay: LiveData<Boolean>
-    lateinit var currentPosition: LiveData<Int>
     @SuppressLint("StaticFieldLeak")
     lateinit var servicePlayer: PlayerService
     val isBound = MutableLiveData<Boolean>()
@@ -56,8 +54,6 @@ class SettingsViewModel(
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val bind = service as PlayerService.PlayerBinder
             servicePlayer = bind.getService()
-            isPlay = bind.isPlay()
-            currentPosition = bind.getCurrentPosition()
             isBound.value = true
         }
 

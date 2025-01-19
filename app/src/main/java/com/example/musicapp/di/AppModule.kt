@@ -17,6 +17,7 @@ import com.example.musicapp.presentation.download.DownloadViewModel
 import com.example.musicapp.presentation.downloadList.DownloadListViewModel
 import com.example.musicapp.presentation.playlist.PlaylistViewModel
 import com.example.musicapp.presentation.playlistFavorite.PlaylistFavoriteViewModel
+import com.example.musicapp.presentation.playlistFavoriteAuthorList.FavoriteAuthorListViewModel
 import com.example.musicapp.presentation.registration.RegistrationViewModel
 import com.example.musicapp.presentation.settingPreferences.SettingsPreferencesViewModel
 import com.example.musicapp.presentation.settings.SettingsViewModel
@@ -203,5 +204,12 @@ val appModule = module {
 
     viewModel {
         PlaylistFavoriteBottomSheetViewModel()
+    }
+
+    viewModel {
+        FavoriteAuthorListViewModel(
+            getAuthorsFromSQLite = get(),
+            searchGroupLocal = get()
+        )
     }
 }

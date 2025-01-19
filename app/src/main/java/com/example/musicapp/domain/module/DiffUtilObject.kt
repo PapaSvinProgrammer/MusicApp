@@ -17,7 +17,7 @@ object DiffUtilObject {
         }
     }
 
-    val musicResultDiffUtilCallback = object: DiffUtil.ItemCallback<MusicResult?>() {
+    val musicResultDiffUtilCallback = object: DiffUtil.ItemCallback<MusicResult>() {
         override fun areItemsTheSame(oldItem: MusicResult, newItem: MusicResult): Boolean {
             return oldItem === newItem
         }

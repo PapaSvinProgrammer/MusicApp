@@ -30,9 +30,6 @@ class MainViewModel(
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
-    var isPlayService: LiveData<Boolean>? = null
-    var currentPosition: LiveData<Int>? = null
-    var currentObject: LiveData<Music>? = null
     var musicList: LiveData<List<Music>>? = null
     @SuppressLint("StaticFieldLeak")
     var servicePlayer: PlayerService? = null
@@ -103,10 +100,7 @@ class MainViewModel(
             servicePlayer = binder.getService()
             maxDurationLiveData = binder.getMaxDuration()
             durationLiveData = binder.getCurrentDuration()
-            currentPosition = binder.getCurrentPosition()
-            isPlayService = binder.isPlay()
             musicList = binder.getMusicList()
-            currentObject = binder.getCurrentObject()
             isBound.value = true
         }
 

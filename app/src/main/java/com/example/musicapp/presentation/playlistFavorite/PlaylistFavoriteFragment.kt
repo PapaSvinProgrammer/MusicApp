@@ -31,9 +31,7 @@ class PlaylistFavoriteFragment: Fragment() {
         MusicResultAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
             musicType = MusicType.VERTICAL,
-            servicePlayer = viewModel.servicePlayer,
-            currentObject = viewModel.currentObject,
-            isPlay = viewModel.isPlay
+            servicePlayer = viewModel.servicePlayer
         )
     }
     private val searchMusicResultAdapter by lazy {
@@ -69,9 +67,9 @@ class PlaylistFavoriteFragment: Fragment() {
                 .load(it?.playlistEntity?.imageUrl)
                 .into(binding.appBar.backImage)
 
-            musicResultAdapter.setData(it?.musicResult?.reversed() ?: arrayListOf())
+            musicResultAdapter.setData(it.musicResult.reversed())
             binding.recyclerView.adapter = musicResultAdapter
-            binding.appBar.collapsingToolbar.title = it?.playlistEntity?.name
+            binding.appBar.collapsingToolbar.title = it.playlistEntity.name
         }
 
         viewModel.countTextMusicResult.observe(viewLifecycleOwner) { text ->

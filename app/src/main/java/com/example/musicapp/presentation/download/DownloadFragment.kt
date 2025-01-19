@@ -23,9 +23,7 @@ class DownloadFragment: Fragment() {
     private val pagerAdapter by lazy {
         DownloadMusicPagerAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer,
-            isPlay = viewModel.isPlay,
-            currentObject = viewModel.currentObject
+            servicePlayer = viewModel.servicePlayer
         )
     }
 

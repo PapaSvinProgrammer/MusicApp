@@ -29,13 +29,13 @@ import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_
 import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_PREV
 import com.example.musicapp.service.player.PlayerService.Companion.CHANNEL_ID
 import com.example.musicapp.service.player.PlayerService.Companion.TAG
+import com.example.musicapp.service.player.module.PlayerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AudioNotification(
     private val context: Context,
-    private val isPlay: MutableLiveData<Boolean>,
     private val isFavorite: MutableLiveData<Boolean>,
     private val nextPendingIntent: PendingIntent?,
     private val prevPendingIntent: PendingIntent?,
@@ -90,7 +90,7 @@ class AudioNotification(
                 prevPendingIntent
             )
             .addAction(
-                if (isPlay.value == true) R.drawable.ic_pause else R.drawable.ic_play,
+                if (PlayerInfo.isPlay.value == true) R.drawable.ic_pause else R.drawable.ic_play,
                 ACTION_TITLE_PLAY_PAUSE,
                 playPendingIntent
             )

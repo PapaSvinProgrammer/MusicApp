@@ -13,6 +13,7 @@ import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
+import com.example.musicapp.service.player.module.PlayerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -48,22 +49,19 @@ class PlayerService: Service() {
     private val currentDuration = MutableLiveData<Long>()
     private val maxDuration = MutableLiveData<Long>()
     private val bufferedPosition = MutableLiveData<Long>()
-    private var isPlay = MutableLiveData<Boolean>()
     private val isRepeat = MutableLiveData<Boolean>()
-    private var currentPosition = MutableLiveData<Int>()
-    private val currentObject = MutableLiveData<Music>()
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
 
-        isPlay.value = false
-        currentPosition.value = 0
+        PlayerInfo.setIsPlay(false)
+        PlayerInfo.setCurrentPosition(0)
+
         maxDuration.value = 0
 
         audioNotification = AudioNotification(
             context = this@PlayerService,
-            isPlay = isPlay,
             isFavorite = isFavorite,
             nextPendingIntent = nextPendingIntent(),
             prevPendingIntent = previousPendingIntent(),
@@ -102,18 +100,11 @@ class PlayerService: Service() {
 
         fun getMaxDuration() = this@PlayerService.maxDuration
 
-        fun isPlay() = this@PlayerService.isPlay
-
         fun isRepeat() = this@PlayerService.isRepeat
-
-        fun getCurrentPosition() = this@PlayerService.currentPosition
 
         fun getBufferedPosition() = this@PlayerService.bufferedPosition
 
-        fun getCurrentObject() = this@PlayerService.currentObject
-
         fun getMusicList() = this@PlayerService.musicList
-
     }
 
     fun setPlayerState(state: StatePlayer) {
@@ -129,14 +120,14 @@ class PlayerService: Service() {
     fun setMusicList(list: List<Music>) {
         this.musicList.value = list
 
-        currentObject.value = musicList.value!![currentPosition.value ?: 0]
+        updateCurrentObject()
         audioPlayer?.setData(list)
     }
 
     fun setDownloadMusicList(list: List<Music>) {
         this.musicList.value = list
 
-        currentObject.value = musicList.value!![currentPosition.value ?: 0]
+        updateCurrentObject()
         audioPlayer?.setDataDownload(list)
     }
 
@@ -152,7 +143,7 @@ class PlayerService: Service() {
     fun playNext(music: Music) {
         audioPlayer?.addNext(music)
 
-        val currentPosition = currentPosition.value ?: 0
+        val currentPosition = PlayerInfo.currentPosition.value ?: 0
         val currentList = musicList.value?.toMutableList()
         currentList?.add(currentPosition + 1, music)
 
@@ -162,8 +153,8 @@ class PlayerService: Service() {
     fun addToQueue(music: Music) {
         audioPlayer?.addInQueue(music)
 
-        if ((currentPosition.value ?: 0) > lastIndexToQueue) {
-            lastIndexToQueue = (currentPosition.value ?: 0) + 1
+        if ((PlayerInfo.currentPosition.value ?: 0) > lastIndexToQueue) {
+            lastIndexToQueue = (PlayerInfo.currentPosition.value ?: 0) + 1
         }
         else {
             lastIndexToQueue++
@@ -190,20 +181,25 @@ class PlayerService: Service() {
 
         if (musicList.value == null) return
 
+        var currentObject: Music? = null
+
         try {
-            currentObject.value = musicList.value!![position]
+            currentObject = musicList.value!![position]
         } catch (e: IndexOutOfBoundsException) {
             Log.d(ErrorConst.DEFAULT_ERROR, e.message.toString())
         }
 
-        currentPosition.value = position
-
-        audioPlayer?.setPosition(position, isPlay.value ?: false)
+        PlayerInfo.setCurrentObject(currentObject ?: Music())
+        PlayerInfo.setCurrentPosition(position)
+        audioPlayer?.setPosition(
+            position = position,
+            isPlay = PlayerInfo.isPlay.value ?: false
+        )
 
         maxDuration.value = 0
         updateDurations()
 
-        audioNotification?.execute(currentObject.value!!)
+        audioNotification?.execute(currentObject ?: Music())
     }
 
     fun seekTo(msec: Int) {
@@ -227,44 +223,24 @@ class PlayerService: Service() {
         audioPlayer?.shuffle()
     }
 
-    private fun pause() {
-        isPlay.value = false
-        audioPlayer?.pause()
-
-        if (musicList.value != null) {
-            audioNotification?.execute(currentObject.value ?: Music())
-        }
-    }
-
-    private fun play() {
-        isPlay.value = true
-
-        if (musicList.value == null) return
-
-        audioPlayer?.play()
-        updateDurations()
-
-        audioNotification?.execute(currentObject.value ?: Music())
-    }
-
     fun previous() {
         if ((currentDuration.value ?: 0) > COUNT_MSEC_TO_RESET) {
             reset()
             return
         }
 
-        if ((currentPosition.value ?: 0) - 1 < 0) return
+        if ((PlayerInfo.currentPosition.value ?: 0) - 1 < 0) return
 
         if (isRepeat.value == true) {
             return
         }
 
-        currentPosition.value = (currentPosition.value ?: 0) - 1
-        setCurrentPosition(currentPosition.value ?: 0)
+        val currentPosition = (PlayerInfo.currentPosition.value ?: 0) - 1
+        setCurrentPosition(currentPosition)
     }
 
     fun next() {
-        if ((currentPosition.value ?: 0) + 1 > (musicList.value?.size ?: 0) - 1) {
+        if ((PlayerInfo.currentPosition.value ?: 0) + 1 > (musicList.value?.size ?: 0) - 1) {
             return
         }
 
@@ -272,15 +248,42 @@ class PlayerService: Service() {
             return
         }
 
-        currentPosition.value = (currentPosition.value ?: 0) + 1
-        setCurrentPosition(currentPosition.value ?: 0)
+        val currentPosition = (PlayerInfo.currentPosition.value ?: 0) + 1
+        PlayerInfo.setCurrentPosition(currentPosition)
+
+        setCurrentPosition(currentPosition)
+    }
+
+    private fun pause() {
+        PlayerInfo.setIsPlay(false)
+        audioPlayer?.pause()
+
+        if (musicList.value != null) {
+            audioNotification?.execute(PlayerInfo.currentObject.value ?: Music())
+        }
+    }
+
+    private fun play() {
+        PlayerInfo.setIsPlay(true)
+        if (musicList.value == null) return
+
+        audioPlayer?.play()
+        updateDurations()
+
+        audioNotification?.execute(PlayerInfo.currentObject.value ?: Music())
+    }
+
+    private fun updateCurrentObject() {
+        val currentPosition = PlayerInfo.currentPosition.value
+        val currentObject = musicList.value!![currentPosition ?: 0]
+        PlayerInfo.setCurrentObject(currentObject)
     }
 
     private fun updateDurations() {
         job?.cancel()
 
         job = CoroutineScope(Dispatchers.Main).launch {
-            while (isPlay.value == true) {
+            while (PlayerInfo.isPlay.value == true) {
                 if ((maxDuration.value ?: 0) <= 0L) {
                     maxDuration.value = audioPlayer?.getMaxDuration()
                 }
@@ -288,9 +291,11 @@ class PlayerService: Service() {
                 currentDuration.value = audioPlayer?.getCurrentDuration()
                 bufferedPosition.value = audioPlayer?.getBufferedPosition()
 
-                if ((currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
-                    currentObject.value = musicList.value!![currentPosition.value ?: 0]
-                    currentPosition.value = audioPlayer?.getCurrentItem()
+                if ((PlayerInfo.currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
+                    val currentObject = musicList.value!![PlayerInfo.currentPosition.value ?: 0]
+                    PlayerInfo.setCurrentObject(currentObject)
+
+                    PlayerInfo.setCurrentPosition(audioPlayer?.getCurrentItem() ?: 0)
                     maxDuration.value = 0
                 }
 
@@ -340,7 +345,7 @@ class PlayerService: Service() {
 
     private fun playPendingIntent(): PendingIntent? {
         val intent = Intent(this, PlayerService::class.java).apply {
-            action = if (isPlay.value == true) ACTION_PAUSE else ACTION_PLAY
+            action = if (PlayerInfo.isPlay.value == true) ACTION_PAUSE else ACTION_PLAY
         }
 
         return PendingIntent.getService(

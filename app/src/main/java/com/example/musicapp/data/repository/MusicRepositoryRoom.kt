@@ -86,9 +86,15 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun search(text: String): List<MusicResult> {
+    override suspend fun searchMusic(text: String): List<MusicResult> {
         return CoroutineScope(Dispatchers.IO).async {
             musicDao.searchMusic("%$text%")
+        }.await()
+    }
+
+    override suspend fun searchAuthor(text: String): List<AuthorEntity> {
+        return CoroutineScope(Dispatchers.IO).async {
+            musicDao.searchAuthor("%$text%")
         }.await()
     }
 }

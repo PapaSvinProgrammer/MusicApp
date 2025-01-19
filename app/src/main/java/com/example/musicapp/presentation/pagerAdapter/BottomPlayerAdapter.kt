@@ -14,6 +14,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.main.MainViewModel
+import com.example.musicapp.service.player.module.PlayerInfo
 
 class BottomPlayerAdapter(
     private val navController: NavController,
@@ -82,7 +83,7 @@ class BottomPlayerAdapter(
         }
 
         private fun initServiceTools(music: Music) {
-            viewModel.isPlayService?.observe(livecycleOwner) {
+            PlayerInfo.isPlay.observe(livecycleOwner) {
                 binding.iconPlayView.isSelected = it
             }
 
@@ -94,7 +95,7 @@ class BottomPlayerAdapter(
                 binding.progressIndicator.progress = it.toInt()
             }
 
-            viewModel.currentObject?.observe(livecycleOwner) {
+            PlayerInfo.currentObject.observe(livecycleOwner) {
                 if (music.id != it.id) {
                     binding.progressIndicator.visibility = View.GONE
                     binding.iconPlayView.visibility = View.GONE

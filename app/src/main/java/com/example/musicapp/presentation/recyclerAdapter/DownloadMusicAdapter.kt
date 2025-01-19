@@ -8,7 +8,6 @@ import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +20,7 @@ import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
+import com.example.musicapp.service.player.module.PlayerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,8 +29,6 @@ class DownloadMusicAdapter(
     private val supportFragmentManager: FragmentManager? = null,
     private var musicType: MusicType = MusicType.VERTICAL,
     private var servicePlayer: PlayerService? = null,
-    private var currentObject: LiveData<Music>? = null,
-    private var isPlay: LiveData<Boolean>? = null,
     private var musicList: List<Music>? = null
 ): RecyclerView.Adapter<DownloadMusicAdapter.ViewHolder>() {
     @UnstableApi
@@ -58,7 +56,7 @@ class DownloadMusicAdapter(
 
             binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
 
-            currentObject?.observe(lifecycleOwner) {
+            PlayerInfo.currentObject.observe(lifecycleOwner) {
                 if (it.id == music.id) {
                     hoveredItem()
                 }
@@ -67,7 +65,7 @@ class DownloadMusicAdapter(
                 }
             }
 
-            isPlay?.observe(lifecycleOwner) {
+            PlayerInfo.isPlay.observe(lifecycleOwner) {
                 if (it) {
                     binding.musicLayout.playAnim.playAnimation()
                 }

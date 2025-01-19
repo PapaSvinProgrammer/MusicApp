@@ -50,6 +50,10 @@ interface MusicDao {
             "OR album_name LIKE :searchString")
     fun searchMusic(searchString: String): List<MusicResult>
 
+    @Transaction
+    @Query("SELECT * FROM author_for_music WHERE author_name LIKE :searchString")
+    fun searchAuthor(searchString: String): List<AuthorEntity>
+
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")
     suspend fun deleteMusicById(firebaseId: String)
 

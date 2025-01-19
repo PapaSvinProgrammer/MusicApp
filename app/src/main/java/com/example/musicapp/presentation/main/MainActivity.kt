@@ -26,6 +26,7 @@ import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.service.audioDownloader.AudioDownloadManager
 import com.example.musicapp.service.audioDownloader.AudioManager
 import com.example.musicapp.service.player.module.DataPlayerType
+import com.example.musicapp.service.player.module.PlayerInfo
 import com.example.musicapp.service.player.module.TypeDataPlayer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -129,7 +130,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initServiceTools() {
-        viewModel.currentPosition?.observe(this) { position->
+        PlayerInfo.currentPosition.observe(this) { position->
             if (position == viewModel.countMusicList - 1) {
                 viewModel.addRandomMusic()
             }
@@ -139,7 +140,7 @@ class MainActivity: AppCompatActivity() {
             }
 
             viewModel.musicList?.value?.let {
-                val currentObject = it[viewModel.currentPosition?.value ?: 0]
+                val currentObject = it[PlayerInfo.currentPosition.value ?: 0]
                 viewModel.isFavorite(currentObject.id ?: "")
             }
         }
