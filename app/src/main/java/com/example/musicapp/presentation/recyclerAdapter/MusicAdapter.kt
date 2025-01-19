@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class MusicAdapter(
     private val playerService: PlayerService? = null,
-    private val supportFragmentManager: FragmentManager
+    private val supportFragmentManager: FragmentManager? = null
 ): RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music) {
@@ -51,7 +51,7 @@ class MusicAdapter(
                 bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, music)
                 musicBottomSheet.arguments = bundle
 
-                supportFragmentManager.let {
+                supportFragmentManager?.let {
                     musicBottomSheet.show(it, MusicBottomSheet.TAG)
                 }
             }

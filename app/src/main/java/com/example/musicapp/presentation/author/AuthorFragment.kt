@@ -1,5 +1,7 @@
 package com.example.musicapp.presentation.author
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.example.musicapp.databinding.FragmentAuthorBinding
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.MusicListPagerAdapter
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
+import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthorFragment: Fragment() {
@@ -26,7 +29,8 @@ class AuthorFragment: Fragment() {
     private val viewModel by viewModel<AuthorViewModel>()
     private val musicPager by lazy {
         MusicListPagerAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager
+            supportFragmentManager = requireActivity().supportFragmentManager,
+            playerService = viewModel.playerService
         )
     }
     private val albumAdapter by lazy { AlbumAdapter() }
@@ -42,6 +46,14 @@ class AuthorFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, PlayerService::class.java),
+                viewModel.connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
 
         HorizontalOffsetController().setPreviewOffsetBottomPager(
             viewPager2 = binding.musicViewPager,

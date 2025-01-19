@@ -24,7 +24,8 @@ class DownloadListFragment: Fragment() {
     private val viewModel by viewModel<DownloadListViewModel>()
     private val searchMusicAdapter by lazy {
         MusicAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager
+            supportFragmentManager = requireActivity().supportFragmentManager,
+            playerService = viewModel.servicePlayer
         )
     }
     private val musicAdapter by lazy {

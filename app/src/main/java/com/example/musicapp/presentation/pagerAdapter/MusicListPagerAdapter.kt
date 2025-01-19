@@ -9,9 +9,11 @@ import com.example.musicapp.databinding.ItemRecyclerMusicListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
+import com.example.musicapp.service.player.PlayerService
 
 class MusicListPagerAdapter(
-    private val supportFragmentManager: FragmentManager
+    private val supportFragmentManager: FragmentManager? = null,
+    private val playerService: PlayerService? = null
 ): RecyclerView.Adapter<MusicListPagerAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecyclerMusicListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(list: List<Music>, portionNumber: Int) {
@@ -28,7 +30,10 @@ class MusicListPagerAdapter(
                 startPosition = size
             }
 
-            val recyclerAdapter = MusicAdapter(supportFragmentManager)
+            val recyclerAdapter = MusicAdapter(
+                supportFragmentManager = supportFragmentManager,
+                playerService = playerService
+            )
             recyclerAdapter.setData(list.subList(startPosition, endPosition))
             binding.recyclerView.adapter = recyclerAdapter
         }
