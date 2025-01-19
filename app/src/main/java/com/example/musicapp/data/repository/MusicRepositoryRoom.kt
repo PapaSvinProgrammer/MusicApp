@@ -30,7 +30,7 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun getMusicLimit(limit: String): List<MusicResult?> {
+    override suspend fun getMusicLimit(limit: String): List<MusicResult> {
        val job = CoroutineScope(Dispatchers.IO).async {
            musicDao.getMusicLimit(limit)
        }
@@ -38,7 +38,7 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun getAuthorLimit(limit: String): List<AuthorEntity?> {
+    override suspend fun getAuthorLimit(limit: String): List<AuthorEntity> {
         val job = CoroutineScope(Dispatchers.IO).async {
             musicDao.getAuthorLimit(limit)
         }
@@ -46,7 +46,7 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun getAllMusic(): List<MusicResult?> {
+    override suspend fun getAllMusic(): List<MusicResult> {
         val job = CoroutineScope(Dispatchers.IO).async {
             musicDao.getAll()
         }
@@ -54,7 +54,7 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun getAllAuthor(): List<AuthorEntity?> {
+    override suspend fun getAllAuthor(): List<AuthorEntity> {
         val job = CoroutineScope(Dispatchers.IO).async {
             musicDao.getAllAuthor()
         }
@@ -84,5 +84,11 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         }
 
         return job.await()
+    }
+
+    override suspend fun search(text: String): List<MusicResult> {
+        return CoroutineScope(Dispatchers.IO).async {
+            musicDao.searchMusic("%$text%")
+        }.await()
     }
 }

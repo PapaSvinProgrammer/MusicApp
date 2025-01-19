@@ -42,27 +42,33 @@ class PlaylistRepositoryRoom(
         }.await()
     }
 
-    override suspend fun getOnlyPlaylist(): List<PlaylistEntity?> {
+    override suspend fun getOnlyPlaylist(): List<PlaylistEntity> {
         return CoroutineScope(Dispatchers.IO).async {
             playlistDao.getOnlyPlaylist()
         }.await()
     }
 
-    override suspend fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity?> {
+    override suspend fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity> {
         return CoroutineScope(Dispatchers.IO).async {
             playlistDao.getOnlyPlaylistLimit(limit)
         }.await()
     }
 
-    override fun getAllById(): Flow<List<PlaylistResult?>> {
+    override fun getAllById(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllById()
     }
 
-    override fun getAllByName(): Flow<List<PlaylistResult?>> {
+    override fun getAllByName(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllByName()
     }
 
-    override fun getAllByDate(): Flow<List<PlaylistResult?>> {
+    override fun getAllByDate(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllByDate()
+    }
+
+    override suspend fun search(text: String): List<PlaylistResult> {
+        return CoroutineScope(Dispatchers.IO).async {
+            playlistDao.searchPlaylist("%$text%")
+        }.await()
     }
 }

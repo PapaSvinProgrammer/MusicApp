@@ -27,19 +27,28 @@ interface MusicDao {
 
     @Transaction
     @Query("SELECT * FROM favorite_music ORDER BY id DESC")
-    fun getAll(): List<MusicResult?>
+    fun getAll(): List<MusicResult>
 
     @Transaction
     @Query("SELECT * FROM author_for_music ORDER BY id DESC")
-    fun getAllAuthor(): List<AuthorEntity?>
+    fun getAllAuthor(): List<AuthorEntity>
 
     @Transaction
     @Query("SELECT * FROM favorite_music ORDER BY id DESC LIMIT :limit")
-    fun getMusicLimit(limit: String): List<MusicResult?>
+    fun getMusicLimit(limit: String): List<MusicResult>
 
     @Transaction
     @Query("SELECT * FROM author_for_music ORDER BY id DESC LIMIT :limit")
-    fun getAuthorLimit(limit: String): List<AuthorEntity?>
+    fun getAuthorLimit(limit: String): List<AuthorEntity>
+
+    @Transaction
+    @Query("SELECT * FROM favorite_music " +
+            "JOIN author_for_music ON author_id = author_for_music.firebase_id " +
+            "JOIN album_for_music ON album_id = album_for_music.firebase_id " +
+            "WHERE name LIKE :searchString " +
+            "OR author_name LIKE :searchString " +
+            "OR album_name LIKE :searchString")
+    fun searchMusic(searchString: String): List<MusicResult>
 
     @Query("DELETE FROM favorite_music WHERE firebase_id = :firebaseId")
     suspend fun deleteMusicById(firebaseId: String)

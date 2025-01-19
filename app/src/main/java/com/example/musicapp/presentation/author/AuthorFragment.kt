@@ -24,7 +24,11 @@ class AuthorFragment: Fragment() {
     private lateinit var navController: NavController
 
     private val viewModel by viewModel<AuthorViewModel>()
-    private val musicPager by lazy { MusicListPagerAdapter() }
+    private val musicPager by lazy {
+        MusicListPagerAdapter(
+            supportFragmentManager = requireActivity().supportFragmentManager
+        )
+    }
     private val albumAdapter by lazy { AlbumAdapter() }
 
     override fun onCreateView(

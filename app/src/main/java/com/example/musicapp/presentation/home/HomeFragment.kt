@@ -35,7 +35,8 @@ class HomeFragment: Fragment() {
     private val searchAdapter by lazy {
         SearchAllAdapter(
             navController = navController,
-            playerService = viewModel.servicePlayer
+            playerService = viewModel.servicePlayer,
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
 

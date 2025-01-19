@@ -11,4 +11,5 @@ interface DownloadMusicRepository {
     fun getDownloadsLimit(limit: Int): List<Music>
     fun getDownload(musicId: String): Music?
     fun getCount(): Int
+    fun search(text: String): List<Music>
 }

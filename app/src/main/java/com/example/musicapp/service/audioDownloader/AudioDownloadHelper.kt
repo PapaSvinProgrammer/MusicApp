@@ -113,4 +113,26 @@ class AudioDownloadHelper(
         cursor.close()
         return result
     }
+
+    override fun search(text: String): List<Music> {
+        val result = ArrayList<Music>()
+        var count = 0
+        val cursor: DownloadCursor = AudioManager.audioDownloadManager
+            .downloadManager
+            .downloadIndex
+            .getDownloads()
+
+        while (cursor.moveToNext()) {
+            val jsonString = Util.fromUtf8Bytes(cursor.download.request.data)
+            val music = Gson().fromJson(jsonString, Music::class.java)
+
+            if ((music.name + music.albumName + music.group).lowercase().trim().contains(text.lowercase().trim())) {
+                result.add(music)
+                count++
+            }
+        }
+
+        cursor.close()
+        return result
+    }
 }

@@ -37,7 +37,9 @@ class PlaylistFavoriteFragment: Fragment() {
         )
     }
     private val searchMusicResultAdapter by lazy {
-        SearchMusicResultAdapter()
+        SearchMusicResultAdapter(
+            supportFragmentManager = requireActivity().supportFragmentManager
+        )
     }
 
     override fun onCreateView(

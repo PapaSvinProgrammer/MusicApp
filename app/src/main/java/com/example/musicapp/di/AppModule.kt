@@ -192,7 +192,8 @@ val appModule = module {
 
     viewModel {
         DownloadListViewModel(
-            getDownloadedMusic = get()
+            getDownloadedMusic = get(),
+            searchDownloadedLocal = get()
         )
     }
 

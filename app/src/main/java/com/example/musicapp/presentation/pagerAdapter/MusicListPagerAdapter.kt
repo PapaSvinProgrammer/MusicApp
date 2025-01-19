@@ -2,6 +2,7 @@ package com.example.musicapp.presentation.pagerAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapp.databinding.ItemRecyclerMusicListBinding
@@ -9,7 +10,9 @@ import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 
-class MusicListPagerAdapter: RecyclerView.Adapter<MusicListPagerAdapter.ViewHolder>() {
+class MusicListPagerAdapter(
+    private val supportFragmentManager: FragmentManager
+): RecyclerView.Adapter<MusicListPagerAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecyclerMusicListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(list: List<Music>, portionNumber: Int) {
             val size = list.size
@@ -25,7 +28,7 @@ class MusicListPagerAdapter: RecyclerView.Adapter<MusicListPagerAdapter.ViewHold
                 startPosition = size
             }
 
-            val recyclerAdapter = MusicAdapter()
+            val recyclerAdapter = MusicAdapter(supportFragmentManager)
             recyclerAdapter.setData(list.subList(startPosition, endPosition))
             binding.recyclerView.adapter = recyclerAdapter
         }

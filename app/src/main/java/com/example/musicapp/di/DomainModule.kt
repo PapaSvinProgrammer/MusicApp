@@ -51,6 +51,7 @@ import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAlbum
 import com.example.musicapp.domain.usecase.search.searchFirebase.SearchAll
 import com.example.musicapp.domain.usecase.search.searchFirebase.SearchGroup
 import com.example.musicapp.domain.usecase.search.searchFirebase.SearchMusic
+import com.example.musicapp.domain.usecase.search.searchSQLite.SearchDownloadedLocal
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchMusicLocal
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchPlaylistLocal
 import com.example.musicapp.domain.usecase.valid.EmailValid
@@ -365,10 +366,20 @@ val domainModule = module {
     }
 
     factory {
-        SearchPlaylistLocal()
+        SearchPlaylistLocal(
+            playlistRepository = get()
+        )
     }
 
     factory {
-        SearchMusicLocal()
+        SearchMusicLocal(
+            musicLiteRepository = get()
+        )
+    }
+
+    factory {
+        SearchDownloadedLocal(
+            downloadMusicRepository = get()
+        )
     }
 }

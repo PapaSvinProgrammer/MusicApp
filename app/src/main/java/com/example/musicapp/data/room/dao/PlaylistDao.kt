@@ -20,23 +20,27 @@ interface PlaylistDao {
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY id")
-    fun getAllById(): Flow<List<PlaylistResult?>>
+    fun getAllById(): Flow<List<PlaylistResult>>
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY name_playlist")
-    fun getAllByName(): Flow<List<PlaylistResult?>>
+    fun getAllByName(): Flow<List<PlaylistResult>>
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY date")
-    fun getAllByDate(): Flow<List<PlaylistResult?>>
+    fun getAllByDate(): Flow<List<PlaylistResult>>
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY id DESC LIMIT :limit")
-    fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity?>
+    fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity>
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY id DESC")
-    fun getOnlyPlaylist(): List<PlaylistEntity?>
+    fun getOnlyPlaylist(): List<PlaylistEntity>
+
+    @Transaction
+    @Query("SELECT * FROM playlists WHERE name_playlist LIKE :searchString")
+    fun searchPlaylist(searchString: String): List<PlaylistResult>
 
     @Transaction
     @Query("DELETE FROM playlists WHERE id = :id")
