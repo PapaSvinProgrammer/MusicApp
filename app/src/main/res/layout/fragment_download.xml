@@ -49,10 +49,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/music_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_music"
+        app:spanCount="3"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/music_download_layout"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -63,7 +67,7 @@
         app:cardCornerRadius="0dp"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@id/view_pager">
+        app:layout_constraintTop_toBottomOf="@id/music_recycler_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

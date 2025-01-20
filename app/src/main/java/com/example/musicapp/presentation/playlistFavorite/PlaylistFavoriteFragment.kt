@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
 import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.bottomSheetPlaylistFavorite.PlaylistFavoriteBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicResultAdapter
@@ -30,7 +29,6 @@ class PlaylistFavoriteFragment: Fragment() {
     private val musicResultAdapter by lazy {
         MusicResultAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
-            musicType = MusicType.VERTICAL,
             servicePlayer = viewModel.servicePlayer
         )
     }

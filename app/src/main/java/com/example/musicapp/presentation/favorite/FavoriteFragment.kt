@@ -10,26 +10,29 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.databinding.FragmentFavoriteBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
-import com.example.musicapp.presentation.pagerAdapter.MusicPagerAdapter
+import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.recyclerAdapter.AuthorAdapter
+import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
+import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class FavoriteFragment: Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<FavoriteViewModel>()
-    private val musicPagerAdapter by lazy {
-        MusicPagerAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer,
 
+    private val musicPagerAdapter by lazy {
+        MusicResultAdapter(
+            supportFragmentManager = requireActivity().supportFragmentManager,
+            servicePlayer = viewModel.servicePlayer
         )
     }
     private val authorAdapter by lazy { AuthorAdapter(navController) }
@@ -55,16 +58,15 @@ class FavoriteFragment: Fragment() {
             )
         }
 
-        HorizontalOffsetController().setPreviewOffsetBottomPager(
-            viewPager2 = binding.musicViewPager,
-            nextItemVisibleSize = R.dimen.viewpager_item_visible,
-            currentItemHorizontalMargin = R.dimen.viewpager_horiz_music
-        )
+//        HorizontalOffsetController().setPreviewOffsetBottomPager(
+//            viewPager2 = binding.musicViewPager,
+//            nextItemVisibleSize = R.dimen.viewpager_item_visible,
+//            currentItemHorizontalMargin = R.dimen.viewpager_horiz_music
+//        )
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 musicPagerAdapter.setData(list)
-                binding.musicViewPager.adapter = musicPagerAdapter
             }
         }
 
@@ -99,6 +101,12 @@ class FavoriteFragment: Fragment() {
             }
         }
 
+        viewModel.isBound.observe(viewLifecycleOwner) {
+            if (it == true) {
+                initServiceTools()
+            }
+        }
+
         binding.playlistCardView.setOnClickListener {
             navController.navigate(R.id.action_global_playlistFragment)
         }
@@ -127,6 +135,12 @@ class FavoriteFragment: Fragment() {
         viewModel.getCountDownloadedMusic()
         viewModel.getCountMusic()
         viewModel.getCountPlaylist()
+    }
+
+    private fun initServiceTools() {
+        binding.musicRecyclerView.adapter = musicPagerAdapter
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.musicRecyclerView)
     }
 
     private fun drawPlaylists(list: List<PlaylistEntity?>) {

@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.util.UnstableApi
@@ -18,7 +16,6 @@ import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.service.player.module.DataPlayerType
@@ -30,9 +27,7 @@ import kotlinx.coroutines.launch
 
 class MusicResultAdapter(
     private val supportFragmentManager: FragmentManager? = null,
-    private var musicType: MusicType = MusicType.VERTICAL,
-    private var servicePlayer: PlayerService? = null,
-    private var musicList: List<MusicResult>? = null
+    private var servicePlayer: PlayerService? = null
 ): RecyclerView.Adapter<MusicResultAdapter.ViewHolder>() {
     @UnstableApi
     inner class ViewHolder(
@@ -40,8 +35,6 @@ class MusicResultAdapter(
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: MusicResult?) {
-            initView()
-
             Glide.with(binding.root)
                 .load(music?.albumEntity?.imageLow)
                 .error(R.drawable.ic_error_music)
@@ -92,17 +85,6 @@ class MusicResultAdapter(
             binding.root.isHovered = false
             binding.musicLayout.playAnim.visibility = View.GONE
         }
-
-        private fun initView() {
-            when (musicType) {
-                MusicType.VERTICAL -> {
-                    binding.musicLayout.imageView.updateLayoutParams<MarginLayoutParams> {
-                        setMargins(15, 0, 0, 0)
-                    }
-                }
-                else -> {}
-            }
-        }
     }
 
     private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicResultDiffUtilCallback)
@@ -130,27 +112,12 @@ class MusicResultAdapter(
         holder.binding.root.setOnClickListener {
             DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
-            if (!musicList.isNullOrEmpty()) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    servicePlayer?.setCurrentPosition(position)
-
-                    servicePlayer?.setMusicList(
-                        list = convertList(musicList!!)
-                    )
-
-                    servicePlayer?.setPlayerState(StatePlayer.PLAY)
-                }
-            }
-            else {
-                CoroutineScope(Dispatchers.Main).launch {
-                    servicePlayer?.setCurrentPosition(0)
-
-                    servicePlayer?.setMusicList(
-                        list = listOf(convertItem(music))
-                    )
-
-                    servicePlayer?.setPlayerState(StatePlayer.PLAY)
-                }
+            CoroutineScope(Dispatchers.Main).launch {
+                servicePlayer?.setMusicList(
+                    list = convertList(asyncListDiffer.currentList)
+                )
+                servicePlayer?.setCurrentPosition(position)
+                servicePlayer?.setPlayerState(StatePlayer.PLAY)
             }
         }
 

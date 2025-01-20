@@ -28,8 +28,6 @@ class SearchMusicAdapter(
 ): RecyclerView.Adapter<SearchMusicAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music) {
-            initView()
-
             Glide.with(binding.root)
                 .load(music.imageLow)
                 .into(binding.musicLayout.imageView)
@@ -66,25 +64,6 @@ class SearchMusicAdapter(
                     )
                     playerService?.setPlayerState(StatePlayer.PLAY)
                 }
-
-                when (binding.root.isHovered) {
-                    true -> notHoveredItem()
-                    false -> hoveredItem()
-                }
-            }
-        }
-
-        private fun hoveredItem() {
-            binding.root.isHovered = true
-        }
-
-        private fun notHoveredItem() {
-            binding.root.isHovered = false
-        }
-
-        private fun initView() {
-            binding.musicLayout.imageView.updateLayoutParams<MarginLayoutParams> {
-                setMargins(15, 0, 0, 0)
             }
         }
     }

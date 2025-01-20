@@ -29,9 +29,7 @@ import kotlinx.coroutines.launch
 
 class DownloadMusicAdapter(
     private val supportFragmentManager: FragmentManager? = null,
-    private var musicType: MusicType = MusicType.VERTICAL,
-    private var servicePlayer: PlayerService? = null,
-    private var musicList: List<Music>? = null
+    private var servicePlayer: PlayerService? = null
 ): RecyclerView.Adapter<DownloadMusicAdapter.ViewHolder>() {
     @UnstableApi
     inner class ViewHolder(
@@ -39,8 +37,6 @@ class DownloadMusicAdapter(
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music) {
-            initView()
-
             Glide.with(binding.root)
                 .load(music.imageLow)
                 .error(R.drawable.ic_error_music)
@@ -86,17 +82,6 @@ class DownloadMusicAdapter(
             binding.root.isHovered = false
             binding.musicLayout.playAnim.visibility = View.GONE
         }
-
-        private fun initView() {
-            when (musicType) {
-                MusicType.VERTICAL -> {
-                    binding.musicLayout.imageView.updateLayoutParams<MarginLayoutParams> {
-                        setMargins(15, 0, 0, 0)
-                    }
-                }
-                else -> {}
-            }
-        }
     }
 
     private val asyncListDiffer = AsyncListDiffer(this, DiffUtilObject.musicDiffUtilCallback)
@@ -124,23 +109,12 @@ class DownloadMusicAdapter(
         holder.binding.root.setOnClickListener {
             DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
-            if (!musicList.isNullOrEmpty()) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    servicePlayer?.setCurrentPosition(position)
-                    servicePlayer?.setDownloadMusicList(
-                        list = musicList!!
-                    )
-                    servicePlayer?.setPlayerState(StatePlayer.PLAY)
-                }
-            }
-            else {
-                CoroutineScope(Dispatchers.Main).launch {
-                    servicePlayer?.setCurrentPosition(position)
-                    servicePlayer?.setDownloadMusicList(
-                        list = asyncListDiffer.currentList
-                    )
-                    servicePlayer?.setPlayerState(StatePlayer.PLAY)
-                }
+            CoroutineScope(Dispatchers.Main).launch {
+                servicePlayer?.setDownloadMusicList(
+                    list = asyncListDiffer.currentList
+                )
+                servicePlayer?.setCurrentPosition(position)
+                servicePlayer?.setPlayerState(StatePlayer.PLAY)
             }
         }
 

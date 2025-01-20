@@ -6,11 +6,11 @@ import com.example.musicapp.domain.repository.PlaylistRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) {
-    suspend fun getOnlyPlaylists(): List<PlaylistEntity?> {
+    suspend fun getOnlyPlaylists(): List<PlaylistEntity> {
         return playlistRepository.getOnlyPlaylist()
     }
 
-    suspend fun getOnlyPlaylists(limit: Int): List<PlaylistEntity?> {
+    suspend fun getOnlyPlaylists(limit: Int): List<PlaylistEntity> {
         if (limit <= 0) {
             return getOnlyPlaylists()
         }
@@ -22,15 +22,15 @@ class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) 
         return playlistRepository.getById(id.toString())
     }
 
-    fun getAllById(): Flow<List<PlaylistResult?>> {
+    fun getAllById(): Flow<List<PlaylistResult>> {
         return playlistRepository.getAllById()
     }
 
-    fun getAllByName(): Flow<List<PlaylistResult?>> {
+    fun getAllByName(): Flow<List<PlaylistResult>> {
         return playlistRepository.getAllByName()
     }
 
-    fun getAllByDate(): Flow<List<PlaylistResult?>> {
+    fun getAllByDate(): Flow<List<PlaylistResult>> {
         return playlistRepository.getAllByDate()
     }
 }

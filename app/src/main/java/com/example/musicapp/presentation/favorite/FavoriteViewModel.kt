@@ -45,20 +45,20 @@ class FavoriteViewModel(
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
-    private val getMusicLiveData = MutableLiveData<List<MusicResult?>>()
-    private val getAuthorLiveData = MutableLiveData<List<AuthorEntity?>>()
+    private val getMusicLiveData = MutableLiveData<List<MusicResult>>()
+    private val getAuthorLiveData = MutableLiveData<List<AuthorEntity>>()
     private val convertCountMusicLiveData = MutableLiveData<String>()
     private val convertCountPlaylistLiveData = MutableLiveData<String>()
     private val convertDownloadedLiveData = MutableLiveData<String>()
     private val getDownloadedMusicLiveData = MutableLiveData<List<Music>>()
-    private val getPlaylistLiveData = MutableLiveData<List<PlaylistEntity?>>()
+    private val getPlaylistLiveData = MutableLiveData<List<PlaylistEntity>>()
 
-    val getMusicResult: LiveData<List<MusicResult?>> = getMusicLiveData
-    val getAuthorResult: LiveData<List<AuthorEntity?>> = getAuthorLiveData
+    val getMusicResult: LiveData<List<MusicResult>> = getMusicLiveData
+    val getAuthorResult: LiveData<List<AuthorEntity>> = getAuthorLiveData
     val convertCountMusicResult: LiveData<String> = convertCountMusicLiveData
     val convertCountPlaylistResult: LiveData<String> = convertCountPlaylistLiveData
     val convertDownloadedResult: LiveData<String> = convertDownloadedLiveData
-    val getPlaylistResult: LiveData<List<PlaylistEntity?>> = getPlaylistLiveData
+    val getPlaylistResult: LiveData<List<PlaylistEntity>> = getPlaylistLiveData
     val getDownloadedMusicResult: LiveData<List<Music>> = getDownloadedMusicLiveData
 
     fun getMusic() {

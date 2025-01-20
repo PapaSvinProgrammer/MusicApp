@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentDownloadBinding
-import com.example.musicapp.presentation.pagerAdapter.DownloadMusicPagerAdapter
-import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
+import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,10 +20,10 @@ class DownloadFragment: Fragment() {
     private lateinit var binding: FragmentDownloadBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<DownloadViewModel>()
-    private val pagerAdapter by lazy {
-        DownloadMusicPagerAdapter(
+    private val musicAdapter by lazy {
+        DownloadMusicAdapter(
             supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer
+            servicePlayer = viewModel.servicePlayer,
         )
     }
 
@@ -47,12 +47,6 @@ class DownloadFragment: Fragment() {
             )
         }
 
-        HorizontalOffsetController().setPreviewOffsetBottomPager(
-            viewPager2 = binding.viewPager,
-            nextItemVisibleSize = R.dimen.viewpager_item_visible,
-            currentItemHorizontalMargin = R.dimen.viewpager_horiz_music
-        )
-
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
@@ -66,8 +60,7 @@ class DownloadFragment: Fragment() {
         }
 
         viewModel.musicResult.observe(viewLifecycleOwner) { list ->
-            pagerAdapter.setData(list)
-            binding.viewPager.adapter = pagerAdapter
+            musicAdapter.setData(list)
         }
 
         viewModel.isBound.observe(viewLifecycleOwner) {
@@ -78,6 +71,9 @@ class DownloadFragment: Fragment() {
     }
 
     private fun initServiceTools() {
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(binding.musicRecyclerView)
+        binding.musicRecyclerView.adapter = musicAdapter
         viewModel.getDownloadMusic()
     }
 }

@@ -59,12 +59,6 @@ class PlayerFragment: Fragment() {
 
         initBlur()
 
-        HorizontalOffsetController().setPreviewOffsetMainPager(
-            viewPager2 = binding.viewPager,
-            nextItemVisibleSize = R.dimen.viewpager_item_visible_main,
-            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin_main
-        )
-
         requireActivity().apply {
             bindService(
                 Intent(this, PlayerService::class.java),

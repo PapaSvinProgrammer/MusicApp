@@ -191,6 +191,7 @@ class PlayerService: Service() {
 
         PlayerInfo.setCurrentObject(currentObject ?: Music())
         PlayerInfo.setCurrentPosition(position)
+
         audioPlayer?.setPosition(
             position = position,
             isPlay = PlayerInfo.isPlay.value ?: false
@@ -274,8 +275,7 @@ class PlayerService: Service() {
     }
 
     private fun updateCurrentObject() {
-        val currentPosition = PlayerInfo.currentPosition.value
-        val currentObject = musicList.value!![currentPosition ?: 0]
+        val currentObject = musicList.value!![0]
         PlayerInfo.setCurrentObject(currentObject)
     }
 

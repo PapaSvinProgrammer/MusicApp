@@ -90,10 +90,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/music_view_pager"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/music_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:spanCount="3"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_music"/>
 
             <TextView
                 android:layout_width="wrap_content"

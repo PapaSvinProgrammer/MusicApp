@@ -31,8 +31,6 @@ class SearchMusicResultAdapter(
 
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: MusicResult?) {
-            initView()
-
             Glide.with(binding.root)
                 .load(music?.albumEntity?.imageLow)
                 .error(R.drawable.ic_error_music)
@@ -77,12 +75,6 @@ class SearchMusicResultAdapter(
                 supportFragmentManager.let {
                     musicBottomSheet.show(it, MusicBottomSheet.TAG)
                 }
-            }
-        }
-
-        private fun initView() {
-            binding.musicLayout.imageView.updateLayoutParams<MarginLayoutParams> {
-                setMargins(15, 0, 0, 0)
             }
         }
     }

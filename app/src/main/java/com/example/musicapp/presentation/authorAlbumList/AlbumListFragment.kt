@@ -53,6 +53,7 @@ class AlbumListFragment: Fragment() {
         }
 
         viewModel.albumResult.observe(viewLifecycleOwner) {
+            binding.progressIndicator.visibility = View.GONE
             albumAdapter.setData(it)
         }
     }
@@ -60,6 +61,7 @@ class AlbumListFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
+        binding.progressIndicator.visibility = View.VISIBLE
         val authorId = arguments?.getString(AUTHOR_KEY)
         viewModel.getMusics(authorId ?: "")
     }

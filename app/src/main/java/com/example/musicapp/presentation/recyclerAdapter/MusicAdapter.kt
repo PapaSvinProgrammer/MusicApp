@@ -26,16 +26,13 @@ import kotlinx.coroutines.launch
 
 class MusicAdapter(
     private val playerService: PlayerService? = null,
-    private val supportFragmentManager: FragmentManager? = null,
-    private val musicList: List<Music>? = null
+    private val supportFragmentManager: FragmentManager? = null
 ): RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
     inner class ViewHolder(
         private val binding: ItemMusicBinding,
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music, position: Int) {
-            initView()
-
             Glide.with(binding.root)
                 .load(music.imageLow)
                 .into(binding.musicLayout.imageView)
@@ -77,27 +74,13 @@ class MusicAdapter(
             binding.root.setOnClickListener {
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
-                if (!musicList.isNullOrEmpty()) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        playerService?.setCurrentPosition(position)
+                CoroutineScope(Dispatchers.Main).launch {
+                    playerService?.setMusicList(
+                        list = asyncListDiffer.currentList
+                    )
 
-                        playerService?.setMusicList(
-                            list = musicList
-                        )
-
-                        playerService?.setPlayerState(StatePlayer.PLAY)
-                    }
-                }
-                else {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        playerService?.setCurrentPosition(0)
-
-                        playerService?.setMusicList(
-                            list = listOf(music)
-                        )
-
-                        playerService?.setPlayerState(StatePlayer.PLAY)
-                    }
+                    playerService?.setCurrentPosition(position)
+                    playerService?.setPlayerState(StatePlayer.PLAY)
                 }
             }
 
@@ -128,12 +111,6 @@ class MusicAdapter(
         private fun notHoveredItem() {
             binding.root.isHovered = false
             binding.musicLayout.playAnim.visibility = View.GONE
-        }
-
-        private fun initView() {
-            binding.musicLayout.imageView.updateLayoutParams<MarginLayoutParams> {
-                setMargins(15, 0, 0, 0)
-            }
         }
     }
 

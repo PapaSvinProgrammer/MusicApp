@@ -26,8 +26,7 @@ class MusicListFragment: Fragment() {
     private val musicAdapter by lazy {
         MusicAdapter(
             playerService = viewModel.playerService,
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            musicList = viewModel.musicsResult.value
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
 
