@@ -17,8 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:menu="@menu/top_app_bar_filter_search"
-        app:subtitle="@string/title_downloaded_text"
         app:subtitleCentered="true"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -31,4 +29,15 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.media3.exoplayer.ExoPlayer
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService

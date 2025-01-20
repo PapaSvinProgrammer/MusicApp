@@ -12,6 +12,8 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentAuthorBinding
+import com.example.musicapp.presentation.authorAlbumList.AlbumListFragment
+import com.example.musicapp.presentation.authorMusicList.MusicListFragment
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.MusicListPagerAdapter
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
@@ -33,7 +35,8 @@ class AuthorFragment: Fragment() {
             playerService = viewModel.playerService
         )
     }
-    private val albumAdapter by lazy { AlbumAdapter() }
+    private val albumAdapter by lazy { AlbumAdapter(navController) }
+    private lateinit var authorKey: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,14 +86,28 @@ class AuthorFragment: Fragment() {
         binding.appBar.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }
+
+        binding.allAlbumsLayout.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(AlbumListFragment.AUTHOR_KEY, authorKey)
+
+            navController.navigate(R.id.action_global_albumListFragment, bundle)
+        }
+
+        binding.allMusicsLayout.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString(MusicListFragment.AUTHOR_ID, authorKey)
+
+            navController.navigate(R.id.action_global_musicListFragment, bundle)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        val firebaseId = arguments?.getString(AUTHOR_KEY).toString()
+        authorKey = arguments?.getString(AUTHOR_KEY).toString()
 
-        viewModel.getAuthor(firebaseId)
-        viewModel.getMusic(firebaseId)
-        viewModel.getAlbum(firebaseId)
+        viewModel.getAuthor(authorKey)
+        viewModel.getMusic(authorKey)
+        viewModel.getAlbum(authorKey)
     }
 }

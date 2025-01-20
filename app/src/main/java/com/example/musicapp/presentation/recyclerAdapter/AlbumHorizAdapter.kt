@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.constant.ErrorConst
-import com.example.musicapp.databinding.ItemAlbumBinding
+import com.example.musicapp.databinding.ItemPlaylistBinding
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.album.AlbumFragment
 
-class AlbumAdapter(
+class AlbumHorizAdapter(
     private val navController: NavController? = null
-): RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
+): RecyclerView.Adapter<AlbumHorizAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemAlbumBinding.inflate(inflater, parent, false)
+        val binding = ItemPlaylistBinding.inflate(inflater, parent, false)
 
         return ViewHolder(binding)
     }
@@ -32,7 +32,7 @@ class AlbumAdapter(
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
 
-    inner class ViewHolder(private val binding: ItemAlbumBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(album: Album) {
             Glide.with(binding.root)
                 .load(album.image)
@@ -46,6 +46,7 @@ class AlbumAdapter(
             }
 
             binding.nameView.text = album.name
+            binding.countView.text = album.groupName
 
             binding.root.setOnClickListener {
                 val bundle = Bundle()

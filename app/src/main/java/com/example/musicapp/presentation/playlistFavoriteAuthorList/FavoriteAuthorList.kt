@@ -27,6 +27,9 @@ class FavoriteAuthorList: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
+
+        binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
+
         return binding.root
     }
 
@@ -35,6 +38,7 @@ class FavoriteAuthorList: Fragment() {
 
         binding.recyclerView.adapter = authorListAdapter
         binding.searchLayout.searchRecyclerView.adapter = searchListAdapter
+        binding.toolbar.subtitle = getString(R.string.favorite_artist_text)
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()

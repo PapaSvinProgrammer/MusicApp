@@ -3,7 +3,6 @@ package com.example.musicapp.domain.module
 import androidx.recyclerview.widget.DiffUtil
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
-import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 
 object DiffUtilObject {

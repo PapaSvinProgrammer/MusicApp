@@ -1,10 +1,8 @@
-package com.example.musicapp.presentation.downloadList
+package com.example.musicapp.presentation.authorMusicList
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,25 +11,23 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentListBinding
-import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
-import com.example.musicapp.presentation.recyclerAdapter.SearchMusicAdapter
+import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DownloadListFragment: Fragment() {
+class MusicListFragment: Fragment() {
+    companion object {
+        const val AUTHOR_ID = "FirebaseAuthorId"
+    }
+
     private lateinit var binding: FragmentListBinding
     private lateinit var navController: NavController
-    private val viewModel by viewModel<DownloadListViewModel>()
-    private val searchMusicAdapter by lazy {
-        SearchMusicAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            playerService = viewModel.servicePlayer
-        )
-    }
+    private val viewModel by viewModel<MusicListViewModel>()
     private val musicAdapter by lazy {
-        DownloadMusicAdapter(
+        MusicAdapter(
+            playerService = viewModel.playerService,
             supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer
+            musicList = viewModel.musicsResult.value
         )
     }
 
@@ -43,13 +39,13 @@ class DownloadListFragment: Fragment() {
         binding = FragmentListBinding.inflate(inflater, container, false)
 
         binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
+        binding.toolbar.subtitle = getString(R.string.all_music_text)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-        binding.toolbar.subtitle = getString(R.string.title_downloaded_text)
 
         requireActivity().apply {
             bindService(
@@ -63,8 +59,8 @@ class DownloadListFragment: Fragment() {
             navController.popBackStack()
         }
 
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
                 R.id.search -> search()
                 R.id.filter -> filter()
             }
@@ -72,38 +68,24 @@ class DownloadListFragment: Fragment() {
             true
         }
 
-        binding.searchLayout.searchView.editText.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
-
-            override fun afterTextChanged(text: Editable?) {
-                binding.searchLayout.searchProgressIndicator.visibility = View.VISIBLE
-                viewModel.search(text.toString())
-            }
-        })
+        viewModel.musicsResult.observe(viewLifecycleOwner) {
+            binding.progressIndicator.visibility = View.GONE
+            musicAdapter.setData(it)
+        }
 
         viewModel.isBound.observe(viewLifecycleOwner) {
             if (it == true) {
                 initServiceTools()
             }
         }
-
-        viewModel.musicResult.observe(viewLifecycleOwner) { list ->
-            musicAdapter.setData(list)
-
-            binding.recyclerView.adapter = musicAdapter
-        }
-
-        viewModel.searchResult.observe(viewLifecycleOwner) { list ->
-            binding.searchLayout.searchProgressIndicator.visibility = View.GONE
-            searchMusicAdapter.setData(list)
-        }
     }
 
-    private fun initServiceTools() {
-        binding.searchLayout.searchRecyclerView.adapter = searchMusicAdapter
-        viewModel.getDownloadedMusic()
+    override fun onStart() {
+        super.onStart()
+
+        binding.progressIndicator.visibility = View.VISIBLE
+        val authorId = arguments?.getString(AUTHOR_ID)
+        viewModel.getMusics(authorId ?: "")
     }
 
     private fun search() {
@@ -112,5 +94,9 @@ class DownloadListFragment: Fragment() {
 
     private fun filter() {
 
+    }
+
+    private fun initServiceTools() {
+        binding.recyclerView.adapter = musicAdapter
     }
 }

@@ -140,7 +140,12 @@
         android:label="fragment_main_player"
         tools:layout="@layout/fragment_player" >
     </fragment>
-    <action android:id="@+id/action_global_playerFragment2" app:destination="@id/playerFragment"/>
+    <action
+        android:id="@+id/action_global_playerFragment2"
+        app:destination="@id/playerFragment"
+        app:enterAnim="@anim/slide_in_from_bottom"
+        app:exitAnim="@android:anim/fade_out"
+        app:popExitAnim="@anim/slide_out_to_top" />
     <fragment
         android:id="@+id/playlistFragment"
         android:name="com.example.musicapp.presentation.playlist.PlaylistFragment"
@@ -258,4 +263,26 @@
         android:id="@+id/favoriteAuthorList"
         android:name="com.example.musicapp.presentation.playlistFavoriteAuthorList.FavoriteAuthorList"
         android:label="FavoriteAuthorList" />
+    <fragment
+        android:id="@+id/albumListFragment"
+        android:name="com.example.musicapp.presentation.authorAlbumList.AlbumListFragment"
+        android:label="AlbumListFragment" />
+    <action
+        android:id="@+id/action_global_albumListFragment"
+        app:destination="@id/albumListFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <fragment
+        android:id="@+id/musicListFragment"
+        android:name="com.example.musicapp.presentation.authorMusicList.MusicListFragment"
+        android:label="MusicListFragment" />
+    <action
+        android:id="@+id/action_global_musicListFragment"
+        app:destination="@id/musicListFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
 </navigation>
