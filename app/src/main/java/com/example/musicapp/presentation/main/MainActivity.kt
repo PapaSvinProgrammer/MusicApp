@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -20,7 +19,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
-import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.ActivityMainBinding
 import com.example.musicapp.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
@@ -31,7 +29,6 @@ import com.example.musicapp.service.player.module.DataPlayerType
 import com.example.musicapp.service.player.module.PlayerInfo
 import com.example.musicapp.service.player.module.TypeDataPlayer
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IndexOutOfBoundsException
 
 class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -140,15 +137,6 @@ class MainActivity: AppCompatActivity() {
 
             binding.bottomViewPager.doOnPreDraw {
                 binding.bottomViewPager.setCurrentItem(position, false)
-            }
-
-            viewModel.musicList?.value?.let {
-                try {
-                    val currentObject = it[PlayerInfo.currentPosition.value ?: 0]
-                    viewModel.isFavorite(currentObject.id ?: "")
-                } catch (e: IndexOutOfBoundsException) {
-                    Log.e(ErrorConst.DEFAULT_ERROR, e.message.toString() )
-                }
             }
         }
 

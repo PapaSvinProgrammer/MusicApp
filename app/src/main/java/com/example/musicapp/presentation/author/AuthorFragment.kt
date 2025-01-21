@@ -15,7 +15,6 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentAuthorBinding
 import com.example.musicapp.presentation.authorAlbumList.AlbumListFragment
 import com.example.musicapp.presentation.authorMusicList.MusicListFragment
-import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 import com.example.musicapp.service.player.PlayerService

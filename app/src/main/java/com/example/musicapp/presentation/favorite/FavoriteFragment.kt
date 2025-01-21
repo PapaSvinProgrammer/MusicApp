@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.SnapHelper
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.databinding.FragmentFavoriteBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.presentation.recyclerAdapter.AuthorAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.service.player.PlayerService

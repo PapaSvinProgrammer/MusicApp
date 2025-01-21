@@ -118,6 +118,10 @@ class PlayerService: Service() {
     }
 
     fun setMusicList(list: List<Music>) {
+        if (list == musicList.value) {
+            return
+        }
+
         this.musicList.value = list
 
         updateCurrentObject()
@@ -125,6 +129,10 @@ class PlayerService: Service() {
     }
 
     fun setDownloadMusicList(list: List<Music>) {
+        if (list == musicList.value) {
+            return
+        }
+
         this.musicList.value = list
 
         updateCurrentObject()

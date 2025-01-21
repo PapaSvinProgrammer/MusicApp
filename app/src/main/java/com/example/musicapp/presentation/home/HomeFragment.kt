@@ -26,6 +26,9 @@ import com.example.musicapp.service.player.module.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
@@ -110,9 +113,11 @@ class HomeFragment: Fragment() {
         viewModel.randomMusicsResult.observe(viewLifecycleOwner) { list ->
             DataPlayerType.setType(TypeDataPlayer.GENERATE)
 
-            viewModel.servicePlayer?.setCurrentPosition(0)
-            viewModel.servicePlayer?.setMusicList(list)
-            viewModel.setStatePlayer(StatePlayer.PLAY)
+            CoroutineScope(Dispatchers.Main).launch {
+                viewModel.servicePlayer?.setCurrentPosition(0)
+                viewModel.servicePlayer?.setMusicList(list)
+                viewModel.setStatePlayer(StatePlayer.PLAY)
+            }
         }
 
         DataPlayerType.type.observe(viewLifecycleOwner) { type ->

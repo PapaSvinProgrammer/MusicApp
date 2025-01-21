@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.util.UnstableApi
@@ -17,7 +15,6 @@ import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.domain.state.MusicType
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.service.player.module.DataPlayerType
@@ -110,9 +107,7 @@ class DownloadMusicAdapter(
             DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
             CoroutineScope(Dispatchers.Main).launch {
-                servicePlayer?.setDownloadMusicList(
-                    list = asyncListDiffer.currentList
-                )
+                servicePlayer?.setDownloadMusicList(asyncListDiffer.currentList)
                 servicePlayer?.setCurrentPosition(position)
                 servicePlayer?.setPlayerState(StatePlayer.PLAY)
             }

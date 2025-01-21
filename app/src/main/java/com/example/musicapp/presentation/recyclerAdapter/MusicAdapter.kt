@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -63,33 +61,16 @@ class MusicAdapter(
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    playerService?.setCurrentPosition(0)
-                    playerService?.setMusicList(
-                        list = listOf(music)
-                    )
-                    playerService?.setPlayerState(StatePlayer.PLAY)
-                }
-            }
-
-            binding.root.setOnClickListener {
-                DataPlayerType.setType(TypeDataPlayer.LOCAL)
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    playerService?.setMusicList(
-                        list = asyncListDiffer.currentList
-                    )
-
+                    playerService?.setMusicList(asyncListDiffer.currentList)
                     playerService?.setCurrentPosition(position)
                     playerService?.setPlayerState(StatePlayer.PLAY)
                 }
             }
 
             PlayerInfo.currentObject.observe(lifecycleOwner) {
-                if (it.id == music.id) {
-                    hoveredItem()
-                }
-                else {
-                    notHoveredItem()
+                when(it.id == music.id) {
+                    true -> hoveredItem()
+                    false -> notHoveredItem()
                 }
             }
 

@@ -33,6 +33,10 @@ class DownloadFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
+
+        binding.toolbar.subtitle = getString(R.string.all_download_text)
+        binding.toolbar.isSubtitleCentered = true
+
         return binding.root
     }
 

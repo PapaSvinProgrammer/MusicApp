@@ -29,7 +29,6 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
 import com.example.musicapp.service.player.module.PlayerInfo
 import com.example.musicapp.service.video.VideoPlayer

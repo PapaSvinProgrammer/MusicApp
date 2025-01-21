@@ -1,6 +1,8 @@
 package com.example.musicapp.presentation.album
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Bundle
@@ -12,6 +14,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentAlbumBinding
 import com.example.musicapp.presentation.recyclerAdapter.MusicListAdapter
+import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumFragment: Fragment() {
@@ -21,7 +24,12 @@ class AlbumFragment: Fragment() {
 
     private lateinit var binding: FragmentAlbumBinding
     private val viewModel by viewModel<AlbumViewModel>()
-    private val musicListAdapter by lazy { MusicListAdapter() }
+    private val musicListAdapter by lazy {
+        MusicListAdapter(
+            playerService = viewModel.playerService,
+            supportFragmentManager = requireActivity().supportFragmentManager
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +43,14 @@ class AlbumFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val navController = view.findNavController()
         initBlur()
+
+        requireActivity().apply {
+            bindService(
+                Intent(this, PlayerService::class.java),
+                viewModel.connectionToPlayerService,
+                Context.BIND_AUTO_CREATE
+            )
+        }
 
         binding.appBar.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
@@ -61,12 +77,21 @@ class AlbumFragment: Fragment() {
             binding.appBar.progressTextView.visibility = View.GONE
 
             musicListAdapter.setData(list)
-            binding.recyclerView.adapter = musicListAdapter
         }
 
         viewModel.convertYearResult.observe(viewLifecycleOwner) {
             binding.appBar.yearView.text = it
         }
+
+        viewModel.isBound.observe(viewLifecycleOwner) {
+            if (it == true) {
+                initServiceTools()
+            }
+        }
+    }
+
+    private fun initServiceTools() {
+        binding.recyclerView.adapter = musicListAdapter
     }
 
     override fun onStart() {

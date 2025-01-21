@@ -43,13 +43,13 @@ class DownloadListFragment: Fragment() {
         binding = FragmentListBinding.inflate(inflater, container, false)
 
         binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
+        binding.toolbar.subtitle = getString(R.string.all_music_text)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-        binding.toolbar.subtitle = getString(R.string.title_downloaded_text)
 
         requireActivity().apply {
             bindService(

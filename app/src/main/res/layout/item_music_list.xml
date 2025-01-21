@@ -41,13 +41,13 @@
             android:textSize="16sp"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/materialButton3"
+            app:layout_constraintEnd_toStartOf="@+id/settings_button"
             app:layout_constraintStart_toEndOf="@+id/number_view"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Название песни" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton3"
+            android:id="@+id/settings_button"
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
