@@ -1,7 +1,5 @@
 [versions]
 agp = "8.5.2"
-androidSdkCore = "4.1.0"
-androidSdkApi = "4.1.0"
 authsdk = "3.1.3"
 credentials = "1.3.0"
 credentialsPlayServicesAuth = "1.3.0"
@@ -31,7 +29,6 @@ playServicesAuth = "21.3.0"
 retrofit = "2.11.0"
 roomRuntime = "2.6.1"
 lifecycleLivedataKtx = "2.8.7"
-secretsGradlePlugin = "2.0.1"
 vkid = "2.2.2"
 
 [libraries]
@@ -70,7 +67,6 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 vkid = { module = "com.vk.id:vkid", version.ref = "vkid" }
 
 [plugins]

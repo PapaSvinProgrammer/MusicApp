@@ -56,12 +56,6 @@ class FavoriteFragment: Fragment() {
             )
         }
 
-//        HorizontalOffsetController().setPreviewOffsetBottomPager(
-//            viewPager2 = binding.musicViewPager,
-//            nextItemVisibleSize = R.dimen.viewpager_item_visible,
-//            currentItemHorizontalMargin = R.dimen.viewpager_horiz_music
-//        )
-
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 musicPagerAdapter.setData(list)

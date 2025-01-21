@@ -126,6 +126,8 @@ class PlayerService: Service() {
 
         updateCurrentObject()
         audioPlayer?.setData(list)
+
+        Log.d("RRRR", "SET DATA")
     }
 
     fun setDownloadMusicList(list: List<Music>) {

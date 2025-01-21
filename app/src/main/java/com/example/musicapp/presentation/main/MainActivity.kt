@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -98,7 +99,7 @@ class MainActivity: AppCompatActivity() {
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 if (positionOffset == 0f) {
-                    viewModel.servicePlayer?.setCurrentPosition(position)
+                    //viewModel.servicePlayer?.setCurrentPosition(position)
                 }
             }
         })
@@ -130,7 +131,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     private fun initServiceTools() {
-        PlayerInfo.currentPosition.observe(this) { position->
+        PlayerInfo.currentPosition.observe(this) { position ->
             if (position == viewModel.countMusicList - 1) {
                 viewModel.addRandomMusic()
             }

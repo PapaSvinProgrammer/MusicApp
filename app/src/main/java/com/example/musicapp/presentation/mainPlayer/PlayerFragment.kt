@@ -279,7 +279,7 @@ class PlayerFragment: Fragment() {
                 id = PlayerInfo.currentObject.value?.id.toString()
             )
 
-            val obj = viewModel.musicList?.value!![PlayerInfo.currentPosition.value ?: 0]
+            val obj = PlayerInfo.currentObject.value ?: Music()
 
             viewModel.videoService?.setVideo(
                 music = obj,
@@ -294,7 +294,7 @@ class PlayerFragment: Fragment() {
                 .load(obj.imageGroup)
                 .into(binding.groupImageView)
 
-            binding.viewPager.currentItem = position
+            binding.viewPager.setCurrentItem(position, false)
         }
 
         viewModel.bufferedPosition?.observe(viewLifecycleOwner) {
@@ -473,10 +473,10 @@ class PlayerFragment: Fragment() {
     }
 
     private fun changeNameAndGroupView() {
-        val newObj = viewModel.musicList?.value!![PlayerInfo.currentPosition.value ?: 0]
+        val newObj = PlayerInfo.currentObject.value
 
-        binding.musicTextView.text = newObj.name
-        binding.groupTextView.text = newObj.group
+        binding.musicTextView.text = newObj?.name
+        binding.groupTextView.text = newObj?.group
     }
 
     @SuppressLint("NewApi")
