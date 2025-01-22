@@ -84,7 +84,7 @@
     <string name="channel_description_download_text">AudioDownloadDescription</string>
     <string name="add_in_black_list_text">Добавить в черный список</string>
     <string name="report_problem_text">Сообщить о проблеме</string>
-    <string name="vk_text">Вконтакте</string>
+    <string name="vk_text">ВКонтакте</string>
     <string name="google_text">Google</string>
     <string name="entry_with_help">Войти с помощью</string>
     <string name="yandex_text">Yandex</string>
@@ -108,4 +108,8 @@
     <string name="all_music_text">"Треки"</string>
     <string name="popular_music_text">Популярные треки</string>
     <string name="popular_album_text">Популярные альбомы</string>
+    <string name="official_page_text">Официальные страницы</string>
+    <string name="x_text">X</string>
+    <string name="website_text">Официальный сайт</string>
+    <string name="youtube_text">YouTube</string>
 </resources>

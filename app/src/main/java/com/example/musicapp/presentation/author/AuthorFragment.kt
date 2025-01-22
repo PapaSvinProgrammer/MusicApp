@@ -15,6 +15,7 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentAuthorBinding
 import com.example.musicapp.presentation.authorAlbumList.AlbumListFragment
 import com.example.musicapp.presentation.authorMusicList.MusicListFragment
+import com.example.musicapp.presentation.bottomSheetAuthorInfo.AuthorInfoBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 import com.example.musicapp.service.player.PlayerService
@@ -86,6 +87,15 @@ class AuthorFragment: Fragment() {
             navController.popBackStack()
         }
 
+        binding.appBar.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.search -> search()
+                R.id.settings -> info()
+            }
+
+            true
+        }
+
         binding.allAlbumsLayout.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(AlbumListFragment.AUTHOR_KEY, authorKey)
@@ -114,5 +124,21 @@ class AuthorFragment: Fragment() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.musicRecyclerView)
         binding.musicRecyclerView.adapter = musicAdapter
+    }
+
+    private fun search() {
+
+    }
+
+    private fun info() {
+        val bottomSheet = AuthorInfoBottomSheet()
+
+        val bundle = Bundle()
+        bundle.putString(AuthorInfoBottomSheet.GROUP_KEY, authorKey)
+        bottomSheet.arguments = bundle
+
+        requireActivity().supportFragmentManager.let {
+            bottomSheet.show(it, AuthorInfoBottomSheet.TAG)
+        }
     }
 }

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumsAllImpl
+import com.example.musicapp.data.firebase.getAnother.GetGroupInfoImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicInfoById
 import com.example.musicapp.data.firebase.getGroup.GetGroupAllImpl
 import com.example.musicapp.data.firebase.getGroup.GetGroupByIdImpl
@@ -88,7 +89,8 @@ val dataModule = module {
         GroupRepositoryFirebase(
             getGroupAllImpl = get(),
             getGroupWithFilterOnGenresImpl = get(),
-            getGroupByIdImpl = get()
+            getGroupByIdImpl = get(),
+            getGroupInfoImpl = get()
         )
     }
 
@@ -238,5 +240,9 @@ val dataModule = module {
 
     single {
         SearchAllImpl()
+    }
+
+    single {
+        GetGroupInfoImpl()
     }
 }

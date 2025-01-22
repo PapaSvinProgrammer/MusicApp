@@ -6,6 +6,7 @@ import com.example.musicapp.support.convertTextCount.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
+import com.example.musicapp.domain.usecase.getAnother.GetGroupInfo
 import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupById
@@ -387,6 +388,12 @@ val domainModule = module {
     factory {
         SearchGroupLocal(
             musicLiteRepository = get()
+        )
+    }
+
+    factory {
+        GetGroupInfo(
+            groupRepository = get()
         )
     }
 }

@@ -4,6 +4,7 @@ import com.example.musicapp.presentation.album.AlbumViewModel
 import com.example.musicapp.presentation.author.AuthorViewModel
 import com.example.musicapp.presentation.authorAlbumList.AlbumListViewModel
 import com.example.musicapp.presentation.authorMusicList.MusicListViewModel
+import com.example.musicapp.presentation.bottomSheetAuthorInfo.AuthorInfoViewModel
 import com.example.musicapp.presentation.playlistItem.PlaylistItemViewModel
 import com.example.musicapp.presentation.favorite.FavoriteViewModel
 import com.example.musicapp.presentation.home.HomeViewModel
@@ -224,6 +225,12 @@ val appModule = module {
     viewModel {
         MusicListViewModel(
             getMusicsByAuthorId = get()
+        )
+    }
+
+    viewModel {
+        AuthorInfoViewModel(
+            getGroupInfo = get()
         )
     }
 }
