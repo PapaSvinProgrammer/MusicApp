@@ -2,7 +2,6 @@ package com.example.musicapp.presentation.bottomSheetAuthorInfo
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,6 @@ import com.example.musicapp.presentation.recyclerAdapter.CarouselAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.carousel.CarouselLayoutManager
-import com.google.android.material.carousel.CarouselSnapHelper
-import com.google.android.material.carousel.HeroCarouselStrategy
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthorInfoBottomSheet: BottomSheetDialogFragment() {

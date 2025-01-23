@@ -2,7 +2,7 @@ package com.example.musicapp.di
 
 import android.annotation.SuppressLint
 import androidx.room.Room
-import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
+import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldDESCImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumsAllImpl
 import com.example.musicapp.data.firebase.getAnother.GetGroupInfoImpl
@@ -97,7 +97,7 @@ val dataModule = module {
     single<AlbumRepository> {
         AlbumRepositoryFirebase(
             getAlbumByIdImpl = get(),
-            getAlbumByFieldIdImpl = get(),
+            getAlbumByFieldDESCImpl = get(),
             getAlbumsAllImpl = get()
         )
     }
@@ -152,8 +152,8 @@ val dataModule = module {
         GetGroupByIdImpl()
     }
 
-    single<GetAlbumByFieldIdImpl> {
-        GetAlbumByFieldIdImpl()
+    single<GetAlbumByFieldDESCImpl> {
+        GetAlbumByFieldDESCImpl()
     }
 
     single<GetAlbumsAllImpl> {

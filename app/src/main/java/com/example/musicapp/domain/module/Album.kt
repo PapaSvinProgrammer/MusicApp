@@ -1,12 +1,17 @@
 package com.example.musicapp.domain.module
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE
+import androidx.annotation.RequiresApi
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import java.time.LocalDate
 
 data class Album (
     @DocumentId var id: String = "",
-    var date: String = "",
+    var date: Timestamp? = null,
     var genre: String = "",
     var image: String = "",
     var name: String = "",
@@ -15,9 +20,10 @@ data class Album (
     var groupName: String = "",
     var countMusic: Int = 0
 ): Parcelable {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
-        parcel.readString().toString(),
+        parcel.readParcelable(Timestamp.Companion::class.java.classLoader, Timestamp::class.java),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -34,7 +40,7 @@ data class Album (
     override fun writeToParcel(parcel: Parcel, p1: Int) {
         parcel.writeString(id)
         parcel.writeString(name)
-        parcel.writeString(date)
+        parcel.writeParcelable(date, PARCELABLE_WRITE_RETURN_VALUE)
         parcel.writeString(image)
         parcel.writeString(time)
         parcel.writeString(genre)
@@ -44,6 +50,7 @@ data class Album (
     }
 
     companion object CREATOR : Parcelable.Creator<Album> {
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun createFromParcel(parcel: Parcel): Album {
             return Album(parcel)
         }

@@ -12,4 +12,5 @@ object DocumentConst {
 
     const val ALBUM_GROUP_FIELD = "groupId"
     const val ALBUM_NAME_FIELD = "name"
+    const val ALBUM_DATE_FIELD = "date"
 }

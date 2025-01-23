@@ -9,14 +9,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
-import com.example.musicapp.service.player.Player
 import com.example.musicapp.service.player.PlayerService
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AlbumViewModel(
     private val getAlbumById: GetAlbumById,
@@ -46,18 +48,15 @@ class AlbumViewModel(
         }
     }
 
-    fun convertYear(text: String?) {
-        if (text.isNullOrEmpty()) {
+    fun convertYear(time: Timestamp?) {
+        if (time == null) {
             return
         }
 
-        val array = text.split(" ")
+        val date = Date(time.seconds * 1000)
+        val simpleDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
-        try {
-            convertYearLiveData.value = array[2]
-        } catch (e: IndexOutOfBoundsException) {
-            Log.d(ErrorConst.DEFAULT_ERROR, e.message.toString())
-        }
+        convertYearLiveData.value = simpleDateFormat.format(date)
     }
 
     val connectionToPlayerService = object: ServiceConnection {

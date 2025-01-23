@@ -1,7 +1,7 @@
 package com.example.musicapp.data.repository
 
 import com.example.musicapp.data.constant.DocumentConst
-import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldIdImpl
+import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldDESCImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumsAllImpl
 import com.example.musicapp.domain.module.Album
@@ -9,7 +9,7 @@ import com.example.musicapp.domain.repository.AlbumRepository
 
 class AlbumRepositoryFirebase(
     private val getAlbumByIdImpl: GetAlbumByIdImpl,
-    private val getAlbumByFieldIdImpl: GetAlbumByFieldIdImpl,
+    private val getAlbumByFieldDESCImpl: GetAlbumByFieldDESCImpl,
     private val getAlbumsAllImpl: GetAlbumsAllImpl
 ): AlbumRepository {
     override suspend fun getAlbumWithFilterOnGenre(): List<Album> {
@@ -25,7 +25,7 @@ class AlbumRepositoryFirebase(
     }
 
     override suspend fun getAlbumByAuthorId(authorId: String): List<Album> {
-        return getAlbumByFieldIdImpl.execute(
+        return getAlbumByFieldDESCImpl.execute(
             anyId = authorId,
             field = DocumentConst.ALBUM_GROUP_FIELD
         )

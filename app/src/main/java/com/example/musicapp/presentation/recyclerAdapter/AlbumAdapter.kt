@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
@@ -9,11 +8,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.ItemAlbumBinding
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.album.AlbumFragment
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AlbumAdapter(
     private val navController: NavController? = null
@@ -38,13 +39,10 @@ class AlbumAdapter(
                 .load(album.image)
                 .into(binding.imageView)
 
-            try {
-                val arrayDate = album.date.split(" ")
-                binding.dateView.text = arrayDate[2]
-            } catch (e: ArrayIndexOutOfBoundsException) {
-                Log.e(ErrorConst.DEFAULT_ERROR, e.message.toString())
-            }
+            val date = Date((album.date?.seconds ?: 0) * 1000)
+            val simpleDateFormat = SimpleDateFormat("yyyy", Locale.getDefault())
 
+            binding.dateView.text = simpleDateFormat.format(date)
             binding.nameView.text = album.name
 
             binding.root.setOnClickListener {
