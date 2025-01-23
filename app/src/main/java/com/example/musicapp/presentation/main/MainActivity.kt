@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.view.doOnPreDraw
 import androidx.media3.common.util.UnstableApi
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -33,8 +34,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var bottomPlayerAdapter: BottomPlayerAdapter
+    private lateinit var navController: NavController
     private val viewModel by viewModel<MainViewModel>()
+    private val bottomPlayerAdapter by lazy {
+        BottomPlayerAdapter(
+            navController = navController,
+            viewModel = viewModel
+        )
+    }
 
     @UnstableApi
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -44,14 +51,11 @@ class MainActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
-        bottomPlayerAdapter = BottomPlayerAdapter(
-            navController = navController,
-            viewModel = viewModel
-        )
         binding.bottomViewPager.adapter = bottomPlayerAdapter
+        binding.bottomViewPager.offscreenPageLimit = 1
 
         HorizontalOffsetController().setPreviewOffsetBottomPager(
             viewPager2 = binding.bottomViewPager,
@@ -72,6 +76,8 @@ class MainActivity: AppCompatActivity() {
             DataPlayerType.setType(TypeDataPlayer.GENERATE)
             viewModel.servicePlayer?.setMusicList(array)
             binding.progressIndicator.visibility = View.GONE
+
+            viewModel.isFavorite(array.first().id ?: "")
         }
 
         viewModel.isBound.observe(this) {
@@ -99,7 +105,7 @@ class MainActivity: AppCompatActivity() {
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 if (positionOffset == 0f) {
-                    //viewModel.servicePlayer?.setCurrentPosition(position)
+                    viewModel.servicePlayer?.setCurrentPosition(position)
                 }
             }
         })
@@ -132,6 +138,9 @@ class MainActivity: AppCompatActivity() {
 
     private fun initServiceTools() {
         PlayerInfo.currentPosition.observe(this) { position ->
+            val musicId = PlayerInfo.currentObject.value?.id
+            viewModel.isFavorite(musicId ?: "")
+
             if (position == viewModel.countMusicList - 1) {
                 viewModel.addRandomMusic()
             }

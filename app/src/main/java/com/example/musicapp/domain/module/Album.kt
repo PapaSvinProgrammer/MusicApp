@@ -7,7 +7,6 @@ import android.os.Parcelable.PARCELABLE_WRITE_RETURN_VALUE
 import androidx.annotation.RequiresApi
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
-import java.time.LocalDate
 
 data class Album (
     @DocumentId var id: String = "",
