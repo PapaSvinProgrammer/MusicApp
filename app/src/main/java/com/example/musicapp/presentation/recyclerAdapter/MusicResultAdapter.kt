@@ -113,10 +113,9 @@ class MusicResultAdapter(
             DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
             CoroutineScope(Dispatchers.Main).launch {
-                servicePlayer?.setMusicList(
-                    list = convertList(asyncListDiffer.currentList)
-                )
-                servicePlayer?.setCurrentPosition(position)
+                val currentList = convertList(asyncListDiffer.currentList.subList(position, itemCount))
+
+                servicePlayer?.setMusicList(currentList)
                 servicePlayer?.setPlayerState(StatePlayer.PLAY)
             }
         }

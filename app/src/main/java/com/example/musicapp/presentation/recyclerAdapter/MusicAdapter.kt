@@ -61,8 +61,9 @@ class MusicAdapter(
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    playerService?.setMusicList(asyncListDiffer.currentList)
-                    playerService?.setCurrentPosition(position)
+                    val currentList = asyncListDiffer.currentList.subList(position, itemCount)
+
+                    playerService?.setMusicList(currentList)
                     playerService?.setPlayerState(StatePlayer.PLAY)
                 }
             }

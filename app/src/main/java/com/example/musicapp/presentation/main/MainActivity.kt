@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -138,9 +137,6 @@ class MainActivity: AppCompatActivity() {
 
     private fun initServiceTools() {
         PlayerInfo.currentPosition.observe(this) { position ->
-            val musicId = PlayerInfo.currentObject.value?.id
-            viewModel.isFavorite(musicId ?: "")
-
             if (position == viewModel.countMusicList - 1) {
                 viewModel.addRandomMusic()
             }
@@ -148,6 +144,10 @@ class MainActivity: AppCompatActivity() {
             binding.bottomViewPager.doOnPreDraw {
                 binding.bottomViewPager.setCurrentItem(position, false)
             }
+        }
+
+        PlayerInfo.currentObject.observe(this) {
+            viewModel.isFavorite(it.id ?: "")
         }
 
         viewModel.musicList?.observe(this) { list ->
