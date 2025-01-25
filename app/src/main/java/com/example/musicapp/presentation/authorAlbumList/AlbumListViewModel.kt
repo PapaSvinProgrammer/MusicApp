@@ -20,7 +20,7 @@ class AlbumListViewModel(
     fun getAlbumsByDate(authorId: String) {
         filterMode = FilterState.BY_DATE
         viewModelScope.launch {
-            albumLiveData.value = getAlbumsByAuthorId.executeOrderData(authorId)
+            albumLiveData.value = getAlbumsByAuthorId.executeOrderDate(authorId)
         }
     }
 

@@ -20,7 +20,7 @@ class GetAlbumsByAuthorId(private val albumRepository: AlbumRepository) {
         return albumRepository.getAlbumByAuthorIdOrderName(authorId)
     }
 
-    suspend fun executeOrderData(authorId: String): List<Album> {
+    suspend fun executeOrderDate(authorId: String): List<Album> {
         if (authorId.isEmpty()) {
             return listOf()
         }

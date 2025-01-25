@@ -1,10 +1,7 @@
 package com.example.musicapp.domain.usecase.getMusic
 
-import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.repository.GroupRepository
 import com.example.musicapp.domain.repository.MusicRepository
-import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions

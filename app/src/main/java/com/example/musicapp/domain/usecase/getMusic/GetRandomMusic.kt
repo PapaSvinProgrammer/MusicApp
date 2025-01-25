@@ -9,7 +9,7 @@ class GetRandomMusic(
     private val musicRepository: MusicRepository
 ) {
     suspend fun getMusicSingle(): Music? {
-        val result = getMusics(DEFAULT_COUNT_SINGLE)
+        val result = musicRepository.getRandomMusic(DEFAULT_COUNT_SINGLE)
 
         if (result.isNotEmpty()) {
             return result.first()
