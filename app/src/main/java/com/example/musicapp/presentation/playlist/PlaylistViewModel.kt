@@ -10,7 +10,6 @@ import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchPlaylistLocal
-import com.example.musicapp.presentation.bottomSheet.FilterDefaultBottomSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow

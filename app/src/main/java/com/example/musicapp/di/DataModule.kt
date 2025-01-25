@@ -2,7 +2,7 @@ package com.example.musicapp.di
 
 import android.annotation.SuppressLint
 import androidx.room.Room
-import com.example.musicapp.data.firebase.getAlbum.GetAlbumByFieldDESCImpl
+import com.example.musicapp.data.firebase.getAlbum.GetAlbumFilterImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumByIdImpl
 import com.example.musicapp.data.firebase.getAlbum.GetAlbumsAllImpl
 import com.example.musicapp.data.firebase.getAnother.GetGroupInfoImpl
@@ -13,6 +13,7 @@ import com.example.musicapp.data.firebase.getGroup.GetGroupWithFilterOnGenresImp
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getAnother.GetMusicTextById
+import com.example.musicapp.data.firebase.getMusic.GetMusicsFilterImpl
 import com.example.musicapp.data.firebase.getMusic.GetRandomMusicImpl
 import com.example.musicapp.data.firebase.search.SearchAlbumImpl
 import com.example.musicapp.data.firebase.search.SearchAllImpl
@@ -81,7 +82,8 @@ val dataModule = module {
         MusicRepositoryFirebase(
             getMusicAllImpl = get(),
             getMusicsByFieldIdImpl = get(),
-            getRandomMusicImpl = get()
+            getRandomMusicImpl = get(),
+            getMusicsFilterImpl = get()
         )
     }
 
@@ -97,7 +99,7 @@ val dataModule = module {
     single<AlbumRepository> {
         AlbumRepositoryFirebase(
             getAlbumByIdImpl = get(),
-            getAlbumByFieldDESCImpl = get(),
+            getAlbumFilterImpl = get(),
             getAlbumsAllImpl = get()
         )
     }
@@ -152,8 +154,8 @@ val dataModule = module {
         GetGroupByIdImpl()
     }
 
-    single<GetAlbumByFieldDESCImpl> {
-        GetAlbumByFieldDESCImpl()
+    single<GetAlbumFilterImpl> {
+        GetAlbumFilterImpl()
     }
 
     single<GetAlbumsAllImpl> {
@@ -244,5 +246,9 @@ val dataModule = module {
 
     single {
         GetGroupInfoImpl()
+    }
+
+    single {
+        GetMusicsFilterImpl()
     }
 }

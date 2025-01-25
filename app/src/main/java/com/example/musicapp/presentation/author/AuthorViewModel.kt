@@ -42,13 +42,13 @@ class AuthorViewModel(
 
     fun getMusic(authorId: String) {
         viewModelScope.launch {
-            getMusicLiveData.value = getMusicsByAuthorId.execute(authorId)
+            getMusicLiveData.value = getMusicsByAuthorId.executeOrderRating(authorId)
         }
     }
 
     fun getAlbum(authorId: String) {
         viewModelScope.launch {
-            getAlbumLiveData.value = getAlbumsByAuthorId.execute(authorId)
+            getAlbumLiveData.value = getAlbumsByAuthorId.executeOrderRating(authorId)
         }
     }
 

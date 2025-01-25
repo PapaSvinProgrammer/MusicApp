@@ -15,21 +15,26 @@ class AlbumListViewModel(
     private val albumLiveData = MutableLiveData<List<Album>>()
     val albumResult: LiveData<List<Album>> = albumLiveData
 
-    var filterMode = FilterState.BY_DATE
+    var filterMode = FilterState.BY_DEFAULT
 
     fun getAlbumsByDate(authorId: String) {
         filterMode = FilterState.BY_DATE
-
         viewModelScope.launch {
-            albumLiveData.value = getAlbumsByAuthorId.execute(authorId)
+            albumLiveData.value = getAlbumsByAuthorId.executeOrderData(authorId)
         }
     }
 
     fun getAlbumsByName(authorId: String) {
         filterMode = FilterState.BY_NAME
+        viewModelScope.launch {
+            albumLiveData.value = getAlbumsByAuthorId.executeOrderName(authorId)
+        }
     }
 
     fun getAlbumsByRating(authorId: String) {
         filterMode = FilterState.BY_RATING
+        viewModelScope.launch {
+            albumLiveData.value = getAlbumsByAuthorId.executeOrderRating(authorId)
+        }
     }
 }

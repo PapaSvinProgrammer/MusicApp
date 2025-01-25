@@ -30,16 +30,24 @@ class MusicListViewModel(
         filterMode = FilterState.BY_RATING
 
         viewModelScope.launch {
-            musicsLiveData.value = getMusicsByAuthorId.execute(authorId)
+            musicsLiveData.value = getMusicsByAuthorId.executeOrderRating(authorId)
         }
     }
 
     fun getMusicsByAlbum(authorId: String) {
         filterMode = FilterState.BY_ALBUM
+
+        viewModelScope.launch {
+            musicsLiveData.value = getMusicsByAuthorId.executeOrderAlbum(authorId)
+        }
     }
 
     fun getMusicsByName(authorId: String) {
         filterMode = FilterState.BY_NAME
+
+        viewModelScope.launch {
+            musicsLiveData.value = getMusicsByAuthorId.executeOrderName(authorId)
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {

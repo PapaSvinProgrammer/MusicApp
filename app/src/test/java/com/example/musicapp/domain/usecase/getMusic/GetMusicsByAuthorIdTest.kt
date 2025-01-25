@@ -24,10 +24,10 @@ class GetMusicsByAuthorIdTest {
         val testId = "authorId"
         val testResult = listOf(Music(groupId = testId), Music(groupId = testId))
 
-        Mockito.`when`(repository.getMusicByAuthorId(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.getMusicByAuthorIdOrderRating(testId)).thenReturn(testResult)
 
         val expected = listOf(Music(groupId = testId), Music(groupId = testId))
-        val actual = useCase.execute(testId)
+        val actual = useCase.executeOrderRating(testId)
 
         Assertions.assertEquals(expected, actual)
     }
@@ -38,10 +38,10 @@ class GetMusicsByAuthorIdTest {
         val testId = ""
         val testResult = listOf<Music>()
 
-        Mockito.`when`(repository.getMusicByAuthorId(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.getMusicByAuthorIdOrderRating(testId)).thenReturn(testResult)
 
         val expected = listOf<Music>()
-        val actual = useCase.execute(testId)
+        val actual = useCase.executeOrderRating(testId)
 
         Assertions.assertEquals(expected, actual)
     }
@@ -52,9 +52,9 @@ class GetMusicsByAuthorIdTest {
         val testId = ""
         val testResult = listOf<Music>()
 
-        Mockito.`when`(repository.getMusicByAuthorId(testId)).thenReturn(testResult)
-        useCase.execute(testId)
+        Mockito.`when`(repository.getMusicByAuthorIdOrderRating(testId)).thenReturn(testResult)
+        useCase.executeOrderRating(testId)
 
-        Mockito.verify(repository, never()).getMusicByAuthorId(testId)
+        Mockito.verify(repository, never()).getMusicByAuthorIdOrderRating(testId)
     }
 }

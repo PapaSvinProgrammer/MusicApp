@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
-import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchGroupLocal
 import kotlinx.coroutines.launch
