@@ -28,7 +28,7 @@ class FavoriteAuthorList: Fragment() {
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
 
-        binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
+        binding.toolbar.inflateMenu(R.menu.top_app_bar_search)
 
         return binding.root
     }
@@ -47,7 +47,6 @@ class FavoriteAuthorList: Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.search -> search()
-                R.id.filter -> filter()
             }
 
             true
@@ -82,9 +81,5 @@ class FavoriteAuthorList: Fragment() {
 
     private fun search() {
         binding.searchLayout.searchView.show()
-    }
-
-    private fun filter() {
-
     }
 }

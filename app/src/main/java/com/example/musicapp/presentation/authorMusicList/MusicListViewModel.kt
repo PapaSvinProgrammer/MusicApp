@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Music
+import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
 import com.example.musicapp.service.player.PlayerService
 import kotlinx.coroutines.launch
@@ -23,10 +24,22 @@ class MusicListViewModel(
     private val musicsLiveData = MutableLiveData<List<Music>>()
     val musicsResult: LiveData<List<Music>> = musicsLiveData
 
-    fun getMusics(authorId: String) {
+    var filterMode = FilterState.BY_RATING
+
+    fun getMusicsByRating(authorId: String) {
+        filterMode = FilterState.BY_RATING
+
         viewModelScope.launch {
             musicsLiveData.value = getMusicsByAuthorId.execute(authorId)
         }
+    }
+
+    fun getMusicsByAlbum(authorId: String) {
+        filterMode = FilterState.BY_ALBUM
+    }
+
+    fun getMusicsByName(authorId: String) {
+        filterMode = FilterState.BY_NAME
     }
 
     val connectionToPlayerService = object: ServiceConnection {

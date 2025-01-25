@@ -11,6 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentListBinding
+import com.example.musicapp.domain.state.FilterState
+import com.example.musicapp.presentation.bottomSheet.FilterMusicBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
 import com.example.musicapp.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,7 +24,9 @@ class MusicListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var navController: NavController
+    private var authorId: String? = null
     private val viewModel by viewModel<MusicListViewModel>()
+    private val filterMusicBottomSheet by lazy { FilterMusicBottomSheet() }
     private val musicAdapter by lazy {
         MusicAdapter(
             playerService = viewModel.playerService,
@@ -60,11 +64,20 @@ class MusicListFragment: Fragment() {
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.search -> search()
-                R.id.filter -> filter()
+                R.id.search -> drawSearch()
+                R.id.filter -> drawFilter()
             }
 
             true
+        }
+
+        filterMusicBottomSheet.setOnCLickListener {
+            when (it) {
+                FilterState.BY_NAME -> filterByName()
+                FilterState.BY_RATING -> filterByRating()
+                FilterState.BY_ALBUM -> filterByAlbum()
+                else -> {}
+            }
         }
 
         viewModel.musicsResult.observe(viewLifecycleOwner) {
@@ -79,20 +92,39 @@ class MusicListFragment: Fragment() {
         }
     }
 
+    private fun filterByAlbum() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getMusicsByAlbum(authorId ?: "")
+    }
+
+    private fun filterByRating() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getMusicsByRating(authorId ?: "")
+    }
+
+    private fun filterByName() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getMusicsByName(authorId ?: "")
+    }
+
     override fun onStart() {
         super.onStart()
 
         binding.progressIndicator.visibility = View.VISIBLE
-        val authorId = arguments?.getString(AUTHOR_ID)
-        viewModel.getMusics(authorId ?: "")
+        authorId = arguments?.getString(AUTHOR_ID)
+        viewModel.getMusicsByRating(authorId ?: "")
     }
 
-    private fun search() {
+    private fun drawFilter() {
+        filterMusicBottomSheet.setDefaultItem(viewModel.filterMode)
+
+        requireActivity().supportFragmentManager.let {
+            filterMusicBottomSheet.show(it, FilterMusicBottomSheet.TAG)
+        }
+    }
+
+    private fun drawSearch() {
         binding.searchLayout.searchView.show()
-    }
-
-    private fun filter() {
-
     }
 
     private fun initServiceTools() {

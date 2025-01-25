@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlaylistBinding
-import com.example.musicapp.presentation.bottomSheet.FilterBottomSheet
+import com.example.musicapp.presentation.bottomSheet.FilterDefaultBottomSheet
 import com.example.musicapp.presentation.dialog.NewPlaylistDialog
 import com.example.musicapp.presentation.recyclerAdapter.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +24,7 @@ class PlaylistFragment: Fragment() {
     private val recyclerAdapter by lazy { PlaylistAdapter(navController) }
     private val newPlaylistDialog by lazy { NewPlaylistDialog() }
     private val searchPlaylistAdapter by lazy { PlaylistAdapter(navController) }
+    private val filterDefaultBottomSheet by lazy { FilterDefaultBottomSheet() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +70,10 @@ class PlaylistFragment: Fragment() {
             }
         })
 
+        filterDefaultBottomSheet.setOnClickListener {
+            viewModel.updateFilter(it)
+        }
+
         viewModel.getPlaylistResult.observe(viewLifecycleOwner) { list ->
             recyclerAdapter.setData(list)
         }
@@ -91,23 +96,9 @@ class PlaylistFragment: Fragment() {
     }
 
     private fun createFilterBottomSheet() {
-        val bottomSheetDialog = FilterBottomSheet()
-
-        val bundle = Bundle()
-        bundle.putInt(FilterBottomSheet.CURRENT_FILTER_STATE, viewModel.currentFilterState)
-
-        bottomSheetDialog.arguments = bundle
-        initFilterBottomSheet(bottomSheetDialog)
-
+        filterDefaultBottomSheet.setDefaultItem(viewModel.filterFlowStateResult.value)
         requireActivity().supportFragmentManager.let {
-            bottomSheetDialog.show(it, FilterBottomSheet.TAG)
-        }
-    }
-
-    private fun initFilterBottomSheet(bottomSheet: FilterBottomSheet) {
-        bottomSheet.filterStateResult.observe(viewLifecycleOwner) {
-            viewModel.currentFilterState = it
-            viewModel.updateFilter()
+            filterDefaultBottomSheet.show(it, FilterDefaultBottomSheet.TAG)
         }
     }
 }

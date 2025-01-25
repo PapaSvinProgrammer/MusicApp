@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Album
+import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
 import kotlinx.coroutines.launch
 
@@ -14,9 +15,21 @@ class AlbumListViewModel(
     private val albumLiveData = MutableLiveData<List<Album>>()
     val albumResult: LiveData<List<Album>> = albumLiveData
 
-    fun getMusics(authorId: String) {
+    var filterMode = FilterState.BY_DATE
+
+    fun getAlbumsByDate(authorId: String) {
+        filterMode = FilterState.BY_DATE
+
         viewModelScope.launch {
             albumLiveData.value = getAlbumsByAuthorId.execute(authorId)
         }
+    }
+
+    fun getAlbumsByName(authorId: String) {
+        filterMode = FilterState.BY_NAME
+    }
+
+    fun getAlbumsByRating(authorId: String) {
+        filterMode = FilterState.BY_RATING
     }
 }

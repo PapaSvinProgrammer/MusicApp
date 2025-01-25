@@ -112,4 +112,7 @@
     <string name="x_text">X</string>
     <string name="website_text">Официальный сайт</string>
     <string name="youtube_text">YouTube</string>
+    <string name="by_date_text">По дате</string>
+    <string name="by_rating_text">По рейтингу</string>
+    <string name="by_album_text">По альбомам</string>
 </resources>

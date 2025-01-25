@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.authorAlbumList
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentListBinding
+import com.example.musicapp.domain.state.FilterState
+import com.example.musicapp.presentation.bottomSheet.FilterAlbumBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.AlbumHorizAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,8 +22,10 @@ class AlbumListFragment: Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var navController: NavController
+    private var authorId: String? = null
     private val viewModel by viewModel<AlbumListViewModel>()
     private val albumAdapter by lazy { AlbumHorizAdapter(navController) }
+    private val filterBottomSheet by lazy { FilterAlbumBottomSheet() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,10 +51,19 @@ class AlbumListFragment: Fragment() {
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.filter -> filter()
+                R.id.filter -> drawFilter()
             }
 
             true
+        }
+
+        filterBottomSheet.setOnClickListener {
+            when (it) {
+                FilterState.BY_RATING -> filterByRating()
+                FilterState.BY_NAME -> filterByName()
+                FilterState.BY_DATE -> filterByDate()
+                else -> {}
+            }
         }
 
         viewModel.albumResult.observe(viewLifecycleOwner) {
@@ -62,11 +76,29 @@ class AlbumListFragment: Fragment() {
         super.onStart()
 
         binding.progressIndicator.visibility = View.VISIBLE
-        val authorId = arguments?.getString(AUTHOR_KEY)
-        viewModel.getMusics(authorId ?: "")
+        authorId = arguments?.getString(AUTHOR_KEY)
+        viewModel.getAlbumsByDate(authorId ?: "")
     }
 
-    private fun filter() {
+    private fun drawFilter() {
+        filterBottomSheet.seDefaultItem(viewModel.filterMode)
+        requireActivity().supportFragmentManager.let {
+            filterBottomSheet.show(it, FilterAlbumBottomSheet.TAG)
+        }
+    }
 
+    private fun filterByDate() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getAlbumsByDate(authorId ?: "")
+    }
+
+    private fun filterByName() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getAlbumsByName(authorId ?: "")
+    }
+
+    private fun filterByRating() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getAlbumsByRating(authorId ?: "")
     }
 }
