@@ -2,7 +2,7 @@
 Это музыкальный стрименговый сервис для воспроизведения аудио контента. 
 
 Для ознакомление с функционалом приложения:
-- [Ссылка на apk](https://drive.google.com/file/d/13s7zdoGV2K-xmgYDSlGkmPLAqdNjR7mP/view?usp=drive_link);
+- [Ссылка на apk](https://drive.google.com/drive/folders/1QqH1fB2oc7xnAn5ZUSHfC53KF10KAaIY?usp=drive_link);
 - [Диаграмма вариантов использования](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);
 - [Диаграмма со всеми основными методами](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link), выполняющие основные функции приложения.
 ## Используемые технологии
