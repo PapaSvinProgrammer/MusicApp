@@ -15,9 +15,6 @@ class UpdatePlaylistImage(private val playlistRepository: PlaylistRepository) {
     suspend fun deleteImage(id: Long) {
         if (id == -1L) return
 
-        playlistRepository.saveImage(
-            url = "",
-            id = id.toString()
-        )
+        playlistRepository.deleteImage(id.toString())
     }
 }

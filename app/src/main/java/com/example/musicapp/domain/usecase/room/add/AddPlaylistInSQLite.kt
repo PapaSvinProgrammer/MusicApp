@@ -8,6 +8,10 @@ import java.util.Locale
 
 class AddPlaylistInSQLite(private val playlistRepository: PlaylistRepository) {
     suspend fun execute(name: String, image: String = "") {
+        if (name.isEmpty()) {
+            return
+        }
+
         val date = Calendar.getInstance().time
         val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
         val formattedDate = simpleDateFormat.format(date)

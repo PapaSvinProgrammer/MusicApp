@@ -32,6 +32,10 @@ class PlaylistRepositoryRoom(
         playlistDao.saveImage(url, id)
     }
 
+    override suspend fun deleteImage(id: String) {
+        playlistDao.saveImage("", id)
+    }
+
     override suspend fun saveName(name: String, id: String) {
         playlistDao.saveName(name, id)
     }
