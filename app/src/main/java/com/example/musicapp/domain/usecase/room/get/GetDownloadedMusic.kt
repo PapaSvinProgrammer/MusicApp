@@ -12,7 +12,7 @@ class GetDownloadedMusic(
 
     fun getDownloadsLimit(limit: Int): List<Music> {
         if (limit <= 0) {
-            return getDownloads()
+            return listOf()
         }
 
         return downloadMusicRepository.getDownloadsLimit(limit)

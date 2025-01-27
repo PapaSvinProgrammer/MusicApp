@@ -9,6 +9,10 @@ class GetMusicFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
     }
 
     suspend fun execute(limit: Int): List<MusicResult> {
-       return musicLiteRepository.getMusicLimit(limit.toString())
+        if (limit <= 0) {
+            return listOf()
+        }
+
+        return musicLiteRepository.getMusicLimit(limit)
     }
 }

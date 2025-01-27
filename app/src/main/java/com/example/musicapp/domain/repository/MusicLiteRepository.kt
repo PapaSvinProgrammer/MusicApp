@@ -8,13 +8,13 @@ interface MusicLiteRepository {
     suspend fun delete(id: String)
     suspend fun findUserById(firebaseId: String): MusicResult?
 
-    suspend fun getMusicLimit(limit: String): List<MusicResult>
-    suspend fun getAuthorLimit(limit: String): List<AuthorEntity>
+    suspend fun getMusicLimit(limit: Int): List<MusicResult>
+    suspend fun getAuthorLimit(limit: Int): List<AuthorEntity>
     suspend fun getAllMusic(): List<MusicResult>
     suspend fun getAllAuthor(): List<AuthorEntity>
-    suspend fun getCount(playlistId: String): Int
+    suspend fun getCount(playlistId: Long): Int
     suspend fun getCount(): Int
-    suspend fun getTime(playlistId: String): Long
+    suspend fun getTime(playlistId: Long): Long
 
     suspend fun searchMusic(text: String): List<MusicResult>
     suspend fun searchAuthor(text: String): List<AuthorEntity>

@@ -6,7 +6,7 @@ import com.example.musicapp.domain.repository.PlaylistRepository
 class SearchPlaylistLocal(
     private val playlistRepository: PlaylistRepository
 ) {
-    suspend fun execute(text: String): List<PlaylistResult?> {
+    suspend fun execute(text: String): List<PlaylistResult> {
         if (text.length < 2) {
             return listOf()
         }

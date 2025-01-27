@@ -12,7 +12,7 @@ class SearchMusic(
             return listOf()
         }
 
-        return searchRepository.searchName(
+        return searchRepository.searchMusic(
             searchData = convertData(text)
         )
     }

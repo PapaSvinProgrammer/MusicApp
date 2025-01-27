@@ -12,25 +12,29 @@ class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) 
 
     suspend fun getOnlyPlaylists(limit: Int): List<PlaylistEntity> {
         if (limit <= 0) {
-            return getOnlyPlaylists()
+            return listOf()
         }
 
         return playlistRepository.getOnlyPlaylistLimit(limit)
     }
 
     suspend fun getById(id: Long): PlaylistResult? {
-        return playlistRepository.getById(id.toString())
+        if (id <= 0L) {
+            return null
+        }
+
+        return playlistRepository.getById(id)
     }
 
-    fun getAllById(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllById()
+    fun getAllOrderId(): Flow<List<PlaylistResult>> {
+        return playlistRepository.getAllOrderId()
     }
 
-    fun getAllByName(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllByName()
+    fun getAllOrderName(): Flow<List<PlaylistResult>> {
+        return playlistRepository.getAllOrderName()
     }
 
-    fun getAllByDate(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllByDate()
+    fun getAllOrderDate(): Flow<List<PlaylistResult>> {
+        return playlistRepository.getAllOrderDate()
     }
 }

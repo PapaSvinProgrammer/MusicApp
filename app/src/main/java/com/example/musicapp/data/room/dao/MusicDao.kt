@@ -35,11 +35,11 @@ interface MusicDao {
 
     @Transaction
     @Query("SELECT * FROM favorite_music ORDER BY id DESC LIMIT :limit")
-    fun getMusicLimit(limit: String): List<MusicResult>
+    fun getMusicLimit(limit: Int): List<MusicResult>
 
     @Transaction
     @Query("SELECT * FROM author_for_music ORDER BY id DESC LIMIT :limit")
-    fun getAuthorLimit(limit: String): List<AuthorEntity>
+    fun getAuthorLimit(limit: Int): List<AuthorEntity>
 
     @Transaction
     @Query("SELECT * FROM favorite_music " +
@@ -58,8 +58,8 @@ interface MusicDao {
     suspend fun deleteMusicById(firebaseId: String)
 
     @Query("SELECT COUNT(*) FROM favorite_music WHERE playlist_id = :playlistId")
-    suspend fun getCount(playlistId: String): Int
+    suspend fun getCount(playlistId: Long): Int
 
     @Query("SELECT sum(unixepoch(music_time) - unixepoch('00:00:00')) FROM favorite_music WHERE playlist_id = :playlistId")
-    suspend fun getTime(playlistId: String): Long
+    suspend fun getTime(playlistId: Long): Long
 }

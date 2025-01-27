@@ -16,7 +16,7 @@ interface PlaylistDao {
 
     @Transaction
     @Query("SELECT * FROM playlists WHERE id = :id")
-    fun getById(id: String): PlaylistResult?
+    fun getById(id: Long): PlaylistResult?
 
     @Transaction
     @Query("SELECT * FROM playlists ORDER BY id")

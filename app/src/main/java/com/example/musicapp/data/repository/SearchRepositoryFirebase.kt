@@ -26,7 +26,7 @@ class SearchRepositoryFirebase(
         )
     }
 
-    override suspend fun searchName(searchData: SearchData): List<Music> {
+    override suspend fun searchMusic(searchData: SearchData): List<Music> {
         return searchMusicImpl.execute(
             searchData = searchData,
             limit = DEFAULT_SEARCH_LIMIT,

@@ -7,7 +7,7 @@ import com.example.musicapp.domain.module.Music
 
 interface SearchRepository {
     suspend fun searchAll(searchData: SearchData): List<Music>
-    suspend fun searchName(searchData: SearchData): List<Music>
+    suspend fun searchMusic(searchData: SearchData): List<Music>
     suspend fun searchAlbum(searchData: SearchData): List<Album>
     suspend fun searchGroup(searchData: SearchData): List<Group>
 }

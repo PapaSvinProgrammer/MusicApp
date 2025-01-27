@@ -5,15 +5,11 @@ import com.example.musicapp.domain.repository.MusicLiteRepository
 class GetTimePlaylist(
     private val musicLiteRepository: MusicLiteRepository
 ) {
-    suspend fun getTime(): Long {
-        return getTime(1L)
-    }
-
-    suspend fun getTime(playlistId: Long): Long {
+    suspend fun getTime(playlistId: Long = 1L): Long {
         if (playlistId <= 0) {
             return -1
         }
 
-        return musicLiteRepository.getTime(playlistId.toString())
+        return musicLiteRepository.getTime(playlistId)
     }
 }

@@ -9,6 +9,10 @@ class GetAuthorsFromSQLite(private val musicLiteRepository: MusicLiteRepository)
     }
 
     suspend fun execute(limit: Int): List<AuthorEntity> {
-        return musicLiteRepository.getAuthorLimit(limit.toString())
+        if (limit <= 0) {
+            return listOf()
+        }
+
+        return musicLiteRepository.getAuthorLimit(limit)
     }
 }

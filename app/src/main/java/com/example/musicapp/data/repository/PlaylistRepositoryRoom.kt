@@ -20,7 +20,7 @@ class PlaylistRepositoryRoom(
         playlistDao.delete(id)
     }
 
-    override suspend fun getById(id: String): PlaylistResult? {
+    override suspend fun getById(id: Long): PlaylistResult? {
         val job = CoroutineScope(Dispatchers.IO).async {
             playlistDao.getById(id)
         }
@@ -58,15 +58,15 @@ class PlaylistRepositoryRoom(
         }.await()
     }
 
-    override fun getAllById(): Flow<List<PlaylistResult>> {
+    override fun getAllOrderId(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllById()
     }
 
-    override fun getAllByName(): Flow<List<PlaylistResult>> {
+    override fun getAllOrderName(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllByName()
     }
 
-    override fun getAllByDate(): Flow<List<PlaylistResult>> {
+    override fun getAllOrderDate(): Flow<List<PlaylistResult>> {
         return playlistDao.getAllByDate()
     }
 

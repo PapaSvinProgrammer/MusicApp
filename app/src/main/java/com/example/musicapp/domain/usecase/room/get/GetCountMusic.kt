@@ -14,6 +14,6 @@ class GetCountMusic(
             return -1
         }
 
-        return musicLiteRepository.getCount(playlistId.toString())
+        return musicLiteRepository.getCount(playlistId)
     }
 }
