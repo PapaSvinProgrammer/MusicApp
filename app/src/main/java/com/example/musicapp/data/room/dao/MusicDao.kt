@@ -9,6 +9,7 @@ import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MusicDao {
@@ -36,7 +37,11 @@ interface MusicDao {
 
     @Transaction
     @Query("SELECT * FROM music WHERE playlist_id = :playlistId ORDER BY id DESC")
-    fun getAllFromPlaylist(playlistId: Long): List<MusicResult>
+    fun getAllFromPlaylist(playlistId: Long): Flow<List<MusicResult>>
+
+    @Transaction
+    @Query("SELECT * FROM music WHERE playlist_id = :playlistId ORDER BY id DESC LIMIT :limit")
+    fun getAllFromPlaylist(playlistId: Long, limit: Int): List<MusicResult>
 
     @Transaction
     @Query("SELECT * FROM author_for_music ORDER BY id DESC")

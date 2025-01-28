@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.data.constant.PlaylistConst
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
@@ -67,8 +68,8 @@ class HomeViewModel(
     fun addFavoritePlaylist() {
         viewModelScope.launch(Dispatchers.IO) {
             addPlaylistInSQLite.execute(
-                name = HomeConst.PLAYLIST_FAVORITE_NAME,
-                image = HomeConst.PLAYLIST_FAVORITE_URL
+                name = PlaylistConst.NAME_PLAYLIST_FAVORITE,
+                image = PlaylistConst.URL_PLAYLIST_FAVORITE
             )
         }
     }

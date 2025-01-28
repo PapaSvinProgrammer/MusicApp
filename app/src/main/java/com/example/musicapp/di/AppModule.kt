@@ -136,13 +136,14 @@ val appModule = module {
             getPlaylistFromSQLite = get(),
             updatePlaylistImage = get(),
             updatePlaylistName = get(),
-            deletePlaylistFromSQLite = get()
+            deletePlaylistFromSQLite = get(),
+            getMusicFromSQLite = get()
         )
     }
 
     viewModel {
         PlaylistFavoriteViewModel(
-            getPlaylistFromSQLite = get(),
+            getMusicFromSQLite = get(),
             getCountMusic = get(),
             convertTextCount = get(),
             getTimePlaylist = get(),

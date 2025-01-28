@@ -7,6 +7,7 @@ import com.example.musicapp.domain.repository.MusicLiteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 
 class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
     override suspend fun add(musicResult: MusicResult) {
@@ -65,9 +66,16 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun getAllMusicFromPlaylist(playlistId: Long): List<MusicResult> {
+    override fun getAllMusicFromPlaylist(playlistId: Long): Flow<List<MusicResult>> {
+        return musicDao.getAllFromPlaylist(playlistId)
+    }
+
+    override suspend fun getAllMusicFromPlaylist(playlistId: Long, limit: Int): List<MusicResult> {
         return CoroutineScope(Dispatchers.IO).async {
-            musicDao.getAllFromPlaylist(playlistId)
+            musicDao.getAllFromPlaylist(
+                playlistId = playlistId,
+                limit = limit
+            )
         }.await()
     }
 

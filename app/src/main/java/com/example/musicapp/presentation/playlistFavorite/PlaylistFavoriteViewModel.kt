@@ -7,13 +7,14 @@ import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.support.convertTextCount.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
+import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
 import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetTimePlaylist
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchMusicLocal
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ import kotlinx.coroutines.launch
 private const val DEFAULT_PLAYLIST_ID = 1L
 
 class PlaylistFavoriteViewModel(
-    private val getPlaylistFromSQLite: GetPlaylistFromSQLite,
+    getMusicFromSQLite: GetMusicFromSQLite,
     private val getCountMusic: GetCountMusic,
     private val convertTextCount: ConvertTextCount,
     private val getTimePlaylist: GetTimePlaylist,
@@ -31,21 +32,15 @@ class PlaylistFavoriteViewModel(
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
-    private val getPlaylistLiveData = MutableLiveData<PlaylistResult>()
     private val countTextMusicLiveData = MutableLiveData<String>()
     private val timePlaylistLiveData = MutableLiveData<String>()
     private val searchLiveData = MutableLiveData<List<MusicResult?>>()
 
-    val getPlaylistResult: LiveData<PlaylistResult> = getPlaylistLiveData
     val countTextMusicResult: LiveData<String> = countTextMusicLiveData
     val timePlaylistResult: LiveData<String> = timePlaylistLiveData
     val searchResult: LiveData<List<MusicResult?>> = searchLiveData
 
-    fun getPlaylist() {
-        viewModelScope.launch {
-            getPlaylistLiveData.value = getPlaylistFromSQLite.getById(DEFAULT_PLAYLIST_ID)
-        }
-    }
+    val getMusicResult = getMusicFromSQLite.getAllMusicFromPlaylist(DEFAULT_PLAYLIST_ID).asLiveData()
 
     fun getCount() {
         viewModelScope.launch {
@@ -83,9 +78,7 @@ class PlaylistFavoriteViewModel(
 
     fun search(text: String) {
         viewModelScope.launch {
-            searchLiveData.value = searchMusicLocal.execute(
-                text = text
-            )
+            searchLiveData.value = searchMusicLocal.execute(text)
         }
     }
 

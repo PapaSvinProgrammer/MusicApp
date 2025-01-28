@@ -2,6 +2,8 @@ package com.example.musicapp.domain.usecase.room.get
 
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.repository.MusicLiteRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class GetMusicFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
     suspend fun getAllMusic(): List<MusicResult> {
@@ -15,11 +17,22 @@ class GetMusicFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
         return musicLiteRepository.getMusicLimit(limit)
     }
 
-    suspend fun getAllMusicFromPlaylist(playlistId: Long): List<MusicResult> {
+    fun getAllMusicFromPlaylist(playlistId: Long): Flow<List<MusicResult>> {
         if (playlistId <= 0L) {
-            return listOf()
+            return flowOf()
         }
 
         return musicLiteRepository.getAllMusicFromPlaylist(playlistId)
+    }
+
+    suspend fun getAllMusicFromPlaylist(playlistId: Long, limit: Int): List<MusicResult> {
+        if (playlistId <= 0L || limit <= 0) {
+            return listOf()
+        }
+
+        return musicLiteRepository.getAllMusicFromPlaylist(
+            playlistId = playlistId,
+            limit = limit
+        )
     }
 }

@@ -44,13 +44,18 @@ class PlaylistFavoriteFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlaylistFavoriteBinding.inflate(inflater, container, false)
+
+        binding.appBar.collapsingToolbar.title = getString(R.string.me_favorite_text)
+
         return binding.root
     }
 
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+
         binding.searchLayout.searchRecyclerView.adapter = searchMusicResultAdapter
+        binding.recyclerView.adapter = musicResultAdapter
 
         requireActivity().apply {
             bindService(
@@ -60,14 +65,8 @@ class PlaylistFavoriteFragment: Fragment() {
             )
         }
 
-        viewModel.getPlaylistResult.observe(viewLifecycleOwner) {
-            Glide.with(binding.root)
-                .load(it?.playlistEntity?.imageUrl)
-                .into(binding.appBar.backImage)
-
-            musicResultAdapter.setData(it.musicResult.reversed())
-            binding.recyclerView.adapter = musicResultAdapter
-            binding.appBar.collapsingToolbar.title = it.playlistEntity.name
+        viewModel.getMusicResult.observe(viewLifecycleOwner) {
+            musicResultAdapter.setData(it)
         }
 
         viewModel.countTextMusicResult.observe(viewLifecycleOwner) { text ->
@@ -123,8 +122,11 @@ class PlaylistFavoriteFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getPlaylist()
         viewModel.getCount()
         viewModel.getTime()
+
+        Glide.with(binding.root)
+            .load(getString(R.string.url_favorite_playlist))
+            .into(binding.appBar.backImage)
     }
 }

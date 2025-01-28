@@ -1,6 +1,10 @@
 import java.io.FileInputStream
 import java.util.Properties
 
+val secretPropertiesFile = rootProject.file("secrets.properties")
+val secretProperties = Properties()
+secretProperties.load(FileInputStream(secretPropertiesFile))
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,10 +12,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("vkid.manifest.placeholders")
 }
-
-val secretPropertiesFile = rootProject.file("secrets.properties")
-val secretProperties = Properties()
-secretProperties.load(FileInputStream(secretPropertiesFile))
 
 android {
     namespace = "com.example.musicapp"
@@ -23,7 +23,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["YANDEX_CLIENT_ID"] = secretProperties["YandexClientId"].toString()
     }

@@ -54,6 +54,7 @@ class PlaylistItemFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+        binding.recyclerView.adapter = recyclerAdapter
 
         initBlur()
 
@@ -100,9 +101,6 @@ class PlaylistItemFragment: Fragment() {
         viewModel.getPlaylistResult.observe(viewLifecycleOwner) { album ->
             updateImageUI(album?.playlistEntity?.imageUrl.toString())
 
-            album?.musicResult?.let { recyclerAdapter.setData(it) }
-
-            binding.recyclerView.adapter = recyclerAdapter
             binding.appBar.collapsingToolbar.title = album?.playlistEntity?.name
             binding.appBar.nameView.text = album?.playlistEntity?.name
         }
@@ -113,6 +111,61 @@ class PlaylistItemFragment: Fragment() {
                 navController.popBackStack()
             }
         }
+
+        viewModel.getMusicResult.observe(viewLifecycleOwner) {
+            recyclerAdapter.setData(it)
+
+            if (viewModel.getPlaylistResult.value?.playlistEntity?.imageUrl.isNullOrEmpty()) {
+                val firstUrl = viewModel.getMusicResult.value?.first()?.albumEntity?.imageHigh
+                updateImageUI(firstUrl ?: "")
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        playlistId = arguments?.getLong(PlaylistAdapter.ALBUM_KEY)
+
+        playlistId?.let {
+            viewModel.getPlaylist(it)
+            viewModel.getMusic(it)
+        }
+    }
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let {
+            updateImageUI(uri.toString())
+
+            viewModel.saveImage(it.toString())
+        }
+    }
+
+    private fun createSettingsBottomSheet() {
+        val currentAlbum = viewModel.getPlaylistResult.value
+
+        val album = Album(
+            name = currentAlbum?.playlistEntity?.name.toString(),
+            image = currentAlbum?.playlistEntity?.imageUrl.toString(),
+            countMusic = currentAlbum?.musicResult?.size ?: 0
+        )
+
+        val bundle = Bundle()
+        bundle.putParcelable(PlaylistBottomSheet.PLAYLIST_KEY, album)
+
+        settingsBottomSheet.arguments = bundle
+        settingsBottomSheet.show(parentFragmentManager, PlaylistBottomSheet.TAG)
+    }
+
+    private fun updateImageUI(url: String) {
+        Glide.with(binding.root)
+            .load(url)
+            .error(R.drawable.ic_error_image)
+            .into(binding.appBar.frontImage)
+
+        Glide.with(binding.root)
+            .load(url)
+            .into(binding.appBar.backImage)
     }
 
     private fun drawChangeImage() {
@@ -159,50 +212,5 @@ class PlaylistItemFragment: Fragment() {
     private fun initBlur() {
         val blurRenderEffect = RenderEffect.createBlurEffect(100f, 100f, Shader.TileMode.CLAMP)
         binding.appBar.backImage.setRenderEffect(blurRenderEffect)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        playlistId = arguments?.getLong(PlaylistAdapter.ALBUM_KEY)
-
-        if (playlistId != null) {
-            viewModel.getPlaylist(playlistId ?: -1L)
-        }
-    }
-
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        uri?.let {
-            updateImageUI(uri.toString())
-
-            viewModel.saveImage(it.toString())
-        }
-    }
-
-    private fun createSettingsBottomSheet() {
-        val currentAlbum = viewModel.getPlaylistResult.value
-
-        val album = Album(
-            name = currentAlbum?.playlistEntity?.name.toString(),
-            image = currentAlbum?.playlistEntity?.imageUrl.toString(),
-            countMusic = currentAlbum?.musicResult?.size ?: 0
-        )
-
-        val bundle = Bundle()
-        bundle.putParcelable(PlaylistBottomSheet.PLAYLIST_KEY, album)
-
-        settingsBottomSheet.arguments = bundle
-        settingsBottomSheet.show(parentFragmentManager, PlaylistBottomSheet.TAG)
-    }
-
-    private fun updateImageUI(url: String) {
-        Glide.with(binding.root)
-            .load(url)
-            .error(R.drawable.ic_error_image)
-            .into(binding.appBar.frontImage)
-
-        Glide.with(binding.root)
-            .load(url)
-            .into(binding.appBar.backImage)
     }
 }

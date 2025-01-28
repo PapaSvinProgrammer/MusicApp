@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.musicapp.R
 import com.example.musicapp.databinding.BottomSheetPlaylistBinding
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.state.SettingsPlaylist
@@ -72,6 +73,7 @@ class PlaylistBottomSheet: BottomSheetDialogFragment() {
 
             Glide.with(binding.root)
                 .load(it.image)
+                .error(R.drawable.ic_error_image)
                 .into(binding.imageView)
 
             binding.playlistTextView.text = it.name
