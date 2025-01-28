@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
-import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.support.convertTextCount.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
