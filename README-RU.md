@@ -1,23 +1,21 @@
-## Other languages
-[![RU](https://img.shields.io/badge/lang-RU-red)](https://github.com/PapaSvinProgrammer/MusicApp/blob/ba0a43b20b579396bb7ad11015f5bca4df3421a2/README-RU.md)
+## Другие языки
 [![EN](https://img.shields.io/badge/lang-EN-green)](https://github.com/PapaSvinProgrammer/MusicApp/blob/ba0a43b20b579396bb7ad11015f5bca4df3421a2/README.md)
 
-## Description
-This is a music streaming service for playing audio content.
+## Описание
+Это музыкальный стрименговый сервис для воспроизведения аудио контента. 
 
-To get acquainted with the functionality of the application:
-- [Link to apk](https://drive.google.com/drive/folders/1QqH1fB2oc7xnAn5ZUSHfC53KF10KAaIY?usp=drive_link);
-- [Diagram of use cases](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);
-- [A diagram with all the basic methods](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link) that perform the main functions of the application.
-
-## Technologies used
-**List of technologies**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
+Для ознакомление с функционалом приложения:
+- [Ссылка на apk](https://drive.google.com/drive/folders/1QqH1fB2oc7xnAn5ZUSHfC53KF10KAaIY?usp=drive_link);
+- [Диаграмма вариантов использования](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);
+- [Диаграмма со всеми основными методами](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link), выполняющие основные функции приложения.
+## Используемые технологии
+**Список технологий**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
 LiveData, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
 Coroutines, ExoPlayer, Glide, Lottie, Yandex auth SDK, VKID auth SDK, Google auth SDK, Yandex Cloud, Download Manager, Creational pattern.
 
-**Music and clip files are stored** using the Yandex Cloud service, **the database** is implemented using Firebase Firestore.
-## Demonstration of functionality
-### Photo
+**Файлы музыки и клипов хранятся** при помощи сервиса Yandex Cloud, **база данных** реализована с помощью Firebase Firestore.
+## Демонстрация функционала
+### Фото
 <p>
   <img src="https://sun9-67.userapi.com/impg/XY-Y7uJ1w6aXF5TZ4OHKEyOcgso30ldb7UpJYA/mJFIjpBbZNM.jpg?size=720x1650&quality=95&sign=f79221e8bea5f0c91d5b7d483e4d51cf&type=album" width=200>
   <img src="https://sun9-74.userapi.com/impg/yBsghDgo6poh6rQ9xJf2FjxhPJVNFn_Zb_N42w/FMT-ovytSsc.jpg?size=471x1080&quality=95&sign=21933804b7c93e8aeae2688c72a6a05f&type=album" width=200>
@@ -30,6 +28,6 @@ Coroutines, ExoPlayer, Glide, Lottie, Yandex auth SDK, VKID auth SDK, Google aut
   <img src="https://sun9-30.userapi.com/impg/4ZgC6jiWRUZbnpE4cIgjK5vmpE5Yv4YwZ2vmbQ/LcSUSe1YTso.jpg?size=471x1080&quality=95&sign=f0fae51a94cdb6ac25c7b59781af43f7&type=album" width=200>
 </p>
 
-### Video
+### Видео
 [Screen_recording_20250123_154625.webm](https://github.com/user-attachments/assets/171bf734-530b-4cb1-bc40-895e882eb679)
 
