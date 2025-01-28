@@ -6,7 +6,7 @@ import com.example.musicapp.support.convertAnother.ConvertMusic
 
 class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
     suspend fun execute(music: Music?, playlistId: Long = 1) {
-        if (music == null) {
+        if (music == null || playlistId <= 0L) {
             return
         }
 

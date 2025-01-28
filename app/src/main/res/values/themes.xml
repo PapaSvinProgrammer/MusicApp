@@ -12,8 +12,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background_color_white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="normalColor">@color/background_color</item>
+        <item name="normalColorBlue">@color/purple_500</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <declare-styleable name="Theme.MusicApp">
+        <attr name="normalColor" format="color"/>
+        <attr name="normalColorBlue" format="color"/>
+    </declare-styleable>
 
     <style name="BackgroundColorContainer">
         <item name="android:backgroundTint">#ECE6F0</item>

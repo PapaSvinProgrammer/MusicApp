@@ -3,25 +3,22 @@ package com.example.musicapp.presentation.dialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.musicapp.R
 import com.example.musicapp.databinding.DialogAddNewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class NewNameDialog(
-    private val name: String
-): DialogFragment() {
+class NewNameDialog: DialogFragment() {
     companion object {
         const val TAG = "New name dialog"
     }
 
     private lateinit var binding: DialogAddNewBinding
-    private val nameLiveData = MutableLiveData<String>()
-    val nameResult: LiveData<String> = nameLiveData
+    private var listener: ((String) -> Unit)? = null
+    private var name: String = ""
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogAddNewBinding.inflate(layoutInflater)
+
         binding.editText.hint = getString(R.string.input_name_text)
         binding.editText.setText(name)
 
@@ -52,11 +49,19 @@ class NewNameDialog(
         }
 
         if (!binding.editText.text.isNullOrEmpty()) {
-            nameLiveData.value = binding.editText.text.toString()
+            listener?.invoke(binding.editText.text.toString())
             dismiss()
         }
         else {
             binding.editTextLayout.error = getString(R.string.error_empty_line_text)
         }
+    }
+
+    fun setClickListener(listener: ((String) -> Unit)) {
+        this.listener = listener
+    }
+
+    fun setDefaultName(name: String) {
+        this.name = name
     }
 }

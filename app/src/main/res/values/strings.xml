@@ -115,4 +115,7 @@
     <string name="by_date_text">По дате</string>
     <string name="by_rating_text">По рейтингу</string>
     <string name="by_album_text">По альбомам</string>
+    <string name="search_by_track_text">Поиск по трекам</string>
+    <string name="delete_image_text">Удалить фото</string>
+    <string name="change_image_text">Изменить фото</string>
 </resources>

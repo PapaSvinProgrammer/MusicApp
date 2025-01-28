@@ -30,6 +30,7 @@ retrofit = "2.11.0"
 roomRuntime = "2.6.1"
 lifecycleLivedataKtx = "2.8.7"
 vkid = "2.2.2"
+uiTestAndroid = "1.7.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +69,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 vkid = { module = "com.vk.id:vkid", version.ref = "vkid" }
+androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

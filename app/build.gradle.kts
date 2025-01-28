@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.gson)
+    implementation(libs.androidx.ui.test.android)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     /**

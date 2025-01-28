@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.BottomSheetPlaylistBinding
 import com.example.musicapp.domain.module.Album
@@ -20,11 +18,10 @@ class PlaylistBottomSheet: BottomSheetDialogFragment() {
         const val TAG = "PlaylistBottomSheet"
         const val PLAYLIST_KEY = "PlaylistKey"
     }
+
     private lateinit var binding: BottomSheetPlaylistBinding
     private val convertTextCount = ConvertTextCountImpl(ConvertAnyText())
-
-    private val settingsActionLiveData = MutableLiveData<SettingsPlaylist>()
-    val settingsActionResult: LiveData<SettingsPlaylist> = settingsActionLiveData
+    private var listener: ((SettingsPlaylist) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,23 +36,28 @@ class PlaylistBottomSheet: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.downloadLayout.setOnClickListener {
-            settingsActionLiveData.value = SettingsPlaylist.DOWNLOAD
+            listener?.invoke(SettingsPlaylist.DOWNLOAD)
+            dismiss()
         }
 
         binding.addMusicLayout.setOnClickListener {
-            settingsActionLiveData.value = SettingsPlaylist.ADD_MUSIC
+            listener?.invoke(SettingsPlaylist.ADD_MUSIC)
+            dismiss()
         }
 
         binding.editNameLayout.setOnClickListener {
-            settingsActionLiveData.value = SettingsPlaylist.EDIT_NAME
+            listener?.invoke(SettingsPlaylist.EDIT_NAME)
+            dismiss()
         }
 
         binding.editImageLayout.setOnClickListener {
-            settingsActionLiveData.value = SettingsPlaylist.EDIT_IMAGE
+            listener?.invoke(SettingsPlaylist.EDIT_IMAGE)
+            dismiss()
         }
 
         binding.deleteLayout.setOnClickListener {
-            settingsActionLiveData.value = SettingsPlaylist.DELETE
+            listener?.invoke(SettingsPlaylist.DELETE)
+            dismiss()
         }
     }
 
@@ -75,5 +77,9 @@ class PlaylistBottomSheet: BottomSheetDialogFragment() {
             binding.playlistTextView.text = it.name
             binding.countTextView.text = countMusicStr + convertTextCount.convertMusic(it.countMusic)
         }
+    }
+
+    fun setOnClickListener(listener: ((SettingsPlaylist) -> Unit)) {
+        this.listener = listener
     }
 }

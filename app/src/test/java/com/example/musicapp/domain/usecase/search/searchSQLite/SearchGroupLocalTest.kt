@@ -1,7 +1,6 @@
 package com.example.musicapp.domain.usecase.search.searchSQLite
 
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
-import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicLiteRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
