@@ -1,6 +1,5 @@
 ## Другие языки
-[![RU](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/PapaSvinProgrammer/MusicApp/blob/ba0a43b20b579396bb7ad11015f5bca4df3421a2/README-RU.md)
-[![EN](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/PapaSvinProgrammer/MusicApp/blob/ba0a43b20b579396bb7ad11015f5bca4df3421a2/README.md)
+[![EN](https://img.shields.io/badge/lang-EN-green)](https://github.com/PapaSvinProgrammer/MusicApp/blob/ba0a43b20b579396bb7ad11015f5bca4df3421a2/README.md)
 
 ## Описание
 Это музыкальный стрименговый сервис для воспроизведения аудио контента. 
