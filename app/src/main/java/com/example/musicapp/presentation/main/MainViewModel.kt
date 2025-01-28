@@ -16,7 +16,7 @@ import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindMusicInSQLite
 import kotlinx.coroutines.launch
 
 private const val DEFAULT_COUNT_MUSIC = 3L
@@ -26,7 +26,7 @@ class MainViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
     private val getRandomMusic: GetRandomMusic,
-    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
+    private val findMusicInSQLite: FindMusicInSQLite
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -90,7 +90,7 @@ class MainViewModel(
 
     fun isFavorite(musicId: String) {
         viewModelScope.launch {
-            isFavoriteLiveData.value = findFavoriteMusicFromSQLite.execute(musicId)
+            isFavoriteLiveData.value = findMusicInSQLite.find(musicId)
         }
     }
 

@@ -129,8 +129,8 @@ class MainActivity: AppCompatActivity() {
 
     @OptIn(UnstableApi::class)
     override fun onDestroy() {
-        AudioManager.audioDownloadManager.downloadCache?.release()
-        AudioManager.audioDownloadManager.downloadCache = null
+        AudioManager.audioDownloadManager?.downloadCache?.release()
+        AudioManager.audioDownloadManager?.downloadCache = null
 
         super.onDestroy()
     }

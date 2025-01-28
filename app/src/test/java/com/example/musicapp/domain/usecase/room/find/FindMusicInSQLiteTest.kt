@@ -12,7 +12,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 
-class FindFavoriteMusicFromSQLiteTest {
+class FindMusicInSQLiteTest {
     private val repository = mock<MusicLiteRepository>()
 
     @AfterEach
@@ -22,31 +22,31 @@ class FindFavoriteMusicFromSQLiteTest {
 
     @Test
     fun correctFind(): Unit = runBlocking {
-        val useCase = FindFavoriteMusicFromSQLite(repository)
+        val useCase = FindMusicInSQLite(repository)
         val testId = "testId"
         val testResult = ConvertMusic().convertToMusicResult(Music(id=testId),1)
 
-        Mockito.`when`(repository.findUserById(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.findMusicById(testId)).thenReturn(testResult)
 
         val expected = ConvertMusic().convertToMusicResult(Music(id=testId),1)
-        val actual = useCase.execute(testId)
+        val actual = useCase.find(testId)
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).findUserById(testId)
+        Mockito.verify(repository, times(1)).findMusicById(testId)
     }
 
     @Test
     fun invalidFind(): Unit = runBlocking {
-        val useCase = FindFavoriteMusicFromSQLite(repository)
+        val useCase = FindMusicInSQLite(repository)
         val testId = ""
         val testResult = null
 
-        Mockito.`when`(repository.findUserById(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.findMusicById(testId)).thenReturn(testResult)
 
         val expected = null
-        val actual = useCase.execute(testId)
+        val actual = useCase.find(testId)
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, never()).findUserById(testId)
+        Mockito.verify(repository, never()).findMusicById(testId)
     }
 }

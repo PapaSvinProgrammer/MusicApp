@@ -4,5 +4,5 @@ import androidx.media3.common.util.UnstableApi
 
 @UnstableApi
 object AudioManager {
-    lateinit var audioDownloadManager: AudioDownloadManager
+    var audioDownloadManager: AudioDownloadManager? = null
 }

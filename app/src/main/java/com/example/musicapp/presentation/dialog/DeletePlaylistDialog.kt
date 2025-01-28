@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.example.musicapp.R
-import com.example.musicapp.presentation.playlistItem.PlaylistItemViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class DeletePlaylistDialog: DialogFragment() {

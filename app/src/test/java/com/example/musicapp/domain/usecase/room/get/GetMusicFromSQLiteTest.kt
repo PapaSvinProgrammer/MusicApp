@@ -29,7 +29,7 @@ class GetMusicFromSQLiteTest {
         Mockito.`when`(repository.getAllMusic()).thenReturn(testResult)
 
         val expected = listOf(musicResult, musicResult)
-        val actual = useCase.execute()
+        val actual = useCase.getAllMusic()
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getAllMusic()
@@ -44,7 +44,7 @@ class GetMusicFromSQLiteTest {
         Mockito.`when`(repository.getMusicLimit(testLimit)).thenReturn(testResult)
 
         val expected = listOf(musicResult, musicResult)
-        val actual = useCase.execute(testLimit)
+        val actual = useCase.getAllMusic(testLimit)
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getMusicLimit(testLimit)
@@ -59,7 +59,7 @@ class GetMusicFromSQLiteTest {
         Mockito.`when`(repository.getMusicLimit(testLimit)).thenReturn(testResult)
 
         val expected = listOf<MusicResult>()
-        val actual = useCase.execute(testLimit)
+        val actual = useCase.getAllMusic(testLimit)
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, never()).getMusicLimit(testLimit)

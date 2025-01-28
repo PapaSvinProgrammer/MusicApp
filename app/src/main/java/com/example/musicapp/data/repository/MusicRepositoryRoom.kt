@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
-
     override suspend fun add(musicResult: MusicResult) {
         musicDao.insertAlbum(musicResult.albumEntity)
 
@@ -22,12 +21,24 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         musicDao.deleteMusicById(id)
     }
 
-    override suspend fun findUserById(firebaseId: String): MusicResult? {
+    override suspend fun findMusicById(firebaseId: String): MusicResult? {
         val job = CoroutineScope(Dispatchers.IO).async {
             musicDao.getMusicById(firebaseId)
         }
 
         return job.await()
+    }
+
+    override suspend fun findMusicByIdFromPlaylist(
+        musicFirebaseId: String,
+        playlistId: Long
+    ): MusicResult? {
+        return CoroutineScope(Dispatchers.IO).async {
+            musicDao.getMusicByIdFromPlaylist(
+                musicFirebaseId = musicFirebaseId,
+                playlistId = playlistId
+            )
+        }.await()
     }
 
     override suspend fun getMusicLimit(limit: Int): List<MusicResult> {
@@ -52,6 +63,12 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         }
 
         return job.await()
+    }
+
+    override suspend fun getAllMusicFromPlaylist(playlistId: Long): List<MusicResult> {
+        return CoroutineScope(Dispatchers.IO).async {
+            musicDao.getAllFromPlaylist(playlistId)
+        }.await()
     }
 
     override suspend fun getAllAuthor(): List<AuthorEntity> {

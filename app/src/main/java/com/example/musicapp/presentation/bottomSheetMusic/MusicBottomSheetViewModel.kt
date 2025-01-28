@@ -14,7 +14,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ActionMusic
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
-import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteDownloadMusic
 import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
@@ -28,7 +28,7 @@ import java.util.Locale
 
 @OptIn(UnstableApi::class)
 class MusicBottomSheetViewModel(
-    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite,
+    private val findMusicInSQLite: FindMusicInSQLite,
     private val addMusicInSQLite: AddMusicInSQLite,
     private val getDownloadedMusic: GetDownloadedMusic,
     private val downloadMusic: DownloadMusic,
@@ -56,7 +56,7 @@ class MusicBottomSheetViewModel(
 
     fun isFavorite(id: String) {
         viewModelScope.launch {
-            isFavoriteLiveData.value = findFavoriteMusicFromSQLite.execute(id)
+            isFavoriteLiveData.value = findMusicInSQLite.find(id)
         }
     }
 

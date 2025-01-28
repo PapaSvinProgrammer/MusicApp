@@ -15,7 +15,7 @@ import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.find.FindFavoriteMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.find.FindMusicInSQLite
 import com.example.musicapp.service.video.VideoService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ private const val PLAYLIST_ID_FAVORITE = 1L
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
-    private val findFavoriteMusicFromSQLite: FindFavoriteMusicFromSQLite
+    private val findMusicInSQLite: FindMusicInSQLite
 ): ViewModel() {
     var durationLiveData: LiveData<Long>? = null
     var maxDurationLiveData: LiveData<Long>? = null
@@ -96,7 +96,7 @@ class PlayerViewModel(
 
     fun getFavoriteMusic(id: String) {
         viewModelScope.launch {
-            getFavoriteMusicLiveData.value = findFavoriteMusicFromSQLite.execute(id)
+            getFavoriteMusicLiveData.value = findMusicInSQLite.find(id)
         }
     }
 

@@ -66,7 +66,7 @@ class AudioDownloadHelper(
     override fun getDownloadsLimit(limit: Int): List<Music> {
         val result = ArrayList<Music>()
         var count = 0
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager
+        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
             .downloadManager
             .downloadIndex
             .getDownloads()
@@ -89,7 +89,7 @@ class AudioDownloadHelper(
     }
 
     override fun getDownload(musicId: String): Music? {
-        val download: Download? = AudioManager.audioDownloadManager
+        val download: Download? = AudioManager.audioDownloadManager!!
             .downloadManager
             .downloadIndex
             .getDownload(musicId)
@@ -104,7 +104,7 @@ class AudioDownloadHelper(
     }
 
     override fun getCount(): Int {
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager
+        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
             .downloadManager
             .downloadIndex
             .getDownloads()
@@ -117,7 +117,7 @@ class AudioDownloadHelper(
     override fun search(text: String): List<Music> {
         val result = ArrayList<Music>()
         var count = 0
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager
+        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
             .downloadManager
             .downloadIndex
             .getDownloads()

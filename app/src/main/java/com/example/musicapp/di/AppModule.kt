@@ -71,7 +71,7 @@ val appModule = module {
             addMusicInSQLite = get(),
             deleteMusicFromSQLite = get(),
             getRandomMusic = get(),
-            findFavoriteMusicFromSQLite = get()
+            findMusicInSQLite = get()
         )
     }
 
@@ -106,7 +106,7 @@ val appModule = module {
         PlayerViewModel(
             addMusicInSQLite = get(),
             deleteMusicFromSQLite = get(),
-            findFavoriteMusicFromSQLite = get()
+            findMusicInSQLite = get()
         )
     }
 
@@ -167,7 +167,7 @@ val appModule = module {
 
     viewModel {
         MusicBottomSheetViewModel(
-            findFavoriteMusicFromSQLite = get(),
+            findMusicInSQLite = get(),
             addMusicInSQLite = get(),
             downloadMusic = get(),
             deleteDownloadMusic = get(),

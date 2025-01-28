@@ -6,14 +6,20 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 interface MusicLiteRepository {
     suspend fun add(musicResult: MusicResult)
     suspend fun delete(id: String)
-    suspend fun findUserById(firebaseId: String): MusicResult?
+
+    suspend fun findMusicById(firebaseId: String): MusicResult?
+    suspend fun findMusicByIdFromPlaylist(musicFirebaseId: String, playlistId: Long): MusicResult?
 
     suspend fun getMusicLimit(limit: Int): List<MusicResult>
     suspend fun getAuthorLimit(limit: Int): List<AuthorEntity>
+
     suspend fun getAllMusic(): List<MusicResult>
+    suspend fun getAllMusicFromPlaylist(playlistId: Long): List<MusicResult>
     suspend fun getAllAuthor(): List<AuthorEntity>
+
     suspend fun getCount(playlistId: Long): Int
     suspend fun getCount(): Int
+
     suspend fun getTime(playlistId: Long): Long
 
     suspend fun searchMusic(text: String): List<MusicResult>

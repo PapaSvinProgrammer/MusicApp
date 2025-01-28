@@ -63,7 +63,7 @@ class FavoriteViewModel(
 
     fun getMusic() {
         viewModelScope.launch {
-            getMusicLiveData.value = getMusicFromSQLite.execute(MUSIC_LIMIT)
+            getMusicLiveData.value = getMusicFromSQLite.getAllMusicFromPlaylist(1)
         }
     }
 

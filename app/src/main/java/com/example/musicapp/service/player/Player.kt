@@ -87,7 +87,7 @@ class Player(private val context: Context) : AudioPlayer {
 
         val cacheDataSourceFactory: DataSource.Factory =
             CacheDataSource.Factory()
-                .setCache(AudioManager.audioDownloadManager.downloadCache!!)
+                .setCache(AudioManager.audioDownloadManager!!.downloadCache!!)
                 .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory())
                 .setCacheWriteDataSinkFactory(null)
 
