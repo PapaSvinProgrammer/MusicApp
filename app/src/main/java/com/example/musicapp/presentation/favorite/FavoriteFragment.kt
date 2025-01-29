@@ -18,7 +18,7 @@ import com.example.musicapp.databinding.FragmentFavoriteBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presentation.recyclerAdapter.AuthorAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -108,7 +108,7 @@ class FavoriteFragment: Fragment() {
         }
 
         binding.downloadCardView.setOnClickListener {
-            navController.navigate(R.id.action_favoriteFragment_to_downloadFragment)
+            navController.navigate(R.id.action_global_downloadFragment)
         }
 
         binding.authorLayout.setOnClickListener {

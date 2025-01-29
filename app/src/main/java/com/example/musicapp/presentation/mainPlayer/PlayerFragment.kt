@@ -24,15 +24,15 @@ import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
-import com.example.musicapp.service.player.module.PlayerInfo
-import com.example.musicapp.service.video.VideoPlayer
-import com.example.musicapp.service.video.VideoService
+import com.example.musicapp.app.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.video.VideoPlayer
+import com.example.musicapp.app.service.video.VideoService
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

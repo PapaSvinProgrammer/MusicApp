@@ -12,7 +12,7 @@ import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

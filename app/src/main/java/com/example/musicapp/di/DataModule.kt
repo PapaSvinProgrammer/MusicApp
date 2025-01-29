@@ -52,7 +52,7 @@ import com.example.musicapp.domain.repository.SearchRepository
 import com.example.musicapp.domain.repository.SharedPreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.repository.UserRepository
-import com.example.musicapp.service.audioDownloader.AudioDownloadHelper
+import com.example.musicapp.app.service.audioDownloader.AudioDownloadHelper
 import org.koin.dsl.module
 
 @SuppressLint("UnsafeOptInUsageError")

@@ -15,7 +15,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.presentation.bottomSheetPlaylistFavorite.PlaylistFavoriteBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicResultAdapter

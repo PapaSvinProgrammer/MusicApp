@@ -14,7 +14,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
 import com.example.musicapp.domain.usecase.getGroup.GetGroupById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import kotlinx.coroutines.launch
 
 class AuthorViewModel(

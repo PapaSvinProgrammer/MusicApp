@@ -20,7 +20,7 @@ import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

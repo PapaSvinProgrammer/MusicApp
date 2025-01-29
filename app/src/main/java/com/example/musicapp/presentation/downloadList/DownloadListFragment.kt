@@ -15,7 +15,7 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentListBinding
 import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicAdapter
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DownloadListFragment: Fragment() {

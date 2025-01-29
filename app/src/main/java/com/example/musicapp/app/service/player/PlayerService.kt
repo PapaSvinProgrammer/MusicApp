@@ -1,4 +1,4 @@
-package com.example.musicapp.service.player
+package com.example.musicapp.app.service.player
 
 import android.app.PendingIntent
 import android.app.Service
@@ -11,9 +11,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.util.UnstableApi
 import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.player.module.AudioPlayer
+import com.example.musicapp.app.service.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.player.module.PlayerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

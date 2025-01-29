@@ -1,4 +1,4 @@
-package com.example.musicapp.service.audioDownloader
+package com.example.musicapp.app.service.audioDownloader
 
 import android.content.Context
 import androidx.core.net.toUri

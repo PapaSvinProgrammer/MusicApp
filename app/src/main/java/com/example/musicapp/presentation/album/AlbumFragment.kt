@@ -14,7 +14,7 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.FragmentAlbumBinding
 import com.example.musicapp.presentation.recyclerAdapter.MusicListAdapter
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumFragment: Fragment() {

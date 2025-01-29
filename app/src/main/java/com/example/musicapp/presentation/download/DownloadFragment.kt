@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentDownloadBinding
 import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DownloadFragment: Fragment() {

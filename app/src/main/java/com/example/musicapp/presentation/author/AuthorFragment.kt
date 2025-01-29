@@ -18,7 +18,7 @@ import com.example.musicapp.presentation.authorMusicList.MusicListFragment
 import com.example.musicapp.presentation.bottomSheetAuthorInfo.AuthorInfoBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.AlbumAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthorFragment: Fragment() {

@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -37,6 +37,7 @@ class MainViewModel(
 
     var darkModeResult: Boolean = false
     var countMusicList = 0
+    var networkConnection = -1
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()

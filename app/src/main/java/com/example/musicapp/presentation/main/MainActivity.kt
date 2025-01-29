@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -20,15 +22,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
+import com.example.musicapp.app.broadcastReceiver.NetworkReceiver
 import com.example.musicapp.databinding.ActivityMainBinding
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
-import com.example.musicapp.service.audioDownloader.AudioDownloadManager
-import com.example.musicapp.service.audioDownloader.AudioManager
-import com.example.musicapp.service.player.module.DataPlayerType
-import com.example.musicapp.service.player.module.PlayerInfo
-import com.example.musicapp.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.audioDownloader.AudioDownloadManager
+import com.example.musicapp.app.service.audioDownloader.AudioManager
+import com.example.musicapp.app.service.player.module.DataPlayerType
+import com.example.musicapp.app.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.player.module.TypeDataPlayer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
@@ -41,15 +44,18 @@ class MainActivity: AppCompatActivity() {
             viewModel = viewModel
         )
     }
+    private val networkReceiver by lazy { NetworkReceiver() }
 
     @UnstableApi
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        registerNetworkReceiver()
         navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
@@ -123,7 +129,13 @@ class MainActivity: AppCompatActivity() {
                 viewModel.setStartState(true)
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
+                drawWifiError(viewModel.networkConnection)
             }
+        }
+
+        networkReceiver.setCallback {
+            drawWifiError(it)
+            viewModel.networkConnection = it
         }
     }
 
@@ -131,7 +143,6 @@ class MainActivity: AppCompatActivity() {
     override fun onDestroy() {
         AudioManager.audioDownloadManager?.downloadCache?.release()
         AudioManager.audioDownloadManager?.downloadCache = null
-
         super.onDestroy()
     }
 
@@ -170,5 +181,17 @@ class MainActivity: AppCompatActivity() {
     @UnstableApi
     private fun initDownloadManager() {
         AudioManager.audioDownloadManager = AudioDownloadManager(this)
+    }
+
+    private fun registerNetworkReceiver() {
+        val intentFilter = IntentFilter(NetworkReceiver.WIFI_FILTER)
+        registerReceiver(networkReceiver, intentFilter)
+    }
+
+    private fun drawWifiError(state: Int) {
+        when (state) {
+            WifiManager.WIFI_STATE_ENABLED -> binding.viewPagerLayout.visibility = View.VISIBLE
+            WifiManager.WIFI_STATE_DISABLED -> binding.viewPagerLayout.visibility = View.GONE
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.musicapp.service.player
+package com.example.musicapp.app.service.player
 
 import android.content.Context
 import androidx.media3.common.MediaItem
@@ -16,8 +16,8 @@ import androidx.media3.extractor.ExtractorsFactory
 import androidx.media3.extractor.flac.FlacExtractor
 import androidx.media3.extractor.mp3.Mp3Extractor
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.audioDownloader.AudioManager
-import com.example.musicapp.service.player.module.AudioPlayer
+import com.example.musicapp.app.service.audioDownloader.AudioManager
+import com.example.musicapp.app.service.player.module.AudioPlayer
 
 @UnstableApi
 class Player(private val context: Context) : AudioPlayer {

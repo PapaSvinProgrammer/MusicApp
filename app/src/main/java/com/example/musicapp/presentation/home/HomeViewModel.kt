@@ -12,7 +12,7 @@ import com.example.musicapp.data.constant.PlaylistConst
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic

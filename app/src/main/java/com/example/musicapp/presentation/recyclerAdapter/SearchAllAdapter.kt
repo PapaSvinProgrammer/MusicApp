@@ -17,9 +17,9 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.service.player.PlayerService
-import com.example.musicapp.service.player.module.DataPlayerType
-import com.example.musicapp.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.app.service.player.module.DataPlayerType
+import com.example.musicapp.app.service.player.module.TypeDataPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

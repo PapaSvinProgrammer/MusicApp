@@ -119,4 +119,6 @@
     <string name="search_by_track_text">Поиск по трекам</string>
     <string name="delete_image_text">Удалить фото</string>
     <string name="change_image_text">Изменить фото</string>
+    <string name="disable_network_text">Остутсвует интернет</string>
+    <string name="wifi_off_text">Нет интернета</string>
 </resources>

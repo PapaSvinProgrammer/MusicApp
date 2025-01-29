@@ -11,8 +11,8 @@ import com.example.musicapp.R
 import com.example.musicapp.di.appModule
 import com.example.musicapp.di.dataModule
 import com.example.musicapp.di.domainModule
-import com.example.musicapp.service.audioDownloader.AudioDownloadService
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.audioDownloader.AudioDownloadService
+import com.example.musicapp.app.service.player.PlayerService
 import com.vk.id.VKID
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

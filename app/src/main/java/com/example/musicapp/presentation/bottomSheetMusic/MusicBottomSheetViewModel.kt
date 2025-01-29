@@ -20,7 +20,7 @@ import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

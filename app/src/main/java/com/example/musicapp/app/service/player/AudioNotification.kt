@@ -1,4 +1,4 @@
-package com.example.musicapp.service.player
+package com.example.musicapp.app.service.player
 
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
@@ -23,13 +23,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.musicapp.R
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_LIKE
-import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_NEXT
-import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_PLAY_PAUSE
-import com.example.musicapp.service.player.PlayerService.Companion.ACTION_TITLE_PREV
-import com.example.musicapp.service.player.PlayerService.Companion.CHANNEL_ID
-import com.example.musicapp.service.player.PlayerService.Companion.TAG
-import com.example.musicapp.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.player.PlayerService.Companion.ACTION_TITLE_LIKE
+import com.example.musicapp.app.service.player.PlayerService.Companion.ACTION_TITLE_NEXT
+import com.example.musicapp.app.service.player.PlayerService.Companion.ACTION_TITLE_PLAY_PAUSE
+import com.example.musicapp.app.service.player.PlayerService.Companion.ACTION_TITLE_PREV
+import com.example.musicapp.app.service.player.PlayerService.Companion.CHANNEL_ID
+import com.example.musicapp.app.service.player.PlayerService.Companion.TAG
+import com.example.musicapp.app.service.player.module.PlayerInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

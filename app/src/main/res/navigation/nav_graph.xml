@@ -11,13 +11,6 @@
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/action_favoriteFragment_to_downloadFragment"
-            app:destination="@id/downloadFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_in_right" />
-        <action
             android:id="@+id/action_favoriteFragment_to_favoriteAuthorList"
             app:destination="@id/favoriteAuthorList"
             app:enterAnim="@anim/slide_in_left"
@@ -281,6 +274,13 @@
     <action
         android:id="@+id/action_global_musicListFragment"
         app:destination="@id/musicListFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_out_left"
+        app:popExitAnim="@anim/slide_in_right" />
+    <action
+        android:id="@+id/action_global_downloadFragment"
+        app:destination="@id/downloadFragment"
         app:enterAnim="@anim/slide_in_left"
         app:exitAnim="@anim/slide_out_right"
         app:popEnterAnim="@anim/slide_out_left"

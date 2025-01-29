@@ -14,7 +14,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.presentation.main.MainViewModel
-import com.example.musicapp.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.player.module.PlayerInfo
 
 class BottomPlayerAdapter(
     private val navController: NavController,

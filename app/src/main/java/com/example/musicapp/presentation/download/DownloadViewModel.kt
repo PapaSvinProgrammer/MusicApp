@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import kotlinx.coroutines.launch
 
 private const val DOWNLOAD_LIMIT = 12

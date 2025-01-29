@@ -1,4 +1,4 @@
-package com.example.musicapp.service.video
+package com.example.musicapp.app.service.video
 
 import androidx.media3.exoplayer.ExoPlayer
 

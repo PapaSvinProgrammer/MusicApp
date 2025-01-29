@@ -3,6 +3,8 @@ package com.example.musicapp.presentation.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +17,15 @@ import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.musicapp.R
+import com.example.musicapp.app.broadcastReceiver.NetworkReceiver
 import com.example.musicapp.databinding.FragmentHomeBinding
-import com.example.musicapp.service.player.PlayerService
+import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
-import com.example.musicapp.service.player.module.DataPlayerType
-import com.example.musicapp.service.player.module.PlayerInfo
-import com.example.musicapp.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.module.DataPlayerType
+import com.example.musicapp.app.service.player.module.PlayerInfo
+import com.example.musicapp.app.service.player.module.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -35,6 +38,7 @@ class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<HomeViewModel>()
+    private val networkReceiver by lazy { NetworkReceiver() }
 
     private val searchAdapter by lazy {
         SearchAllAdapter(
@@ -56,6 +60,7 @@ class HomeFragment: Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+        registerNetworkReceiver()
 
         requireActivity().apply {
             bindService(
@@ -85,6 +90,14 @@ class HomeFragment: Fragment() {
 
         binding.searchLayout.searchChipGroup.setOnCheckedStateChangeListener { group, _ ->
             chipGroupListener(group)
+        }
+
+        binding.downloadButton.setOnClickListener {
+            navController.navigate(R.id.action_global_downloadFragment)
+        }
+
+        networkReceiver.setCallback {
+            drawNetworkError(it)
         }
 
         viewModel.statePlayer.observe(viewLifecycleOwner) {
@@ -133,6 +146,11 @@ class HomeFragment: Fragment() {
 
         createSearchChipGroup()
         viewModel.addFavoritePlaylist()
+    }
+
+    override fun onDestroy() {
+        requireActivity().unregisterReceiver(networkReceiver)
+        super.onDestroy()
     }
 
     private fun chipGroupListener(group: ChipGroup) {
@@ -220,6 +238,23 @@ class HomeFragment: Fragment() {
                 binding.searchLayout.searchRecyclerView.visibility = View.VISIBLE
 
                 viewModel.search(text.toString())
+            }
+        }
+    }
+
+    private fun registerNetworkReceiver() {
+        val intentFilter = IntentFilter(NetworkReceiver.WIFI_FILTER)
+        requireActivity().registerReceiver(networkReceiver, intentFilter)
+    }
+
+    private fun drawNetworkError(state: Int) {
+        when (state) {
+            WifiManager.WIFI_STATE_ENABLED -> {
+                binding.wifiOffLayout.visibility = View.GONE
+            }
+
+            WifiManager.WIFI_STATE_DISABLED -> {
+                binding.wifiOffLayout.visibility = View.VISIBLE
             }
         }
     }
