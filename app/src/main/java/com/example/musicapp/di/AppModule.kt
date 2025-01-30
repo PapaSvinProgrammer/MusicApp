@@ -87,7 +87,8 @@ val appModule = module {
     viewModel {
         SettingsPreferencesViewModel(
             getGroupAll = get(),
-            getGroupWithFilterOnGenres = get()
+            getGroupWithFilterOnGenres = get(),
+            searchGroup = get()
         )
     }
 

@@ -1,4 +1,4 @@
-package com.example.musicapp.support.convertTextCount
+package com.example.musicapp.app.support.convertTextCount
 
 class ConvertAnyText {
     fun execute(number: Int, text: String): String {

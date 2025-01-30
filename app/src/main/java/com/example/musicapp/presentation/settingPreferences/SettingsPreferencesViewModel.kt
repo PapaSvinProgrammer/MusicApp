@@ -7,25 +7,41 @@ import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
+import com.example.musicapp.domain.usecase.search.searchFirebase.SearchGroup
 import kotlinx.coroutines.launch
 
 class SettingsPreferencesViewModel(
     private val getGroupAll: GetGroupAll,
-    private val getGroupWithFilterOnGenres: GetGroupWithFilterOnGenres
+    private val getGroupWithFilterOnGenres: GetGroupWithFilterOnGenres,
+    private val searchGroup: SearchGroup
 ): ViewModel() {
     private val getGroupLiveData = MutableLiveData<List<Group>>()
-    private val updateRecyclerDataLiveData = MutableLiveData<Boolean>()
+    private val countSelectedLiveData = MutableLiveData<Int>()
+    private val searchLiveData = MutableLiveData<List<Group>>()
 
     val getGroupResult: LiveData<List<Group>> = getGroupLiveData
-    val countSelectedLiveData = MutableLiveData<Int>()
-    val updateRecyclerDataResult: LiveData<Boolean> = updateRecyclerDataLiveData
+    val countSelectedResult: LiveData<Int> = countSelectedLiveData
+    val searchResult: LiveData<List<Group>> = searchLiveData
 
     val selectedArray = ArrayList<Group>()
-    val selectedMap = HashMap<String, Boolean>()
 
-    var lastDownloadArray = ArrayList<Group>()
-    var lastFilter: List<Int> = ArrayList()
-    var searchList: List<Group> = ArrayList()
+    fun addSelectedItem(item: Group) {
+        selectedArray.add(item)
+        addCountSelected()
+    }
+
+    fun addCountSelected() {
+        countSelectedLiveData.value = (countSelectedLiveData.value ?: 0) + 1
+    }
+
+    fun removeCountSelected() {
+        countSelectedLiveData.value = (countSelectedLiveData.value ?: 0) - 1
+    }
+
+    fun removeSelectedItem(item: Group) {
+        selectedArray.remove(item)
+        removeCountSelected()
+    }
 
     fun getGroup() {
         viewModelScope.launch {
@@ -39,7 +55,9 @@ class SettingsPreferencesViewModel(
         }
     }
 
-    fun updateRecyclerData() {
-        updateRecyclerDataLiveData.value = true
+    fun search(text: String) {
+        viewModelScope.launch {
+            searchLiveData.value = searchGroup.execute(text)
+        }
     }
 }

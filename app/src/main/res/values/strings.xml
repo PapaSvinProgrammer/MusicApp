@@ -121,4 +121,6 @@
     <string name="change_image_text">Изменить фото</string>
     <string name="disable_network_text">Остутсвует интернет</string>
     <string name="wifi_off_text">Нет интернета</string>
+    <string name="selected_groups_text">"Выбрано исполнителей: "</string>
+    <string name="added_text">Добавленное</string>
 </resources>

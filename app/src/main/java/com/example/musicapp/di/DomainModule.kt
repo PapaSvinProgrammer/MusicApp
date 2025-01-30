@@ -1,8 +1,8 @@
 package com.example.musicapp.di
 
-import com.example.musicapp.support.convertTextCount.ConvertAnyText
-import com.example.musicapp.support.convertTextCount.ConvertTextCount
-import com.example.musicapp.support.convertTextCount.ConvertTextCountImpl
+import com.example.musicapp.app.support.convertTextCount.ConvertAnyText
+import com.example.musicapp.app.support.convertTextCount.ConvertTextCount
+import com.example.musicapp.app.support.convertTextCount.ConvertTextCountImpl
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId

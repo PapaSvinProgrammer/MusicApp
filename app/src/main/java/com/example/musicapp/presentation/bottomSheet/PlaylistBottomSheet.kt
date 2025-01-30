@@ -10,8 +10,8 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.BottomSheetPlaylistBinding
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.state.SettingsPlaylist
-import com.example.musicapp.support.convertTextCount.ConvertAnyText
-import com.example.musicapp.support.convertTextCount.ConvertTextCountImpl
+import com.example.musicapp.app.support.convertTextCount.ConvertAnyText
+import com.example.musicapp.app.support.convertTextCount.ConvertTextCountImpl
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class PlaylistBottomSheet: BottomSheetDialogFragment() {

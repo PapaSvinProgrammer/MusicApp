@@ -8,14 +8,13 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.ItemSelectedGroupListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Group
-import com.example.musicapp.presentation.settingPreferences.SettingsPreferencesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchGroupAdapter(
-    private val viewModel: SettingsPreferencesViewModel
-): RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() {
+class SearchGroupAdapter: RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() {
+    private var listener: ((Boolean, Group) -> Unit)? = null
+    private var selectedList = arrayListOf<Group>()
 
     inner class ViewHolder(val binding: ItemSelectedGroupListBinding): RecyclerView.ViewHolder(binding.root) {
         fun onBind(group: Group) {
@@ -26,9 +25,28 @@ class SearchGroupAdapter(
             binding.nameView.text = group.name
             binding.genresView.text = group.genre?.trim()?.replaceFirstChar(Char::titlecase) ?: ""
 
-            CoroutineScope(Dispatchers.Main).launch {
-                binding.iconFavoriteView.isSelected = viewModel.selectedMap.getOrDefault(group.name, false)
+            binding.iconFavoriteView.isSelected = selectedList.contains(group)
+
+            binding.root.setOnClickListener {
+                when (binding.iconFavoriteView.isSelected) {
+                    true -> removeSelected(group)
+                    false -> addSelected(group)
+                }
             }
+        }
+
+        private fun addSelected(group: Group) {
+            selectedList.add(group)
+            binding.iconFavoriteView.isSelected = true
+
+            listener?.invoke(true, group)
+        }
+
+        private fun removeSelected(group: Group) {
+            selectedList.remove(group)
+            binding.iconFavoriteView.isSelected = false
+
+            listener?.invoke(false, group)
         }
     }
 
@@ -44,47 +62,19 @@ class SearchGroupAdapter(
         val group = asyncDifferList.currentList[position]
 
         holder.onBind(group)
-
-        holder.binding.root.setOnClickListener {
-            when (viewModel.selectedMap.getOrDefault(group.name, false)) {
-                true -> {
-                    holder.binding.iconFavoriteView.isSelected = false
-                    removeFromSelected(group)
-                }
-
-                false -> {
-                    holder.binding.iconFavoriteView.isSelected = true
-                    addInSelected(group)
-                }
-            }
-        }
-    }
-
-    private fun removeFromSelected(group: Group) {
-        viewModel.selectedArray.remove(group)
-        viewModel.selectedMap[group.name.toString()] = false
-
-        if (viewModel.countSelectedLiveData.value != null) {
-            viewModel.countSelectedLiveData.value = viewModel.countSelectedLiveData.value!! - 1
-        }
-    }
-
-    private fun addInSelected(group: Group) {
-        viewModel.selectedMap[group.name.toString()] = true
-        viewModel.selectedArray.add(group)
-
-        if (viewModel.countSelectedLiveData.value == null) {
-            viewModel.countSelectedLiveData.value = 1
-        }
-        else {
-            viewModel.countSelectedLiveData.value = viewModel.countSelectedLiveData.value!! + 1
-        }
     }
 
     override fun getItemCount(): Int = asyncDifferList.currentList.size
 
     fun setData(list: List<Group>) {
-        val temp = list.toList()
-        asyncDifferList.submitList(temp)
+        asyncDifferList.submitList(list)
+    }
+
+    fun setOnClickListener(listener: (isSelected: Boolean, item: Group) -> Unit) {
+        this.listener = listener
+    }
+
+    fun setDefaultSelectedList(selectedList: ArrayList<Group>) {
+        this.selectedList = selectedList
     }
 }

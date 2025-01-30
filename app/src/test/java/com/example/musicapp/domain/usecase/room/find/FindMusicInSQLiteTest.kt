@@ -2,7 +2,7 @@ package com.example.musicapp.domain.usecase.room.find
 
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicLiteRepository
-import com.example.musicapp.support.convertAnother.ConvertMusic
+import com.example.musicapp.app.support.convertAnother.ConvertMusic
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions

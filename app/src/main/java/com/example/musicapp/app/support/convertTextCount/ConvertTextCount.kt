@@ -1,4 +1,4 @@
-package com.example.musicapp.support.convertTextCount
+package com.example.musicapp.app.support.convertTextCount
 
 interface ConvertTextCount {
     fun convertMusic(count: Int): String

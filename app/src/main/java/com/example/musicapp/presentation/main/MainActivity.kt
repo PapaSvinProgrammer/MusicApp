@@ -120,7 +120,8 @@ class MainActivity: AppCompatActivity() {
                 destination.id == R.id.loginFragment ||
                 destination.id == R.id.registrationFragment ||
                 destination.id == R.id.startFragment ||
-                destination.id == R.id.settingPreferencesFragment)
+                destination.id == R.id.settingPreferencesFragment ||
+                destination.id == R.id.selectedListFragment)
             {
                 binding.bottomNavigation.visibility = View.GONE
                 binding.viewPagerLayout.visibility = View.GONE

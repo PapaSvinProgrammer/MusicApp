@@ -1,4 +1,4 @@
-package com.example.musicapp.support.convertTextCount
+package com.example.musicapp.app.support.convertTextCount
 
 private const val MUSIC_TEXT = " трек"
 private const val ALBUM_TEXT = " альбом"

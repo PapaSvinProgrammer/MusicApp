@@ -1,12 +1,14 @@
 package com.example.musicapp.presentation.settingPreferences
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.core.view.size
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
@@ -18,9 +20,6 @@ import com.example.musicapp.presentation.recyclerAdapter.SettingsPerformancesAda
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingPreferencesFragment: Fragment() {
@@ -29,62 +28,50 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private lateinit var binding: FragmentSettingPreferencesBinding
-    private lateinit var recyclerAdapter: SettingsPerformancesAdapter
-    private lateinit var searchRecyclerAdapter: SearchGroupAdapter
+    private val recyclerAdapter by lazy { SettingsPerformancesAdapter() }
+    private val searchRecyclerAdapter by lazy { SearchGroupAdapter() }
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
 
     private var filterFlag = false
-    private var countFlag = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getGroup()
-    }
-
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingPreferencesBinding.inflate(layoutInflater, container, false)
+
+        binding.countSelectedTextView.text = getString(R.string.selected_groups_text) + 0
+
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
         createChipGroup()
-        setSearchAdapter()
-        setFilter()
-        countFlag = 0
 
-        binding.progressIndicator.visibility = View.VISIBLE
-
-        recyclerAdapter = SettingsPerformancesAdapter(viewModel)
         binding.recyclerView.adapter = recyclerAdapter
+        binding.searchLayout.searchRecyclerView.adapter = searchRecyclerAdapter
 
         viewModel.getGroupResult.observe(viewLifecycleOwner) { array ->
-            viewModel.lastDownloadArray.addAll(array)
-            viewModel.searchList = array
-            countFlag++
-
+            searchRecyclerAdapter.setDefaultSelectedList(viewModel.selectedArray)
             recyclerAdapter.setData(array)
             binding.progressIndicator.visibility = View.GONE
         }
 
-        viewModel.countSelectedLiveData.observe(viewLifecycleOwner) { count->
-            binding.countSelectedTextView.text = "Выбрано исполнителей: $count"
+        viewModel.countSelectedResult.observe(viewLifecycleOwner) { count->
+            binding.countSelectedTextView.text = getString(R.string.selected_groups_text) + count
 
             loadSmallImageInSelected()
         }
 
-        viewModel.updateRecyclerDataResult.observe(viewLifecycleOwner) {
-            viewModel.selectedArray.forEach { item->
-                recyclerAdapter.notifyItemChanged(
-                    viewModel.lastDownloadArray.indexOf(item)
-                )
-            }
+        viewModel.searchResult.observe(viewLifecycleOwner) {
+            searchRecyclerAdapter.setData(it)
+            binding.searchLayout.searchProgressIndicator.visibility = View.GONE
         }
 
         binding.nextButton.setOnClickListener {
@@ -102,10 +89,48 @@ class SettingPreferencesFragment: Fragment() {
             chipGroupListener(group, checkedIds())
         }
 
-        binding.searchView.toolbar.setNavigationOnClickListener {
-            binding.searchView.hide()
-            viewModel.updateRecyclerData()
+        binding.appBar.setNavigationOnClickListener {
+            searchRecyclerAdapter.setDefaultSelectedList(viewModel.selectedArray)
+            binding.searchLayout.searchView.show()
         }
+
+        binding.searchLayout.searchView.editText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+
+            override fun afterTextChanged(text: Editable?) {
+                binding.searchLayout.searchProgressIndicator.visibility = View.VISIBLE
+                viewModel.search(text.toString())
+            }
+        })
+
+        recyclerAdapter.setOnClickListener { isSelected, item ->
+            when (isSelected) {
+                true -> viewModel.addSelectedItem(item)
+                false -> viewModel.removeSelectedItem(item)
+            }
+        }
+
+        searchRecyclerAdapter.setOnClickListener { isSelected, item ->
+            when (isSelected) {
+                true -> {
+                    viewModel.addCountSelected()
+                    recyclerAdapter.invoke(true, item)
+                }
+
+                false -> {
+                    viewModel.removeCountSelected()
+                    recyclerAdapter.invoke(false, item)
+                }
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getGroup()
     }
 
     private fun loadSmallImageInSelected() {
@@ -115,13 +140,8 @@ class SettingPreferencesFragment: Fragment() {
             val lastItem = viewModel.selectedArray[lastIndex]
             val penultimateItem = viewModel.selectedArray[lastIndex - 1]
 
-            CoroutineScope(Dispatchers.Main).launch {
-                Glide.with(binding.root).load(lastItem.image).into(binding.smallImage2View)
-            }
-
-            CoroutineScope(Dispatchers.Main).launch {
-                Glide.with(binding.root).load(penultimateItem.image).into(binding.smallImage1View)
-            }
+            Glide.with(binding.root).load(lastItem.image).into(binding.smallImage2View)
+            Glide.with(binding.root).load(penultimateItem.image).into(binding.smallImage1View)
 
             binding.smallImage1View.visibility = View.VISIBLE
             binding.smallImage2View.visibility = View.VISIBLE
@@ -130,9 +150,7 @@ class SettingPreferencesFragment: Fragment() {
             val lastItem = viewModel.selectedArray[lastIndex]
             binding.smallImage2View.visibility = View.GONE
 
-            CoroutineScope(Dispatchers.Main).launch {
-                Glide.with(binding.root).load(lastItem.image).into(binding.smallImage1View)
-            }
+            Glide.with(binding.root).load(lastItem.image).into(binding.smallImage1View)
 
             binding.smallImage1View.visibility = View.VISIBLE
         }
@@ -143,8 +161,6 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private fun chipGroupListener(group: ChipGroup, checksId: List<Int>) {
-        countFlag = 0
-
         if (checksId.isNotEmpty()) {
             val chip = group[0] as Chip
 
@@ -154,18 +170,16 @@ class SettingPreferencesFragment: Fragment() {
                 group.clearCheck()
                 filterFlag = false
                 chip.isChecked = true
-                viewModel.lastFilter = arrayListOf(0)
 
-                viewModel.getGroup()
+                //viewModel.getGroup()
             }
             else {
                 binding.progressIndicator.visibility = View.VISIBLE
 
                 filterFlag = true
                 chip.isChecked = false
-                viewModel.lastFilter = checksId
 
-                viewModel.getGroupOnGenres(checksId)
+                //viewModel.getGroupOnGenres(checksId)
             }
         }
         else {
@@ -181,7 +195,7 @@ class SettingPreferencesFragment: Fragment() {
             )
         )
 
-        if (viewModel.lastFilter.isEmpty()) (binding.chipGroup[0] as Chip).isChecked = true
+        (binding.chipGroup[0] as Chip).isChecked = true
 
         for (item in GenresConst.array) {
             binding.chipGroup.addView(
@@ -209,46 +223,6 @@ class SettingPreferencesFragment: Fragment() {
         newChip.text = text.replaceFirstChar(Char::titlecase)
 
         return newChip
-    }
-
-    private fun setFilter() {
-        if (viewModel.lastFilter.size > 1) {
-            viewModel.lastFilter.forEach {
-                if (it != 0) (binding.chipGroup[it] as Chip).isChecked = true
-            }
-        }
-        else {
-            (binding.chipGroup[0] as Chip).isChecked = true
-        }
-    }
-
-    private fun setSearchAdapter() {
-        searchRecyclerAdapter = SearchGroupAdapter(viewModel)
-        binding.searchRecyclerView.adapter = searchRecyclerAdapter
-
-        binding.searchView.editText.addTextChangedListener { text->
-            if (!text.isNullOrEmpty()) {
-                binding.searchRecyclerView.visibility = View.VISIBLE
-                binding.progressIndicator.visibility = View.VISIBLE
-
-                viewModel.searchList
-                    .filter { item->
-                        item.name!!
-                            .lowercase()
-                            .trim()
-                            .contains(text.toString().trim().lowercase())
-                    }
-                    .toList()
-                    .let { array->
-                        searchRecyclerAdapter.setData(array)
-                    }
-
-                binding.progressIndicator.visibility = View.GONE
-            }
-            else {
-                binding.searchRecyclerView.visibility = View.GONE
-            }
-        }
     }
 
     private fun checkedIds(): List<Int> {

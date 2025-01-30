@@ -10,17 +10,14 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_search"
         android:layout_marginTop="30dp">
-
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
 
         <HorizontalScrollView
             android:id="@+id/horizontal_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_gravity="center_vertical"
             android:scrollbars="none">
 
@@ -31,20 +28,6 @@
                 app:singleLine="true"/>
         </HorizontalScrollView>
     </com.google.android.material.appbar.MaterialToolbar>
-
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_anchor="@id/search_bar">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_selected_group_list"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-    </com.google.android.material.search.SearchView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -63,7 +46,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -75,7 +58,10 @@
                 android:id="@+id/small_image_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/small_image1_view"
@@ -105,10 +91,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="16sp"
-                android:text="Выбрано исполнителей: 0"
-                android:layout_toEndOf="@id/small_image_layout"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"/>
+                android:text="@string/selected_groups_text"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/small_image_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/next_button"
@@ -116,10 +103,11 @@
                 app:shapeAppearance="@style/ImageCornerRadius"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Далее"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
+                android:text="@string/next_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_indicator"
@@ -133,4 +121,8 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/search_layout"
+        layout="@layout/layout_search"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
