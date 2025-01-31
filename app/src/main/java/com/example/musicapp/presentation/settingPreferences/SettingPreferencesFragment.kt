@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.constant.GenresConst
+import com.example.musicapp.app.support.ReadFileFromAssets
 import com.example.musicapp.databinding.FragmentSettingPreferencesBinding
+import com.example.musicapp.domain.module.Genre
 import com.example.musicapp.presentation.recyclerAdapter.SearchGroupAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SettingsPerformancesAdapter
 import com.google.android.material.chip.Chip
@@ -28,11 +29,23 @@ class SettingPreferencesFragment: Fragment() {
     }
 
     private lateinit var binding: FragmentSettingPreferencesBinding
-    private val recyclerAdapter by lazy { SettingsPerformancesAdapter() }
-    private val searchRecyclerAdapter by lazy { SearchGroupAdapter() }
+    private val recyclerAdapter by lazy {
+        SettingsPerformancesAdapter(
+            context = requireActivity().applicationContext
+        )
+    }
+    private val searchRecyclerAdapter by lazy {
+        SearchGroupAdapter(
+            context = requireActivity().applicationContext
+        )
+    }
     private val viewModel by viewModel<SettingsPreferencesViewModel>()
-
-    private var filterFlag = false
+    private val genresArray by lazy {
+        ReadFileFromAssets(
+            context = requireActivity().applicationContext
+        ).readJsonGenre()
+    }
+    private var filterFlagReset = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -49,7 +62,6 @@ class SettingPreferencesFragment: Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
 
         createChipGroup()
@@ -129,8 +141,72 @@ class SettingPreferencesFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        binding.progressIndicator.visibility = View.VISIBLE
-        viewModel.getGroup()
+        getGroup()
+    }
+
+    private fun chipGroupListener(group: ChipGroup, checkedIds: List<Int>) {
+        val firstChip = group[0] as Chip
+
+        if (checkedIds.isEmpty()) {
+            firstChip.isChecked = true
+
+            getGroup()
+            return
+        }
+
+        when (filterFlagReset) {
+            true -> {
+                if (checkedIds.first() == 0) {
+                    filterFlagReset = false
+
+                    group.clearCheck()
+                    firstChip.isChecked = true
+
+                    getGroup()
+                    return
+                }
+
+                if (checkedIds.size > 1) {
+                    firstChip.isChecked = false
+                    filterFlagReset = true
+
+                    getGroupFilter(
+                        filter = convertCheckedIdsToGenreList(checkedIds)
+                    )
+
+                    return
+                }
+            }
+
+            false -> {
+                if (checkedIds.size > 1) {
+                    firstChip.isChecked = false
+                    filterFlagReset = true
+
+                    getGroupFilter(
+                        filter = convertCheckedIdsToGenreList(
+                            checkedIds = checkedIds.subList(1, checkedIds.size)
+                        )
+                    )
+
+                    return
+                }
+            }
+        }
+
+        getGroupFilter(
+            filter = convertCheckedIdsToGenreList(checkedIds)
+        )
+    }
+
+    private fun convertCheckedIdsToGenreList(checkedIds: List<Int>): List<Int> {
+        val result = arrayListOf<Int>()
+
+        checkedIds.forEach {
+            result.add(GenresFilterConst.defaultFilter[it - 1])
+        }
+
+        return result
     }
 
     private fun loadSmallImageInSelected() {
@@ -160,34 +236,6 @@ class SettingPreferencesFragment: Fragment() {
         }
     }
 
-    private fun chipGroupListener(group: ChipGroup, checksId: List<Int>) {
-        if (checksId.isNotEmpty()) {
-            val chip = group[0] as Chip
-
-            if (filterFlag && checksId.first() == 0) {
-                binding.progressIndicator.visibility = View.VISIBLE
-
-                group.clearCheck()
-                filterFlag = false
-                chip.isChecked = true
-
-                //viewModel.getGroup()
-            }
-            else {
-                binding.progressIndicator.visibility = View.VISIBLE
-
-                filterFlag = true
-                chip.isChecked = false
-
-                //viewModel.getGroupOnGenres(checksId)
-            }
-        }
-        else {
-            val chip = group[0] as Chip
-            chip.isChecked = true
-        }
-    }
-
     private fun createChipGroup() {
         binding.chipGroup.addView(
             createChip(
@@ -197,10 +245,12 @@ class SettingPreferencesFragment: Fragment() {
 
         (binding.chipGroup[0] as Chip).isChecked = true
 
-        for (item in GenresConst.array) {
+        for (item in GenresFilterConst.defaultFilter) {
+            val genre = searchGenre(item)
+
             binding.chipGroup.addView(
                 createChip(
-                    text = item
+                    text = genre?.ru ?: ""
                 )
             )
         }
@@ -235,5 +285,25 @@ class SettingPreferencesFragment: Fragment() {
         }
 
         return result
+    }
+
+    private fun searchGenre(id: Int): Genre? {
+        for (item in genresArray) {
+            if (item.id == id) {
+                return item
+            }
+        }
+
+        return null
+    }
+
+    private fun getGroup() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getGroup()
+    }
+
+    private fun getGroupFilter(filter: List<Int>) {
+        binding.progressIndicator.visibility = View.VISIBLE
+        viewModel.getGroupOnGenres(filter)
     }
 }

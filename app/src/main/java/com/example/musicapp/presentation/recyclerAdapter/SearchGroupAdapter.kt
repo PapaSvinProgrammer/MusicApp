@@ -1,18 +1,24 @@
 package com.example.musicapp.presentation.recyclerAdapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.musicapp.app.support.ReadFileFromAssets
 import com.example.musicapp.databinding.ItemSelectedGroupListBinding
 import com.example.musicapp.domain.module.DiffUtilObject
+import com.example.musicapp.domain.module.Genre
 import com.example.musicapp.domain.module.Group
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchGroupAdapter: RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() {
+class SearchGroupAdapter(
+    context: Context
+): RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() {
+    private val genreList by lazy { ReadFileFromAssets(context).readJsonGenre() }
     private var listener: ((Boolean, Group) -> Unit)? = null
     private var selectedList = arrayListOf<Group>()
 
@@ -23,8 +29,7 @@ class SearchGroupAdapter: RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() 
             }
 
             binding.nameView.text = group.name
-            binding.genresView.text = group.genre?.trim()?.replaceFirstChar(Char::titlecase) ?: ""
-
+            showGenre(group)
             binding.iconFavoriteView.isSelected = selectedList.contains(group)
 
             binding.root.setOnClickListener {
@@ -33,6 +38,22 @@ class SearchGroupAdapter: RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() 
                     false -> addSelected(group)
                 }
             }
+        }
+
+        private fun showGenre(group: Group) {
+            val genreId = group.genre ?: listOf()
+            val genreInfo = searchGenre(genreId)
+            var genreString = ""
+
+            genreInfo.forEachIndexed { index, genre ->
+                genreString += genre.ru
+
+                if (index != genreInfo.size - 1) {
+                    genreString += ", "
+                }
+            }
+
+            binding.genresView.text = genreString
         }
 
         private fun addSelected(group: Group) {
@@ -65,6 +86,18 @@ class SearchGroupAdapter: RecyclerView.Adapter<SearchGroupAdapter.ViewHolder>() 
     }
 
     override fun getItemCount(): Int = asyncDifferList.currentList.size
+
+    private fun searchGenre(listId: List<Int>): List<Genre> {
+        val result = arrayListOf<Genre>()
+
+        for (genre in genreList) {
+            if (listId.contains(genre.id)) {
+                result.add(genre)
+            }
+        }
+
+        return result
+    }
 
     fun setData(list: List<Group>) {
         asyncDifferList.submitList(list)

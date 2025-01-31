@@ -14,11 +14,7 @@ class GroupRepositoryFirebase(
     private val getGroupByIdImpl: GetGroupByIdImpl,
     private val getGroupInfoImpl: GetGroupInfoImpl
 ): GroupRepository {
-    override suspend fun getGroupWithFilterOnName(): List<Group> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getGroupWithFilterOnGenre(filter: List<String>): List<Group> {
+    override suspend fun getGroupWithFilterOnGenre(filter: List<Int>): List<Group> {
         return getGroupWithFilterOnGenresImpl.execute(filter)
     }
 

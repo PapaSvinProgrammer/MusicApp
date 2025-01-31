@@ -10,14 +10,14 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
 class GetGroupWithFilterOnGenresImpl {
-    suspend fun execute(filterGenres: List<String>): List<Group> {
+    suspend fun execute(filterGenres: List<Int>): List<Group> {
         val database = Firebase.firestore
         var result = listOf<Group>()
 
         try {
             result = database
                 .collection(CollectionConst.GROUP_COLLECTION)
-                .whereIn(DocumentConst.GROUP_GENRE_FIELD, filterGenres)
+                .whereArrayContainsAny(DocumentConst.GROUP_GENRE_FIELD, filterGenres)
                 .get()
                 .await()
                 .toObjects(Group::class.java)

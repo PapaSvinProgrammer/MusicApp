@@ -14,7 +14,11 @@ import com.example.musicapp.presentation.recyclerAdapter.SelectedListAdapter
 
 class SelectedListFragment: Fragment() {
     private lateinit var binding: FragmentSelectedListBinding
-    private lateinit var recyclerAdapter: SelectedListAdapter
+    private val selectedListAdapter by lazy {
+        SelectedListAdapter(
+            context = requireActivity().applicationContext
+        )
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSelectedListBinding.inflate(inflater, container, false)
@@ -23,14 +27,12 @@ class SelectedListFragment: Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         val navController = view.findNavController()
+        binding.recyclerView.adapter = selectedListAdapter
 
         val array = arguments?.getParcelableArrayList(SettingPreferencesFragment.ARRAY_ARG, Group::class.java)
-        recyclerAdapter = SelectedListAdapter()
-        recyclerAdapter.setData(array!!)
+        selectedListAdapter.setData(array!!)
 
-        binding.recyclerView.adapter = recyclerAdapter
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()

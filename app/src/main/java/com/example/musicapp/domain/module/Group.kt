@@ -1,21 +1,24 @@
 package com.example.musicapp.domain.module
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.DocumentId
 
 data class Group (
     @DocumentId var id: String? = null,
     var name: String? = null,
-    var genre: String? = null,
+    var genre: List<Int>? = null,
     var country: String? = null,
     var year: String? = null,
     var image: String? = null
 ): Parcelable {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
+        parcel.readArrayList(Int::class.java.classLoader, Int::class.java),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -27,6 +30,7 @@ data class Group (
         parcel.writeString(country)
         parcel.writeString(year)
         parcel.writeString(image)
+        parcel.writeList(genre)
     }
 
     override fun describeContents(): Int {
@@ -34,6 +38,7 @@ data class Group (
     }
 
     companion object CREATOR : Parcelable.Creator<Group> {
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun createFromParcel(parcel: Parcel): Group {
             return Group(parcel)
         }

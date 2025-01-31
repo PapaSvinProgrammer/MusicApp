@@ -1,10 +1,167 @@
 [
   {
     "id": 0,
-    "ru": "",
-    "en": ""
+    "en": "Classical",
+    "ru": "Классический"
   },
   {
-
+    "id": 1,
+    "en": "Blues",
+    "ru": "Блюз"
+  },
+  {
+    "id": 2,
+    "en": "Lo-fi",
+    "ru": "Lo-fi"
+  },
+  {
+    "id": 3,
+    "en": "Country",
+    "ru": "Страна"
+  },
+  {
+    "id": 4,
+    "en": "Background music",
+    "ru": "Фоновая музыка"
+  },
+  {
+    "id": 5,
+    "en": "Easy listening",
+    "ru": "Легкая музыка"
+  },
+  {
+    "id": 6,
+    "en": "Electronic",
+    "ru": "Электронный"
+  },
+  {
+    "id": 7,
+    "en": "Ambient",
+    "ru": "Окружающий"
+  },
+  {
+    "id": 8,
+    "en": "Hardcore",
+    "ru": "Хардкор"
+  },
+  {
+    "id": 9,
+    "en": "Bass music",
+    "ru": "Басовая музыка"
+  },
+  {
+    "id": 10,
+    "en": "Hauntology",
+    "ru": "Хаунтология"
+  },
+  {
+    "id": 11,
+    "en": "Breakbeat",
+    "ru": "Брейкбит"
+  },
+  {
+    "id": 12,
+    "en": "Hip-hop",
+    "ru": "Хип-хоп"
+  },
+  {
+    "id": 13,
+    "en": "Chill-out",
+    "ru": "Chill-out"
+  },
+  {
+    "id": 14,
+    "en": "Disco",
+    "ru": "Диско"
+  },
+  {
+    "id": 15,
+    "en": "Drum and bass",
+    "ru": "Драм-энд-бас"
+  },
+  {
+    "id": 16,
+    "en": "Dub",
+    "ru": "Дублировать"
+  },
+  {
+    "id": 17,
+    "en": "Electronic rock",
+    "ru": "Электронный рок"
+  },
+  {
+    "id": 18,
+    "en": "Intelligent dance music (IDM)",
+    "ru": "Интеллектуальная танцевальная музыка (IDM)"
+  },
+  {
+    "id": 19,
+    "en": "R\u0026B",
+    "ru": "R\u0026B"
+  },
+  {
+    "id": 20,
+    "en": "Techno",
+    "ru": "Техно"
+  },
+  {
+    "id": 21,
+    "en": "Folk",
+    "ru": "Народ"
+  },
+  {
+    "id": 22,
+    "en": "Jazz",
+    "ru": "Джаз"
+  },
+  {
+    "id": 23,
+    "en": "Pop",
+    "ru": "Поп"
+  },
+  {
+    "id": 24,
+    "en": "Rock",
+    "ru": "Рок"
+  },
+  {
+    "id": 25,
+    "en": "Alternative rock",
+    "ru": "Альтернатива"
+  },
+  {
+    "id": 26,
+    "en": "Grunge",
+    "ru": "Гранж"
+  },
+  {
+    "id": 27,
+    "en": "Punk rock",
+    "ru": "Панк-рок"
+  },
+  {
+    "id": 28,
+    "en": "Metal",
+    "ru": "Металл"
+  },
+  {
+    "id": 29,
+    "en": "Punk",
+    "ru": "Punk"
+  },
+  {
+    "id": 30,
+    "en": "Soundtrack",
+    "ru": "Саундтрек"
+  },
+  {
+    "id": 31,
+    "en": "Russian Rock",
+    "ru": "Русский рок"
+  },
+  {
+    "id": 32,
+    "en": "Indie rock",
+    "ru": "Инди"
   }
 ]
