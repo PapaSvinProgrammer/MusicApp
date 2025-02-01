@@ -31,7 +31,7 @@ class ConvertMusic {
             authorId = music.groupId.toString(),
             url = music.url.toString(),
             movieUrl = music.movieUrl ?: "",
-            time = music.time.toString()
+            time = music.time
         )
 
         return MusicResult(
@@ -40,11 +40,5 @@ class ConvertMusic {
             authorEntity = author,
             saveMusicEntity = null
         )
-    }
-
-    fun convertListToMusicResultList(list: List<Music>): List<MusicResult> {
-        return list.map {
-            convertToMusicResult(it, 1)
-        }.toList()
     }
 }

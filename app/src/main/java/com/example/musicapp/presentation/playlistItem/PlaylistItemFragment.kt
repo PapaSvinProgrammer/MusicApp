@@ -116,6 +116,10 @@ class PlaylistItemFragment: Fragment() {
             recyclerAdapter.setData(it)
 
             if (viewModel.getPlaylistResult.value?.playlistEntity?.imageUrl.isNullOrEmpty()) {
+                if (viewModel.getMusicResult.value?.isEmpty() == true) {
+                    return@observe
+                }
+
                 val firstUrl = viewModel.getMusicResult.value?.first()?.albumEntity?.imageHigh
                 updateImageUI(firstUrl ?: "")
             }

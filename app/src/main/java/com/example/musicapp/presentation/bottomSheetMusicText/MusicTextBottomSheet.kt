@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import com.example.musicapp.app.support.ConvertTime
 import com.example.musicapp.databinding.BottomSheetMusicTextBinding
 import com.example.musicapp.domain.module.Music
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -46,7 +47,7 @@ class MusicTextBottomSheet: BottomSheetDialogFragment() {
                 binding.textView.text = it.text
                 binding.musicView.text = currentMusic?.name
                 binding.groupView.text = currentMusic?.group
-                binding.timeView.text = currentMusic?.time
+                binding.timeView.text = ConvertTime().convertInMinSec(currentMusic?.time ?: 0)
 
                 binding.progressIndicator.visibility = View.GONE
             }

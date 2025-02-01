@@ -74,7 +74,6 @@ interface MusicDao {
     @Query("SELECT COUNT(*) FROM music WHERE playlist_id = :playlistId")
     suspend fun getCount(playlistId: Long): Int
 
-    @Query("SELECT sum(unixepoch(music_time) - unixepoch('00:00:00')) " +
-            "FROM music WHERE playlist_id = :playlistId")
+    @Query(value = "SELECT SUM(music_time) FROM music WHERE playlist_id = :playlistId")
     suspend fun getTime(playlistId: Long): Long
 }

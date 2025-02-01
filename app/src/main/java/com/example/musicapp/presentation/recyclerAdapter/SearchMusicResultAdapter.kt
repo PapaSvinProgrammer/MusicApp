@@ -110,7 +110,7 @@ class SearchMusicResultAdapter(
             imageHigh = it?.albumEntity?.imageHigh,
             movieUrl = it?.musicEntity?.movieUrl,
             name = it?.musicEntity?.name,
-            time = it?.musicEntity?.time,
+            time = it?.musicEntity?.time ?: 0,
             url = it?.musicEntity?.url
         )
     }

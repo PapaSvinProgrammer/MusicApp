@@ -137,5 +137,5 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
-    implementation(libs.androidx.fragment.testing)
+    testImplementation(libs.androidx.fragment.testing)
 }

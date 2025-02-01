@@ -257,7 +257,7 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
             .load(currentMusic?.imageHigh)
             .into(binding.imageView)
 
-        viewModel.convertTime(currentMusic?.time)
+        viewModel.convertTime(currentMusic?.time ?: 0)
         binding.groupTextView.text = currentMusic?.group
         binding.musicTextView.text = currentMusic?.name
     }

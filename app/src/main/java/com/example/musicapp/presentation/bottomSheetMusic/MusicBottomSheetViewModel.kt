@@ -21,6 +21,7 @@ import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.app.support.ConvertTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -108,19 +109,8 @@ class MusicBottomSheetViewModel(
         servicePlayer?.addToQueue(music)
     }
 
-    fun convertTime(time: String?) {
-        if (time.isNullOrEmpty()) {
-            return
-        }
-
-        val originalFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        val newFormat  = SimpleDateFormat("m:ss", Locale.getDefault())
-
-        val date = originalFormat.parse(time)
-
-        if (date != null) {
-            convertTimeLiveData.value = newFormat.format(date)
-        }
+    fun convertTime(time: Long) {
+        convertTimeLiveData.value = ConvertTime().convertInMinSec(time)
     }
 
     val connectionToPlayerService = object: ServiceConnection {
