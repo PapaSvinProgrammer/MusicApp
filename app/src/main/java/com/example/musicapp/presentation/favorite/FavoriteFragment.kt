@@ -119,14 +119,33 @@ class FavoriteFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getMusic()
-        viewModel.getAuthor()
-        viewModel.getPlaylist()
-        viewModel.getDownloadedMusic()
+        if (viewModel.getMusicResult.value == null) {
+            viewModel.getMusic()
+        }
 
-        viewModel.getCountDownloadedMusic()
-        viewModel.getCountMusic()
-        viewModel.getCountPlaylist()
+        if (viewModel.getAuthorResult.value == null) {
+            viewModel.getAuthor()
+        }
+
+        if (viewModel.getPlaylistResult.value == null) {
+            viewModel.getPlaylist()
+        }
+
+        if (viewModel.getDownloadedMusicResult.value == null) {
+            viewModel.getDownloadedMusic()
+        }
+
+        if (viewModel.convertDownloadedResult.value == null) {
+            viewModel.getCountDownloadedMusic()
+        }
+
+        if (viewModel.convertCountPlaylistResult.value == null) {
+            viewModel.getCountPlaylist()
+        }
+
+        if (viewModel.convertCountMusicResult.value == null) {
+            viewModel.getCountMusic()
+        }
     }
 
     private fun initServiceTools() {

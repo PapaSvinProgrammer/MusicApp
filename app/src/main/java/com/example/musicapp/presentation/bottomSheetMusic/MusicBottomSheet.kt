@@ -154,8 +154,13 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
         currentMusic = arguments?.getParcelable(CURRENT_MUSIC, Music::class.java)
         if (currentMusic != null) initTopView(currentMusic)
 
-        viewModel.isDownload(currentMusic?.id ?: "")
-        viewModel.isFavorite(currentMusic?.id ?: "")
+        if (viewModel.isDownloadResult.value == null) {
+            viewModel.isDownload(currentMusic?.id ?: "")
+        }
+
+        if (viewModel.isFavoriteResult.value == null) {
+            viewModel.isFavorite(currentMusic?.id ?: "")
+        }
     }
 
     private fun like() {

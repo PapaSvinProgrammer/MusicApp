@@ -112,7 +112,10 @@ class MusicListFragment: Fragment() {
 
         binding.progressIndicator.visibility = View.VISIBLE
         authorId = arguments?.getString(AUTHOR_ID)
-        viewModel.getMusicsByRating(authorId ?: "")
+
+        if (viewModel.musicsResult.value == null) {
+            viewModel.getMusicsByRating(authorId ?: "")
+        }
     }
 
     private fun drawFilter() {

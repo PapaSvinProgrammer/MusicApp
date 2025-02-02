@@ -92,7 +92,12 @@ class SettingsFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getDarkMode()
-        viewModel.getEmail()
+        if (viewModel.getDarkModeStateResult.value == null) {
+            viewModel.getDarkMode()
+        }
+
+        if (viewModel.getEmailResult.value == null) {
+            viewModel.getEmail()
+        }
     }
 }

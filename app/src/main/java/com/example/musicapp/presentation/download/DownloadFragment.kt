@@ -74,10 +74,14 @@ class DownloadFragment: Fragment() {
         }
     }
 
+
     private fun initServiceTools() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.musicRecyclerView)
         binding.musicRecyclerView.adapter = musicAdapter
-        viewModel.getDownloadMusic()
+
+        if (viewModel.musicResult.value == null) {
+            viewModel.getDownloadMusic()
+        }
     }
 }

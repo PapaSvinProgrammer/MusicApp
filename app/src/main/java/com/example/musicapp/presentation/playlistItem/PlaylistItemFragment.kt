@@ -131,9 +131,12 @@ class PlaylistItemFragment: Fragment() {
 
         playlistId = arguments?.getLong(PlaylistAdapter.ALBUM_KEY)
 
-        playlistId?.let {
-            viewModel.getPlaylist(it)
-            viewModel.getMusic(it)
+        if (viewModel.getPlaylistResult.value == null) {
+            viewModel.getPlaylist(playlistId ?: -1)
+        }
+
+        if (viewModel.getMusicResult.value == null) {
+            viewModel.getMusic(playlistId ?: -1)
         }
     }
 

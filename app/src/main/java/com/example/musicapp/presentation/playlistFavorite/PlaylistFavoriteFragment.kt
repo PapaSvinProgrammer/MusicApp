@@ -122,8 +122,13 @@ class PlaylistFavoriteFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getCount()
-        viewModel.getTime()
+        if (viewModel.countTextMusicResult.value == null) {
+            viewModel.getCount()
+        }
+
+        if (viewModel.timePlaylistResult.value == null) {
+            viewModel.getTime()
+        }
 
         Glide.with(binding.root)
             .load(getString(R.string.url_favorite_playlist))

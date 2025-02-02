@@ -103,7 +103,10 @@ class DownloadListFragment: Fragment() {
 
     private fun initServiceTools() {
         binding.searchLayout.searchRecyclerView.adapter = searchMusicAdapter
-        viewModel.getDownloadedMusic()
+
+        if (viewModel.musicResult.value == null) {
+            viewModel.getDownloadedMusic()
+        }
     }
 
     private fun search() {

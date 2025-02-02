@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -101,8 +102,14 @@ class AlbumFragment: Fragment() {
         binding.appBar.progressTextView.visibility = View.VISIBLE
 
         val firebaseId = arguments?.getString(FIREBASE_KEY)
-        viewModel.getAlbum(firebaseId.toString())
-        viewModel.getMusic(firebaseId.toString())
+
+        if (viewModel.getAlbumResult.value == null) {
+            viewModel.getAlbum(firebaseId.toString())
+        }
+
+        if (viewModel.getMusicResult.value == null) {
+            viewModel.getMusic(firebaseId.toString())
+        }
     }
 
     @SuppressLint("NewApi")

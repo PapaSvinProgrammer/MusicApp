@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +27,7 @@ import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
 import com.example.musicapp.app.service.player.module.DataPlayerType
 import com.example.musicapp.app.service.player.module.PlayerInfo
 import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.data.constant.ErrorConst
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
@@ -150,7 +151,10 @@ class HomeFragment: Fragment() {
     }
 
     override fun onDestroy() {
-        requireActivity().unregisterReceiver(networkReceiver)
+        if (networkReceiver.isInitialStickyBroadcast) {
+            requireActivity().unregisterReceiver(networkReceiver)
+        }
+
         super.onDestroy()
     }
 

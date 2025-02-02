@@ -222,9 +222,11 @@ class PlayerFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getFavoriteMusic(
-            id = PlayerInfo.currentObject.value?.id.toString()
-        )
+        if (viewModel.getFavoriteMusicResult.value == null) {
+            viewModel.getFavoriteMusic(
+                id = PlayerInfo.currentObject.value?.id.toString()
+            )
+        }
     }
 
     override fun onStop() {

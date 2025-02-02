@@ -76,7 +76,9 @@ class FavoriteAuthorList: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getAuthors()
+        if (viewModel.playlistResult.value == null) {
+            viewModel.getAuthors()
+        }
     }
 
     private fun search() {

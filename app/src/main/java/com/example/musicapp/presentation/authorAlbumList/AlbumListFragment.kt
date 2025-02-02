@@ -76,7 +76,10 @@ class AlbumListFragment: Fragment() {
 
         binding.progressIndicator.visibility = View.VISIBLE
         authorId = arguments?.getString(AUTHOR_KEY)
-        viewModel.getAlbumsByDate(authorId ?: "")
+
+        if (viewModel.albumResult.value == null) {
+            viewModel.getAlbumsByDate(authorId ?: "")
+        }
     }
 
     private fun drawFilter() {

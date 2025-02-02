@@ -141,7 +141,9 @@ class SettingPreferencesFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        getGroup()
+        if (viewModel.getGroupResult.value == null) {
+            getGroup()
+        }
     }
 
     private fun chipGroupListener(group: ChipGroup, checkedIds: List<Int>) {

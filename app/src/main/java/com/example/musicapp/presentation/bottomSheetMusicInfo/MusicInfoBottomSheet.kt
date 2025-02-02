@@ -45,8 +45,9 @@ class MusicInfoBottomSheet: BottomSheetDialogFragment() {
         binding.progressIndicator.visibility = View.VISIBLE
 
         val id = arguments?.getString(ID_KEY)
-        id?.let {
-            viewModel.getInfo(it)
+
+        if (viewModel.getMusicInfoResult.value == null) {
+            viewModel.getInfo(id ?: "")
         }
     }
 }

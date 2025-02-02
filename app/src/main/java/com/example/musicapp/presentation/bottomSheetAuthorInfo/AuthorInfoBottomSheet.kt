@@ -105,7 +105,10 @@ class AuthorInfoBottomSheet: BottomSheetDialogFragment() {
 
         binding.progressIndicator.visibility = View.VISIBLE
         val groupId = arguments?.getString(GROUP_KEY)
-        viewModel.getInfo(groupId ?: "")
+
+        if (viewModel.groupResult.value == null) {
+            viewModel.getInfo(groupId ?: "")
+        }
     }
 
     private fun initCarousel() {

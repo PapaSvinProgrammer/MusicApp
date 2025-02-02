@@ -115,9 +115,17 @@ class AuthorFragment: Fragment() {
         super.onStart()
         authorKey = arguments?.getString(AUTHOR_KEY).toString()
 
-        viewModel.getAuthor(authorKey)
-        viewModel.getMusic(authorKey)
-        viewModel.getAlbum(authorKey)
+        if (viewModel.getAuthorResult.value == null) {
+            viewModel.getAuthor(authorKey)
+        }
+
+        if (viewModel.getMusicResult.value == null) {
+            viewModel.getMusic(authorKey)
+        }
+
+        if (viewModel.getAlbumResult.value == null) {
+            viewModel.getAlbum(authorKey)
+        }
     }
 
     private fun initServiceTools() {
