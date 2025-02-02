@@ -24,8 +24,6 @@ import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.app.support.ConvertTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 @OptIn(UnstableApi::class)
 class MusicBottomSheetViewModel(

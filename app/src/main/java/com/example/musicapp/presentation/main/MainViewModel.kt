@@ -37,7 +37,7 @@ class MainViewModel(
 
     var darkModeResult: Boolean = false
     var countMusicList = 0
-    var networkConnection = -1
+    var networkConnection: Int? = null
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()

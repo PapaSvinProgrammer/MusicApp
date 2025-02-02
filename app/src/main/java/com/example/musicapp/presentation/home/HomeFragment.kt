@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -243,19 +244,17 @@ class HomeFragment: Fragment() {
     }
 
     private fun registerNetworkReceiver() {
-        val intentFilter = IntentFilter(NetworkReceiver.WIFI_FILTER)
+        @Suppress("DEPRECATION")
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         requireActivity().registerReceiver(networkReceiver, intentFilter)
     }
 
-    private fun drawNetworkError(state: Int) {
+    @Suppress("DEPRECATION")
+    private fun drawNetworkError(state: Int?) {
         when (state) {
-            WifiManager.WIFI_STATE_ENABLED -> {
-                binding.wifiOffLayout.visibility = View.GONE
-            }
-
-            WifiManager.WIFI_STATE_DISABLED -> {
-                binding.wifiOffLayout.visibility = View.VISIBLE
-            }
+            ConnectivityManager.TYPE_WIFI -> binding.wifiOffLayout.visibility = View.GONE
+            ConnectivityManager.TYPE_MOBILE -> binding.wifiOffLayout.visibility = View.GONE
+            else -> binding.wifiOffLayout.visibility = View.VISIBLE
         }
     }
 }
