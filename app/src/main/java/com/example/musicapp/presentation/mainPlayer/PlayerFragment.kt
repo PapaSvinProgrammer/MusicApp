@@ -192,12 +192,10 @@ class PlayerFragment: Fragment() {
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 if (positionOffset == 0f) {
-                    changeNameAndGroupView()
                     resetControlPlayerUI()
 
                     if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
                         viewModel.servicePlayer?.setCurrentPosition(position)
-                        changeNameAndGroupView()
                         resetControlPlayerUI()
                     }
                 }
@@ -279,8 +277,10 @@ class PlayerFragment: Fragment() {
                 id = PlayerInfo.currentObject.value?.id.toString()
             )
 
-            val obj = PlayerInfo.currentObject.value ?: Music()
+            binding.viewPager.setCurrentItem(position, false)
+        }
 
+        PlayerInfo.currentObject.observe(viewLifecycleOwner) { obj ->
             viewModel.videoService?.setVideo(
                 music = obj,
                 isPlay = PlayerInfo.isPlay.value ?: false
@@ -294,7 +294,7 @@ class PlayerFragment: Fragment() {
                 .load(obj.imageGroup)
                 .into(binding.groupImageView)
 
-            binding.viewPager.setCurrentItem(position, false)
+            changeNameAndGroupView()
         }
 
         viewModel.bufferedPosition?.observe(viewLifecycleOwner) {

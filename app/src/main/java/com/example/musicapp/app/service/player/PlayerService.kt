@@ -300,10 +300,11 @@ class PlayerService: Service() {
                 bufferedPosition.value = audioPlayer?.getBufferedPosition()
 
                 if ((PlayerInfo.currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
+                    PlayerInfo.setCurrentPosition(audioPlayer?.getCurrentItem() ?: 0)
+
                     val currentObject = musicList.value!![PlayerInfo.currentPosition.value ?: 0]
                     PlayerInfo.setCurrentObject(currentObject)
 
-                    PlayerInfo.setCurrentPosition(audioPlayer?.getCurrentItem() ?: 0)
                     maxDuration.value = 0
                 }
 

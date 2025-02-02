@@ -9,6 +9,7 @@ import android.net.NetworkInfo
 class NetworkReceiver: BroadcastReceiver() {
     private var callback: ((Int?) -> Unit)? = null
 
+    @Suppress("DEPRECATION")
     override fun onReceive(context: Context?, intent: Intent?) {
         val conn = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo: NetworkInfo? = conn.activeNetworkInfo
