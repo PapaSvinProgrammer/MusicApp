@@ -3,6 +3,7 @@ package com.example.musicapp.presentation.author
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ class AuthorFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+        binding.albumRecyclerView.adapter = albumAdapter
 
         requireActivity().apply {
             bindService(
@@ -70,7 +72,6 @@ class AuthorFragment: Fragment() {
 
         viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->
             albumAdapter.setData(list)
-            binding.albumRecyclerView.adapter = albumAdapter
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
@@ -120,6 +121,7 @@ class AuthorFragment: Fragment() {
         }
 
         if (viewModel.getMusicResult.value == null) {
+            Log.d("RRRR", "GET MUSIC")
             viewModel.getMusic(authorKey)
         }
 

@@ -7,12 +7,12 @@ import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -26,28 +26,38 @@ class SettingsViewModel(
     lateinit var servicePlayer: PlayerService
     val isBound = MutableLiveData<Boolean>()
 
-    private val getEmailLiveData = MutableLiveData<String>()
-    private val getDarkModeStateLiveData = MutableLiveData<Boolean>()
+    private val _getEmail = MutableLiveData<String>()
+    private val _getDarkModeState = MutableLiveData<Boolean>()
 
-    val getEmailResult: LiveData<String> = getEmailLiveData
-    val getDarkModeStateResult: LiveData<Boolean> = getDarkModeStateLiveData
+    val getEmailResult: LiveData<String> = _getEmail
+    val getDarkModeStateResult: LiveData<Boolean> = _getDarkModeState
 
     fun saveDarkMode(state: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch(Dispatchers.IO) {
             saveDarkModeState.execute(state)
         }
     }
 
     fun saveLoginState() {
-        saveLoginState.execute(false)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveLoginState.execute(false)
+        }
     }
 
     fun getEmail() {
-        getEmailLiveData.value = getEmail.execute()
+        viewModelScope.launch {
+            getEmail.execute().collect { result ->
+                _getEmail.value = result
+            }
+        }
     }
 
     fun getDarkMode() {
-        getDarkModeStateLiveData.value = getDarkModeState.execute()
+        viewModelScope.launch {
+            getDarkModeState.execute().collect { result ->
+                _getDarkModeState.value = result
+            }
+        }
     }
 
     val connectionToPlayerService = object: ServiceConnection {

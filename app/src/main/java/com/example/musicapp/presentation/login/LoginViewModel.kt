@@ -11,6 +11,7 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
 import com.example.musicapp.domain.usecase.valid.EmailValid
 import com.example.musicapp.domain.usecase.valid.PasswordValid
 import com.example.musicapp.domain.usecase.valid.ValidState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -49,15 +50,21 @@ class LoginViewModel(
     }
 
     fun saveUserKey(userKey: String) {
-        saveUserKey.execute(userKey)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveUserKey.execute(userKey)
+        }
     }
 
     fun saveLoginState() {
-        saveLoginState.execute(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveLoginState.execute(true)
+        }
     }
 
     fun saveEmail(email: String) {
-        saveEmail.execute(email)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveEmail.execute(email)
+        }
     }
 
     fun setPermissionForLogin(validState: ValidState) {

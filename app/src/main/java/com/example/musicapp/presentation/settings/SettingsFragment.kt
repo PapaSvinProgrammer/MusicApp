@@ -43,12 +43,10 @@ class SettingsFragment: Fragment() {
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                viewModel.saveDarkMode(true)
+                saveDarkMode(true)
             }
             else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                viewModel.saveDarkMode(false)
+                saveDarkMode(false)
             }
         }
 
@@ -85,7 +83,9 @@ class SettingsFragment: Fragment() {
         }
 
         viewModel.getDarkModeStateResult.observe(viewLifecycleOwner) {
-            binding.switchDarkMode.isChecked = it
+            if (binding.switchDarkMode.isChecked != it) {
+                binding.switchDarkMode.isChecked = it
+            }
         }
     }
 
@@ -99,5 +99,9 @@ class SettingsFragment: Fragment() {
         if (viewModel.getEmailResult.value == null) {
             viewModel.getEmail()
         }
+    }
+
+    private fun saveDarkMode(state: Boolean) {
+        viewModel.saveDarkMode(state)
     }
 }

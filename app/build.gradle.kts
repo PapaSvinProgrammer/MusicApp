@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.ui.test.android)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.androidx.datastore.preferences)
 
     /**
      * ExoPlayer

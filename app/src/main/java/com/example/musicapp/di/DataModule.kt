@@ -32,7 +32,7 @@ import com.example.musicapp.data.repository.MusicTextRepositoryFirebase
 import com.example.musicapp.data.repository.PlaylistRepositoryRoom
 import com.example.musicapp.data.repository.SaveMusicRepositoryRoom
 import com.example.musicapp.data.repository.SearchRepositoryFirebase
-import com.example.musicapp.data.repository.SharedPreferencesRepositoryImpl
+import com.example.musicapp.data.repository.PreferencesRepositoryDataStore
 import com.example.musicapp.data.repository.SignAndCreateRepositoryFirebase
 import com.example.musicapp.data.repository.UserRepositoryImpl
 import com.example.musicapp.data.room.AppDatabase
@@ -49,7 +49,7 @@ import com.example.musicapp.domain.repository.MusicTextRepository
 import com.example.musicapp.domain.repository.PlaylistRepository
 import com.example.musicapp.domain.repository.SaveMusicRepository
 import com.example.musicapp.domain.repository.SearchRepository
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.repository.UserRepository
 import com.example.musicapp.app.service.audioDownloader.AudioDownloadHelper
@@ -57,8 +57,8 @@ import org.koin.dsl.module
 
 @SuppressLint("UnsafeOptInUsageError")
 val dataModule = module {
-    single<SharedPreferencesRepository> {
-        SharedPreferencesRepositoryImpl(
+    single<PreferencesRepository> {
+        PreferencesRepositoryDataStore(
             context = get()
         )
     }
@@ -126,7 +126,7 @@ val dataModule = module {
         Room.databaseBuilder(
             get(),
             AppDatabase::class.java,
-            get<SharedPreferencesRepository>().getUserKey() + ".db"
+            "music_app_favorite_music_database.db"
         ).build()
     }
 

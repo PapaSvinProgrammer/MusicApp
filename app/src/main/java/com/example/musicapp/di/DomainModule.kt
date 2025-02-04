@@ -71,49 +71,49 @@ val domainModule = module {
 
     factory<SaveLoginState> {
         SaveLoginState(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<SaveUserKey> {
         SaveUserKey(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<SaveDarkModeState> {
         SaveDarkModeState(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<SaveEmail> {
         SaveEmail(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<GetLoginState> {
         GetLoginState(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<GetDarkModeState> {
         GetDarkModeState(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<GetEmail> {
         GetEmail(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 
     factory<GetUserKey> {
         GetUserKey(
-            sharedPreferencesRepository = get()
+            preferencesRepository = get()
         )
     }
 

@@ -35,7 +35,6 @@ class MainViewModel(
     var servicePlayer: PlayerService? = null
     val isBound = MutableLiveData<Boolean>()
 
-    var darkModeResult: Boolean = false
     var countMusicList = 0
     var networkConnection: Int? = null
 
@@ -43,18 +42,24 @@ class MainViewModel(
     private val getMusicLiveData = MutableLiveData<List<Music>>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult?>()
+    private val getDarkModeLiveData = MutableLiveData<Boolean>()
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
     val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
+    val getDarkModeResult: LiveData<Boolean> = getDarkModeLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
     }
 
     fun getDarkMode() {
-        darkModeResult = getDarkModeState.execute()
+        viewModelScope.launch {
+            getDarkModeState.execute().collect {
+                getDarkModeLiveData.value = it
+            }
+        }
     }
 
     fun setStartState(state: Boolean) {

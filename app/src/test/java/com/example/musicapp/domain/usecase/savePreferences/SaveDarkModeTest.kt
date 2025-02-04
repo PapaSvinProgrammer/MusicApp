@@ -1,6 +1,6 @@
 package com.example.musicapp.domain.usecase.savePreferences
 
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -9,7 +9,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 
 class SaveDarkModeTest {
-    private val repository = mock<SharedPreferencesRepository>()
+    private val repository = mock<PreferencesRepository>()
 
     @AfterEach
     fun reset() {

@@ -29,6 +29,7 @@ import com.vk.id.refresh.VKIDRefreshTokenFail
 import com.vk.id.refreshuser.VKIDGetUserCallback
 import com.vk.id.refreshuser.VKIDGetUserFail
 import com.yandex.authsdk.YandexAuthToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 private const val EMAIL_VK_SCOPE = "email"
@@ -91,27 +92,43 @@ class StartViewModel(
     val vkRefreshTokenFailResult: LiveData<VKIDRefreshTokenFail> = vkRefreshTokenFailLiveData
 
     fun getLoginSate() {
-        loginStateLiveData.value = getLoginState.execute()
+        viewModelScope.launch {
+            getLoginState.execute().collect {
+                loginStateLiveData.value = it
+            }
+        }
     }
 
     fun saveDarkMode(state: Boolean) {
-        saveDarkModeState.execute(state)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveDarkModeState.execute(state)
+        }
     }
 
     fun getDarkMode() {
-        darkModeStateLiveData.value = getDarkModeState.execute()
+        viewModelScope.launch {
+            getDarkModeState.execute().collect {
+                darkModeStateLiveData.value = it
+            }
+        }
     }
 
     fun saveEmail(email: String) {
-        saveEmail.execute(email)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveEmail.execute(email)
+        }
     }
 
     fun saveUserKey(userKey: String) {
-        saveUserKey.execute(userKey)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveUserKey.execute(userKey)
+        }
     }
 
     fun saveLoginState(state: Boolean) {
-        saveLoginState.execute(state)
+        viewModelScope.launch(Dispatchers.IO) {
+            saveLoginState.execute(state)
+        }
     }
 
     fun getUserGoogle(credential: Credential) {

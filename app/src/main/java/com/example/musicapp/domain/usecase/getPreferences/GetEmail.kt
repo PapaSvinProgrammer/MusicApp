@@ -1,9 +1,10 @@
 package com.example.musicapp.domain.usecase.getPreferences
 
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
+import kotlinx.coroutines.flow.Flow
 
-class GetEmail(private val sharedPreferencesRepository: SharedPreferencesRepository) {
-    fun execute(): String {
-        return sharedPreferencesRepository.getEmail()
+class GetEmail(private val preferencesRepository: PreferencesRepository) {
+    fun execute(): Flow<String> {
+        return preferencesRepository.getEmail()
     }
 }

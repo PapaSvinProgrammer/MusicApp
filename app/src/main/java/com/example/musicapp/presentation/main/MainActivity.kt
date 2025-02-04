@@ -50,6 +50,7 @@ class MainActivity: AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getDarkMode()
 
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -67,11 +68,6 @@ class MainActivity: AppCompatActivity() {
             nextItemVisibleSize = R.dimen.viewpager_item_visible,
             currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
         )
-
-        viewModel.getDarkMode()
-        if (viewModel.darkModeResult) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
 
         viewModel.getMusicResult.observe(this) { array->
             if (viewModel.countMusicList != 0) {
@@ -104,6 +100,13 @@ class MainActivity: AppCompatActivity() {
                     viewModel.connectionToPlayerService,
                     Context.BIND_AUTO_CREATE
                 )
+            }
+        }
+
+        viewModel.getDarkModeResult.observe(this) {
+            when (it){
+                true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
 

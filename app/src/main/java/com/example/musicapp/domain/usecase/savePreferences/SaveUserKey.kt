@@ -1,13 +1,13 @@
 package com.example.musicapp.domain.usecase.savePreferences
 
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
 
-class SaveUserKey(private val sharedPreferencesRepository: SharedPreferencesRepository) {
-    fun execute(userKey: String): Boolean {
+class SaveUserKey(private val preferencesRepository: PreferencesRepository) {
+    suspend fun execute(userKey: String): Boolean {
         if (userKey.isEmpty()) {
             return false
         }
 
-        return sharedPreferencesRepository.saveUserKey(userKey)
+        return preferencesRepository.saveUserKey(userKey)
     }
 }

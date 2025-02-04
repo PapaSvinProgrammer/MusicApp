@@ -1,13 +1,13 @@
 package com.example.musicapp.domain.usecase.getPreferences
 
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
 class GetEmailTest {
-    private val repository = mock<SharedPreferencesRepository>()
+    private val repository = mock<PreferencesRepository>()
     private val useCase = GetEmail(repository)
 
     @Test

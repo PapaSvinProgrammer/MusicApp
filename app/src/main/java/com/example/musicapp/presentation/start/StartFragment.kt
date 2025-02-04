@@ -42,6 +42,9 @@ class StartFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        viewModel.getLoginSate()
+        viewModel.getDarkMode()
+
         sdk = YandexAuthSdk.create(YandexAuthOptions(context))
         yandexAuthLauncher = registerForActivityResult(sdk.contract) { result ->
             yandexAuthResult(result)
@@ -54,10 +57,7 @@ class StartFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentStartBinding.inflate(layoutInflater, container, false)
-
-        viewModel.getLoginSate()
-        viewModel.getDarkMode()
-
+        binding.root.visibility = View.GONE
         return binding.root
     }
 
@@ -65,8 +65,9 @@ class StartFragment: Fragment() {
         navController = view.findNavController()
 
         viewModel.loginStateResult.observe(viewLifecycleOwner) {
-            if (it) {
-                navController.navigate(R.id.action_global_homeFragment)
+            when (it) {
+                true -> navController.navigate(R.id.action_global_homeFragment)
+                false -> binding.root.visibility = View.VISIBLE
             }
         }
 

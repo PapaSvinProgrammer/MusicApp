@@ -1,6 +1,6 @@
 package com.example.musicapp.domain.usecase.getPreferences
 
-import com.example.musicapp.domain.repository.SharedPreferencesRepository
+import com.example.musicapp.domain.repository.PreferencesRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -8,7 +8,7 @@ import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
 class GetDarkModeStateTest {
-    private val preferencesRepository = mock<SharedPreferencesRepository>()
+    private val preferencesRepository = mock<PreferencesRepository>()
     private val useCase = GetDarkModeState(preferencesRepository)
 
     @Test
