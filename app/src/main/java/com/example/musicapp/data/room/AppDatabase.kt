@@ -8,6 +8,7 @@ import com.example.musicapp.data.room.dao.SaveMusicDao
 import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
+import com.example.musicapp.data.room.playlistEntity.CrossPlaylistMusicEntity
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.data.room.saveMusic.SaveMusicEntity
 
@@ -18,7 +19,8 @@ import com.example.musicapp.data.room.saveMusic.SaveMusicEntity
         AuthorEntity::class,
         AlbumEntity::class,
         PlaylistEntity::class,
-        SaveMusicEntity::class
+        SaveMusicEntity::class,
+        CrossPlaylistMusicEntity::class
     ]
 )
 abstract class AppDatabase: RoomDatabase() {

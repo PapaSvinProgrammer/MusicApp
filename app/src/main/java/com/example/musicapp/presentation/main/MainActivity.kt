@@ -84,6 +84,10 @@ class MainActivity: AppCompatActivity() {
         viewModel.isBound.observe(this) {
             if (it) {
                 initServiceTools()
+
+                if (viewModel.musicList?.value == null && viewModel.startDownloadResult.value == true) {
+                    viewModel.getRandomMusic()
+                }
             }
         }
 
@@ -91,7 +95,6 @@ class MainActivity: AppCompatActivity() {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
 
-                viewModel.getRandomMusic()
                 initDownloadManager()
                 intiPermission()
 
@@ -100,6 +103,8 @@ class MainActivity: AppCompatActivity() {
                     viewModel.connectionToPlayerService,
                     Context.BIND_AUTO_CREATE
                 )
+
+                viewModel.getRandomMusic()
             }
         }
 
