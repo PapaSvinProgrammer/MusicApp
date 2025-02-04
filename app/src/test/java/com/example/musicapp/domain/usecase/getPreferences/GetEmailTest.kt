@@ -1,6 +1,7 @@
 package com.example.musicapp.domain.usecase.getPreferences
 
 import com.example.musicapp.domain.repository.PreferencesRepository
+import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -12,7 +13,7 @@ class GetEmailTest {
 
     @Test
     fun correctEmailReturn() {
-        val testEmail = "test@yandex.ru"
+        val testEmail = flow<String> { "test@yandex.ru" }
         Mockito.`when`(repository.getEmail()).thenReturn(testEmail)
 
         val actual = useCase.execute()

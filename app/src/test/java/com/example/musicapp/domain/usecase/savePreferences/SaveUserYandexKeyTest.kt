@@ -1,6 +1,7 @@
 package com.example.musicapp.domain.usecase.savePreferences
 
 import com.example.musicapp.domain.repository.PreferencesRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -16,7 +17,7 @@ class SaveUserYandexKeyTest {
     }
 
     @Test
-    fun correctSave() {
+    fun correctSave(): Unit = runBlocking {
         val useCase = SaveUserKey(repository)
         val testResult = true
         val testUserKey = "userKeyExample"
@@ -30,7 +31,7 @@ class SaveUserYandexKeyTest {
     }
 
     @Test
-    fun invalidSave() {
+    fun invalidSave(): Unit = runBlocking {
         val useCase = SaveUserKey(repository)
         val testResult = false
         val testUserKey = ""

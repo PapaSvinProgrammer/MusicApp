@@ -1,6 +1,7 @@
 package com.example.musicapp.domain.usecase.savePreferences
 
 import com.example.musicapp.domain.repository.PreferencesRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -17,7 +18,7 @@ class SaveDarkModeTest {
     }
 
     @Test
-    fun correctSave() {
+    fun correctSave(): Unit = runBlocking {
         val useCase = SaveDarkModeState(repository)
         val testResult = true
         Mockito.`when`(repository.saveDarkMode(any())).thenReturn(testResult)
@@ -29,7 +30,7 @@ class SaveDarkModeTest {
     }
 
     @Test
-    fun invalidSave() {
+    fun invalidSave(): Unit = runBlocking {
         val useCase = SaveDarkModeState(repository)
         val testResult = false
         Mockito.`when`(repository.saveDarkMode(any())).thenReturn(testResult)

@@ -24,10 +24,10 @@ class GetGroupWithFilterOnGenresTest {
         val testFilterUseCase = listOf(1, 2)
         val testResult = listOf(
             Group(
-                genre = "FILTER1"
+                genre = listOf(0, 1)
             ),
             Group(
-                genre = "FILTER2"
+                genre = listOf(22, 33)
             )
         )
 
@@ -35,10 +35,10 @@ class GetGroupWithFilterOnGenresTest {
 
         val expected = listOf(
             Group(
-                genre = "FILTER1"
+                genre = listOf(0, 1)
             ),
             Group(
-                genre = "FILTER2"
+                genre = listOf(22, 33)
             )
         )
         val actual = useCase.execute(testFilterUseCase)
