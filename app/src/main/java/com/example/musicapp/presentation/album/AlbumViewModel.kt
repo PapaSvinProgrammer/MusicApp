@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbum
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -20,7 +20,7 @@ import java.util.Date
 import java.util.Locale
 
 class AlbumViewModel(
-    private val getAlbumById: GetAlbumById,
+    private val getAlbum: GetAlbum,
     private val getMusicsByAlbumId: GetMusicsByAlbumId
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
@@ -37,7 +37,7 @@ class AlbumViewModel(
 
     fun getAlbum(id: String) {
         viewModelScope.launch {
-            getAlbumLiveData.value = getAlbumById.execute(id)
+            getAlbumLiveData.value = getAlbum.getAlbumById(id)
         }
     }
 

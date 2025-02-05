@@ -30,131 +30,95 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/by_rating_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="0dp">
+                android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/icon_rating"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_check"
+                    style="@style/IconBottomSheetColor"
+                    android:layout_margin="15dp"
+                    android:visibility="invisible"
+                    android:layout_gravity="end" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextColorOnSurface"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/by_rating_text"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="1dp"
+                    style="@style/ColorLine"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/icon_rating"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/ic_check"
-                        style="@style/IconBottomSheetColor"
-                        android:layout_margin="15dp"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextColorOnSurface"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/by_rating_text"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/by_album_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="0dp">
+                android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/icon_album"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    style="@style/IconBottomSheetColor"
+                    app:srcCompat="@drawable/ic_check"
+                    android:layout_margin="15dp"
+                    android:visibility="invisible"
+                    android:layout_gravity="end" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextColorOnSurface"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/by_album_text"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="1dp"
+                    style="@style/ColorLine"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/icon_album"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        style="@style/IconBottomSheetColor"
-                        app:srcCompat="@drawable/ic_check"
-                        android:layout_margin="15dp"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextColorOnSurface"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/by_album_text"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        style="@style/ColorLine"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/by_name_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="0dp">
+                android:layout_height="wrap_content">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/icon_name"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    style="@style/IconBottomSheetColor"
+                    app:srcCompat="@drawable/ic_check"
+                    android:layout_margin="15dp"
+                    android:visibility="invisible"
+                    android:layout_gravity="end" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/icon_name"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        style="@style/IconBottomSheetColor"
-                        app:srcCompat="@drawable/ic_check"
-                        android:layout_margin="15dp"
-                        android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/TextColorOnSurface"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="@string/by_alphabet_text"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextColorOnSurface"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/by_alphabet_text"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical" />
+            </FrameLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

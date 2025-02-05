@@ -123,4 +123,5 @@
     <string name="wifi_off_text">Нет интернета</string>
     <string name="selected_groups_text">"Выбрано исполнителей: "</string>
     <string name="added_text">Добавленное</string>
+    <string name="title_text">Название</string>
 </resources>

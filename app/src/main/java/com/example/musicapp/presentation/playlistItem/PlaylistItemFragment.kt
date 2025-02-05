@@ -77,7 +77,7 @@ class PlaylistItemFragment: Fragment() {
                 SettingsPlaylist.ADD_MUSIC -> addMusic()
                 SettingsPlaylist.EDIT_NAME -> editName()
                 SettingsPlaylist.EDIT_IMAGE -> drawChangeImage()
-                SettingsPlaylist.DELETE -> delete()
+                SettingsPlaylist.DELETE -> deletePlaylist()
             }
         }
 
@@ -98,30 +98,29 @@ class PlaylistItemFragment: Fragment() {
             }
         }
 
-        viewModel.getPlaylistResult.observe(viewLifecycleOwner) { album ->
-            updateImageUI(album?.playlistEntity?.imageUrl.toString())
+        viewModel.getPlaylist.observe(viewLifecycleOwner) { album ->
+            updateImageUI(album?.imageUrl.toString())
 
-            binding.appBar.collapsingToolbar.title = album?.playlistEntity?.name
-            binding.appBar.nameView.text = album?.playlistEntity?.name
+            binding.appBar.collapsingToolbar.title = album?.name
+            binding.appBar.nameView.text = album?.name
         }
 
-        viewModel.deletePlaylistResult.observe(viewLifecycleOwner) {
+        viewModel.deletePlaylist.observe(viewLifecycleOwner) {
             if (it) {
                 settingsBottomSheet.dismiss()
                 navController.popBackStack()
             }
         }
 
-        viewModel.getMusicResult.observe(viewLifecycleOwner) {
-            recyclerAdapter.setData(it)
+        viewModel.musics.observe(viewLifecycleOwner) { list ->
+            recyclerAdapter.setData(list)
 
-            if (viewModel.getPlaylistResult.value?.playlistEntity?.imageUrl.isNullOrEmpty()) {
-                if (viewModel.getMusicResult.value?.isEmpty() == true) {
-                    return@observe
+            if (viewModel.getPlaylist.value?.imageUrl.isNullOrEmpty()) {
+                viewModel.isEmptyImage = true
+
+                if (list.isNotEmpty()) {
+                    updateImageUI(list.first().albumEntity.imageLow)
                 }
-
-                val firstUrl = viewModel.getMusicResult.value?.first()?.albumEntity?.imageHigh
-                updateImageUI(firstUrl ?: "")
             }
         }
     }
@@ -131,31 +130,56 @@ class PlaylistItemFragment: Fragment() {
 
         playlistId = arguments?.getLong(PlaylistAdapter.ALBUM_KEY)
 
-        if (viewModel.getPlaylistResult.value == null) {
+        if (viewModel.getPlaylist.value == null) {
             viewModel.getPlaylist(playlistId ?: -1)
         }
 
-        if (viewModel.getMusicResult.value == null) {
-            viewModel.getMusic(playlistId ?: -1)
+        if (viewModel.musics.value == null) {
+            viewModel.getMusicsFromPlaylist(playlistId ?: -1L)
         }
+
+        if (viewModel.countMusicInPlaylist.value == null) {
+            viewModel.getCountMusicInPlaylist(playlistId ?: -1L)
+        }
+    }
+
+    override fun onStop() {
+        if (viewModel.isEmptyImage && !viewModel.musics.value.isNullOrEmpty()) {
+            val firstMusic = viewModel.musics.value?.first()
+            viewModel.saveImage(firstMusic?.albumEntity?.imageLow.toString())
+        }
+
+        super.onStop()
     }
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         uri?.let {
             updateImageUI(uri.toString())
-
+            viewModel.isEmptyImage = false
             viewModel.saveImage(it.toString())
         }
     }
 
     private fun createSettingsBottomSheet() {
-        val currentAlbum = viewModel.getPlaylistResult.value
+        val currentAlbum = viewModel.getPlaylist.value
+        val album: Album
 
-        val album = Album(
-            name = currentAlbum?.playlistEntity?.name.toString(),
-            image = currentAlbum?.playlistEntity?.imageUrl.toString(),
-            countMusic = currentAlbum?.musicResult?.size ?: 0
-        )
+        if (currentAlbum?.imageUrl.isNullOrEmpty() && !viewModel.musics.value.isNullOrEmpty()) {
+            val firstMusic = viewModel.musics.value?.first()
+
+            album = Album(
+                name = currentAlbum?.name.toString(),
+                image = firstMusic?.albumEntity?.imageLow.toString(),
+                countMusic = viewModel.countMusicInPlaylist.value ?: 0
+            )
+        }
+        else {
+            album = Album(
+                name = currentAlbum?.name.toString(),
+                image = currentAlbum?.imageUrl.toString(),
+                countMusic = viewModel.countMusicInPlaylist.value ?: 0
+            )
+        }
 
         val bundle = Bundle()
         bundle.putParcelable(PlaylistBottomSheet.PLAYLIST_KEY, album)
@@ -188,12 +212,13 @@ class PlaylistItemFragment: Fragment() {
     }
 
     private fun deleteImage() {
+        viewModel.isEmptyImage = true
         viewModel.deleteImage()
     }
 
     private fun editName() {
         nameDialog.setDefaultName(
-            name = viewModel.getPlaylistResult.value?.playlistEntity?.name.toString()
+            name = viewModel.getPlaylist.value?.name.toString()
         )
         nameDialog.show(parentFragmentManager, NewNameDialog.TAG)
     }
@@ -210,7 +235,7 @@ class PlaylistItemFragment: Fragment() {
         TODO("Not yet implemented")
     }
 
-    private fun delete() {
+    private fun deletePlaylist() {
         deletePlaylistDialog.show(parentFragmentManager, DeletePlaylistDialog.TAG)
         updateImageUI("")
     }

@@ -1,19 +1,19 @@
 package com.example.musicapp.domain.usecase.room.get
 
-import com.example.musicapp.domain.repository.MusicLiteRepository
+import com.example.musicapp.domain.repository.PlaylistRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
+private const val ERROR_RESULT = -1L
 
 class GetCountMusic(
-    private val musicLiteRepository: MusicLiteRepository
+    private val playlistRepository: PlaylistRepository
 ) {
-    suspend fun getCount(): Int {
-        return musicLiteRepository.getCount()
-    }
-
-    suspend fun getCount(playlistId: Long): Int {
+    fun getCountMusicInPlaylist(playlistId: Long): Flow<Int> {
         if (playlistId <= 0) {
-            return -1
+            return flow { ERROR_RESULT }
         }
 
-        return musicLiteRepository.getCount(playlistId)
+        return playlistRepository.getCountMusicInPlaylist(playlistId)
     }
 }

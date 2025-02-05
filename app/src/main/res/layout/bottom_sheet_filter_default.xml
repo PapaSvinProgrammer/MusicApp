@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
                 android:id="@+id/by_default_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -43,9 +43,7 @@
                     style="@style/IconBottomSheetColor"
                     android:layout_margin="15dp"
                     android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="end"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -55,18 +53,16 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/by_default_text"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="center_vertical"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     style="@style/ColorLine"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
                 android:id="@+id/by_alphabet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -79,9 +75,7 @@
                     style="@style/IconBottomSheetColor"
                     android:layout_margin="15dp"
                     android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="end" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -91,18 +85,16 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/by_alphabet_text"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="center_vertical"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     style="@style/ColorLine"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
                 android:id="@+id/by_date_create_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -115,9 +107,7 @@
                     app:srcCompat="@drawable/ic_check"
                     android:layout_margin="15dp"
                     android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_gravity="end" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,10 +117,8 @@
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/by_date_create_text"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_gravity="center_vertical" />
+            </FrameLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

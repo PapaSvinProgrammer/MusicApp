@@ -17,9 +17,6 @@ class FindMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
             return null
         }
 
-        return musicLiteRepository.findMusicByIdFromPlaylist(
-            musicFirebaseId = musicId,
-            playlistId = playlistId
-        )
+        return null
     }
 }

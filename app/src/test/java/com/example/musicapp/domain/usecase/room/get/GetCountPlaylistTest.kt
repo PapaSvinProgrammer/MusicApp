@@ -16,12 +16,12 @@ class GetCountPlaylistTest {
         val useCase = GetCountPlaylist(repository)
         val testResult = 3
 
-        Mockito.`when`(repository.getCount()).thenReturn(testResult)
+        Mockito.`when`(repository.getCountPlaylist()).thenReturn(testResult)
 
         val expected = 3
         val actual = useCase.execute()
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getCount()
+        Mockito.verify(repository, times(1)).getCountPlaylist()
     }
 }

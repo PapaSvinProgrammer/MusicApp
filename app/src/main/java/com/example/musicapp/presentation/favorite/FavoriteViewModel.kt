@@ -19,7 +19,7 @@ import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.get.GetAuthorsFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.domain.usecase.room.get.GetCountPlaylist
-import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.get.GetMusicsFromPlaylistSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import kotlinx.coroutines.launch
 
@@ -31,14 +31,14 @@ private const val PLAYLIST_LIMIT = 2
 private const val ALBUM_LIMIT = 2
 
 class FavoriteViewModel(
-    private val getMusicFromSQLite: GetMusicFromSQLite,
     private val getAuthorsFromSQLite: GetAuthorsFromSQLite,
     private val convertTextCount: ConvertTextCount,
     private val getPlaylistFromSQLite: GetPlaylistFromSQLite,
     private val getDownloadedMusic: GetDownloadedMusic,
     private val getCountDownloadMusic: GetCountDownloadMusic,
     private val getCountMusic: GetCountMusic,
-    private val getCountPlaylist: GetCountPlaylist
+    private val getCountPlaylist: GetCountPlaylist,
+    private val getMusicsFromPlaylistSQLite: GetMusicsFromPlaylistSQLite
 ): ViewModel() {
     var isPlay: LiveData<Boolean>? = null
     @SuppressLint("StaticFieldLeak")
@@ -63,22 +63,28 @@ class FavoriteViewModel(
 
     fun getMusic() {
         viewModelScope.launch {
-            getMusicLiveData.value = getMusicFromSQLite.getAllMusicFromPlaylist(
+            getMusicsFromPlaylistSQLite.getMusicsFromPlaylist(
                 playlistId = DEFAULT_PLAYLIST_ID,
                 limit = MUSIC_LIMIT
-            )
+            ).collect {
+                getMusicLiveData.value = it
+            }
         }
     }
 
     fun getAuthor() {
         viewModelScope.launch {
-            getAuthorLiveData.value = getAuthorsFromSQLite.execute(AUTHOR_LIMIT)
+            getAuthorsFromSQLite.execute(AUTHOR_LIMIT).collect {
+                getAuthorLiveData.value = it
+            }
         }
     }
 
     fun getPlaylist() {
         viewModelScope.launch {
-            getPlaylistLiveData.value = getPlaylistFromSQLite.getOnlyPlaylists(PLAYLIST_LIMIT)
+            getPlaylistFromSQLite.getPlaylists(PLAYLIST_LIMIT).collect {
+                getPlaylistLiveData.value = it
+            }
         }
     }
 
@@ -97,15 +103,17 @@ class FavoriteViewModel(
 
     fun getCountMusic() {
         viewModelScope.launch {
-            convertCountMusicLiveData.value =
-                convertTextCountMusic(getCountMusic.getCount(DEFAULT_PLAYLIST_ID))
+            getCountMusic.getCountMusicInPlaylist(DEFAULT_PLAYLIST_ID).collect {
+                convertCountMusicLiveData.value = convertTextCountMusic(it)
+            }
         }
     }
 
     fun getCountPlaylist() {
         viewModelScope.launch {
-            convertCountPlaylistLiveData.value =
-                convertTextCountPlaylist(getCountPlaylist.execute())
+            getCountPlaylist.execute().collect {
+                convertCountPlaylistLiveData.value = convertTextCountPlaylist(it)
+            }
         }
     }
 

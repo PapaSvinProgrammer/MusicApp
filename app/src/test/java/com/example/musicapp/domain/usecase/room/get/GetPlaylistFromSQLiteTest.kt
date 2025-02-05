@@ -26,51 +26,51 @@ class GetPlaylistFromSQLiteTest {
     }
 
     @Test
-    fun correctGetOnlyPlaylists(): Unit = runBlocking {
+    fun correctGetPlaylists(): Unit = runBlocking {
         val useCase = GetPlaylistFromSQLite(repository)
         val testResult = listOf(playlistEntity, playlistEntity)
 
-        Mockito.`when`(repository.getOnlyPlaylist()).thenReturn(testResult)
+        Mockito.`when`(repository.getPlaylists()).thenReturn(testResult)
 
         val expected = listOf(playlistEntity, playlistEntity)
-        val actual = useCase.getOnlyPlaylists()
+        val actual = useCase.getPlaylists()
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getOnlyPlaylist()
+        Mockito.verify(repository, times(1)).getPlaylists()
     }
 
     @Test
-    fun correctGetOnlyPlaylistsLimit(): Unit = runBlocking {
+    fun correctGetPlaylistsLimit(): Unit = runBlocking {
         val useCase = GetPlaylistFromSQLite(repository)
         val testResult = listOf(playlistEntity, playlistEntity)
         val testLimit = 2
 
         Mockito.`when`(
-            repository.getOnlyPlaylistLimit(testLimit)
+            repository.getPlaylistsLimit(testLimit)
         ).thenReturn(testResult)
 
         val expected = listOf(playlistEntity, playlistEntity)
-        val actual = useCase.getOnlyPlaylists(testLimit)
+        val actual = useCase.getPlaylists(testLimit)
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getOnlyPlaylistLimit(testLimit)
+        Mockito.verify(repository, times(1)).getPlaylistsLimit(testLimit)
     }
 
     @Test
-    fun invalidGetOnlyPlaylistsLimit(): Unit = runBlocking {
+    fun invalidGetPlaylistsLimit(): Unit = runBlocking {
         val useCase = GetPlaylistFromSQLite(repository)
         val testResult = listOf(playlistEntity, playlistEntity)
         val testLimit = -2
 
         Mockito.`when`(
-            repository.getOnlyPlaylistLimit(testLimit)
+            repository.getPlaylistsLimit(testLimit)
         ).thenReturn(testResult)
 
         val expected = listOf<PlaylistEntity>()
-        val actual = useCase.getOnlyPlaylists(testLimit)
+        val actual = useCase.getPlaylists(testLimit)
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, never()).getOnlyPlaylistLimit(testLimit)
+        Mockito.verify(repository, never()).getPlaylistsLimit(testLimit)
     }
 
     @Test
@@ -117,26 +117,26 @@ class GetPlaylistFromSQLiteTest {
     }
 
     @Test
-    fun correctGetAllOrderName() {
+    fun correctGetPlaylistsOrderName() {
         val useCase = GetPlaylistFromSQLite(repository)
         val testResult = flowOf<List<PlaylistResult>>()
 
         Mockito.`when`(repository.getAllOrderName()).thenReturn(testResult)
 
-        val actual = useCase.getAllOrderName()
+        val actual = useCase.getPlaylistsOrderName()
 
         Assertions.assertEquals(testResult, actual)
         Mockito.verify(repository, times(1)).getAllOrderName()
     }
 
     @Test
-    fun correctGetAllOrderDate() {
+    fun correctGetPlaylistsOrderDate() {
         val useCase = GetPlaylistFromSQLite(repository)
         val testResult = flowOf<List<PlaylistResult>>()
 
         Mockito.`when`(repository.getAllOrderDate()).thenReturn(testResult)
 
-        val actual = useCase.getAllOrderDate()
+        val actual = useCase.getPlaylistsOrderDate()
 
         Assertions.assertEquals(testResult, actual)
         Mockito.verify(repository, times(1)).getAllOrderDate()

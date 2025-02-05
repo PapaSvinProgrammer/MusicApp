@@ -15,6 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
@@ -139,6 +141,25 @@ class MainActivity: AppCompatActivity() {
                 binding.bottomNavigation.visibility = View.VISIBLE
                 binding.viewPagerLayout.visibility = View.VISIBLE
                 drawWifiError(viewModel.networkConnection)
+            }
+
+            if (destination.id == R.id.playerFragment ||
+                destination.id == R.id.authorFragment ||
+                destination.id == R.id.playlistItemFragment ||
+                destination.id == R.id.albumFragment ||
+                destination.id == R.id.playlistFavoriteFragment)
+            {
+                ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+                    v.setPadding(0, 0, 0, 0)
+                    insets
+                }
+            }
+            else {
+                ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+                    val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    v.setPadding(0, systemBars.top, 0, 0)
+                    insets
+                }
             }
         }
 

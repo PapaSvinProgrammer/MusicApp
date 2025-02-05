@@ -13,22 +13,23 @@ class FavoriteAuthorListViewModel(
     private val getAuthorsFromSQLite: GetAuthorsFromSQLite,
     private val searchGroupLocal: SearchGroupLocal
 ): ViewModel() {
-    private val playlistsLiveData = MutableLiveData<List<AuthorEntity>>()
-    private val searchLiveData = MutableLiveData<List<AuthorEntity>>()
+    private val _playlists = MutableLiveData<List<AuthorEntity>>()
+    private val _search = MutableLiveData<List<AuthorEntity>>()
 
-    val playlistResult: LiveData<List<AuthorEntity>> = playlistsLiveData
-    val searchResult: LiveData<List<AuthorEntity>> = searchLiveData
+    val playlistResult: LiveData<List<AuthorEntity>> = _playlists
+    val searchResult: LiveData<List<AuthorEntity>> = _search
 
     fun getAuthors() {
-
         viewModelScope.launch {
-            playlistsLiveData.value = getAuthorsFromSQLite.execute()
+            getAuthorsFromSQLite.execute().collect {
+                _playlists.value = it
+            }
         }
     }
 
     fun search(text: String) {
         viewModelScope.launch {
-            searchLiveData.value = searchGroupLocal.execute(text)
+            _search.value = searchGroupLocal.execute(text)
         }
     }
 }

@@ -2,10 +2,17 @@ package com.example.musicapp.data.room.musicEntity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "music"
+    tableName = "music",
+    indices = [
+        Index(
+            value = ["firebase_id"],
+            unique = true
+        )
+    ]
 )
 data class MusicEntity(
     @PrimaryKey(autoGenerate = true)
@@ -16,9 +23,6 @@ data class MusicEntity(
 
     @ColumnInfo(name = "name")
     val name: String,
-
-    @ColumnInfo(name = "playlist_id")
-    val playlistId: Long,
 
     @ColumnInfo(name = "album_id")
     val albumId: String,

@@ -3,18 +3,16 @@ package com.example.musicapp.di
 import com.example.musicapp.app.support.convertTextCount.ConvertAnyText
 import com.example.musicapp.app.support.convertTextCount.ConvertTextCount
 import com.example.musicapp.app.support.convertTextCount.ConvertTextCountImpl
-import com.example.musicapp.domain.usecase.getAlbum.GetAlbumAll
-import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
+import com.example.musicapp.domain.usecase.getAlbum.GetAlbum
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
 import com.example.musicapp.domain.usecase.getAnother.GetGroupInfo
 import com.example.musicapp.domain.usecase.getAnother.GetMusicInfo
-import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
-import com.example.musicapp.domain.usecase.getGroup.GetGroupById
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.getMusic.GetMusicAll
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
 import com.example.musicapp.domain.usecase.getAnother.GetMusicText
+import com.example.musicapp.domain.usecase.getGroup.GetGroup
 import com.example.musicapp.domain.usecase.signAndCreate.CreateAccount
 import com.example.musicapp.domain.usecase.signAndCreate.SignInAccount
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
@@ -43,6 +41,7 @@ import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.domain.usecase.room.get.GetCountPlaylist
+import com.example.musicapp.domain.usecase.room.get.GetMusicsFromPlaylistSQLite
 import com.example.musicapp.domain.usecase.room.get.GetTimePlaylist
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
@@ -135,12 +134,6 @@ val domainModule = module {
         )
     }
 
-    factory<GetGroupAll> {
-        GetGroupAll(
-            groupRepository = get()
-        )
-    }
-
     factory<GetGroupWithFilterOnGenres> {
         GetGroupWithFilterOnGenres(
             groupRepository = get()
@@ -211,12 +204,6 @@ val domainModule = module {
         )
     }
 
-    factory<GetAlbumById> {
-        GetAlbumById(
-            albumRepository = get()
-        )
-    }
-
     factory<GetMusicsByAlbumId> {
         GetMusicsByAlbumId(
             musicRepository = get()
@@ -230,20 +217,8 @@ val domainModule = module {
     }
 
     factory {
-        GetGroupById(
-            groupRepository = get()
-        )
-    }
-
-    factory {
         GetMusicsByAuthorId(
             musicRepository = get()
-        )
-    }
-
-    factory {
-        GetAlbumAll(
-            albumRepository = get()
         )
     }
 
@@ -309,7 +284,7 @@ val domainModule = module {
 
     factory {
         GetCountMusic(
-            musicLiteRepository = get()
+            playlistRepository = get()
         )
     }
 
@@ -393,6 +368,24 @@ val domainModule = module {
 
     factory {
         GetGroupInfo(
+            groupRepository = get()
+        )
+    }
+
+    factory {
+        GetMusicsFromPlaylistSQLite(
+            playlistRepository = get()
+        )
+    }
+
+    factory {
+        GetAlbum(
+            albumRepository = get()
+        )
+    }
+
+    factory {
+        GetGroup(
             groupRepository = get()
         )
     }

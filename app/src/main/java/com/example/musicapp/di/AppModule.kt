@@ -86,7 +86,7 @@ val appModule = module {
 
     viewModel {
         SettingsPreferencesViewModel(
-            getGroupAll = get(),
+            getGroup = get(),
             getGroupWithFilterOnGenres = get(),
             searchGroup = get()
         )
@@ -113,14 +113,14 @@ val appModule = module {
 
     viewModel {
         FavoriteViewModel(
-            getMusicFromSQLite = get(),
             getAuthorsFromSQLite = get(),
             convertTextCount = get(),
             getPlaylistFromSQLite = get(),
             getDownloadedMusic = get(),
             getCountPlaylist = get(),
             getCountDownloadMusic = get(),
-            getCountMusic = get()
+            getCountMusic = get(),
+            getMusicsFromPlaylistSQLite = get()
         )
     }
 
@@ -138,23 +138,24 @@ val appModule = module {
             updatePlaylistImage = get(),
             updatePlaylistName = get(),
             deletePlaylistFromSQLite = get(),
-            getMusicFromSQLite = get()
+            getMusicsFromPlaylistSQLite = get(),
+            getCountMusic = get()
         )
     }
 
     viewModel {
         PlaylistFavoriteViewModel(
-            getMusicFromSQLite = get(),
             getCountMusic = get(),
             convertTextCount = get(),
             getTimePlaylist = get(),
-            searchMusicLocal = get()
+            searchMusicLocal = get(),
+            getMusicsFromPlaylistSQLite = get()
         )
     }
 
     viewModel {
         AlbumViewModel(
-            getAlbumById = get(),
+            getAlbum = get(),
             getMusicsByAlbumId = get()
         )
     }
@@ -162,8 +163,8 @@ val appModule = module {
     viewModel {
         AuthorViewModel(
             getAlbumsByAuthorId = get(),
-            getGroupById = get(),
-            getMusicsByAuthorId = get()
+            getMusicsByAuthorId = get(),
+            getGroup = get()
         )
     }
 

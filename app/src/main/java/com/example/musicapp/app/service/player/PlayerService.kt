@@ -119,11 +119,9 @@ class PlayerService: Service() {
 
     fun setMusicList(list: List<Music>) {
         if (list == musicList.value) {
-            Log.d("RRRR", "RETURN")
             return
         }
 
-        Log.d("RRRR", "SERVICE ADD")
         this.musicList.value = list
 
         updateCurrentObject()

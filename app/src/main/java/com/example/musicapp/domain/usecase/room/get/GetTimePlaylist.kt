@@ -10,6 +10,6 @@ class GetTimePlaylist(
             return -1
         }
 
-        return musicLiteRepository.getTime(playlistId)
+        return 0
     }
 }

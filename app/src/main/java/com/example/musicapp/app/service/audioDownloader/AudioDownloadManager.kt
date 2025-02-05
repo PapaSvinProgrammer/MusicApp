@@ -21,11 +21,15 @@ class AudioDownloadManager(
         val databaseProvider = StandaloneDatabaseProvider(context)
         val cacheDir = File(context.cacheDir, "music_cache")
 
-        downloadCache = SimpleCache(
-            cacheDir,
-            NoOpCacheEvictor(),
-            databaseProvider
-        )
+        try {
+            downloadCache = SimpleCache(
+                cacheDir,
+                NoOpCacheEvictor(),
+                databaseProvider
+            )
+        } catch (e: Exception) {
+
+        }
 
         val dataSourceFactory = DefaultHttpDataSource.Factory()
         val downloadExecutor = Executor(Runnable::run)

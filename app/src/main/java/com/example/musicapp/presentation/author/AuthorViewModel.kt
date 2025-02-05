@@ -12,15 +12,15 @@ import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.getAlbum.GetAlbumsByAuthorId
-import com.example.musicapp.domain.usecase.getGroup.GetGroupById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAuthorId
 import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.domain.usecase.getGroup.GetGroup
 import kotlinx.coroutines.launch
 
 class AuthorViewModel(
-    private val getGroupById: GetGroupById,
     private val getMusicsByAuthorId: GetMusicsByAuthorId,
-    private val getAlbumsByAuthorId: GetAlbumsByAuthorId
+    private val getAlbumsByAuthorId: GetAlbumsByAuthorId,
+    private val getGroup: GetGroup
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
     var playerService: PlayerService? = null
@@ -36,7 +36,7 @@ class AuthorViewModel(
 
     fun getAuthor(authorId: String) {
         viewModelScope.launch {
-            getAuthorLiveData.value = getGroupById.execute(authorId)
+            getAuthorLiveData.value = getGroup.getGroupById(authorId)
         }
     }
 

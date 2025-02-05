@@ -1,40 +1,40 @@
 package com.example.musicapp.domain.usecase.room.get
 
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
-import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.repository.PlaylistRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) {
-    suspend fun getOnlyPlaylists(): List<PlaylistEntity> {
-        return playlistRepository.getOnlyPlaylist()
+    fun getPlaylists(): Flow<List<PlaylistEntity>> {
+        return playlistRepository.getPlaylists()
     }
 
-    suspend fun getOnlyPlaylists(limit: Int): List<PlaylistEntity> {
+    fun getPlaylists(limit: Int): Flow<List<PlaylistEntity>> {
         if (limit <= 0) {
-            return listOf()
+            return flow { listOf<PlaylistEntity>() }
         }
 
-        return playlistRepository.getOnlyPlaylistLimit(limit)
+        return playlistRepository.getPlaylistsLimit(limit)
     }
 
-    suspend fun getById(id: Long): PlaylistResult? {
-        if (id <= 0L) {
+    fun getPlaylistsOrderId(): Flow<List<PlaylistEntity>> {
+        return playlistRepository.getPlaylistsOrderId()
+    }
+
+    fun getPlaylistsOrderName(): Flow<List<PlaylistEntity>> {
+        return playlistRepository.getPlaylistsOrderName()
+    }
+
+    fun getPlaylistsOrderDate(): Flow<List<PlaylistEntity>> {
+        return playlistRepository.getPlaylistsOrderDate()
+    }
+
+    suspend fun getPlaylistById(playlistId: Long): PlaylistEntity? {
+        if (playlistId <= 0L) {
             return null
         }
 
-        return playlistRepository.getById(id)
-    }
-
-    fun getAllOrderId(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllOrderId()
-    }
-
-    fun getAllOrderName(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllOrderName()
-    }
-
-    fun getAllOrderDate(): Flow<List<PlaylistResult>> {
-        return playlistRepository.getAllOrderDate()
+        return playlistRepository.getPlaylistById(playlistId)
     }
 }

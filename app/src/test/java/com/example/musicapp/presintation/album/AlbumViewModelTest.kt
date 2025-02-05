@@ -3,7 +3,6 @@ package com.example.musicapp.presintation.album
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import com.example.musicapp.domain.module.Album
-import com.example.musicapp.domain.usecase.getAlbum.GetAlbumById
 import com.example.musicapp.domain.usecase.getMusic.GetMusicsByAlbumId
 import com.example.musicapp.presentation.album.AlbumViewModel
 import kotlinx.coroutines.runBlocking

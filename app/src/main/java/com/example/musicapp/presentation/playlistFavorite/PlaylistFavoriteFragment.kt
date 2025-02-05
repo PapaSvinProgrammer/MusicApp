@@ -65,21 +65,21 @@ class PlaylistFavoriteFragment: Fragment() {
             )
         }
 
-        viewModel.getMusicResult.observe(viewLifecycleOwner) {
-            musicResultAdapter.setData(it)
-        }
-
-        viewModel.countTextMusicResult.observe(viewLifecycleOwner) { text ->
+        viewModel.countTextMusic.observe(viewLifecycleOwner) { text ->
             binding.appBar.countMusicView.text = text
         }
 
-        viewModel.timePlaylistResult.observe(viewLifecycleOwner) { text ->
+        viewModel.timePlaylist.observe(viewLifecycleOwner) { text ->
             binding.appBar.countTimeView.text = text
         }
 
-        viewModel.searchResult.observe(viewLifecycleOwner) { list ->
+        viewModel.search.observe(viewLifecycleOwner) { list ->
             searchMusicResultAdapter.setData(list)
             binding.searchLayout.searchProgressIndicator.visibility = View.GONE
+        }
+
+        viewModel.musics.observe(viewLifecycleOwner) { list ->
+            musicResultAdapter.setData(list)
         }
 
         binding.appBar.toolbar.setNavigationOnClickListener {
@@ -122,11 +122,15 @@ class PlaylistFavoriteFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        if (viewModel.countTextMusicResult.value == null) {
+        if (viewModel.musics.value == null) {
+            viewModel.getMusics()
+        }
+
+        if (viewModel.countTextMusic.value == null) {
             viewModel.getCount()
         }
 
-        if (viewModel.timePlaylistResult.value == null) {
+        if (viewModel.timePlaylist.value == null) {
             viewModel.getTime()
         }
 

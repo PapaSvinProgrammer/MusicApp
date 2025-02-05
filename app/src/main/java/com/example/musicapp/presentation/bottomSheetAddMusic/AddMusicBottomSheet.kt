@@ -70,7 +70,10 @@ class AddMusicBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun deleteMusicFromPlaylist(item: Music) {
-        viewModel.deleteMusicFromPlaylist(item.id ?: "")
+        viewModel.deleteMusicFromPlaylist(
+            musicId = item.id ?: "",
+            playlistId = playlistId ?: -1L
+        )
     }
 
     private fun addMusicInPlaylist(item: Music) {

@@ -10,7 +10,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 
-class GetCountMusicTest {
+class GetCountMusicInPlaylistMusicTest {
     private val repository = mock<MusicLiteRepository>()
 
     @AfterEach
@@ -19,21 +19,21 @@ class GetCountMusicTest {
     }
 
     @Test
-    fun correctGetCountAll(): Unit = runBlocking {
+    fun correctGetCountMusicInPlaylistAll(): Unit = runBlocking {
         val useCase = GetCountMusic(repository)
         val testResult = 3
 
         Mockito.`when`(repository.getCount()).thenReturn(testResult)
 
         val expected = 3
-        val actual = useCase.getCount()
+        val actual = useCase.getCountMusicInPlaylist()
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getCount()
     }
 
     @Test
-    fun correctGetCountInPlaylist(): Unit = runBlocking {
+    fun correctGetCountMusicInPlaylistInPlaylist(): Unit = runBlocking {
         val useCase = GetCountMusic(repository)
         val testResult = 3
         val testId = 3L
@@ -41,14 +41,14 @@ class GetCountMusicTest {
         Mockito.`when`(repository.getCount(testId)).thenReturn(testResult)
 
         val expected = 3
-        val actual = useCase.getCount(testId)
+        val actual = useCase.getCountMusicInPlaylist(testId)
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getCount(testId)
     }
 
     @Test
-    fun invalidGetCountInPlaylist(): Unit = runBlocking {
+    fun invalidGetCountMusicInPlaylistInPlaylist(): Unit = runBlocking {
         val useCase = GetCountMusic(repository)
         val testResult = 3
         val testId = -2L
@@ -56,7 +56,7 @@ class GetCountMusicTest {
         Mockito.`when`(repository.getCount(testId)).thenReturn(testResult)
 
         val expected = -1
-        val actual = useCase.getCount(testId)
+        val actual = useCase.getCountMusicInPlaylist(testId)
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, never()).getCount(testId)

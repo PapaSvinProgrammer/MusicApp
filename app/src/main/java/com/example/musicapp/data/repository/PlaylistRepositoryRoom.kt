@@ -1,8 +1,8 @@
 package com.example.musicapp.data.repository
 
 import com.example.musicapp.data.room.dao.PlaylistDao
+import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
-import com.example.musicapp.data.room.playlistEntity.PlaylistResult
 import com.example.musicapp.domain.repository.PlaylistRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,15 +19,7 @@ class PlaylistRepositoryRoom(
     override suspend fun delete(id: String) {
         playlistDao.delete(id)
     }
-
-    override suspend fun getById(id: Long): PlaylistResult? {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getById(id)
-        }
-
-        return job.await()
-    }
-
+    
     override suspend fun saveImage(url: String, id: String) {
         playlistDao.saveImage(url, id)
     }
@@ -40,39 +32,51 @@ class PlaylistRepositoryRoom(
         playlistDao.saveName(name, id)
     }
 
-    override suspend fun getCount(): Int {
+    override suspend fun search(text: String): List<PlaylistEntity> {
         return CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getCount()
+            playlistDao.search("%$text%")
         }.await()
     }
 
-    override suspend fun getOnlyPlaylist(): List<PlaylistEntity> {
+    override fun getCountPlaylist(): Flow<Int> {
+        return playlistDao.getCount()
+    }
+
+    override fun getCountMusicInPlaylist(playlistId: Long): Flow<Int> {
+        return playlistDao.getCountMusicInPlaylist(playlistId)
+    }
+
+    override fun getPlaylistsLimit(limit: Int): Flow<List<PlaylistEntity>> {
+        return playlistDao.getOnlyPlaylistLimit(limit)
+    }
+
+    override fun getPlaylists(): Flow<List<PlaylistEntity>> {
+        return playlistDao.getOnlyPlaylist()
+    }
+
+    override suspend fun getPlaylistById(playlistId: Long): PlaylistEntity? {
         return CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getOnlyPlaylist()
+            playlistDao.getPlaylistById(playlistId)
         }.await()
     }
 
-    override suspend fun getOnlyPlaylistLimit(limit: Int): List<PlaylistEntity> {
-        return CoroutineScope(Dispatchers.IO).async {
-            playlistDao.getOnlyPlaylistLimit(limit)
-        }.await()
-    }
-
-    override fun getAllOrderId(): Flow<List<PlaylistResult>> {
+    override fun getPlaylistsOrderId(): Flow<List<PlaylistEntity>> {
         return playlistDao.getAllById()
     }
 
-    override fun getAllOrderName(): Flow<List<PlaylistResult>> {
+    override fun getPlaylistsOrderName(): Flow<List<PlaylistEntity>> {
         return playlistDao.getAllByName()
     }
 
-    override fun getAllOrderDate(): Flow<List<PlaylistResult>> {
+    override fun getPlaylistsOrderDate(): Flow<List<PlaylistEntity>> {
         return playlistDao.getAllByDate()
     }
 
-    override suspend fun search(text: String): List<PlaylistResult> {
-        return CoroutineScope(Dispatchers.IO).async {
-            playlistDao.searchPlaylist("%$text%")
-        }.await()
+    override fun getMusicsPlaylist(playlistId: Long): Flow<List<MusicResult>> {
+        return playlistDao.getMusicsPlaylist(playlistId)
+    }
+
+    override fun getMusicsPlaylist(playlistId: Long, limit: Int): Flow<List<MusicResult>> {
+        return playlistDao.getMusicsPlaylist(playlistId, limit)
     }
 }

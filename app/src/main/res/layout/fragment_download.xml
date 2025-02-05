@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.download.DownloadFragment">
@@ -10,7 +12,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -23,7 +24,7 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="15dp">
@@ -35,18 +36,14 @@
                 android:text="@string/download_music_text"
                 android:fontFamily="@font/accid"
                 android:textSize="25sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_gravity="center_vertical"/>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_chevron_right" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:srcCompat="@drawable/ic_chevron_right"
+                android:layout_gravity="center_vertical|end"/>
+        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -69,7 +66,7 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/music_recycler_view">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="15dp">
@@ -80,18 +77,13 @@
                 style="@style/TextColorOnSurface"
                 android:text="@string/download_album_text"
                 android:fontFamily="@font/accid"
-                android:textSize="25sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:textSize="25sp" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_chevron_right" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:srcCompat="@drawable/ic_chevron_right"
+                android:layout_gravity="end|center_vertical"/>
+        </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

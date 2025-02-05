@@ -34,23 +34,23 @@ class MusicResultAdapter(
         val binding: ItemMusicBinding,
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
-        fun onBind(music: MusicResult?) {
+        fun onBind(music: MusicResult) {
             Glide.with(binding.root)
-                .load(music?.albumEntity?.imageLow)
+                .load(music.albumEntity.imageLow)
                 .error(R.drawable.ic_error_music)
                 .into(binding.musicLayout.imageView)
 
-            binding.musicLayout.musicTextView.text = music?.musicEntity?.name
-            binding.musicLayout.groupTextView.text = music?.authorEntity?.name
+            binding.musicLayout.musicTextView.text = music.musicEntity.name
+            binding.musicLayout.groupTextView.text = music.authorEntity.name
 
-            if (!music?.musicEntity?.movieUrl.isNullOrEmpty()) {
+            if (music.musicEntity.movieUrl.isNotEmpty()) {
                 binding.musicLayout.iconMovieView.visibility = View.VISIBLE
             }
             else {
                 binding.musicLayout.iconMovieView.visibility = View.GONE
             }
 
-            if (music?.saveMusicEntity != null) {
+            if (music.saveMusicEntity != null) {
                 binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
             }
             else {
@@ -58,7 +58,7 @@ class MusicResultAdapter(
             }
 
             PlayerInfo.currentObject.observe(lifecycleOwner) {
-                if (it.id == music?.musicEntity?.firebaseId) {
+                if (it.id == music.musicEntity.firebaseId) {
                     hoveredItem()
                 }
                 else {
@@ -171,7 +171,7 @@ class MusicResultAdapter(
         )
     }
 
-    fun setData(newList: List<MusicResult?>) {
+    fun setData(newList: List<MusicResult>) {
         asyncListDiffer.submitList(newList)
     }
 }

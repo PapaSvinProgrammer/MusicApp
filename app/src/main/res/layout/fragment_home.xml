@@ -9,7 +9,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         style="@style/ToolbarNavigationIconTintColor"
         app:navigationIcon="@drawable/ic_music_fill"
         app:title="@string/app_name"
@@ -49,11 +48,12 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="384dp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/wifi_off_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
+        android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -91,5 +91,5 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

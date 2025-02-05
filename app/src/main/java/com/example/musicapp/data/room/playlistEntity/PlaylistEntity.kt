@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey
 )
 data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     var id: Long,
 
     @ColumnInfo(name = "name_playlist")

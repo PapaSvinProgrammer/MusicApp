@@ -1,5 +1,6 @@
 package com.example.musicapp.data.repository
 
+import com.example.musicapp.app.support.ConvertMusic
 import com.example.musicapp.data.room.dao.MusicDao
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
@@ -10,16 +11,21 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 
 class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
-    override suspend fun add(musicResult: MusicResult) {
+    override suspend fun add(musicResult: MusicResult, playlistId: Long) {
         musicDao.insertAlbum(musicResult.albumEntity)
-
         musicDao.insertAuthor(musicResult.authorEntity)
-
         musicDao.insertMusic(musicResult.musicEntity)
+        musicDao.insertCrossMusicPlaylist(
+            crossPlaylistMusicEntity = ConvertMusic().convertToCrossMusicPlaylist(
+                musicId = musicResult.musicEntity.firebaseId,
+                playlistId = playlistId
+            )
+        )
     }
 
-    override suspend fun delete(id: String) {
+    override suspend fun delete(id: String, playlistId: Long) {
         musicDao.deleteMusicById(id)
+        musicDao.deleteFromCrossPlaylistMusic(id, playlistId)
     }
 
     override suspend fun findMusicById(firebaseId: String): MusicResult? {
@@ -30,85 +36,20 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         return job.await()
     }
 
-    override suspend fun findMusicByIdFromPlaylist(
-        musicFirebaseId: String,
-        playlistId: Long
-    ): MusicResult? {
-        return CoroutineScope(Dispatchers.IO).async {
-            musicDao.getMusicByIdFromPlaylist(
-                musicFirebaseId = musicFirebaseId,
-                playlistId = playlistId
-            )
-        }.await()
+    override fun getMusicLimit(limit: Int): Flow<List<MusicResult>> {
+        return musicDao.getMusicLimit(limit)
     }
 
-    override suspend fun getMusicLimit(limit: Int): List<MusicResult> {
-       val job = CoroutineScope(Dispatchers.IO).async {
-           musicDao.getMusicLimit(limit)
-       }
-
-        return job.await()
+    override fun getAuthorLimit(limit: Int): Flow<List<AuthorEntity>> {
+        return musicDao.getAuthorLimit(limit)
     }
 
-    override suspend fun getAuthorLimit(limit: Int): List<AuthorEntity> {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getAuthorLimit(limit)
-        }
-
-        return job.await()
+    override fun getAllMusic(): Flow<List<MusicResult>> {
+        return musicDao.getAll()
     }
 
-    override suspend fun getAllMusic(): List<MusicResult> {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getAll()
-        }
-
-        return job.await()
-    }
-
-    override fun getAllMusicFromPlaylist(playlistId: Long): Flow<List<MusicResult>> {
-        return musicDao.getAllFromPlaylist(playlistId)
-    }
-
-    override suspend fun getAllMusicFromPlaylist(playlistId: Long, limit: Int): List<MusicResult> {
-        return CoroutineScope(Dispatchers.IO).async {
-            musicDao.getAllFromPlaylist(
-                playlistId = playlistId,
-                limit = limit
-            )
-        }.await()
-    }
-
-    override suspend fun getAllAuthor(): List<AuthorEntity> {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getAllAuthor()
-        }
-
-        return job.await()
-    }
-
-    override suspend fun getCount(playlistId: Long): Int {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getCount(playlistId)
-        }
-
-        return job.await()
-    }
-
-    override suspend fun getCount(): Int {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getCount(1L)
-        }
-
-        return job.await()
-    }
-
-    override suspend fun getTime(playlistId: Long): Long {
-        val job = CoroutineScope(Dispatchers.IO).async {
-            musicDao.getTime(playlistId)
-        }
-
-        return job.await()
+    override fun getAllAuthor(): Flow<List<AuthorEntity>> {
+        return  musicDao.getAllAuthor()
     }
 
     override suspend fun searchMusic(text: String): List<MusicResult> {

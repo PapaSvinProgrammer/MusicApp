@@ -4,10 +4,11 @@ import com.example.musicapp.data.room.musicEntity.AlbumEntity
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
+import com.example.musicapp.data.room.playlistEntity.CrossPlaylistMusicEntity
 import com.example.musicapp.domain.module.Music
 
 class ConvertMusic {
-    fun convertToMusicResult(music: Music, playlistId: Long): MusicResult {
+    fun convertToMusicResult(music: Music): MusicResult {
         val album = AlbumEntity(
             firebaseId = music.albumId.toString(),
             name = music.albumName.toString(),
@@ -26,7 +27,6 @@ class ConvertMusic {
             id = 0,
             firebaseId = music.id.toString(),
             name = music.name.toString(),
-            playlistId = playlistId,
             albumId = music.albumId.toString(),
             authorId = music.groupId.toString(),
             url = music.url.toString(),
@@ -39,6 +39,13 @@ class ConvertMusic {
             albumEntity = album,
             authorEntity = author,
             saveMusicEntity = null
+        )
+    }
+
+    fun convertToCrossMusicPlaylist(musicId: String, playlistId: Long): CrossPlaylistMusicEntity {
+        return CrossPlaylistMusicEntity(
+            musicId = musicId,
+            playlistId = playlistId
         )
     }
 }

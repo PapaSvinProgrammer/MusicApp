@@ -11,7 +11,8 @@ class AddMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
         }
 
         musicLiteRepository.add(
-            ConvertMusic().convertToMusicResult(music, playlistId)
+            musicResult = ConvertMusic().convertToMusicResult(music),
+            playlistId = playlistId
         )
     }
 }

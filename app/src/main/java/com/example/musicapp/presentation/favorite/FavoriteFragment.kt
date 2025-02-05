@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class FavoriteFragment: Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+        binding.artistRecyclerView.adapter = authorAdapter
 
         requireActivity().apply {
             bindService(
@@ -65,7 +67,6 @@ class FavoriteFragment: Fragment() {
         viewModel.getAuthorResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 authorAdapter.setData(list)
-                binding.artistRecyclerView.adapter = authorAdapter
             }
         }
 

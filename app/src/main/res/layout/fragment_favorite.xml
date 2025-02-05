@@ -14,7 +14,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         app:title="@string/collection_text"
         app:titleCentered="true"
         app:menu="@menu/top_app_bar_search"
@@ -161,7 +160,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent">
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
@@ -171,13 +170,10 @@
                                     android:layout_height="35dp"
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
-                                    android:visibility="gone"
                                     app:shapeAppearance="@style/ImageCornerRadius4dp"
+                                    android:visibility="gone"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/playlist_image_front"
@@ -185,13 +181,10 @@
                                     android:layout_height="35dp"
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
-                                    android:visibility="gone"
                                     app:shapeAppearance="@style/ImageCornerRadius4dp"
+                                    android:visibility="gone"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/playlist_image_default"
@@ -199,8 +192,9 @@
                                     android:layout_height="match_parent"
                                     android:layout_margin="10dp"
                                     app:shapeAppearance="@style/ImageCornerRadius4dp"
+                                    android:visibility="gone"
                                     android:scaleType="centerCrop" />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            </FrameLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -253,7 +247,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent">
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
@@ -264,10 +258,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
                                     android:visibility="gone"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/album_image_front"
@@ -276,10 +267,7 @@
                                     android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:visibility="gone"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:layout_width="match_parent"
@@ -287,7 +275,7 @@
                                     android:layout_margin="10dp"
                                     style="@style/IconBottomSheetColor"
                                     app:srcCompat="@drawable/ic_album"/>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            </FrameLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -340,7 +328,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent">
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
@@ -352,10 +340,7 @@
                                     android:layout_marginStart="10dp"
                                     android:visibility="gone"
                                     app:shapeAppearance="@style/ImageCornerRadius4dp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/downloaded_image_front"
@@ -365,10 +350,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:visibility="gone"
                                     app:shapeAppearance="@style/ImageCornerRadius4dp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"/>
+                                    android:layout_gravity="center"/>
 
                                 <com.google.android.material.imageview.ShapeableImageView
                                     android:id="@+id/downloaded_image_default"
@@ -385,7 +367,7 @@
                                     android:layout_margin="10dp"
                                     style="@style/IconBottomSheetColor"
                                     app:srcCompat="@drawable/ic_download"/>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            </FrameLayout>
                         </com.google.android.material.card.MaterialCardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -399,7 +381,7 @@
                 app:strokeWidth="0dp"
                 app:cardCornerRadius="0dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp">
@@ -411,17 +393,14 @@
                         android:fontFamily="@font/accid"
                         android:text="@string/favorite_artist_text"
                         android:textSize="25sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_gravity="center_vertical" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_chevron_right" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_chevron_right"
+                        android:layout_gravity="end|center_vertical"/>
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView

@@ -2,15 +2,17 @@ package com.example.musicapp.domain.usecase.room.get
 
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.domain.repository.MusicLiteRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class GetAuthorsFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
-    suspend fun execute(): List<AuthorEntity> {
+    fun execute(): Flow<List<AuthorEntity>> {
         return musicLiteRepository.getAllAuthor()
     }
 
-    suspend fun execute(limit: Int): List<AuthorEntity> {
+    fun execute(limit: Int): Flow<List<AuthorEntity>> {
         if (limit <= 0) {
-            return listOf()
+            return flow { listOf<AuthorEntity>() }
         }
 
         return musicLiteRepository.getAuthorLimit(limit)

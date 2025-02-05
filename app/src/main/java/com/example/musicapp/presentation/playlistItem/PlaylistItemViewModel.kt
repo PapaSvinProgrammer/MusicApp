@@ -3,68 +3,69 @@ package com.example.musicapp.presentation.playlistItem
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.room.playlistEntity.PlaylistResult
+import com.example.musicapp.data.room.musicEntity.MusicResult
+import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.usecase.room.delete.DeletePlaylistFromSQLite
-import com.example.musicapp.domain.usecase.room.get.GetMusicFromSQLite
+import com.example.musicapp.domain.usecase.room.get.GetCountMusic
+import com.example.musicapp.domain.usecase.room.get.GetMusicsFromPlaylistSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistImage
 import com.example.musicapp.domain.usecase.room.update.UpdatePlaylistName
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-
-private const val DEFAULT_PLAYLIST_ID = -1L
 
 class PlaylistItemViewModel(
     private val getPlaylistFromSQLite: GetPlaylistFromSQLite,
     private val updatePlaylistName: UpdatePlaylistName,
     private val updatePlaylistImage: UpdatePlaylistImage,
     private val deletePlaylistFromSQLite: DeletePlaylistFromSQLite,
-    private val getMusicFromSQLite: GetMusicFromSQLite
+    private val getMusicsFromPlaylistSQLite: GetMusicsFromPlaylistSQLite,
+    private val getCountMusic: GetCountMusic
 ): ViewModel() {
-    private val getPlaylistLiveData = MutableLiveData<PlaylistResult?>()
-    private val convertTextCountLiveData = MutableLiveData<String>()
-    private val deletePlaylistLiveData = MutableLiveData<Boolean>()
-    private val getMusicFlowState = MutableStateFlow(DEFAULT_PLAYLIST_ID)
+    private val _getPlaylist = MutableLiveData<PlaylistEntity>()
+    private val _convertTextCount = MutableLiveData<String>()
+    private val _deletePlaylist = MutableLiveData<Boolean>()
+    private val _musics = MutableLiveData<List<MusicResult>>()
+    private val _countMusicInPlaylist = MutableLiveData<Int>()
 
-    val getPlaylistResult: LiveData<PlaylistResult?> = getPlaylistLiveData
-    val convertTextCountResult = convertTextCountLiveData
-    val deletePlaylistResult: LiveData<Boolean> = deletePlaylistLiveData
+    val getPlaylist: LiveData<PlaylistEntity> = _getPlaylist
+    val convertTextCount: LiveData<String> = _convertTextCount
+    val deletePlaylist: LiveData<Boolean> = _deletePlaylist
+    val musics: LiveData<List<MusicResult>> = _musics
+    val countMusicInPlaylist: LiveData<Int> = _countMusicInPlaylist
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    var getMusicResult = getMusicFlowState.flatMapLatest {
-        getMusicFromSQLite.getAllMusicFromPlaylist(it)
-    }.asLiveData()
+    var isEmptyImage = false
 
-    fun getMusic(playlistId: Long) {
-        getMusicFlowState.value = playlistId
+    fun getPlaylist(playlistId: Long) {
+        viewModelScope.launch {
+            _getPlaylist.value = getPlaylistFromSQLite.getPlaylistById(playlistId)
+        }
     }
 
-    fun getPlaylist(id: Long) {
+    fun getMusicsFromPlaylist(playlistId: Long) {
         viewModelScope.launch {
-            getPlaylistLiveData.value = getPlaylistFromSQLite.getById(id)
+            getMusicsFromPlaylistSQLite.getMusicsFromPlaylist(playlistId).collect {
+                _musics.value = it
+            }
         }
     }
 
     fun deletePlaylist() {
         viewModelScope.launch(Dispatchers.IO) {
             deletePlaylistFromSQLite.execute(
-                id = getPlaylistLiveData.value?.playlistEntity?.id ?: -1L
+                id = _getPlaylist.value?.id ?: -1L
             )
         }
 
-        deletePlaylistLiveData.value = true
+        _deletePlaylist.value = true
     }
 
     fun saveName(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             updatePlaylistName.execute(
                 name = name,
-                id = getPlaylistLiveData.value?.playlistEntity?.id ?: -1L
+                id = _getPlaylist.value?.id ?: -1L
             )
         }
     }
@@ -73,7 +74,7 @@ class PlaylistItemViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             updatePlaylistImage.saveImage(
                 url = uri,
-                id = getPlaylistLiveData.value?.playlistEntity?.id ?: -1L
+                id = _getPlaylist.value?.id ?: -1L
             )
         }
     }
@@ -81,8 +82,16 @@ class PlaylistItemViewModel(
     fun deleteImage() {
         viewModelScope.launch(Dispatchers.IO) {
             updatePlaylistImage.deleteImage(
-                id = getPlaylistResult.value?.playlistEntity?.id ?: -1L
+                id = getPlaylist.value?.id ?: -1L
             )
+        }
+    }
+
+    fun getCountMusicInPlaylist(playlistId: Long) {
+        viewModelScope.launch {
+            getCountMusic.getCountMusicInPlaylist(playlistId).collect {
+                _countMusicInPlaylist.value = it
+            }
         }
     }
 }

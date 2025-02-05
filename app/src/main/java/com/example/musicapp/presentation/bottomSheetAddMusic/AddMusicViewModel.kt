@@ -8,6 +8,7 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
 import com.example.musicapp.domain.usecase.search.searchFirebase.SearchMusic
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddMusicViewModel(
@@ -25,7 +26,7 @@ class AddMusicViewModel(
     }
 
     fun addMusicInPlaylist(music: Music, playlistId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             addMusicInSQLite.execute(
                 music = music,
                 playlistId = playlistId
@@ -33,9 +34,9 @@ class AddMusicViewModel(
         }
     }
 
-    fun deleteMusicFromPlaylist(musicId: String) {
-        viewModelScope.launch {
-            deleteMusicFromSQLite.execute(musicId)
+    fun deleteMusicFromPlaylist(musicId: String, playlistId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteMusicFromSQLite.execute(musicId, playlistId)
         }
     }
 }

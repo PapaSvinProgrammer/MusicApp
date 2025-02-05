@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.room.playlistEntity.PlaylistResult
+import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.domain.usecase.room.add.AddPlaylistInSQLite
 import com.example.musicapp.domain.usecase.room.get.GetPlaylistFromSQLite
@@ -23,17 +23,17 @@ class PlaylistViewModel(
     private val searchPlaylistLocal: SearchPlaylistLocal
 ): ViewModel() {
     private val filterFlowState = MutableStateFlow(FilterState.BY_DEFAULT)
-    private val searchLiveData = MutableLiveData<List<PlaylistResult?>>()
+    private val searchLiveData = MutableLiveData<List<PlaylistEntity>>()
 
     val filterFlowStateResult: StateFlow<FilterState> = filterFlowState
-    val searchResult: LiveData<List<PlaylistResult?>> = searchLiveData
+    val searchResult: LiveData<List<PlaylistEntity>> = searchLiveData
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val getPlaylistResult = filterFlowState.flatMapLatest {
         when (it) {
-            FilterState.BY_NAME -> getPlaylistFromSQLite.getAllOrderName()
-            FilterState.BY_DATE -> getPlaylistFromSQLite.getAllOrderDate()
-            else -> getPlaylistFromSQLite.getAllOrderId()
+            FilterState.BY_NAME -> getPlaylistFromSQLite.getPlaylistsOrderName()
+            FilterState.BY_DATE -> getPlaylistFromSQLite.getPlaylistsOrderDate()
+            else -> getPlaylistFromSQLite.getPlaylistsOrderId()
         }
     }.asLiveData()
 
@@ -52,9 +52,7 @@ class PlaylistViewModel(
 
     fun search(text: String) {
         viewModelScope.launch {
-            searchLiveData.value = searchPlaylistLocal.execute(
-                text = text
-            )
+            searchLiveData.value = searchPlaylistLocal.execute(text)
         }
     }
 }

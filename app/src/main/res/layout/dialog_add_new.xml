@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="Название"
+        android:hint="@string/title_text"
         app:errorEnabled="true"
         app:layout_constraintTop_toTopOf="parent">
 

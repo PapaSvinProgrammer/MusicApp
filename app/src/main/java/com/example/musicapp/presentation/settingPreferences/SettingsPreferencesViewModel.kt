@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.domain.module.Group
-import com.example.musicapp.domain.usecase.getGroup.GetGroupAll
+import com.example.musicapp.domain.usecase.getGroup.GetGroup
 import com.example.musicapp.domain.usecase.getGroup.GetGroupWithFilterOnGenres
 import com.example.musicapp.domain.usecase.search.searchFirebase.SearchGroup
 import kotlinx.coroutines.launch
 
 class SettingsPreferencesViewModel(
-    private val getGroupAll: GetGroupAll,
+    private val getGroup: GetGroup,
     private val getGroupWithFilterOnGenres: GetGroupWithFilterOnGenres,
     private val searchGroup: SearchGroup
 ): ViewModel() {
@@ -45,7 +45,7 @@ class SettingsPreferencesViewModel(
 
     fun getGroup() {
         viewModelScope.launch {
-            getGroupLiveData.value = getGroupAll.execute()
+            getGroupLiveData.value = getGroup.getGroupAll()
         }
     }
 
