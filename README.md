@@ -12,7 +12,7 @@ To get acquainted with the functionality of the application:
 
 ## Technologies used
 **List of technologies**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
-LiveData, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
+LiveData, Flow, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
 Coroutines, ExoPlayer, Glide, Lottie, Yandex auth SDK, VKID auth SDK, Google auth SDK, Yandex Cloud, Download Manager, Creational pattern.
 
 **Music and clip files are stored** using the Yandex Cloud service, **the database** is implemented using Firebase Firestore.
