@@ -10,7 +10,7 @@
 - [Диаграмма со всеми основными методами](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link), выполняющие основные функции приложения.
 ## Используемые технологии
 **Список технологий**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
-LiveData, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
+LiveData, Flow, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
 Coroutines, ExoPlayer, Glide, Lottie, Yandex auth SDK, VKID auth SDK, Google auth SDK, Yandex Cloud, Download Manager, Creational pattern.
 
 **Файлы музыки и клипов хранятся** при помощи сервиса Yandex Cloud, **база данных** реализована с помощью Firebase Firestore.
