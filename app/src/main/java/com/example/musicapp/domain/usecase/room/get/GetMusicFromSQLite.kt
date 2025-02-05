@@ -13,7 +13,7 @@ class GetMusicFromSQLite(private val musicLiteRepository: MusicLiteRepository) {
 
     fun getAllMusic(limit: Int): Flow<List<MusicResult>> {
         if (limit <= 0) {
-            return flow { listOf<MusicResult>() }
+            return flow { emit(listOf()) }
         }
         return musicLiteRepository.getMusicLimit(limit)
     }

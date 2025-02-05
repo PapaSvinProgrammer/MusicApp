@@ -37,5 +37,5 @@ data class MusicEntity(
     val movieUrl: String,
 
     @ColumnInfo(name = "music_time")
-    val time: Long
+    val time: Int
 )

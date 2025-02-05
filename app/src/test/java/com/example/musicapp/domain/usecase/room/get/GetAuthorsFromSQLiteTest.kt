@@ -2,7 +2,10 @@ package com.example.musicapp.domain.usecase.room.get
 
 import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.domain.repository.MusicLiteRepository
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -20,23 +23,31 @@ class GetAuthorsFromSQLiteTest {
     }
 
     @Test
-    fun correctGetAll(): Unit = runBlocking {
+    fun `correct get all`(): Unit = runTest {
         val useCase = GetAuthorsFromSQLite(repository)
-        val testResult = generateItems()
+        val testResult = flow<List<AuthorEntity>> { generateItems() }
 
         Mockito.`when`(repository.getAllAuthor()).thenReturn(testResult)
 
-        val expected = generateItems()
-        val actual = useCase.execute()
+        var expected = listOf<AuthorEntity>()
+        var actual = listOf<AuthorEntity>()
+
+        testResult.take(1).collect {
+            expected = it
+        }
+
+        useCase.execute().take(1).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getAllAuthor()
     }
 
     @Test
-    fun correctGetLimit(): Unit = runBlocking {
+    fun `correct get limit`(): Unit = runBlocking {
         val useCase = GetAuthorsFromSQLite(repository)
-        val testResult = generateItems()
+        val testResult = flow { emit(generateItems()) }
         val testLimit = 2
 
         Mockito.`when`(
@@ -46,16 +57,20 @@ class GetAuthorsFromSQLiteTest {
         ).thenReturn(testResult)
 
         val expected = generateItems()
-        val actual = useCase.execute(testLimit)
+        var actual = listOf<AuthorEntity>()
+
+        useCase.execute(testLimit).take(1).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getAuthorLimit(testLimit)
     }
 
     @Test
-    fun invalidGetLimit(): Unit = runBlocking {
+    fun `invalid get limit`(): Unit = runBlocking {
         val useCase = GetAuthorsFromSQLite(repository)
-        val testResult = generateItems()
+        val testResult = flow<List<AuthorEntity>> { generateItems() }
         val testLimit = -7
 
         Mockito.`when`(
@@ -65,7 +80,11 @@ class GetAuthorsFromSQLiteTest {
         ).thenReturn(testResult)
 
         val expected = listOf<AuthorEntity>()
-        val actual = useCase.execute(testLimit)
+        var actual = listOf<AuthorEntity>()
+
+        useCase.execute(testLimit).take(1).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, never()).getAuthorLimit(testLimit)

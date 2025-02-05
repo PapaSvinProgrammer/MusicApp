@@ -1,6 +1,8 @@
 package com.example.musicapp.domain.usecase.room.get
 
-import com.example.musicapp.domain.repository.MusicLiteRepository
+import com.example.musicapp.domain.repository.PlaylistRepository
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -10,8 +12,8 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 
-class GetCountMusicInPlaylistMusicTest {
-    private val repository = mock<MusicLiteRepository>()
+class GetCountMusicTest {
+    private val repository = mock<PlaylistRepository>()
 
     @AfterEach
     fun after() {
@@ -19,46 +21,40 @@ class GetCountMusicInPlaylistMusicTest {
     }
 
     @Test
-    fun correctGetCountMusicInPlaylistAll(): Unit = runBlocking {
+    fun `correct get count music in playlist` (): Unit = runBlocking {
         val useCase = GetCountMusic(repository)
-        val testResult = 3
+        val testId = 2L
+        val testResult = flow { emit(2) }
 
-        Mockito.`when`(repository.getCount()).thenReturn(testResult)
+        Mockito.`when`(repository.getCountMusicInPlaylist(testId)).thenReturn(testResult)
 
-        val expected = 3
-        val actual = useCase.getCountMusicInPlaylist()
+        val expected = 2
+        var actual = -2
+
+        useCase.getCountMusicInPlaylist(testId).take(1).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getCount()
+        Mockito.verify(repository, times(1)).getCountMusicInPlaylist(testId)
     }
 
     @Test
-    fun correctGetCountMusicInPlaylistInPlaylist(): Unit = runBlocking {
+    fun `invalid get count music in playlist` (): Unit = runBlocking {
         val useCase = GetCountMusic(repository)
-        val testResult = 3
-        val testId = 3L
-
-        Mockito.`when`(repository.getCount(testId)).thenReturn(testResult)
-
-        val expected = 3
-        val actual = useCase.getCountMusicInPlaylist(testId)
-
-        Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getCount(testId)
-    }
-
-    @Test
-    fun invalidGetCountMusicInPlaylistInPlaylist(): Unit = runBlocking {
-        val useCase = GetCountMusic(repository)
-        val testResult = 3
         val testId = -2L
+        val testResult = flow { emit(2) }
 
-        Mockito.`when`(repository.getCount(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.getCountMusicInPlaylist(testId)).thenReturn(testResult)
 
         val expected = -1
-        val actual = useCase.getCountMusicInPlaylist(testId)
+        var actual = -2
+
+        useCase.getCountMusicInPlaylist(testId).take(1).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, never()).getCount(testId)
+        Mockito.verify(repository, never()).getCountMusicInPlaylist(testId)
     }
 }

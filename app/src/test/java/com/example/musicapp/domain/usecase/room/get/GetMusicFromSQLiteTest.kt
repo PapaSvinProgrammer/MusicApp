@@ -2,6 +2,8 @@ package com.example.musicapp.domain.usecase.room.get
 
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.repository.MusicLiteRepository
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -22,44 +24,53 @@ class GetMusicFromSQLiteTest {
     }
 
     @Test
-    fun correctGetAll(): Unit = runBlocking {
+    fun `correct get all`(): Unit = runBlocking {
         val useCase = GetMusicFromSQLite(repository)
-        val testResult = listOf(musicResult, musicResult)
+        val testResult = flowOf(listOf(musicResult, musicResult))
 
         Mockito.`when`(repository.getAllMusic()).thenReturn(testResult)
 
         val expected = listOf(musicResult, musicResult)
-        val actual = useCase.getAllMusic()
+        var actual = listOf<MusicResult>()
+
+        useCase.getAllMusic().collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getAllMusic()
     }
 
     @Test
-    fun correctGetLimit(): Unit = runBlocking {
+    fun `correct get limit`(): Unit = runBlocking {
         val useCase = GetMusicFromSQLite(repository)
-        val testResult = listOf(musicResult, musicResult)
+        val testResult = flowOf(listOf(musicResult, musicResult))
         val testLimit = 2
 
         Mockito.`when`(repository.getMusicLimit(testLimit)).thenReturn(testResult)
 
         val expected = listOf(musicResult, musicResult)
-        val actual = useCase.getAllMusic(testLimit)
+        var actual = listOf<MusicResult>()
+
+        useCase.getAllMusic(testLimit).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, times(1)).getMusicLimit(testLimit)
     }
 
     @Test
-    fun invalidGetLimit(): Unit = runBlocking {
+    fun `invalid get limit`(): Unit = runBlocking {
         val useCase = GetMusicFromSQLite(repository)
-        val testResult = listOf(musicResult, musicResult)
         val testLimit = -1
 
-        Mockito.`when`(repository.getMusicLimit(testLimit)).thenReturn(testResult)
-
         val expected = listOf<MusicResult>()
-        val actual = useCase.getAllMusic(testLimit)
+        var actual: List<MusicResult>? = null
+
+        useCase.getAllMusic(testLimit).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
         Mockito.verify(repository, never()).getMusicLimit(testLimit)

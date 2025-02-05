@@ -31,16 +31,12 @@ interface PlaylistDao {
     fun getOnlyPlaylistLimit(limit: Int): Flow<List<PlaylistEntity>>
 
     @Transaction
-    @Query("SELECT * FROM playlists ORDER BY id DESC")
-    fun getOnlyPlaylist(): Flow<List<PlaylistEntity>>
-
-    @Transaction
     @Query("SELECT * FROM playlists WHERE id = :playlistId")
     fun getPlaylistById(playlistId: Long): PlaylistEntity?
 
     @Query("SELECT * FROM music " +
             "JOIN cross_playlist_and_music ON cross_playlist_and_music.playlist_id = :playlistId " +
-            "AND music.firebase_id =  cross_playlist_and_music.music_id " +
+            "AND music.firebase_id = cross_playlist_and_music.music_id " +
             "ORDER BY id DESC")
     fun getMusicsPlaylist(playlistId: Long): Flow<List<MusicResult>>
 
@@ -67,6 +63,11 @@ interface PlaylistDao {
 
     @Query("SELECT COUNT(*) FROM playlists")
     fun getCount(): Flow<Int>
+
+    @Query("SELECT SUM(music_time) FROM music " +
+            "JOIN cross_playlist_and_music ON cross_playlist_and_music.playlist_id = :playlistId " +
+            "AND music.firebase_id = cross_playlist_and_music.music_id")
+    fun getTime(playlistId: Long): Flow<Int>
 
     @Query("SELECT COUNT(*) FROM cross_playlist_and_music WHERE playlist_id = :playlistId")
     fun getCountMusicInPlaylist(playlistId: Long): Flow<Int>

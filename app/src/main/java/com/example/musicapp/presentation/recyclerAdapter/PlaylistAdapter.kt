@@ -14,15 +14,22 @@ import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.app.support.convertTextCount.ConvertAnyText
 import com.example.musicapp.app.support.convertTextCount.ConvertTextCountImpl
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
+import com.example.musicapp.domain.usecase.room.get.GetCountMusic
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class PlaylistAdapter(
     private val navController: NavController
-): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+): RecyclerView.Adapter<PlaylistAdapter.ViewHolder>(), KoinComponent {
     companion object {
         const val ALBUM_KEY = "AlbumKey"
     }
 
     private val convertTextCount = ConvertTextCountImpl(ConvertAnyText())
+    private val getCountMusic: GetCountMusic by inject()
 
     inner class ViewHolder(val binding: ItemPlaylistBinding): RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
@@ -34,6 +41,12 @@ class PlaylistAdapter(
 
             binding.nameView.text = item.name
             binding.dateView.text = item.date
+
+            CoroutineScope(Dispatchers.Main).launch {
+                getCountMusic.getCountMusicInPlaylist(item.id).collect {
+                    binding.countView.text = "$it ${convertTextCount.convertMusic(it)}"
+                }
+            }
         }
     }
 

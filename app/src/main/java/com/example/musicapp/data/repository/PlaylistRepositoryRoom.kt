@@ -46,12 +46,12 @@ class PlaylistRepositoryRoom(
         return playlistDao.getCountMusicInPlaylist(playlistId)
     }
 
-    override fun getPlaylistsLimit(limit: Int): Flow<List<PlaylistEntity>> {
-        return playlistDao.getOnlyPlaylistLimit(limit)
+    override fun getTimePlaylist(playlistId: Long): Flow<Int> {
+        return playlistDao.getTime(playlistId)
     }
 
-    override fun getPlaylists(): Flow<List<PlaylistEntity>> {
-        return playlistDao.getOnlyPlaylist()
+    override fun getPlaylistsLimit(limit: Int): Flow<List<PlaylistEntity>> {
+        return playlistDao.getOnlyPlaylistLimit(limit)
     }
 
     override suspend fun getPlaylistById(playlistId: Long): PlaylistEntity? {

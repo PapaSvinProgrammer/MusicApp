@@ -6,13 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetPlaylistFromSQLite(private val playlistRepository: PlaylistRepository) {
-    fun getPlaylists(): Flow<List<PlaylistEntity>> {
-        return playlistRepository.getPlaylists()
-    }
-
     fun getPlaylists(limit: Int): Flow<List<PlaylistEntity>> {
         if (limit <= 0) {
-            return flow { listOf<PlaylistEntity>() }
+            return flow { emit(listOf()) }
         }
 
         return playlistRepository.getPlaylistsLimit(limit)

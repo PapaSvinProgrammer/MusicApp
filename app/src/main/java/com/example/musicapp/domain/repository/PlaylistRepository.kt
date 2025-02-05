@@ -15,9 +15,9 @@ interface PlaylistRepository {
 
     fun getCountPlaylist(): Flow<Int>
     fun getCountMusicInPlaylist(playlistId: Long): Flow<Int>
+    fun getTimePlaylist(playlistId: Long): Flow<Int>
 
     fun getPlaylistsLimit(limit: Int): Flow<List<PlaylistEntity>>
-    fun getPlaylists(): Flow<List<PlaylistEntity>>
     suspend fun getPlaylistById(playlistId: Long): PlaylistEntity?
 
     fun getPlaylistsOrderId(): Flow<List<PlaylistEntity>>

@@ -320,7 +320,7 @@ val domainModule = module {
 
     factory {
         GetTimePlaylist(
-            musicLiteRepository = get()
+            playlistRepository = get()
         )
     }
 

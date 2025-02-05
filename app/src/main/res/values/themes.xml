@@ -23,7 +23,11 @@
     </declare-styleable>
 
     <style name="BackgroundColorContainer">
-        <item name="android:backgroundTint">#ECE6F0</item>
+        <item name="android:backgroundTint">@color/surface_container_high_light</item>
+    </style>
+
+    <style name="BackgroundColorSurfaceContainer">
+        <item name="android:backgroundTint">@color/on_surface_container_light</item>
     </style>
 
     <style name="IconTintColor">

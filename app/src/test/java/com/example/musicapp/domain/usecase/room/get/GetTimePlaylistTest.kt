@@ -1,6 +1,7 @@
 package com.example.musicapp.domain.usecase.room.get
 
-import com.example.musicapp.domain.repository.MusicLiteRepository
+import com.example.musicapp.domain.repository.PlaylistRepository
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -11,7 +12,7 @@ import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 
 class GetTimePlaylistTest {
-    private val repository = mock<MusicLiteRepository>()
+    private val repository = mock<PlaylistRepository>()
 
     @AfterEach
     fun after() {
@@ -19,32 +20,40 @@ class GetTimePlaylistTest {
     }
 
     @Test
-    fun correctGetTime(): Unit = runBlocking {
+    fun `correct get time`(): Unit = runBlocking {
         val useCase = GetTimePlaylist(repository)
-        val testResult = 24L
         val testId = 2L
+        val testResult = flowOf(232)
 
-        Mockito.`when`(repository.getTime(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.getTimePlaylist(testId)).thenReturn(testResult)
 
-        val expected = 24L
-        val actual = useCase.getTime(testId)
+        val expected = 232
+        var actual = 0
+
+        useCase.getTime(testId).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).getTime(testId)
+        Mockito.verify(repository, times(1)).getTimePlaylist(testId)
     }
 
     @Test
-    fun invalidGetTime(): Unit = runBlocking {
+    fun `invalid get time`(): Unit = runBlocking {
         val useCase = GetTimePlaylist(repository)
-        val testResult = 24L
         val testId = -2L
+        val testResult = flowOf(232)
 
-        Mockito.`when`(repository.getTime(testId)).thenReturn(testResult)
+        Mockito.`when`(repository.getTimePlaylist(testId)).thenReturn(testResult)
 
-        val expected = -1L
-        val actual = useCase.getTime(testId)
+        val expected = -1
+        var actual = 0
+
+        useCase.getTime(testId).collect {
+            actual = it
+        }
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, never()).getTime(testId)
+        Mockito.verify(repository, never()).getTimePlaylist(testId)
     }
 }

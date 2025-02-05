@@ -107,7 +107,7 @@ class MusicBottomSheetViewModel(
         servicePlayer?.addToQueue(music)
     }
 
-    fun convertTime(time: Long) {
+    fun convertTime(time: Int) {
         convertTimeLiveData.value = ConvertTime().convertInMinSec(time)
     }
 

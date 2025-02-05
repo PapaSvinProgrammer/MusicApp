@@ -16,7 +16,7 @@ data class Music(
     val imageLow: String? = null,
     val movieUrl: String? = null,
     val name: String? = null,
-    val time: Long = 0,
+    val time: Int = 0,
     val url: String? = null
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -31,7 +31,7 @@ data class Music(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readLong(),
+        parcel.readInt(),
         parcel.readString()
     )
 
@@ -46,7 +46,7 @@ data class Music(
         parcel.writeString(imageLow)
         parcel.writeString(movieUrl)
         parcel.writeString(name)
-        parcel.writeLong(time)
+        parcel.writeInt(time)
         parcel.writeString(url)
         parcel.writeMap(extraGroup)
     }

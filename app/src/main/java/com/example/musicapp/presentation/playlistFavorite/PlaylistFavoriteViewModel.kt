@@ -12,6 +12,7 @@ import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.app.support.convertTextCount.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetCountMusic
 import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.app.support.ConvertTime
 import com.example.musicapp.domain.usecase.room.get.GetMusicsFromPlaylistSQLite
 import com.example.musicapp.domain.usecase.room.get.GetTimePlaylist
 import com.example.musicapp.domain.usecase.search.searchSQLite.SearchMusicLocal
@@ -59,26 +60,9 @@ class PlaylistFavoriteViewModel(
     @SuppressLint("DefaultLocale")
     fun getTime() {
         viewModelScope.launch {
-            val time = getTimePlaylist.getTime(1L)
-            val localTime: String
-
-            if (time > 86400) {
-                localTime = String.format(
-                    "%d:%02d:%02d",
-                    time / 86400,
-                    (time / 3600) % 24,
-                    (time % 3600) / 60
-                )
+            getTimePlaylist.getTime(DEFAULT_PLAYLIST_ID).collect {
+                _timePlaylist.value = ConvertTime().convertInMinSec(it)
             }
-            else {
-                localTime = String.format(
-                    "%d:%02d",
-                    time / 3600,
-                    (time % 3600) / 60
-                )
-            }
-
-            _timePlaylist.value = localTime + convertTextCount.convertTime((time / 3600 % 24).toInt())
         }
     }
 

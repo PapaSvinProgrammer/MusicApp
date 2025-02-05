@@ -1,15 +1,17 @@
 package com.example.musicapp.domain.usecase.room.get
 
-import com.example.musicapp.domain.repository.MusicLiteRepository
+import com.example.musicapp.domain.repository.PlaylistRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class GetTimePlaylist(
-    private val musicLiteRepository: MusicLiteRepository
+    private val playlistRepository: PlaylistRepository
 ) {
-    suspend fun getTime(playlistId: Long = 1L): Long {
-        if (playlistId <= 0) {
-            return -1
+    fun getTime(playlistId: Long = 1L): Flow<Int> {
+        if (playlistId <= 0L) {
+            return flowOf(-1)
         }
 
-        return 0
+        return playlistRepository.getTimePlaylist(playlistId)
     }
 }
