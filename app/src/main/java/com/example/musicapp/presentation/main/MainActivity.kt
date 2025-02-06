@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.example.musicapp.BuildConfig
 import com.example.musicapp.R
 import com.example.musicapp.app.broadcastReceiver.NetworkReceiver
 import com.example.musicapp.databinding.ActivityMainBinding

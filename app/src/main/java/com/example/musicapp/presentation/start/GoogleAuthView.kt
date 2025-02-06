@@ -5,7 +5,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.FragmentActivity
 import com.example.musicapp.BuildConfig
-import com.example.musicapp.presentation.main.MainActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 
 class GoogleAuthView {

@@ -61,8 +61,7 @@ val appModule = module {
             saveUserKey = get(),
             saveLoginState = get(),
             getUserGoogle = get(),
-            getUserYandex = get(),
-            googleAuthView = get()
+            getUserYandex = get()
         )
     }
 
