@@ -11,12 +11,4 @@ class FindMusicInSQLite(private val musicLiteRepository: MusicLiteRepository) {
 
         return musicLiteRepository.findMusicById(id)
     }
-
-    suspend fun findInPlaylist(musicId: String, playlistId: Long): MusicResult? {
-        if (musicId.isEmpty() || playlistId <= 0L) {
-            return null
-        }
-
-        return null
-    }
 }
