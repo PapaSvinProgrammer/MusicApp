@@ -89,7 +89,6 @@
     <string name="entry_with_help">Войти с помощью</string>
     <string name="yandex_text">Yandex</string>
 
-    <string name="web_client_id">"1023919895894-gl8agajjd5066gb48erhhqijttbol8ga.apps.googleusercontent.com"</string>
     <string name="url_favorite_playlist">https://i.pinimg.com/736x/3f/53/e0/3f53e0e8e2da84c69f814e0d8f629e8f.jpg</string>
 
     <string name="login_failed_text">"Вход не выполнен"</string>

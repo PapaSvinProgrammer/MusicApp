@@ -53,6 +53,7 @@ import com.example.musicapp.domain.repository.PreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.repository.UserRepository
 import com.example.musicapp.app.service.audioDownloader.AudioDownloadHelper
+import com.example.musicapp.presentation.start.GoogleAuthView
 import org.koin.dsl.module
 
 @SuppressLint("UnsafeOptInUsageError")
@@ -250,5 +251,9 @@ val dataModule = module {
 
     single {
         GetMusicsFilterImpl()
+    }
+
+    single {
+        GoogleAuthView()
     }
 }

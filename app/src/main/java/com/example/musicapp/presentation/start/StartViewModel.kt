@@ -2,6 +2,8 @@ package com.example.musicapp.presentation.start
 
 import androidx.credentials.Credential
 import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialResponse
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +18,7 @@ import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
 import com.example.musicapp.domain.usecase.savePreferences.SaveEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveLoginState
 import com.example.musicapp.domain.usecase.savePreferences.SaveUserKey
+import com.example.musicapp.presentation.main.MainActivity
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.AuthResult
 import com.vk.id.AccessToken
@@ -43,7 +46,8 @@ class StartViewModel(
     private val saveUserKey: SaveUserKey,
     private val saveLoginState: SaveLoginState,
     private val getUserYandex: GetUserYandex,
-    private val getUserGoogle: GetUserGoogle
+    private val getUserGoogle: GetUserGoogle,
+    private val googleAuthView: GoogleAuthView
 ): ViewModel() {
     private val userVk = UserVk(null, null)
     private val vkidAuthCallback = object: VKIDAuthCallback {
@@ -82,6 +86,7 @@ class StartViewModel(
     private val userVkLiveData = MutableLiveData<UserVk>()
     private val vkAuthFailLiveData = MutableLiveData<VKIDAuthFail>()
     private val vkRefreshTokenFailLiveData = MutableLiveData<VKIDRefreshTokenFail>()
+    private val googleAuthLiveData = MutableLiveData<GetCredentialResponse>()
 
     val loginStateResult: LiveData<Boolean> = loginStateLiveData
     val getDarkModeStateResult: LiveData<Boolean> = darkModeStateLiveData
@@ -90,6 +95,7 @@ class StartViewModel(
     val userVkResult: LiveData<UserVk> = userVkLiveData
     val vkAuthFailResult: LiveData<VKIDAuthFail> = vkAuthFailLiveData
     val vkRefreshTokenFailResult: LiveData<VKIDRefreshTokenFail> = vkRefreshTokenFailLiveData
+    val googleAuthResult: LiveData<GetCredentialResponse> = googleAuthLiveData
 
     fun getLoginSate() {
         viewModelScope.launch {
@@ -154,6 +160,12 @@ class StartViewModel(
                     scopes = setOf(EMAIL_VK_SCOPE, PHONE_VK_SCOPE)
                 }
             )
+        }
+    }
+
+    fun authGoogle(requireActivity: FragmentActivity) {
+        viewModelScope.launch {
+            googleAuthLiveData.value = googleAuthView.executeCredentialManager(requireActivity)
         }
     }
 

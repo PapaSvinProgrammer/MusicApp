@@ -9,7 +9,6 @@ import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.exoplayer.offline.DownloadManager
 import com.example.musicapp.data.constant.ErrorConst
-import com.google.firebase.Firebase
 import java.io.File
 import java.util.concurrent.Executor
 
@@ -20,7 +19,7 @@ class AudioDownloadManager(
     var downloadManager: DownloadManager
     var downloadCache: SimpleCache? = null
 
-    init {
+        init {
         val databaseProvider = StandaloneDatabaseProvider(context)
         val cacheDir = File(context.cacheDir, "music_cache")
 

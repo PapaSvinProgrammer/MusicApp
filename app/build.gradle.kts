@@ -26,6 +26,7 @@ android {
         
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["YANDEX_CLIENT_ID"] = secretProperties["YandexClientId"].toString()
+        buildConfigField("String", "GOOGLE_KEY", "\"${secretProperties["WebClientId"]}\"")
     }
 
     buildTypes {
