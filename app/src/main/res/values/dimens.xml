@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="viewpager_item_visible">15dp</dimen>
-    <dimen name="viewpager_horiz_music">20dp</dimen>
-    <dimen name="viewpager_current_item_horizontal_margin">20dp</dimen>
+    <dimen name="viewpager_item_horizontal_margin">20dp</dimen>
+    <dimen name="viewpager_item_player_visible">30dp</dimen>
+    <dimen name="viewpager_item_player_horizontal_margin">40dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>

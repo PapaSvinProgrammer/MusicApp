@@ -119,7 +119,7 @@
                 app:strokeWidth="0dp"
                 app:cardCornerRadius="0dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingStart="10dp"
@@ -132,8 +132,8 @@
                         style="@style/IconTintColor"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_storage" />
+                        app:srcCompat="@drawable/ic_storage"
+                        android:layout_gravity="center_vertical"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -142,10 +142,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/storage_text"
                         android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/shapeableImageView5" />
-                </RelativeLayout>
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <View
@@ -161,7 +159,7 @@
                 app:strokeWidth="0dp"
                 app:cardCornerRadius="0dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingStart="10dp"
@@ -174,7 +172,7 @@
                         style="@style/IconTintColor"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/ic_object" />
 
                     <TextView
@@ -184,10 +182,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/change_preferences_text"
                         android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/shapeableImageView9" />
-                </RelativeLayout>
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -217,7 +213,7 @@
                 app:strokeWidth="0dp"
                 app:cardCornerRadius="0dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingStart="10dp"
@@ -230,7 +226,7 @@
                         style="@style/IconTintColor"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/ic_dislike_fill" />
 
                     <TextView
@@ -240,10 +236,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/blacklist_text"
                         android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/shapeableImageView8" />
-                </RelativeLayout>
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <View
@@ -259,7 +253,7 @@
                 app:strokeWidth="0dp"
                 app:cardCornerRadius="0dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingStart="10dp"
@@ -272,7 +266,7 @@
                         style="@style/IconTintColor"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/ic_info" />
 
                     <TextView
@@ -282,10 +276,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/about_app_text"
                         android:textSize="16sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/shapeableImageView10" />
-                </RelativeLayout>
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

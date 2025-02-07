@@ -73,9 +73,7 @@ class AlbumFragment: Fragment() {
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
-            binding.appBar.progressIndicator.visibility = View.GONE
-            binding.appBar.progressTextView.visibility = View.GONE
-
+            binding.progressIndicator.visibility = View.GONE
             musicListAdapter.setData(list)
         }
 
@@ -97,9 +95,7 @@ class AlbumFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        binding.appBar.progressIndicator.visibility = View.VISIBLE
-        binding.appBar.progressTextView.visibility = View.VISIBLE
-
+        binding.progressIndicator.visibility = View.VISIBLE
         val firebaseId = arguments?.getString(FIREBASE_KEY)
 
         if (viewModel.getAlbumResult.value == null) {

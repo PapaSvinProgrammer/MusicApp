@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.musicapp.databinding.FragmentSelectedListBinding
@@ -22,6 +25,13 @@ class SelectedListFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSelectedListBinding.inflate(inflater, container, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
         return binding.root
     }
 

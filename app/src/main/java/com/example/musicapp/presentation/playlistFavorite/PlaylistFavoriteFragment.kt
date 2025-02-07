@@ -46,7 +46,6 @@ class PlaylistFavoriteFragment: Fragment() {
         binding = FragmentPlaylistFavoriteBinding.inflate(inflater, container, false)
 
         binding.appBar.collapsingToolbar.title = getString(R.string.me_favorite_text)
-
         return binding.root
     }
 

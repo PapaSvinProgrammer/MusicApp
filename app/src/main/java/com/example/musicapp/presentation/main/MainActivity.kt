@@ -14,12 +14,12 @@ import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.ui.input.key.Key.Companion.Window
 import androidx.core.app.ActivityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -68,7 +68,7 @@ class MainActivity: AppCompatActivity() {
         HorizontalOffsetController().setPreviewOffsetBottomPager(
             viewPager2 = binding.bottomViewPager,
             nextItemVisibleSize = R.dimen.viewpager_item_visible,
-            currentItemHorizontalMargin = R.dimen.viewpager_current_item_horizontal_margin
+            currentItemHorizontalMargin = R.dimen.viewpager_item_horizontal_margin
         )
 
         viewModel.getMusicResult.observe(this) { array->
@@ -126,46 +126,31 @@ class MainActivity: AppCompatActivity() {
         })
 
         navController.addOnDestinationChangedListener{ _, destination, _->
-            if (destination.id == R.id.playerFragment ||
-                destination.id == R.id.loginFragment ||
-                destination.id == R.id.registrationFragment ||
-                destination.id == R.id.startFragment ||
-                destination.id == R.id.settingPreferencesFragment ||
-                destination.id == R.id.selectedListFragment)
-            {
-                binding.bottomNavigation.visibility = View.GONE
-                binding.viewPagerLayout.visibility = View.GONE
-            }
-            else {
-                viewModel.setStartState(true)
-                binding.bottomNavigation.visibility = View.VISIBLE
-                binding.viewPagerLayout.visibility = View.VISIBLE
-                drawWifiError(viewModel.networkConnection)
-            }
-
-            if (destination.id == R.id.playerFragment ||
-                destination.id == R.id.authorFragment ||
-                destination.id == R.id.playlistItemFragment ||
-                destination.id == R.id.albumFragment ||
-                destination.id == R.id.playlistFavoriteFragment)
-            {
-                ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-                    v.setPadding(0, 0, 0, 0)
-                    insets
-                }
-            }
-            else {
-                ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-                    val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                    v.setPadding(0, systemBars.top, 0, 0)
-                    insets
-                }
-            }
+            showOrHideBottomNavigation(destination)
         }
 
         networkReceiver.setCallback {
             drawWifiError(it)
             viewModel.networkConnection = it
+        }
+    }
+
+    private fun showOrHideBottomNavigation(destination: NavDestination) {
+        if (destination.id == R.id.playerFragment ||
+            destination.id == R.id.loginFragment ||
+            destination.id == R.id.registrationFragment ||
+            destination.id == R.id.startFragment ||
+            destination.id == R.id.settingPreferencesFragment ||
+            destination.id == R.id.selectedListFragment)
+        {
+            binding.bottomNavigation.visibility = View.GONE
+            binding.viewPagerLayout.visibility = View.GONE
+        }
+        else {
+            viewModel.setStartState(true)
+            binding.bottomNavigation.visibility = View.VISIBLE
+            binding.viewPagerLayout.visibility = View.VISIBLE
+            drawWifiError(viewModel.networkConnection)
         }
     }
 

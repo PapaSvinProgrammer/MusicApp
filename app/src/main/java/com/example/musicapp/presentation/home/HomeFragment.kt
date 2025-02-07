@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import androidx.core.view.size
+import androidx.core.view.updatePadding
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.media3.common.util.UnstableApi
@@ -55,6 +58,13 @@ class HomeFragment: Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.wifiOffLayout.visibility = View.GONE
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
         return binding.root
     }
 

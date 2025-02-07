@@ -12,8 +12,8 @@
         style="@style/ToolbarNavigationIconTintColor"
         app:navigationIcon="@drawable/ic_music_fill"
         app:title="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/top_app_bar_search" />
+        app:menu="@menu/top_app_bar_search"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <include
         android:id="@+id/search_layout"

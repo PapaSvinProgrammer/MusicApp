@@ -3,7 +3,6 @@ package com.example.musicapp.presentation.author
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,10 +70,12 @@ class AuthorFragment: Fragment() {
         }
 
         viewModel.getAlbumResult.observe(viewLifecycleOwner) { list ->
+            binding.progressIndicator.visibility = View.GONE
             albumAdapter.setData(list)
         }
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
+            binding.progressIndicator.visibility = View.GONE
             musicAdapter.setData(list)
         }
 
@@ -114,6 +115,8 @@ class AuthorFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        binding.progressIndicator.visibility = View.VISIBLE
         authorKey = arguments?.getString(AUTHOR_KEY).toString()
 
         if (viewModel.getAuthorResult.value == null) {
@@ -121,7 +124,6 @@ class AuthorFragment: Fragment() {
         }
 
         if (viewModel.getMusicResult.value == null) {
-            Log.d("RRRR", "GET MUSIC")
             viewModel.getMusic(authorKey)
         }
 

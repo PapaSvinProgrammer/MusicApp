@@ -8,6 +8,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -44,6 +47,11 @@ class DownloadListFragment: Fragment() {
 
         binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
         binding.toolbar.subtitle = getString(R.string.all_music_text)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
 
         return binding.root
     }

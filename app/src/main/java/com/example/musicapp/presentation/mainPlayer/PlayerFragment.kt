@@ -14,6 +14,9 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -33,6 +36,7 @@ import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
 import com.example.musicapp.app.service.player.module.PlayerInfo
 import com.example.musicapp.app.service.video.VideoPlayer
 import com.example.musicapp.app.service.video.VideoService
+import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,6 +52,13 @@ class PlayerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlayerBinding.inflate(inflater, container, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
         return binding.root
     }
 
@@ -73,6 +84,12 @@ class PlayerFragment: Fragment() {
                 Context.BIND_AUTO_CREATE
             )
         }
+
+        HorizontalOffsetController().setPreviewOffsetMainPager(
+            viewPager2 = binding.viewPager,
+            nextItemVisibleSize = R.dimen.viewpager_item_player_visible,
+            currentItemHorizontalMargin = R.dimen.viewpager_item_player_horizontal_margin
+        )
 
         viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {

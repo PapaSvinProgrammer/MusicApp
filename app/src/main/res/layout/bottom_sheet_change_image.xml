@@ -52,7 +52,7 @@
                         style="@style/ColorLine"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                        android:layout_gravity="bottom"/>
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 

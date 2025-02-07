@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
