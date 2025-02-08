@@ -14,7 +14,6 @@ import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.ui.input.key.Key.Companion.Window
 import androidx.core.app.ActivityCompat
 import androidx.core.view.doOnPreDraw
 import androidx.media3.common.util.UnstableApi
@@ -55,6 +54,7 @@ class MainActivity: AppCompatActivity() {
         viewModel.getDarkMode()
 
         enableEdgeToEdge()
+        window.isNavigationBarContrastEnforced = false
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

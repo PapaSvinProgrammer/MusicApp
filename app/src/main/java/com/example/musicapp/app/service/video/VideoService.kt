@@ -4,8 +4,11 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.musicapp.domain.module.Music
 import kotlinx.coroutines.CoroutineScope
@@ -54,9 +57,6 @@ class VideoService: Service() {
             VideoPlayer.exoPlayer?.addMediaItem(mediaItem)
             VideoPlayer.exoPlayer?.prepare()
 
-            delay(2000)
-
-            isSuccess.value = true
             VideoPlayer.exoPlayer?.playWhenReady = isPlay
         }
     }
@@ -71,11 +71,22 @@ class VideoService: Service() {
 
     fun reset() {
         VideoPlayer.exoPlayer?.clearMediaItems()
+        isSuccess.value = false
     }
 
     private fun initPlayer() {
         VideoPlayer.exoPlayer = ExoPlayer.Builder(this@VideoService).build()
         VideoPlayer.exoPlayer?.playWhenReady = true
         VideoPlayer.exoPlayer?.volume = 0F
+
+        VideoPlayer.exoPlayer?.addListener(object: Player.Listener {
+            override fun onPlayerError(error: PlaybackException) {
+                isSuccess.value = false
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                isSuccess.value = true
+            }
+        })
     }
 }

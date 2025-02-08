@@ -52,13 +52,7 @@ class PlayerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlayerBinding.inflate(inflater, container, false)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(0, systemBars.top, 0, 0)
-            insets
-        }
-
+        setInitialPadding()
         return binding.root
     }
 
@@ -93,8 +87,16 @@ class PlayerFragment: Fragment() {
 
         viewModel.statePlayer.observe(viewLifecycleOwner) {
             when (it) {
-                StatePlayer.PLAY -> playMusic()
-                StatePlayer.PAUSE -> pauseMusic()
+                StatePlayer.PLAY -> {
+                    playMusic()
+                    playVideo()
+                }
+
+                StatePlayer.PAUSE -> {
+                    pauseMusic()
+                    pauseVideo()
+                }
+
                 StatePlayer.PREVIOUS -> previousMusic()
                 StatePlayer.NEXT -> nextMusic()
                 else -> {}
@@ -122,7 +124,7 @@ class PlayerFragment: Fragment() {
 
         viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
             viewModel.isFavorite = it != null
-            binding.likeView.isSelected = it != null
+            binding.likeButton.isSelected = it != null
         }
 
         viewModel.isBoundAudio.observe(viewLifecycleOwner) {
@@ -138,11 +140,11 @@ class PlayerFragment: Fragment() {
             }
         }
 
-        binding.nextView.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.NEXT)
         }
 
-        binding.previousView.setOnClickListener {
+        binding.previousButton.setOnClickListener {
             viewModel.setStatePlayer(StatePlayer.PREVIOUS)
         }
 
@@ -159,23 +161,23 @@ class PlayerFragment: Fragment() {
             navController.navigateUp()
         }
 
-        binding.shuffleView.setOnClickListener {
+        binding.shuffleButton.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.SHUFFLE)
         }
 
-        binding.noteView.setOnClickListener {
+        binding.noteButton.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.NOTE)
         }
 
-        binding.repeatView.setOnClickListener {
+        binding.repeatButton.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.REPEAT)
         }
 
-        binding.likeView.setOnClickListener {
+        binding.likeButton.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.LIKE)
         }
 
-        binding.dislikeView.setOnClickListener {
+        binding.dislikeButton.setOnClickListener {
             viewModel.setControlPlayer(ControlPlayer.DISLIKE)
         }
 
@@ -291,7 +293,6 @@ class PlayerFragment: Fragment() {
 
         PlayerInfo.currentPosition.observe(viewLifecycleOwner) { position ->
             resetVideo()
-
             viewModel.getFavoriteMusic(
                 id = PlayerInfo.currentObject.value?.id.toString()
             )
@@ -322,6 +323,8 @@ class PlayerFragment: Fragment() {
     }
 
     private fun initVideoServiceTools() {
+        binding.videoPlayer.player = VideoPlayer.exoPlayer
+
         viewModel.videoService?.setVideo(
             music = PlayerInfo.currentObject.value!!,
             isPlay = PlayerInfo.isPlay.value ?: false
@@ -333,19 +336,17 @@ class PlayerFragment: Fragment() {
                 if (PlayerInfo.isPlay.value == true) {
                     binding.videoPlayer.visibility = View.VISIBLE
                 }
-
-                binding.videoPlayer.player = VideoPlayer.exoPlayer
             }
         }
     }
 
     private fun resetControlPlayerUI() {
-        binding.dislikeView.isSelected = false
-        binding.likeView.isSelected = false
+        binding.dislikeButton.isSelected = false
+        binding.likeButton.isSelected = false
 
-        binding.shuffleView.isSelected = false
-        binding.repeatView.isSelected = false
-        binding.noteView.isSelected = false
+        binding.shuffleButton.isSelected = false
+        binding.repeatButton.isSelected = false
+        binding.noteButton.isSelected = false
 
         binding.shuffleDot.visibility = View.GONE
         binding.noteDot.visibility = View.GONE
@@ -368,30 +369,30 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeShuffle() {
-        when (binding.shuffleView.isSelected) {
+        when (binding.shuffleButton.isSelected) {
             true -> {
-                binding.shuffleView.isSelected = false
+                binding.shuffleButton.isSelected = false
                 binding.shuffleDot.visibility = View.GONE
             }
 
             false -> {
-                binding.shuffleView.isSelected = true
+                binding.shuffleButton.isSelected = true
                 binding.shuffleDot.visibility = View.VISIBLE
             }
         }
     }
 
     private fun executeRepeat() {
-        when (binding.repeatView.isSelected) {
+        when (binding.repeatButton.isSelected) {
             true -> {
-                binding.repeatView.isSelected = false
+                binding.repeatButton.isSelected = false
                 binding.repeatDot.visibility = View.GONE
                 viewModel.servicePlayer?.repeat(false)
                 binding.viewPager.isUserInputEnabled = true
             }
 
             false -> {
-                binding.repeatView.isSelected = true
+                binding.repeatButton.isSelected = true
                 binding.repeatDot.visibility = View.VISIBLE
                 viewModel.servicePlayer?.repeat(true)
                 binding.viewPager.isUserInputEnabled = false
@@ -400,8 +401,8 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeDislike() {
-        when (binding.dislikeView.isSelected) {
-            true ->  binding.dislikeView.isSelected = false
+        when (binding.dislikeButton.isSelected) {
+            true ->  binding.dislikeButton.isSelected = false
             false -> {
                 Snackbar.make(
                     binding.root,
@@ -416,10 +417,10 @@ class PlayerFragment: Fragment() {
     }
 
     private fun executeLike() {
-        when (binding.likeView.isSelected) {
+        when (binding.likeButton.isSelected) {
             true -> {
                 viewModel.isFavorite = false
-                binding.likeView.isSelected = false
+                binding.likeButton.isSelected = false
                 viewModel.deleteMusic(PlayerInfo.currentObject.value?.id.toString())
             }
 
@@ -431,7 +432,7 @@ class PlayerFragment: Fragment() {
                 ).show()
 
                 viewModel.isFavorite = true
-                binding.likeView.isSelected = true
+                binding.likeButton.isSelected = true
                 viewModel.addFavoriteMusic(PlayerInfo.currentObject.value ?: Music())
             }
         }
@@ -450,34 +451,30 @@ class PlayerFragment: Fragment() {
     private fun pauseMusic() {
         binding.playStopView.isSelected = false
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
+    }
 
-        pauseVideo()
+    private fun pauseVideo() {
+        if (viewModel.isSuccessVideo?.value == true) {
+            viewModel.videoService?.pause()
+            binding.videoPlayer.visibility = View.GONE
+        }
     }
 
     private fun playMusic() {
         binding.playStopView.isSelected = true
         viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
-
-        playVideo()
     }
 
     private fun playVideo() {
-        if (PlayerInfo.currentObject.value?.movieUrl.isNullOrEmpty()) {
-            return
+        if (viewModel.isSuccessVideo?.value == true) {
+            viewModel.videoService?.play()
+            binding.videoPlayer.visibility = View.VISIBLE
         }
-
-        binding.videoPlayer.visibility = View.VISIBLE
-        viewModel.videoService?.play()
-    }
-
-    private fun pauseVideo() {
-        binding.videoPlayer.visibility = View.GONE
-        viewModel.videoService?.pause()
     }
 
     private fun resetVideo() {
-        binding.videoPlayer.visibility = View.GONE
         viewModel.videoService?.reset()
+        binding.videoPlayer.visibility = View.GONE
     }
 
     private fun shareToOut() {
@@ -502,5 +499,19 @@ class PlayerFragment: Fragment() {
     private fun initBlur() {
         val blurRenderEffect = RenderEffect.createBlurEffect(500f, 500f, Shader.TileMode.CLAMP)
         binding.backImage.setRenderEffect(blurRenderEffect)
+    }
+
+    private fun setInitialPadding() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomBar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
     }
 }

@@ -33,6 +33,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:navigationContentDescription="@string/hide_player_text"
         app:navigationIconTint="@color/background_color_white"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitle="Моя волна"
@@ -59,41 +60,39 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearance="@style/ImageCornerRadiusCircle" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/music_text_view"
+            style="@style/TextColorInPlayer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/roboto_bold"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="17sp"
             android:layout_marginStart="10dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/group_image_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/group_image_view"
-            app:layout_constraintTop_toTopOf="@+id/group_image_view">
+            app:layout_constraintBottom_toTopOf="@+id/group_text_view"
+            app:layout_constraintStart_toEndOf="@id/group_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Название песни" />
 
-            <TextView
-                android:id="@+id/music_text_view"
-                style="@style/TextColorInPlayer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/roboto_bold"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="17sp"
-                tools:text="Название песни" />
-
-            <TextView
-                android:id="@+id/group_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/roboto_medium"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textColor="@color/gray_light_color"
-                android:textSize="15sp"
-                tools:text="Название исполнителя" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/group_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/roboto_medium"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/gray_light_color"
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/group_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/music_text_view"
+            tools:text="Название исполнителя" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -105,6 +104,7 @@
         app:icon="@drawable/ic_share"
         app:iconSize="30dp"
         app:iconTint="@color/background_color_white"
+        android:contentDescription="@string/share_text"
         app:layout_constraintBottom_toBottomOf="@+id/music_layout"
         app:layout_constraintEnd_toStartOf="@id/settings_button"
         app:layout_constraintTop_toTopOf="@+id/music_layout" />
@@ -119,6 +119,7 @@
         app:icon="@drawable/ic_dot_vertical"
         app:iconSize="27dp"
         app:iconTint="@color/background_color_white"
+        android:contentDescription="@string/context_menu_text"
         app:layout_constraintBottom_toBottomOf="@+id/music_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/music_layout" />
@@ -163,26 +164,30 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
         tools:text="3:21" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/dislike_view"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dislike_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:padding="11dp"
-        style="@style/IconSelectedColorStyle"
-        app:layout_constraintBottom_toBottomOf="@+id/previous_view"
-        app:layout_constraintEnd_toStartOf="@+id/previous_view"
+        style="@style/Widget.Material3.Button.IconButton"
+        app:icon="@drawable/ic_hate"
+        app:iconTint="@color/ic_selected_color_black"
+        app:iconSize="26dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/previous_button"
+        app:layout_constraintEnd_toStartOf="@+id/previous_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/previous_view"
-        app:srcCompat="@drawable/ic_check_hate" />
+        app:layout_constraintTop_toTopOf="@+id/previous_button"
+        android:contentDescription="@string/dislike_text" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/previous_view"
+        android:id="@+id/previous_button"
         style="@style/MainButtonPlayer"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:contentDescription="@string/previous_music_text"
         app:layout_constraintBottom_toBottomOf="@+id/play_stop_view"
         app:layout_constraintEnd_toStartOf="@+id/play_stop_view"
-        app:layout_constraintStart_toEndOf="@+id/dislike_view"
+        app:layout_constraintStart_toEndOf="@+id/dislike_button"
         app:layout_constraintTop_toTopOf="@+id/play_stop_view"
         app:srcCompat="@drawable/ic_skip_previous_fill" />
 
@@ -191,98 +196,120 @@
         style="@style/MainButtonPlayer"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:layout_constraintBottom_toTopOf="@+id/note_view"
-        app:layout_constraintEnd_toStartOf="@+id/next_view"
-        app:layout_constraintStart_toEndOf="@+id/previous_view"
+        android:contentDescription="@string/on_or_off_text"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintEnd_toStartOf="@+id/next_button"
+        app:layout_constraintStart_toEndOf="@+id/previous_button"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
         app:srcCompat="@drawable/ic_play_pause_fill" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/next_view"
+        android:id="@+id/next_button"
         style="@style/MainButtonPlayer"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:contentDescription="@string/next_music_text"
         app:layout_constraintBottom_toBottomOf="@+id/play_stop_view"
-        app:layout_constraintEnd_toStartOf="@+id/like_view"
+        app:layout_constraintEnd_toStartOf="@+id/like_button"
         app:layout_constraintStart_toEndOf="@+id/play_stop_view"
         app:layout_constraintTop_toTopOf="@+id/play_stop_view"
-        app:srcCompat="@drawable/ic_skip_next_fill" />
+        app:srcCompat="@drawable/ic_skip_next_fill"/>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/repeat_view"
-        style="@style/IconSelectedColorStyle"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/like_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:padding="11dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/note_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_repeat" />
-
-    <View
-        android:id="@+id/repeat_dot"
-        style="@style/DotStyle"
-        android:visibility="gone"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        app:layout_constraintTop_toBottomOf="@id/repeat_view"
-        app:layout_constraintStart_toStartOf="@id/repeat_view"
-        app:layout_constraintEnd_toEndOf="@id/repeat_view"/>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/note_view"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="11dp"
-        style="@style/IconSelectedColorStyle"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/shuffle_view"
-        app:layout_constraintStart_toEndOf="@+id/repeat_view"
-        app:srcCompat="@drawable/ic_note" />
-
-    <View
-        android:id="@+id/note_dot"
-        style="@style/DotStyle"
-        android:visibility="gone"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        app:layout_constraintTop_toBottomOf="@id/note_view"
-        app:layout_constraintStart_toStartOf="@id/note_view"
-        app:layout_constraintEnd_toEndOf="@id/note_view"/>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shuffle_view"
-        style="@style/IconSelectedColorStyle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="11dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.Material3.Button.IconButton"
+        app:icon="@drawable/ic_check_favorite"
+        app:iconTint="@color/ic_selected_color_black"
+        app:iconSize="26dp"
+        android:padding="8dp"
+        android:contentDescription="@string/like_text"
+        app:layout_constraintBottom_toBottomOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/note_view"
-        app:srcCompat="@drawable/ic_shuffle" />
+        app:layout_constraintStart_toEndOf="@+id/next_button"
+        app:layout_constraintTop_toTopOf="@+id/next_button" />
 
-    <View
-        android:id="@+id/shuffle_dot"
-        style="@style/DotStyle"
-        android:visibility="gone"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        app:layout_constraintTop_toBottomOf="@id/shuffle_view"
-        app:layout_constraintStart_toStartOf="@id/shuffle_view"
-        app:layout_constraintEnd_toEndOf="@id/shuffle_view"/>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/like_view"
-        style="@style/IconSelectedColorStyle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="11dp"
-        app:layout_constraintBottom_toBottomOf="@+id/next_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/next_view"
-        app:layout_constraintTop_toTopOf="@+id/next_view"
-        app:srcCompat="@drawable/ic_check_favorite" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/repeat_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            app:icon="@drawable/ic_repeat"
+            app:iconTint="@color/ic_selected_color_black"
+            app:iconSize="26dp"
+            android:padding="8dp"
+            android:contentDescription="@string/put_track_on_repeat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/note_button"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/repeat_dot"
+            style="@style/DotStyle"
+            android:visibility="gone"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            app:layout_constraintTop_toBottomOf="@id/repeat_button"
+            app:layout_constraintStart_toStartOf="@id/repeat_button"
+            app:layout_constraintEnd_toEndOf="@id/repeat_button"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/note_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            app:icon="@drawable/ic_note"
+            app:iconTint="@color/ic_selected_color_black"
+            app:iconSize="26dp"
+            android:padding="8dp"
+            android:contentDescription="@string/lyrics_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/shuffle_button"
+            app:layout_constraintStart_toEndOf="@+id/repeat_button"/>
+
+        <View
+            android:id="@+id/note_dot"
+            style="@style/DotStyle"
+            android:visibility="gone"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            app:layout_constraintTop_toBottomOf="@id/note_button"
+            app:layout_constraintStart_toStartOf="@id/note_button"
+            app:layout_constraintEnd_toEndOf="@id/note_button"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shuffle_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            app:icon="@drawable/ic_shuffle"
+            app:iconTint="@color/ic_selected_color_black"
+            app:iconSize="26dp"
+            android:padding="8dp"
+            android:layout_marginBottom="20dp"
+            android:contentDescription="@string/shuffle_playlist_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/note_button" />
+
+        <View
+            android:id="@+id/shuffle_dot"
+            style="@style/DotStyle"
+            android:visibility="gone"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            app:layout_constraintTop_toBottomOf="@id/shuffle_button"
+            app:layout_constraintStart_toStartOf="@id/shuffle_button"
+            app:layout_constraintEnd_toEndOf="@id/shuffle_button"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

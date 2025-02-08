@@ -3,6 +3,7 @@ package com.example.musicapp.app.service.player
 import android.content.Context
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Player.Listener
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultHttpDataSource
@@ -19,8 +20,13 @@ import com.example.musicapp.domain.module.Music
 import com.example.musicapp.app.service.audioDownloader.AudioManager
 import com.example.musicapp.app.service.player.module.AudioPlayer
 
+private const val COUNT_MSEC_TO_RESET = 3000
+
 @UnstableApi
-class Player(private val context: Context) : AudioPlayer {
+class PlayerImpl(
+    private val context: Context,
+    private val listener: Listener? = null
+) : AudioPlayer {
     private lateinit var exoPlayer: ExoPlayer
     private var lastIndexInQueue = 0
     private var defaultPlayer = true
@@ -62,6 +68,10 @@ class Player(private val context: Context) : AudioPlayer {
         exoPlayerBuilder.setMediaSourceFactory(mediaSource)
 
         exoPlayer = exoPlayerBuilder.build()
+
+        listener?.apply {
+            exoPlayer.addListener(this)
+        }
     }
 
     private fun initDownloadPlayer() {
@@ -99,6 +109,10 @@ class Player(private val context: Context) : AudioPlayer {
         exoPlayerBuilder.setMediaSourceFactory(mediaSource)
 
         exoPlayer = exoPlayerBuilder.build()
+
+        listener?.apply {
+            exoPlayer.addListener(this)
+        }
     }
 
     override fun play() {

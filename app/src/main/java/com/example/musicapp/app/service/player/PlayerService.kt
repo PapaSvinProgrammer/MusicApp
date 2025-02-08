@@ -8,8 +8,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.MutableLiveData
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.app.service.player.module.AudioPlayer
 import com.example.musicapp.domain.state.StatePlayer
@@ -69,7 +70,10 @@ class PlayerService: Service() {
             likePendingIntent = likePendingIntent()
         )
 
-        audioPlayer = Player(applicationContext)
+        audioPlayer = PlayerImpl(
+            context = applicationContext,
+            listener = playerListener
+        )
     }
 
     override fun onBind(intent: Intent?): IBinder {
@@ -145,6 +149,7 @@ class PlayerService: Service() {
 
         val currentList = musicList.value?.toMutableList()
         currentList?.add(music)
+
         musicList.value = currentList ?: listOf()
     }
 
@@ -185,30 +190,14 @@ class PlayerService: Service() {
             return
         }
 
-        job?.cancel()
-
-        if (musicList.value == null) return
-
-        var currentObject: Music? = null
-
-        try {
-            currentObject = musicList.value!![position]
-        } catch (e: IndexOutOfBoundsException) {
-            Log.d(ErrorConst.DEFAULT_ERROR, e.message.toString())
+        if (musicList.value == null) {
+            return
         }
-
-        PlayerInfo.setCurrentObject(currentObject ?: Music())
-        PlayerInfo.setCurrentPosition(position)
 
         audioPlayer?.setPosition(
             position = position,
             isPlay = PlayerInfo.isPlay.value ?: false
         )
-
-        maxDuration.value = 0
-        updateDurations()
-
-        audioNotification?.execute(currentObject ?: Music())
     }
 
     fun seekTo(msec: Int) {
@@ -238,7 +227,9 @@ class PlayerService: Service() {
             return
         }
 
-        if ((PlayerInfo.currentPosition.value ?: 0) - 1 < 0) return
+        if ((PlayerInfo.currentPosition.value ?: 0) - 1 < 0) {
+            return
+        }
 
         if (isRepeat.value == true) {
             return
@@ -258,28 +249,17 @@ class PlayerService: Service() {
         }
 
         val currentPosition = (PlayerInfo.currentPosition.value ?: 0) + 1
-        PlayerInfo.setCurrentPosition(currentPosition)
-
         setCurrentPosition(currentPosition)
     }
 
     private fun pause() {
         PlayerInfo.setIsPlay(false)
         audioPlayer?.pause()
-
-        if (musicList.value != null) {
-            audioNotification?.execute(PlayerInfo.currentObject.value ?: Music())
-        }
     }
 
     private fun play() {
         PlayerInfo.setIsPlay(true)
-        if (musicList.value == null) return
-
         audioPlayer?.play()
-        updateDurations()
-
-        audioNotification?.execute(PlayerInfo.currentObject.value ?: Music())
     }
 
     private fun updateCurrentObject() {
@@ -292,24 +272,31 @@ class PlayerService: Service() {
 
         job = CoroutineScope(Dispatchers.Main).launch {
             while (PlayerInfo.isPlay.value == true) {
-                if ((maxDuration.value ?: 0) <= 0L) {
-                    maxDuration.value = audioPlayer?.getMaxDuration()
-                }
-
+                maxDuration.value = audioPlayer?.getMaxDuration()
                 currentDuration.value = audioPlayer?.getCurrentDuration()
                 bufferedPosition.value = audioPlayer?.getBufferedPosition()
-
-                if ((PlayerInfo.currentPosition.value ?: 0) != audioPlayer?.getCurrentItem()) {
-                    PlayerInfo.setCurrentPosition(audioPlayer?.getCurrentItem() ?: 0)
-
-                    val currentObject = musicList.value!![PlayerInfo.currentPosition.value ?: 0]
-                    PlayerInfo.setCurrentObject(currentObject)
-
-                    maxDuration.value = 0
-                }
-
                 delay(1000)
             }
+        }
+    }
+
+    private val playerListener = object: Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            val currentItemPosition = audioPlayer?.getCurrentItem() ?: 0
+
+            try {
+                val currentObject = musicList.value!![currentItemPosition]
+                PlayerInfo.setCurrentObject(currentObject)
+            } catch (e: Exception) {
+                PlayerInfo.setCurrentObject(Music())
+            }
+
+            PlayerInfo.setCurrentPosition(currentItemPosition)
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            audioNotification?.execute(PlayerInfo.currentObject.value ?: Music())
+            updateDurations()
         }
     }
 
