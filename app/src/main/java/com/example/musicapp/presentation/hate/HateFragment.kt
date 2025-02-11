@@ -1,6 +1,7 @@
 package com.example.musicapp.presentation.hate
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,8 @@ class HateFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+
+        Log.d("RRRR", "RRRR")
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()

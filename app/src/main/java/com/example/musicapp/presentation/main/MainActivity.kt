@@ -88,9 +88,7 @@ class MainActivity: AppCompatActivity() {
         viewModel.startDownloadResult.observe(this) {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
-
                 MediaControllerManager.init(this)
-                Log.d("RRRR", "PRE = ${MediaControllerManager.mediaController}")
                 intiPermission()
             }
         }
