@@ -18,8 +18,6 @@ import com.example.musicapp.domain.usecase.room.find.FindMusicInSQLite
 import com.example.musicapp.app.service.video.VideoService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 private const val PLAYLIST_ID_FAVORITE = 1L
 

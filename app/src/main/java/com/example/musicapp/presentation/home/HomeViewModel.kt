@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.media3.session.MediaController
 import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.data.constant.PlaylistConst
 import com.example.musicapp.domain.module.Album

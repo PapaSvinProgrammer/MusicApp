@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musicapp.domain.module.Music
 
 object PlayerInfo {
-    private val _isBound = MutableLiveData<Boolean>()
     private val _musicList = MutableLiveData<List<Music>>()
     private val _duration = MutableLiveData<Long>()
     private val _currentObject = MutableLiveData<Music>()
@@ -15,7 +14,6 @@ object PlayerInfo {
     val duration: LiveData<Long> = _duration
     val currentObject: LiveData<Music> = _currentObject
     val isPlay: LiveData<Boolean> = _isPlay
-    val isBound: LiveData<Boolean> = _isBound
 
     fun setMusicList(list: List<Music>) {
         _musicList.value = list
@@ -40,7 +38,4 @@ object PlayerInfo {
         _isPlay.value = isPlay
     }
 
-    fun isSuccess(state: Boolean) {
-        _isBound.value = state
-    }
 }
