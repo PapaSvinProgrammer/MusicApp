@@ -31,7 +31,7 @@
                 android:id="@+id/view10"
                 android:layout_width="10dp"
                 android:layout_height="1dp"
-                android:background="@color/background_color_white"
+                android:background="@color/background_light"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/count_music_view"
@@ -43,7 +43,7 @@
                 android:id="@+id/count_music_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/background_color_white"
+                android:textColor="@color/background_light"
                 android:fontFamily="@font/roboto_bold"
                 android:textSize="14sp"
                 android:layout_marginBottom="20dp"
@@ -57,7 +57,7 @@
                 android:id="@+id/count_time_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/background_color_white"
+                android:textColor="@color/background_light"
                 android:fontFamily="@font/roboto_medium"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/count_music_view"
@@ -73,7 +73,7 @@
                 android:fontFamily="@font/accid"
                 android:text="@string/me_favorite_text"
                 android:textSize="36sp"
-                android:textColor="@color/background_color_white"
+                android:textColor="@color/background_light"
                 android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/count_music_view"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
                 android:layout_height="60dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/listen_button"
                 app:layout_constraintEnd_toEndOf="@+id/listen_button" />
 
@@ -112,7 +112,7 @@
                 android:layout_height="60dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/download_button"
                 app:layout_constraintEnd_toEndOf="@+id/download_button" />
 

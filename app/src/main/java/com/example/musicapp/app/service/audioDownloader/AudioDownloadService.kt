@@ -39,7 +39,7 @@ class AudioDownloadService: DownloadService(
     }
 
     override fun getDownloadManager(): DownloadManager {
-        val manager = AudioManager.audioDownloadManager!!.downloadManager
+        val manager = AudioDownloadManager.downloadManager
 
         manager.addListener(object: DownloadManager.Listener {
             override fun onIdle(downloadManager: DownloadManager) {

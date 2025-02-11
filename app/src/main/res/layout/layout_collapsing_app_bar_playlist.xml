@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/accid"
-                android:textColor="@color/background_color_white"
+                android:textColor="@color/background_light"
                 android:textSize="30sp"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/view"
@@ -61,7 +61,7 @@
                 android:layout_height="65dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/listen_button"
                 app:layout_constraintEnd_toEndOf="@+id/listen_button" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="65dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/download_button"
                 app:layout_constraintEnd_toEndOf="@+id/download_button" />
 

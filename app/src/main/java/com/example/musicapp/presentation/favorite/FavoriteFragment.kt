@@ -1,8 +1,6 @@
 package com.example.musicapp.presentation.favorite
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,19 +19,15 @@ import com.example.musicapp.databinding.FragmentFavoriteBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presentation.recyclerAdapter.AuthorAdapter
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
-import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class FavoriteFragment: Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private lateinit var navController: NavController
     private val viewModel by viewModel<FavoriteViewModel>()
-
     private val musicPagerAdapter by lazy {
         MusicResultAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
     private val authorAdapter by lazy { AuthorAdapter(navController) }
@@ -45,11 +39,8 @@ class FavoriteFragment: Fragment() {
     ): View {
         binding = FragmentFavoriteBinding.inflate(layoutInflater, container, false)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(0, systemBars.top, 0, 0)
-            insets
-        }
+        initRecyclerOptions()
+        initPadding()
 
         return binding.root
     }
@@ -58,14 +49,7 @@ class FavoriteFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
         binding.artistRecyclerView.adapter = authorAdapter
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
+        binding.musicRecyclerView.adapter = musicPagerAdapter
 
         viewModel.getMusicResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
@@ -100,12 +84,6 @@ class FavoriteFragment: Fragment() {
         viewModel.getDownloadedMusicResult.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 drawDownloaded(list)
-            }
-        }
-
-        viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it == true) {
-                initServiceTools()
             }
         }
 
@@ -158,10 +136,17 @@ class FavoriteFragment: Fragment() {
         }
     }
 
-    private fun initServiceTools() {
-        binding.musicRecyclerView.adapter = musicPagerAdapter
+    private fun initRecyclerOptions() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.musicRecyclerView)
+    }
+
+    private fun initPadding() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
     }
 
     private fun drawPlaylists(list: List<PlaylistEntity?>) {

@@ -12,40 +12,64 @@ import com.bumptech.glide.Glide
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.app.service.player.PlayerService
-import com.example.musicapp.app.service.player.module.DataPlayerType
-import com.example.musicapp.app.service.player.module.PlayerInfo
-import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.DataPlayerType
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.PlayerInfo
+import com.example.musicapp.app.service.player.TypeDataPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MusicAdapter(
-    private val playerService: PlayerService? = null,
     private val supportFragmentManager: FragmentManager? = null
 ): RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
+
     inner class ViewHolder(
         private val binding: ItemMusicBinding,
         private val lifecycleOwner: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
+
         fun onBind(music: Music, position: Int) {
             Glide.with(binding.root)
                 .load(music.imageLow)
-                .into(binding.musicLayout.imageView)
+                .into(binding.imageView)
 
-            binding.musicLayout.musicTextView.text = music.name
-            binding.musicLayout.groupTextView.text = music.group
+            binding.musicTextView.text = music.name
+            binding.groupTextView.text = music.group
 
+            isMovieUrl(music)
+            setSettingsOnClickListener(music)
+            setRootOnClickListener(position)
+
+            PlayerInfo.isPlay.observe(lifecycleOwner) {
+                when (it) {
+                    true -> binding.playAnim.playAnimation()
+                    false -> binding.playAnim.pauseAnimation()
+                }
+            }
+
+            PlayerInfo.currentObject.observe(lifecycleOwner) {
+                if (it.id == music.id) {
+                    hoveredItem()
+                }
+                else {
+                    notHoveredItem()
+                }
+            }
+        }
+
+        private fun isMovieUrl(music: Music) {
             if (!music.movieUrl.isNullOrEmpty()) {
-                binding.musicLayout.iconMovieView.visibility = View.VISIBLE
+                binding.iconMovieView.visibility = View.VISIBLE
             }
             else {
-                binding.musicLayout.iconMovieView.visibility = View.GONE
+                binding.iconMovieView.visibility = View.GONE
             }
+        }
 
-            binding.musicLayout.settingsButton.setOnClickListener {
+        private fun setSettingsOnClickListener(music: Music) {
+            binding.settingsButton.setOnClickListener {
                 val musicBottomSheet = MusicBottomSheet()
                 val bundle = Bundle()
 
@@ -56,52 +80,38 @@ class MusicAdapter(
                     musicBottomSheet.show(it, MusicBottomSheet.TAG)
                 }
             }
+        }
 
+        private fun setRootOnClickListener(position: Int) {
             binding.root.setOnClickListener {
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
 
                 CoroutineScope(Dispatchers.Main).launch {
                     val currentList = asyncListDiffer.currentList.subList(position, itemCount)
-
-                    playerService?.setMusicList(currentList)
-                    playerService?.setPlayerState(StatePlayer.PLAY)
-                }
-            }
-
-            PlayerInfo.currentObject.observe(lifecycleOwner) {
-                when(it.id == music.id) {
-                    true -> hoveredItem()
-                    false -> notHoveredItem()
-                }
-            }
-
-            PlayerInfo.isPlay.observe(lifecycleOwner) {
-                if (it) {
-                    binding.musicLayout.playAnim.playAnimation()
-                }
-                else {
-                    binding.musicLayout.playAnim.cancelAnimation()
+                    MediaControllerManager.setMediaItems(currentList)
                 }
             }
         }
 
         private fun hoveredItem() {
             binding.root.isHovered = true
-            binding.musicLayout.playAnim.visibility = View.VISIBLE
+            binding.playAnim.visibility = View.VISIBLE
         }
 
         private fun notHoveredItem() {
             binding.root.isHovered = false
-            binding.musicLayout.playAnim.visibility = View.GONE
+            binding.playAnim.visibility = View.GONE
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
+        val lifecycleOwner = parent.context as LifecycleOwner
         val binding = ItemMusicBinding.inflate(inflater, parent, false)
+
         return ViewHolder(
             binding = binding,
-            lifecycleOwner = parent.context as LifecycleOwner
+            lifecycleOwner = lifecycleOwner
         )
     }
 

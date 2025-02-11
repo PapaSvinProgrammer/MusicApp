@@ -132,4 +132,6 @@
     <string name="shuffle_playlist_text">Перемешать плейлист</string>
     <string name="context_menu_text">Контекстное меню</string>
     <string name="hide_player_text">Свернуть плеер</string>
+    <string name="with_video_clip_text">Есть видеоклип</string>
+    <string name="explicit_text">Возрастное ограничение 16/18+</string>
 </resources>

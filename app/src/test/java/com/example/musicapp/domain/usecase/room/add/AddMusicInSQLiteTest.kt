@@ -29,7 +29,7 @@ class AddMusicInSQLiteTest {
 
         Mockito.`when`(
             repository.add(
-                musicResult = ConvertMusic().convertToMusicResult(testMusic),
+                musicResult = ConvertMusic.convertToMusicResult(testMusic),
                 playlistId = testPlaylistId
             )
         ).thenReturn(Unit)
@@ -38,7 +38,7 @@ class AddMusicInSQLiteTest {
         val actual = useCase.execute(testMusic, testPlaylistId)
 
         Assertions.assertEquals(expected, actual)
-        Mockito.verify(repository, times(1)).add(ConvertMusic().convertToMusicResult(testMusic), testPlaylistId)
+        Mockito.verify(repository, times(1)).add(ConvertMusic.convertToMusicResult(testMusic), testPlaylistId)
     }
 
     @Test

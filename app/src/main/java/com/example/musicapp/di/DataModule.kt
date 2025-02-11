@@ -53,6 +53,7 @@ import com.example.musicapp.domain.repository.PreferencesRepository
 import com.example.musicapp.domain.repository.SignAndCreateRepository
 import com.example.musicapp.domain.repository.UserRepository
 import com.example.musicapp.app.service.audioDownloader.AudioDownloadHelper
+import com.example.musicapp.data.firebase.getMusic.GetMusicsFilterLimitImpl
 import com.example.musicapp.presentation.start.GoogleAuthView
 import org.koin.dsl.module
 
@@ -84,7 +85,8 @@ val dataModule = module {
             getMusicAllImpl = get(),
             getMusicsByFieldIdImpl = get(),
             getRandomMusicImpl = get(),
-            getMusicsFilterImpl = get()
+            getMusicsFilterImpl = get(),
+            getMusicsFilterLimitImpl = get()
         )
     }
 
@@ -255,5 +257,9 @@ val dataModule = module {
 
     single {
         GoogleAuthView()
+    }
+
+    single {
+        GetMusicsFilterLimitImpl()
     }
 }

@@ -1,9 +1,5 @@
 package com.example.musicapp.presentation.favorite
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +8,6 @@ import com.example.musicapp.data.room.musicEntity.AuthorEntity
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.data.room.playlistEntity.PlaylistEntity
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.app.support.convertTextCount.ConvertTextCount
 import com.example.musicapp.domain.usecase.room.get.GetCountDownloadMusic
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
@@ -40,11 +35,6 @@ class FavoriteViewModel(
     private val getCountPlaylist: GetCountPlaylist,
     private val getMusicsFromPlaylistSQLite: GetMusicsFromPlaylistSQLite
 ): ViewModel() {
-    var isPlay: LiveData<Boolean>? = null
-    @SuppressLint("StaticFieldLeak")
-    var servicePlayer: PlayerService? = null
-    val isBound = MutableLiveData<Boolean>()
-
     private val getMusicLiveData = MutableLiveData<List<MusicResult>>()
     private val getAuthorLiveData = MutableLiveData<List<AuthorEntity>>()
     private val convertCountMusicLiveData = MutableLiveData<String>()
@@ -114,18 +104,6 @@ class FavoriteViewModel(
             getCountPlaylist.execute().collect {
                 convertCountPlaylistLiveData.value = convertTextCountPlaylist(it)
             }
-        }
-    }
-
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val bind = service as PlayerService.PlayerBinder
-            servicePlayer = bind.getService()
-            isBound.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
         }
     }
 

@@ -1,7 +1,5 @@
 package com.example.musicapp.presentation.download
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentDownloadBinding
 import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
-import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DownloadFragment: Fragment() {
@@ -25,8 +22,7 @@ class DownloadFragment: Fragment() {
     private val viewModel by viewModel<DownloadViewModel>()
     private val musicAdapter by lazy {
         DownloadMusicAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer,
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
 
@@ -37,27 +33,15 @@ class DownloadFragment: Fragment() {
     ): View {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
 
-        binding.toolbar.subtitle = getString(R.string.all_download_text)
-        binding.toolbar.isSubtitleCentered = true
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(0, systemBars.top, 0, 0)
-            insets
-        }
+        initRecyclerOptions()
+        initToolbarAndPadding()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
+        binding.musicRecyclerView.adapter = musicAdapter
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
@@ -75,21 +59,30 @@ class DownloadFragment: Fragment() {
             musicAdapter.setData(list)
         }
 
-        viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it == true) {
-                initServiceTools()
-            }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (viewModel.musicResult.value == null) {
+            viewModel.getDownloadMusic()
         }
     }
 
 
-    private fun initServiceTools() {
+    private fun initRecyclerOptions() {
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.musicRecyclerView)
-        binding.musicRecyclerView.adapter = musicAdapter
+    }
 
-        if (viewModel.musicResult.value == null) {
-            viewModel.getDownloadMusic()
+    private fun initToolbarAndPadding() {
+        binding.toolbar.subtitle = getString(R.string.all_download_text)
+        binding.toolbar.isSubtitleCentered = true
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
         }
     }
 }

@@ -45,7 +45,7 @@ class AuthorInfoBottomSheet: BottomSheetDialogFragment() {
     ): View {
         binding = BottomSheetAuthorInfoBinding.inflate(inflater, container, false)
 
-        binding.xLayout.visibility = View.GONE
+        binding.twitterLayout.visibility = View.GONE
         binding.vkLayout.visibility = View.GONE
         binding.websiteLayout.visibility = View.GONE
         binding.youtubeLayout.visibility = View.GONE
@@ -56,7 +56,7 @@ class AuthorInfoBottomSheet: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initCarousel()
 
-        binding.xLayout.setOnClickListener {
+        binding.twitterLayout.setOnClickListener {
             if (twitterUrl.isNotEmpty()) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(twitterUrl))
                 startActivity(intent)
@@ -119,7 +119,7 @@ class AuthorInfoBottomSheet: BottomSheetDialogFragment() {
     private fun initIntentDraw(groupInfo: GroupInfo) {
         groupInfo.connectionUrl?.get(DocumentConst.CONNECTION_URL_TWITTER).let {
             if (!it.isNullOrEmpty()) {
-                binding.xLayout.visibility = View.VISIBLE
+                binding.twitterLayout.visibility = View.VISIBLE
                 twitterUrl = it
             }
         }

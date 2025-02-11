@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.getPreferences.GetEmail
 import com.example.musicapp.domain.usecase.savePreferences.SaveDarkModeState
@@ -22,10 +21,6 @@ class SettingsViewModel(
     private val getEmail: GetEmail,
     private val getDarkModeState: GetDarkModeState
 ): ViewModel() {
-    @SuppressLint("StaticFieldLeak")
-    lateinit var servicePlayer: PlayerService
-    val isBound = MutableLiveData<Boolean>()
-
     private val _getEmail = MutableLiveData<String>()
     private val _getDarkModeState = MutableLiveData<Boolean>()
 
@@ -60,15 +55,4 @@ class SettingsViewModel(
         }
     }
 
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val bind = service as PlayerService.PlayerBinder
-            servicePlayer = bind.getService()
-            isBound.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
-        }
-    }
 }

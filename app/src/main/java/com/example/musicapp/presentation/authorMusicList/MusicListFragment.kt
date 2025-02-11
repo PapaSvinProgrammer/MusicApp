@@ -1,7 +1,5 @@
 package com.example.musicapp.presentation.authorMusicList
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +15,6 @@ import com.example.musicapp.databinding.FragmentListBinding
 import com.example.musicapp.domain.state.FilterState
 import com.example.musicapp.presentation.bottomSheet.FilterMusicBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicAdapter
-import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MusicListFragment: Fragment() {
@@ -32,7 +29,6 @@ class MusicListFragment: Fragment() {
     private val filterMusicBottomSheet by lazy { FilterMusicBottomSheet() }
     private val musicAdapter by lazy {
         MusicAdapter(
-            playerService = viewModel.playerService,
             supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
@@ -57,14 +53,6 @@ class MusicListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
@@ -92,11 +80,16 @@ class MusicListFragment: Fragment() {
             binding.progressIndicator.visibility = View.GONE
             musicAdapter.setData(it)
         }
+    }
 
-        viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it == true) {
-                initServiceTools()
-            }
+    override fun onStart() {
+        super.onStart()
+
+        binding.progressIndicator.visibility = View.VISIBLE
+        authorId = arguments?.getString(AUTHOR_ID)
+
+        if (viewModel.musicsResult.value == null) {
+            viewModel.getMusicsByRating(authorId ?: "")
         }
     }
 
@@ -115,17 +108,6 @@ class MusicListFragment: Fragment() {
         viewModel.getMusicsByName(authorId ?: "")
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        binding.progressIndicator.visibility = View.VISIBLE
-        authorId = arguments?.getString(AUTHOR_ID)
-
-        if (viewModel.musicsResult.value == null) {
-            viewModel.getMusicsByRating(authorId ?: "")
-        }
-    }
-
     private fun drawFilter() {
         filterMusicBottomSheet.setDefaultItem(viewModel.filterMode)
 
@@ -136,9 +118,5 @@ class MusicListFragment: Fragment() {
 
     private fun drawSearch() {
         binding.searchLayout.searchView.show()
-    }
-
-    private fun initServiceTools() {
-        binding.recyclerView.adapter = musicAdapter
     }
 }

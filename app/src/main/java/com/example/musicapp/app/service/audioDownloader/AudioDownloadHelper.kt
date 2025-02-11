@@ -16,6 +16,7 @@ import com.google.gson.Gson
 class AudioDownloadHelper(
     private val context: Context
 ): DownloadMusicRepository {
+    private val downloadManager by lazy { AudioDownloadManager.downloadManager }
 
     override fun download(music: Music) {
         val json = Gson().toJson(music)
@@ -66,8 +67,7 @@ class AudioDownloadHelper(
     override fun getDownloadsLimit(limit: Int): List<Music> {
         val result = ArrayList<Music>()
         var count = 0
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
-            .downloadManager
+        val cursor: DownloadCursor = downloadManager
             .downloadIndex
             .getDownloads()
 
@@ -89,8 +89,7 @@ class AudioDownloadHelper(
     }
 
     override fun getDownload(musicId: String): Music? {
-        val download: Download? = AudioManager.audioDownloadManager!!
-            .downloadManager
+        val download: Download? = downloadManager
             .downloadIndex
             .getDownload(musicId)
 
@@ -104,10 +103,10 @@ class AudioDownloadHelper(
     }
 
     override fun getCount(): Int {
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
-            .downloadManager
+        val cursor: DownloadCursor = downloadManager
             .downloadIndex
             .getDownloads()
+
         val result = cursor.count
 
         cursor.close()
@@ -117,8 +116,7 @@ class AudioDownloadHelper(
     override fun search(text: String): List<Music> {
         val result = ArrayList<Music>()
         var count = 0
-        val cursor: DownloadCursor = AudioManager.audioDownloadManager!!
-            .downloadManager
+        val cursor: DownloadCursor = downloadManager
             .downloadIndex
             .getDownloads()
 

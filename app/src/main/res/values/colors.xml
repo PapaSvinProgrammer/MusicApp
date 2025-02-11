@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red_200">#E57373</color>
-    <color name="purple_200">#90CAF9</color>
-    <color name="purple_500">#2a5ed8</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="green_700">#388E3C</color>
-    <color name="green_200">#A5D6A7</color>
+    <color name="red">#E57373</color>
+    <color name="purple">#2a5ed8</color>
+    <color name="green">#388E3C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray_light_color">#ced4da</color>
-    <color name="gray_color">#adb5bd</color>
+    <color name="gray">#adb5bd</color>
     <color name="gray_line_color">#6c757d</color>
-    <color name="surface_container_high_night">#2B2930</color>
-    <color name="surface_container_high_light">#ECE6F0</color>
-    <color name="on_surface_container_night">#20242f</color>
-    <color name="on_surface_container_light">#e9e7fc</color>
-
-    <color name="bottom_color_light">#f3edf7</color>
-    <color name="bottom_color_dark">#211F26 </color>
-    <color name="background_color">#141218</color>
-    <color name="background_color_white">#fef7ff</color>
+    <color name="surface_container_high">#ECE6F0</color>
+    <color name="on_surface_container">#efeef4</color>
+    <color name="player_surface">#FFFFFFFF</color>
+    <color name="surface_container">#efeef4</color>
+    <color name="bottom_color">#f3edf7</color>
+    <color name="background_color">#fef7ff</color>
+    <color name="on_background">#141118</color>
+    <color name="gray_light">#ced4da</color>
+    <color name="background_light">#fef7ff</color>
+    <color name="vk_color">#2a5ed8</color>
 </resources>

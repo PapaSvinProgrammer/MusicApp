@@ -2,46 +2,51 @@
     <!-- Base application theme. -->
     <style name="Theme.MusicApp" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background_color</item>
-        <item name="normalColor">@color/background_color_white</item>
-        <item name="normalColorBlue">@color/purple_200</item>
+        <item name="normalColor">@color/background_color</item>
+        <item name="normalColorBlue">@color/purple</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/background_color</item>
+        <!-- Toolbar. -->
+        <item name="colorSurfaceContainer">@color/surface_container</item>
+        <!-- SearchView. -->
+        <item name="colorSurfaceContainerHigh">@color/surface_container</item>
+        <!-- BottomFragmentDialog. -->
+        <item name="colorSurfaceContainerLow">@color/surface_container</item>
     </style>
 
     <style name="BackgroundColorContainer">
-        <item name="android:backgroundTint">@color/surface_container_high_night</item>
+        <item name="android:backgroundTint">@color/surface_container_high</item>
     </style>
 
     <style name="BackgroundColorSurfaceContainer">
-        <item name="android:backgroundTint">@color/on_surface_container_night</item>
+        <item name="android:backgroundTint">@color/on_surface_container</item>
     </style>
 
     <style name="IconTintColor">
-        <item name="android:tint">@color/purple_200</item>
+        <item name="android:tint">@color/purple</item>
     </style>
 
     <style name="IconDownloadTintColor">
-        <item name="android:tint">@color/green_200</item>
+        <item name="android:tint">@color/green</item>
     </style>
 
     <style name="ToolbarNavigationIconTintColor" parent="Widget.Material3.Toolbar">
-        <item name="navigationIconTint">@color/purple_200</item>
+        <item name="navigationIconTint">@color/purple</item>
     </style>
 
     <style name="TextColorOnSurface">
-        <item name="android:textColor">@color/background_color_white</item>
+        <item name="android:textColor">@color/on_background</item>
     </style>
 
     <style name="IconBottomSheetColor">
-        <item name="android:tint">@color/background_color_white</item>
+        <item name="android:tint">@color/on_background</item>
     </style>
 
     <style name="ColorLine">
@@ -54,31 +59,41 @@
 
     <style name="MaterialCard" parent="Widget.Material3.CardView.Filled">
         <item name="cardElevation">5dp</item>
-        <item name="cardBackgroundColor">@color/surface_container_high_night</item>
+        <item name="cardBackgroundColor">@color/surface_container_high</item>
         <item name="cardCornerRadius">10dp</item>
-        <item name="strokeColor">@color/purple_200</item>
+        <item name="strokeColor">@color/purple</item>
     </style>
 
     <style name="MaterialCardPlayer" parent="Widget.Material3.CardView.Filled">
         <item name="cardElevation">0dp</item>
-        <item name="cardBackgroundColor">@color/surface_container_high_night</item>
+        <item name="cardBackgroundColor">@color/surface_container_high</item>
         <item name="cardCornerRadius">15dp</item>
     </style>
 
+    <style name="MaterialCardDefault" parent="Widget.Material3.CardView.Filled">
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/background_color</item>
+        <item name="cardCornerRadius">0dp</item>
+    </style>
+
     <style name="BottomColor">
-        <item name="android:background">@color/bottom_color_dark</item>
+        <item name="android:background">@color/background_color</item>
     </style>
 
     <style name="IconCheckFavorite">
-        <item name="android:tint">@color/red_200</item>
+        <item name="android:tint">@color/red</item>
     </style>
 
     <style name="DotStyle">
         <item name="android:background">@drawable/corner_circle</item>
-        <item name="android:backgroundTint">@color/background_color_white</item>
+        <item name="android:backgroundTint">@color/background_color</item>
     </style>
 
     <style name="IconBlueSelectedColorStyle">
-        <item name="android:tint">@color/ic_selected_color_blue_dark</item>
+        <item name="android:tint">@color/ic_selected_color_blue</item>
+    </style>
+
+    <style name="BottomNavigationViewTint">
+        <item name="backgroundTint">@color/background_color</item>
     </style>
 </resources>

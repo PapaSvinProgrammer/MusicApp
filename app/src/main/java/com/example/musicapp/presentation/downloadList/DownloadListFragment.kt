@@ -1,7 +1,5 @@
 package com.example.musicapp.presentation.downloadList
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +16,6 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentListBinding
 import com.example.musicapp.presentation.recyclerAdapter.DownloadMusicAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicAdapter
-import com.example.musicapp.app.service.player.PlayerService
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DownloadListFragment: Fragment() {
@@ -27,14 +24,12 @@ class DownloadListFragment: Fragment() {
     private val viewModel by viewModel<DownloadListViewModel>()
     private val searchMusicAdapter by lazy {
         SearchMusicAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            playerService = viewModel.servicePlayer
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
     private val musicAdapter by lazy {
         DownloadMusicAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
 
@@ -45,27 +40,14 @@ class DownloadListFragment: Fragment() {
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
 
-        binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
-        binding.toolbar.subtitle = getString(R.string.all_music_text)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(0, systemBars.top, 0, 0)
-            insets
-        }
+        initToolbarAndPadding()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
+        binding.searchLayout.searchRecyclerView.adapter = searchMusicAdapter
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
@@ -91,12 +73,6 @@ class DownloadListFragment: Fragment() {
             }
         })
 
-        viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it == true) {
-                initServiceTools()
-            }
-        }
-
         viewModel.musicResult.observe(viewLifecycleOwner) { list ->
             musicAdapter.setData(list)
 
@@ -109,11 +85,22 @@ class DownloadListFragment: Fragment() {
         }
     }
 
-    private fun initServiceTools() {
-        binding.searchLayout.searchRecyclerView.adapter = searchMusicAdapter
+    override fun onStart() {
+        super.onStart()
 
         if (viewModel.musicResult.value == null) {
             viewModel.getDownloadedMusic()
+        }
+    }
+
+    private fun initToolbarAndPadding() {
+        binding.toolbar.inflateMenu(R.menu.top_app_bar_filter_search)
+        binding.toolbar.subtitle = getString(R.string.all_music_text)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
         }
     }
 

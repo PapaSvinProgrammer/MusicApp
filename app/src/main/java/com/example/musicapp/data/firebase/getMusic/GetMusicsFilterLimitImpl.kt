@@ -9,12 +9,13 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
-class GetMusicsFilterImpl {
+class GetMusicsFilterLimitImpl {
     suspend fun execute(
         id: String,
         field: String,
         filter: String,
-        sort: Query.Direction = Query.Direction.ASCENDING
+        sort: Query.Direction = Query.Direction.ASCENDING,
+        limit: Long
     ): List<Music> {
         val database = Firebase.firestore
         var result = listOf<Music>()
@@ -24,6 +25,7 @@ class GetMusicsFilterImpl {
                 .collection(CollectionConst.MUSIC_COLLECTION)
                 .orderBy(filter, sort)
                 .whereEqualTo(field, id)
+                .limit(limit)
                 .get()
                 .await()
                 .toObjects(Music::class.java)

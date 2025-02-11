@@ -16,7 +16,7 @@ class MusicRepositoryRoom(private val musicDao: MusicDao): MusicLiteRepository {
         musicDao.insertAuthor(musicResult.authorEntity)
         musicDao.insertMusic(musicResult.musicEntity)
         musicDao.insertCrossMusicPlaylist(
-            crossPlaylistMusicEntity = ConvertMusic().convertToCrossMusicPlaylist(
+            crossPlaylistMusicEntity = ConvertMusic.convertToCrossMusicPlaylist(
                 musicId = musicResult.musicEntity.firebaseId,
                 playlistId = playlistId
             )

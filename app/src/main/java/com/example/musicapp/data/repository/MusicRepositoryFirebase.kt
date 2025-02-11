@@ -4,6 +4,7 @@ import com.example.musicapp.data.constant.DocumentConst
 import com.example.musicapp.data.firebase.getMusic.GetMusicAllImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsByFieldIdImpl
 import com.example.musicapp.data.firebase.getMusic.GetMusicsFilterImpl
+import com.example.musicapp.data.firebase.getMusic.GetMusicsFilterLimitImpl
 import com.example.musicapp.data.firebase.getMusic.GetRandomMusicImpl
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.repository.MusicRepository
@@ -13,7 +14,8 @@ class MusicRepositoryFirebase(
     private val getMusicAllImpl: GetMusicAllImpl,
     private val getMusicsByFieldIdImpl: GetMusicsByFieldIdImpl,
     private val getRandomMusicImpl: GetRandomMusicImpl,
-    private val getMusicsFilterImpl: GetMusicsFilterImpl
+    private val getMusicsFilterImpl: GetMusicsFilterImpl,
+    private val getMusicsFilterLimitImpl: GetMusicsFilterLimitImpl
 ): MusicRepository {
     override suspend fun getRandomMusic(limit: Long): List<Music> {
         return getRandomMusicImpl.execute(limit)
@@ -37,6 +39,16 @@ class MusicRepositoryFirebase(
             field = DocumentConst.MUSIC_GROUP_ID_FIELD,
             filter = DocumentConst.MUSIC_NAME_FIELD,
             sort = Query.Direction.DESCENDING
+        )
+    }
+
+    override suspend fun getMusicByAuthorIdOrderRating(authorId: String, limit: Long): List<Music> {
+        return getMusicsFilterLimitImpl.execute(
+            id = authorId,
+            field = DocumentConst.MUSIC_GROUP_ID_FIELD,
+            filter = DocumentConst.MUSIC_NAME_FIELD,
+            sort = Query.Direction.DESCENDING,
+            limit = limit
         )
     }
 

@@ -24,7 +24,7 @@
         android:id="@+id/new_playlist_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:strokeWidth="0dp"
+        style="@style/MaterialCardDefault"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
@@ -49,6 +49,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    style="@style/IconBottomSheetColor"
                     android:layout_margin="20dp"
                     app:srcCompat="@drawable/ic_add" />
             </com.google.android.material.card.MaterialCardView>

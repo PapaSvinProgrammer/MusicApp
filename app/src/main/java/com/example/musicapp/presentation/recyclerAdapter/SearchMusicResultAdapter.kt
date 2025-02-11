@@ -12,18 +12,16 @@ import com.example.musicapp.R
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.databinding.ItemMusicBinding
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.app.service.player.PlayerService
-import com.example.musicapp.app.service.player.module.DataPlayerType
-import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.DataPlayerType
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.TypeDataPlayer
+import com.example.musicapp.app.support.ConvertMusic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchMusicResultAdapter(
-    private val playerService: PlayerService? = null,
     private val supportFragmentManager: FragmentManager
 ): RecyclerView.Adapter<SearchMusicResultAdapter.ViewHolder>() {
 
@@ -32,47 +30,61 @@ class SearchMusicResultAdapter(
             Glide.with(binding.root)
                 .load(music?.albumEntity?.imageLow)
                 .error(R.drawable.ic_error_music)
-                .into(binding.musicLayout.imageView)
+                .into(binding.imageView)
 
-            binding.musicLayout.musicTextView.text = music?.musicEntity?.name
-            binding.musicLayout.groupTextView.text = music?.authorEntity?.name
+            binding.musicTextView.text = music?.musicEntity?.name
+            binding.groupTextView.text = music?.authorEntity?.name
 
-            if (!music?.musicEntity?.movieUrl.isNullOrEmpty()) {
-                binding.musicLayout.iconMovieView.visibility = View.VISIBLE
-            }
-            else {
-                binding.musicLayout.iconMovieView.visibility = View.GONE
-            }
+            isMovieUrl(music)
+            isSaveMusic(music)
 
-            if (music?.saveMusicEntity != null) {
-                binding.musicLayout.iconDownloadView.visibility = View.VISIBLE
-            }
-            else {
-                binding.musicLayout.iconDownloadView.visibility = View.GONE
-            }
+            setRootOnClickListener(music)
+            setSettingsOnClickListener(music)
+        }
 
-            binding.root.setOnClickListener {
-                DataPlayerType.setType(TypeDataPlayer.LOCAL)
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    playerService?.setCurrentPosition(0)
-                    playerService?.setMusicList(
-                        list = listOf(convertItem(music))
-                    )
-                    playerService?.setPlayerState(StatePlayer.PLAY)
-                }
-            }
-
-            binding.musicLayout.settingsButton.setOnClickListener {
+        private fun setSettingsOnClickListener(music: MusicResult?) {
+            binding.settingsButton.setOnClickListener {
                 val musicBottomSheet = MusicBottomSheet()
                 val bundle = Bundle()
 
-                bundle.putParcelable(MusicBottomSheet.CURRENT_MUSIC, convertItem(music))
+                bundle.putParcelable(
+                    MusicBottomSheet.CURRENT_MUSIC,
+                    ConvertMusic.convertItemToMusic(music)
+                )
                 musicBottomSheet.arguments = bundle
 
                 supportFragmentManager.let {
                     musicBottomSheet.show(it, MusicBottomSheet.TAG)
                 }
+            }
+        }
+
+        private fun setRootOnClickListener(music: MusicResult?) {
+            binding.root.setOnClickListener {
+                DataPlayerType.setType(TypeDataPlayer.LOCAL)
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    val convertMusic = ConvertMusic.convertItemToMusic(music)
+                    MediaControllerManager.setMediaItems(listOf(convertMusic))
+                }
+            }
+        }
+
+        private fun isSaveMusic(music: MusicResult?) {
+            if (music?.saveMusicEntity != null) {
+                binding.iconDownloadView.visibility = View.VISIBLE
+            }
+            else {
+                binding.iconDownloadView.visibility = View.GONE
+            }
+        }
+
+        private fun isMovieUrl(music: MusicResult?) {
+            if (!music?.musicEntity?.movieUrl.isNullOrEmpty()) {
+                binding.iconMovieView.visibility = View.VISIBLE
+            }
+            else {
+                binding.iconMovieView.visibility = View.GONE
             }
         }
     }
@@ -96,22 +108,5 @@ class SearchMusicResultAdapter(
 
     fun setData(list: List<MusicResult?>) {
         asyncListDiffer.submitList(list)
-    }
-
-    private fun convertItem(it: MusicResult?): Music {
-        return Music(
-            id = it?.musicEntity?.firebaseId,
-            albumId = it?.albumEntity?.firebaseId,
-            albumName = it?.albumEntity?.name,
-            groupId = it?.authorEntity?.firebaseId,
-            group = it?.authorEntity?.name,
-            imageGroup = it?.authorEntity?.imageUrl,
-            imageLow = it?.albumEntity?.imageLow,
-            imageHigh = it?.albumEntity?.imageHigh,
-            movieUrl = it?.musicEntity?.movieUrl,
-            name = it?.musicEntity?.name,
-            time = it?.musicEntity?.time ?: 0,
-            url = it?.musicEntity?.url
-        )
     }
 }

@@ -2,12 +2,11 @@ package com.example.musicapp.presentation.main
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -15,8 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
-import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.session.MediaController
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -25,24 +27,25 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.R
 import com.example.musicapp.app.broadcastReceiver.NetworkReceiver
 import com.example.musicapp.databinding.ActivityMainBinding
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.presentation.pagerAdapter.BottomPlayerAdapter
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
-import com.example.musicapp.app.service.audioDownloader.AudioDownloadManager
-import com.example.musicapp.app.service.audioDownloader.AudioManager
-import com.example.musicapp.app.service.player.module.DataPlayerType
-import com.example.musicapp.app.service.player.module.PlayerInfo
-import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.DataPlayerType
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.PlayerInfo
+import com.example.musicapp.app.service.player.TypeDataPlayer
+import com.example.musicapp.domain.state.ControlPlayer
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity: AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var mediaController: MediaController
     private val viewModel by viewModel<MainViewModel>()
+
     private val bottomPlayerAdapter by lazy {
         BottomPlayerAdapter(
-            navController = navController,
-            viewModel = viewModel
+            navController = navController
         )
     }
     private val networkReceiver by lazy { NetworkReceiver() }
@@ -62,7 +65,6 @@ class MainActivity: AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
         binding.bottomNavigation.setupWithNavController(navController)
 
-        binding.bottomViewPager.adapter = bottomPlayerAdapter
         binding.bottomViewPager.offscreenPageLimit = 1
 
         HorizontalOffsetController().setPreviewOffsetBottomPager(
@@ -77,36 +79,19 @@ class MainActivity: AppCompatActivity() {
             }
 
             DataPlayerType.setType(TypeDataPlayer.GENERATE)
-            viewModel.servicePlayer?.setMusicList(array)
-            binding.progressIndicator.visibility = View.GONE
-
             viewModel.isFavorite(array.first().id ?: "")
-        }
+            viewModel.setMediaItems(array)
 
-        viewModel.isBound.observe(this) {
-            if (it) {
-                initServiceTools()
-
-                if (viewModel.musicList?.value == null && viewModel.startDownloadResult.value == true) {
-                    viewModel.getRandomMusic()
-                }
-            }
+            binding.progressIndicator.visibility = View.GONE
         }
 
         viewModel.startDownloadResult.observe(this) {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
 
-                initDownloadManager()
+                MediaControllerManager.init(this)
+                Log.d("RRRR", "PRE = ${MediaControllerManager.mediaController}")
                 intiPermission()
-
-                bindService(
-                    Intent(this, PlayerService::class.java),
-                    viewModel.connectionToPlayerService,
-                    Context.BIND_AUTO_CREATE
-                )
-
-                viewModel.getRandomMusic()
             }
         }
 
@@ -117,10 +102,32 @@ class MainActivity: AppCompatActivity() {
             }
         }
 
+        PlayerInfo.musicList.observe(this) { list ->
+            bottomPlayerAdapter.setData(list)
+        }
+
+        MediaControllerManager.addInitCallback {
+            if (it) {
+                viewModel.isInitMediaController = true
+                mediaController = MediaControllerManager.mediaController
+
+                initMediaControllerListener()
+                viewModel.getRandomMusic()
+            }
+        }
+
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
+            private var state = -1
+
+            override fun onPageScrollStateChanged(state: Int) {
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    this.state = ViewPager2.SCROLL_STATE_IDLE
+                }
+            }
+
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (positionOffset == 0f) {
-                    viewModel.servicePlayer?.setCurrentPosition(position)
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    //viewModel.setCurrentPosition(mediaController, position)
                 }
             }
         })
@@ -130,8 +137,63 @@ class MainActivity: AppCompatActivity() {
         }
 
         networkReceiver.setCallback {
-            drawWifiError(it)
+            drawNetworkError(it)
             viewModel.networkConnection = it
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    override fun onDestroy() {
+        MediaControllerManager.release()
+
+        super.onDestroy()
+    }
+
+    private val mediaControllerListener = object: Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            PlayerInfo.setCurrentObject(MediaControllerManager.getCurrentMusic())
+            val currentIndex = mediaController.currentMediaItemIndex
+
+            if (binding.bottomViewPager.currentItem != currentIndex) {
+                binding.bottomViewPager.setCurrentItem(currentIndex, false)
+            }
+
+            PlayerInfo.musicList.value?.let {
+                val currentItem = mediaController.currentMediaItemIndex
+
+                if (currentItem == it.size - 1) {
+                    viewModel.putRandomMusic()
+                }
+            }
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            PlayerInfo.setIsPlay(isPlaying)
+
+            if (isPlaying) {
+                initObserveToDuration()
+            }
+        }
+    }
+
+    private fun initObserveToDuration() {
+        lifecycleScope.launch {
+            MediaControllerManager.currentDuration().collect {
+                PlayerInfo.setDuration(it)
+            }
+        }
+    }
+
+    private fun initMediaControllerListener() {
+        binding.bottomViewPager.adapter = bottomPlayerAdapter
+        mediaController.addListener(mediaControllerListener)
+
+        bottomPlayerAdapter.setOnClickListener { controlPlayer, music ->
+            when (controlPlayer) {
+                ControlPlayer.LIKE -> viewModel.addMusicInSQLite(music)
+                ControlPlayer.DISLIKE -> viewModel.deleteMusicFromSQLite(music.id ?: "")
+                else -> {}
+            }
         }
     }
 
@@ -150,35 +212,7 @@ class MainActivity: AppCompatActivity() {
             viewModel.setStartState(true)
             binding.bottomNavigation.visibility = View.VISIBLE
             binding.viewPagerLayout.visibility = View.VISIBLE
-            drawWifiError(viewModel.networkConnection)
-        }
-    }
-
-    @OptIn(UnstableApi::class)
-    override fun onDestroy() {
-        AudioManager.audioDownloadManager?.downloadCache?.release()
-        AudioManager.audioDownloadManager?.downloadCache = null
-        super.onDestroy()
-    }
-
-    private fun initServiceTools() {
-        PlayerInfo.currentPosition.observe(this) { position ->
-            if (position == viewModel.countMusicList - 1) {
-                viewModel.addRandomMusic()
-            }
-
-            binding.bottomViewPager.doOnPreDraw {
-                binding.bottomViewPager.setCurrentItem(position, false)
-            }
-        }
-
-        PlayerInfo.currentObject.observe(this) {
-            viewModel.isFavorite(it.id ?: "")
-        }
-
-        viewModel.musicList?.observe(this) { list ->
-            bottomPlayerAdapter.setData(list)
-            viewModel.countMusicList = list.size
+            drawNetworkError(viewModel.networkConnection)
         }
     }
 
@@ -193,11 +227,6 @@ class MainActivity: AppCompatActivity() {
         )
     }
 
-    @UnstableApi
-    private fun initDownloadManager() {
-        AudioManager.audioDownloadManager = AudioDownloadManager(this)
-    }
-
     private fun registerNetworkReceiver() {
         @Suppress("DEPRECATION")
         val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -205,7 +234,7 @@ class MainActivity: AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun drawWifiError(state: Int?) {
+    private fun drawNetworkError(state: Int?) {
         when (state) {
             ConnectivityManager.TYPE_WIFI -> binding.viewPagerLayout.visibility = View.VISIBLE
             ConnectivityManager.TYPE_MOBILE -> binding.viewPagerLayout.visibility = View.VISIBLE

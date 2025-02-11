@@ -1,13 +1,13 @@
 package com.example.musicapp.presentation.mainPlayer
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,31 +18,35 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.data.constant.ErrorConst
 import com.example.musicapp.databinding.FragmentPlayerBinding
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
-import com.example.musicapp.app.service.player.PlayerService
+import com.example.musicapp.app.service.player.MediaService
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
-import com.example.musicapp.app.service.player.module.PlayerInfo
 import com.example.musicapp.app.service.video.VideoPlayer
 import com.example.musicapp.app.service.video.VideoService
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.google.android.material.snackbar.Snackbar
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.MoreExecutors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var navController: NavController
+    private lateinit var mediaController: MediaController
+    private lateinit var controllerAsync: ListenableFuture<MediaController>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
 
@@ -62,14 +66,6 @@ class PlayerFragment: Fragment() {
         binding.viewPager.adapter = playerAdapter
 
         initBlur()
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
 
         requireActivity().apply {
             bindService(
@@ -127,16 +123,9 @@ class PlayerFragment: Fragment() {
             binding.likeButton.isSelected = it != null
         }
 
-        viewModel.isBoundAudio.observe(viewLifecycleOwner) {
-            if (it) {
-                initSeekBar()
-                initPlayerServiceTools()
-            }
-        }
-
         viewModel.isBoundVideo.observe(viewLifecycleOwner) {
             if (it == true) {
-                initVideoServiceTools()
+
             }
         }
 
@@ -189,10 +178,7 @@ class PlayerFragment: Fragment() {
             val bottomSheetDialog = MusicBottomSheet()
 
             val bundle = Bundle()
-            bundle.putParcelable(
-                MusicBottomSheet.CURRENT_MUSIC,
-                PlayerInfo.currentObject.value
-            )
+
 
             bottomSheetDialog.arguments = bundle
             requireActivity().supportFragmentManager.let {
@@ -210,14 +196,14 @@ class PlayerFragment: Fragment() {
             }
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (positionOffset == 0f) {
-                    resetControlPlayerUI()
-
-                    if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
-                        viewModel.servicePlayer?.setCurrentPosition(position)
-                        resetControlPlayerUI()
-                    }
-                }
+//                if (positionOffset == 0f) {
+//                    resetControlPlayerUI()
+//
+//                    if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
+//                        viewModel.servicePlayer?.setCurrentPosition(position)
+//                        resetControlPlayerUI()
+//                    }
+//                }
             }
         })
 
@@ -241,103 +227,33 @@ class PlayerFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        if (viewModel.getFavoriteMusicResult.value == null) {
-            viewModel.getFavoriteMusic(
-                id = PlayerInfo.currentObject.value?.id.toString()
-            )
-        }
+        val sessionToken = SessionToken(
+            requireContext(),
+            ComponentName(requireContext(), MediaService::class.java)
+        )
+
+        controllerAsync = MediaController.Builder(requireContext(), sessionToken).buildAsync()
+        controllerAsync.addListener({
+            mediaController = controllerAsync.get()
+        }, MoreExecutors.directExecutor())
+
     }
 
-    override fun onStop() {
-        try {
-            requireActivity().unbindService(viewModel.connectionToPlayerService)
-            requireActivity().unbindService(viewModel.connectionToVideoService)
-        } catch (e: Exception) {
-            Log.e(ErrorConst.DEFAULT_ERROR, e.message.toString())
-        }
-
-        super.onStop()
+    override fun onDestroy() {
+        MediaController.releaseFuture(controllerAsync)
+        super.onDestroy()
     }
 
     private fun executeMoveToAuthor() {
         val bundle = Bundle()
-        val firebaseId = PlayerInfo.currentObject.value?.groupId
-        bundle.putString(AuthorFragment.AUTHOR_KEY, firebaseId)
+
 
         navController.popBackStack()
         navController.navigate(R.id.action_global_authorFragment, bundle)
     }
 
     private fun initSeekBar() {
-        viewModel.maxDurationLiveData?.observe(viewLifecycleOwner) {
-            binding.seekBar.max = it.toInt()
-            viewModel.getMissTime(it)
-            viewModel.getPassTime(it)
-        }
 
-        viewModel.durationLiveData?.observe(viewLifecycleOwner) {
-            binding.seekBar.progress = it.toInt()
-            viewModel.getMissTime(it)
-            viewModel.getPassTime(it)
-        }
-    }
-
-    private fun initPlayerServiceTools() {
-        if (PlayerInfo.isPlay.value == true) {
-            binding.playStopView.isSelected = true
-        }
-
-        viewModel.musicList?.observe(viewLifecycleOwner) { list ->
-            playerAdapter.setData(list)
-        }
-
-        PlayerInfo.currentPosition.observe(viewLifecycleOwner) { position ->
-            resetVideo()
-            viewModel.getFavoriteMusic(
-                id = PlayerInfo.currentObject.value?.id.toString()
-            )
-
-            binding.viewPager.setCurrentItem(position, false)
-        }
-
-        PlayerInfo.currentObject.observe(viewLifecycleOwner) { obj ->
-            viewModel.videoService?.setVideo(
-                music = obj,
-                isPlay = PlayerInfo.isPlay.value ?: false
-            )
-
-            Glide.with(binding.root)
-                .load(obj.imageHigh)
-                .into(binding.backImage)
-
-            Glide.with(binding.root)
-                .load(obj.imageGroup)
-                .into(binding.groupImageView)
-
-            changeNameAndGroupView()
-        }
-
-        viewModel.bufferedPosition?.observe(viewLifecycleOwner) {
-            binding.seekBar.secondaryProgress = it.toInt()
-        }
-    }
-
-    private fun initVideoServiceTools() {
-        binding.videoPlayer.player = VideoPlayer.exoPlayer
-
-        viewModel.videoService?.setVideo(
-            music = PlayerInfo.currentObject.value!!,
-            isPlay = PlayerInfo.isPlay.value ?: false
-        )
-
-        viewModel.isSuccessVideo?.observe(viewLifecycleOwner) {
-            if (it == true) {
-
-                if (PlayerInfo.isPlay.value == true) {
-                    binding.videoPlayer.visibility = View.VISIBLE
-                }
-            }
-        }
     }
 
     private fun resetControlPlayerUI() {
@@ -357,10 +273,6 @@ class PlayerFragment: Fragment() {
         val bottomSheetText = MusicTextBottomSheet()
 
         val bundle = Bundle()
-        bundle.putString(
-            MusicTextBottomSheet.ID_KEY,
-            PlayerInfo.currentObject.value?.id
-        )
 
         bottomSheetText.arguments = bundle
         requireActivity().supportFragmentManager.let {
@@ -387,14 +299,14 @@ class PlayerFragment: Fragment() {
             true -> {
                 binding.repeatButton.isSelected = false
                 binding.repeatDot.visibility = View.GONE
-                viewModel.servicePlayer?.repeat(false)
+
                 binding.viewPager.isUserInputEnabled = true
             }
 
             false -> {
                 binding.repeatButton.isSelected = true
                 binding.repeatDot.visibility = View.VISIBLE
-                viewModel.servicePlayer?.repeat(true)
+
                 binding.viewPager.isUserInputEnabled = false
             }
         }
@@ -421,7 +333,6 @@ class PlayerFragment: Fragment() {
             true -> {
                 viewModel.isFavorite = false
                 binding.likeButton.isSelected = false
-                viewModel.deleteMusic(PlayerInfo.currentObject.value?.id.toString())
             }
 
             false -> {
@@ -433,24 +344,21 @@ class PlayerFragment: Fragment() {
 
                 viewModel.isFavorite = true
                 binding.likeButton.isSelected = true
-                viewModel.addFavoriteMusic(PlayerInfo.currentObject.value ?: Music())
             }
         }
     }
 
     private fun nextMusic() {
         binding.seekBar.progress = 0
-        viewModel.servicePlayer?.next()
+
     }
 
     private fun previousMusic() {
         binding.seekBar.progress = 0
-        viewModel.servicePlayer?.previous()
     }
 
     private fun pauseMusic() {
         binding.playStopView.isSelected = false
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
     }
 
     private fun pauseVideo() {
@@ -462,7 +370,6 @@ class PlayerFragment: Fragment() {
 
     private fun playMusic() {
         binding.playStopView.isSelected = true
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
     }
 
     private fun playVideo() {
@@ -486,13 +393,6 @@ class PlayerFragment: Fragment() {
         }
 
         startActivity(Intent.createChooser(sendIntent, null))
-    }
-
-    private fun changeNameAndGroupView() {
-        val newObj = PlayerInfo.currentObject.value
-
-        binding.musicTextView.text = newObj?.name
-        binding.groupTextView.text = newObj?.group
     }
 
     @SuppressLint("NewApi")

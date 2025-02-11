@@ -50,13 +50,14 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Name the song" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/icon_movie_view"
+        <ImageView
+            android:id="@+id/icon_explicit_view"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="5dp"
             style="@style/IconBottomSheetColor"
-            app:srcCompat="@drawable/ic_video_music"
+            app:srcCompat="@drawable/ic_explicit"
+            android:contentDescription="@string/explicit_text"
             app:layout_constraintBottom_toTopOf="@+id/group_text_view"
             app:layout_constraintStart_toEndOf="@+id/name_text_view"
             app:layout_constraintTop_toTopOf="@+id/name_text_view" />
@@ -79,10 +80,9 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon_favorite_view"
             style="@style/IconCheckFavorite"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="15dp"
-            android:padding="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
             android:src="@drawable/ic_check_favorite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/icon_play_view"
@@ -91,9 +91,10 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon_play_view"
             style="@style/IconTintColor"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
+            android:padding="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

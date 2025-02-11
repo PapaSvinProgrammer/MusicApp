@@ -9,20 +9,22 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.PlayerInfo
 import com.example.musicapp.databinding.ItemBottomPlayerBinding
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.module.DiffUtilObject
-import com.example.musicapp.presentation.main.MainViewModel
-import com.example.musicapp.app.service.player.module.PlayerInfo
+import com.example.musicapp.domain.state.ControlPlayer
 
 class BottomPlayerAdapter(
-    private val navController: NavController,
-    private val viewModel: MainViewModel
+    private val navController: NavController
 ): RecyclerView.Adapter<BottomPlayerAdapter.ViewHolder>() {
+    private var listener: ((ControlPlayer, Music) -> Unit)? = null
+    private val mediaController by lazy { MediaControllerManager.mediaController }
+
     inner class ViewHolder(
-        private val livecycleOwner: LifecycleOwner,
-        val binding: ItemBottomPlayerBinding
+        val binding: ItemBottomPlayerBinding,
+        val lifecycle: LifecycleOwner
     ): RecyclerView.ViewHolder(binding.root) {
         fun onBind(music: Music) {
             Glide.with(binding.root)
@@ -33,90 +35,72 @@ class BottomPlayerAdapter(
             binding.nameTextView.text = music.name
             binding.groupTextView.text = music.group
 
-            binding.iconPlayView.setOnClickListener {
-                when (binding.iconPlayView.isSelected) {
-                    true -> viewModel.setStatePlayer(StatePlayer.PAUSE)
-                    false -> viewModel.setStatePlayer(StatePlayer.PLAY)
+            initSeekBar()
+            setPlayClickListener()
+            setLikeClickListener(music)
+
+            PlayerInfo.duration.observe(lifecycle) {
+                binding.progressIndicator.progress = it.toInt()
+            }
+
+            PlayerInfo.isPlay.observe(lifecycle) {
+                binding.iconPlayView.isSelected = it
+            }
+
+            PlayerInfo.currentObject.observe(lifecycle) {
+                if (it.id == music.id) {
+                    binding.progressIndicator.progress = 0
+                    showMainTools()
                 }
-            }
-
-            binding.iconFavoriteView.setOnClickListener {
-                when (binding.iconFavoriteView.isSelected) {
-                    true -> dislike(music.id ?: "")
-                    false -> like(music)
-                }
-            }
-
-            if (!music.movieUrl.isNullOrEmpty()) {
-                binding.iconMovieView.visibility = View.VISIBLE
-            }
-            else {
-                binding.iconMovieView.visibility = View.GONE
-            }
-
-            viewModel.statePlayer.observe(livecycleOwner) {
-                when (it) {
-                    StatePlayer.PLAY -> {
-                        viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
-                        binding.iconPlayView.isSelected = true
-                    }
-
-                    StatePlayer.PAUSE -> {
-                        viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
-                        binding.iconPlayView.isSelected = false
-                    }
-
-                    else -> {}
-                }
-            }
-
-            viewModel.isBound.observe(livecycleOwner) {
-                if (it) initServiceTools(music)
-            }
-
-            viewModel.isFavoriteResult.observe(livecycleOwner) { musicResult ->
-                when (musicResult?.musicEntity?.firebaseId == music.id) {
-                    true -> binding.iconFavoriteView.isSelected = true
-                    false -> binding.iconFavoriteView.isSelected = false
+                else {
+                    hideMainTools()
                 }
             }
         }
 
-        private fun initServiceTools(music: Music) {
-            PlayerInfo.isPlay.observe(livecycleOwner) {
-                binding.iconPlayView.isSelected = it
-            }
-
-            viewModel.maxDurationLiveData?.observe(livecycleOwner) {
-                binding.progressIndicator.max = it.toInt()
-            }
-
-            viewModel.durationLiveData?.observe(livecycleOwner) {
-                binding.progressIndicator.progress = it.toInt()
-            }
-
-            PlayerInfo.currentObject.observe(livecycleOwner) {
-                if (music.id != it.id) {
-                    binding.progressIndicator.visibility = View.GONE
-                    binding.iconPlayView.visibility = View.GONE
-                    binding.iconFavoriteView.visibility = View.GONE
-                }
-                else {
-                    binding.progressIndicator.visibility = View.VISIBLE
-                    binding.iconPlayView.visibility = View.VISIBLE
-                    binding.iconFavoriteView.visibility = View.VISIBLE
+        private fun setPlayClickListener() {
+            binding.iconPlayView.setOnClickListener {
+                when (binding.iconPlayView.isSelected) {
+                    true -> mediaController.pause()
+                    false -> mediaController.play()
                 }
             }
+        }
+
+        private fun setLikeClickListener(music: Music) {
+            binding.iconFavoriteView.setOnClickListener {
+                when (binding.iconFavoriteView.isSelected) {
+                    true -> dislike(music)
+                    false -> like(music)
+                }
+            }
+        }
+
+        private fun initSeekBar() {
+            val currentObject = MediaControllerManager.getCurrentMusic()
+            binding.progressIndicator.max = currentObject.time * 1000
+        }
+
+        private fun showMainTools() {
+            binding.iconPlayView.visibility = View.VISIBLE
+            binding.progressIndicator.visibility = View.VISIBLE
+            binding.iconFavoriteView.visibility = View.VISIBLE
+        }
+
+        private fun hideMainTools() {
+            binding.iconPlayView.visibility = View.GONE
+            binding.progressIndicator.visibility = View.GONE
+            binding.iconFavoriteView.visibility = View.GONE
         }
 
         private fun like(music: Music) {
             binding.iconFavoriteView.isSelected = true
-            viewModel.addMusic(music)
+            listener?.invoke(ControlPlayer.LIKE, music)
         }
 
-        private fun dislike(musicId: String) {
+        private fun dislike(music: Music) {
             binding.iconFavoriteView.isSelected = false
-            viewModel.deleteMusic(musicId)
+            listener?.invoke(ControlPlayer.DISLIKE, music)
         }
     }
 
@@ -124,13 +108,10 @@ class BottomPlayerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val livecycleOwner = parent.context as LifecycleOwner
+        val lifecycle = parent.context as LifecycleOwner
         val binding = ItemBottomPlayerBinding.inflate(inflater, parent, false)
 
-        return ViewHolder(
-            binding = binding,
-            livecycleOwner = livecycleOwner
-        )
+        return ViewHolder(binding, lifecycle)
     }
 
     override fun getItemCount(): Int = asyncListDiffer.currentList.size
@@ -146,5 +127,9 @@ class BottomPlayerAdapter(
 
     fun setData(list: List<Music>) {
         asyncListDiffer.submitList(list)
+    }
+
+    fun setOnClickListener(listener: (ControlPlayer, Music) -> Unit) {
+        this.listener = listener
     }
 }

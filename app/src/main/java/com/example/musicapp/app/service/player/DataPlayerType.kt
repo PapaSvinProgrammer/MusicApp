@@ -1,4 +1,4 @@
-package com.example.musicapp.app.service.player.module
+package com.example.musicapp.app.service.player
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

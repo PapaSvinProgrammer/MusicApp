@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
@@ -29,15 +28,6 @@ class PlayerViewModel(
     private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
     private val findMusicInSQLite: FindMusicInSQLite
 ): ViewModel() {
-    var durationLiveData: LiveData<Long>? = null
-    var maxDurationLiveData: LiveData<Long>? = null
-    var isRepeat: LiveData<Boolean>? = null
-    var bufferedPosition: LiveData<Long>? = null
-    var musicList: LiveData<List<Music>>? = null
-    @SuppressLint("StaticFieldLeak")
-    var servicePlayer: PlayerService? = null
-    val isBoundAudio = MutableLiveData<Boolean>()
-
     @SuppressLint("StaticFieldLeak")
     var videoService: VideoService? = null
     var isSuccessVideo: LiveData<Boolean>? = null
@@ -66,31 +56,20 @@ class PlayerViewModel(
     }
 
     fun seekTo(msec: Int?) {
-        if (msec != null) servicePlayer?.seekTo(msec)
+
     }
 
     @SuppressLint("SimpleDateFormat")
     fun getMissTime(current: Long?) {
         viewModelScope.launch {
-            if (current == null) return@launch
-            val result = (maxDurationLiveData?.value ?: 0) - current
 
-            val simpleDateFormat = SimpleDateFormat("m:ss")
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = result
-
-            missTimeLiveData.value = simpleDateFormat.format(calendar.time)
         }
     }
 
     @SuppressLint("SimpleDateFormat")
     fun getPassTime(current: Long) {
         viewModelScope.launch {
-            val simpleDateFormat = SimpleDateFormat("m:ss")
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = current
 
-            passTimeLiveData.value = simpleDateFormat.format(calendar.time)
         }
     }
 
@@ -112,23 +91,6 @@ class PlayerViewModel(
     fun deleteMusic(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteMusicFromSQLite.execute(id)
-        }
-    }
-
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val bind = service as PlayerService.PlayerBinder
-            servicePlayer = bind.getService()
-            maxDurationLiveData = bind.getMaxDuration()
-            durationLiveData = bind.getCurrentDuration()
-            isRepeat = bind.isRepeat()
-            bufferedPosition = bind.getBufferedPosition()
-            musicList = bind.getMusicList()
-            isBoundAudio.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBoundAudio.value = false
         }
     }
 

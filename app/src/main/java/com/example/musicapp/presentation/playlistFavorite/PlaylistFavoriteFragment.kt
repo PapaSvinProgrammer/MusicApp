@@ -1,8 +1,7 @@
 package com.example.musicapp.presentation.playlistFavorite
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
+import android.content.ComponentName
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,15 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
+import com.example.musicapp.app.service.player.MediaService
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.presentation.bottomSheetPlaylistFavorite.PlaylistFavoriteBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicResultAdapter
+import com.google.common.util.concurrent.ListenableFuture
+import com.google.common.util.concurrent.MoreExecutors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFavoriteFragment: Fragment() {
@@ -28,8 +31,7 @@ class PlaylistFavoriteFragment: Fragment() {
     private val viewModel by viewModel<PlaylistFavoriteViewModel>()
     private val musicResultAdapter by lazy {
         MusicResultAdapter(
-            supportFragmentManager = requireActivity().supportFragmentManager,
-            servicePlayer = viewModel.servicePlayer
+            supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
     private val searchMusicResultAdapter by lazy {
@@ -52,17 +54,8 @@ class PlaylistFavoriteFragment: Fragment() {
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-
         binding.searchLayout.searchRecyclerView.adapter = searchMusicResultAdapter
         binding.recyclerView.adapter = musicResultAdapter
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
 
         viewModel.countTextMusic.observe(viewLifecycleOwner) { text ->
             binding.appBar.countMusicView.text = text
@@ -106,18 +99,6 @@ class PlaylistFavoriteFragment: Fragment() {
         })
     }
 
-    private fun search() {
-        binding.searchLayout.searchView.show()
-    }
-
-    private fun settings() {
-        val bottomSheet = PlaylistFavoriteBottomSheet()
-
-        requireActivity().supportFragmentManager.let {
-            bottomSheet.show(it, PlaylistFavoriteBottomSheet.TAG)
-        }
-    }
-
     override fun onStart() {
         super.onStart()
 
@@ -136,5 +117,17 @@ class PlaylistFavoriteFragment: Fragment() {
         Glide.with(binding.root)
             .load(getString(R.string.url_favorite_playlist))
             .into(binding.appBar.backImage)
+    }
+
+    private fun search() {
+        binding.searchLayout.searchView.show()
+    }
+
+    private fun settings() {
+        val bottomSheet = PlaylistFavoriteBottomSheet()
+
+        requireActivity().supportFragmentManager.let {
+            bottomSheet.show(it, PlaylistFavoriteBottomSheet.TAG)
+        }
     }
 }

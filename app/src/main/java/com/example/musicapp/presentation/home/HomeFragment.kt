@@ -1,8 +1,6 @@
 package com.example.musicapp.presentation.home
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -22,31 +20,27 @@ import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.app.broadcastReceiver.NetworkReceiver
 import com.example.musicapp.databinding.FragmentHomeBinding
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
-import com.example.musicapp.app.service.player.module.DataPlayerType
-import com.example.musicapp.app.service.player.module.PlayerInfo
-import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.DataPlayerType
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var navController: NavController
+
+    private val mediaController by lazy { MediaControllerManager.mediaController }
     private val viewModel by viewModel<HomeViewModel>()
     private val networkReceiver by lazy { NetworkReceiver() }
-
     private val searchAdapter by lazy {
         SearchAllAdapter(
             navController = navController,
-            playerService = viewModel.servicePlayer,
             supportFragmentManager = requireActivity().supportFragmentManager
         )
     }
@@ -71,15 +65,9 @@ class HomeFragment: Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
-        registerNetworkReceiver()
 
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
+        binding.searchLayout.searchRecyclerView.adapter = searchAdapter
+        registerNetworkReceiver()
 
         binding.mainPlayButton.setOnClickListener {
             when (binding.mainPlayButton.isSelected) {
@@ -118,14 +106,10 @@ class HomeFragment: Fragment() {
             }
 
             when (it) {
-                StatePlayer.PLAY -> play()
-                StatePlayer.PAUSE -> pause()
+                StatePlayer.PLAY -> mediaController.play()
+                StatePlayer.PAUSE -> mediaController.pause()
                 else -> {}
             }
-        }
-
-        viewModel.isBound.observe(viewLifecycleOwner) {
-            if (it) initServiceTools()
         }
 
         viewModel.searchResult.observe(viewLifecycleOwner) { list ->
@@ -136,12 +120,7 @@ class HomeFragment: Fragment() {
 
         viewModel.randomMusicsResult.observe(viewLifecycleOwner) { list ->
             DataPlayerType.setType(TypeDataPlayer.GENERATE)
-
-            CoroutineScope(Dispatchers.Main).launch {
-                viewModel.servicePlayer?.setCurrentPosition(0)
-                viewModel.servicePlayer?.setMusicList(list)
-                viewModel.setStatePlayer(StatePlayer.PLAY)
-            }
+            viewModel.setMediaItems(list)
         }
 
         DataPlayerType.type.observe(viewLifecycleOwner) { type ->
@@ -216,33 +195,6 @@ class HomeFragment: Fragment() {
         }
 
         return newChip
-    }
-
-    private fun initServiceTools() {
-        binding.searchLayout.searchRecyclerView.adapter = searchAdapter
-
-        PlayerInfo.isPlay.observe(viewLifecycleOwner) { state ->
-            if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
-                return@observe
-            }
-
-            if (state) {
-                binding.mainPlayButton.isSelected = true
-                binding.lottieAnim.playAnimation()
-            }
-            else {
-                binding.mainPlayButton.isSelected = false
-                binding.lottieAnim.pauseAnimation()
-            }
-        }
-    }
-
-    private fun pause() {
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.PAUSE)
-    }
-
-    private fun play() {
-        viewModel.servicePlayer?.setPlayerState(StatePlayer.PLAY)
     }
 
     private fun setSearch() {

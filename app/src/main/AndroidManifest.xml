@@ -32,12 +32,6 @@
         </activity>
 
         <service
-            android:name=".app.service.player.PlayerService"
-            android:exported="false"
-            android:enabled="true"
-            android:foregroundServiceType="mediaPlayback"/>
-
-        <service
             android:name=".app.service.audioDownloader.AudioDownloadService"
             android:exported="false"
             android:foregroundServiceType="dataSync"/>
@@ -46,5 +40,15 @@
             android:name=".app.service.video.VideoService"
             android:exported="false"
             android:enabled="true"/>
+
+        <service
+            android:name=".app.service.player.MediaService"
+            android:foregroundServiceType="mediaPlayback"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService"/>
+            </intent-filter>
+        </service>
     </application>
 </manifest>

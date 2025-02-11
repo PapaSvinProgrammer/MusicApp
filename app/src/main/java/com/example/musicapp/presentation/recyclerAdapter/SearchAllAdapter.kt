@@ -13,20 +13,18 @@ import com.example.musicapp.R
 import com.example.musicapp.databinding.ItemSearchAllBinding
 import com.example.musicapp.domain.module.DiffUtilObject
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.album.AlbumFragment
 import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
-import com.example.musicapp.app.service.player.PlayerService
-import com.example.musicapp.app.service.player.module.DataPlayerType
-import com.example.musicapp.app.service.player.module.TypeDataPlayer
+import com.example.musicapp.app.service.player.DataPlayerType
+import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.TypeDataPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchAllAdapter(
     private val navController: NavController? = null,
-    private val playerService: PlayerService? = null,
     private val supportFragmentManager: FragmentManager
 ): RecyclerView.Adapter<SearchAllAdapter.ViewHolder>() {
 
@@ -69,13 +67,8 @@ class SearchAllAdapter(
 
             binding.root.setOnClickListener {
                 DataPlayerType.setType(TypeDataPlayer.LOCAL)
-
                 CoroutineScope(Dispatchers.Main).launch {
-                    playerService?.setCurrentPosition(0)
-                    playerService?.setMusicList(
-                        list = listOf(item)
-                    )
-                    playerService?.setPlayerState(StatePlayer.PLAY)
+                    MediaControllerManager.setMediaItems(listOf(item))
                 }
             }
 

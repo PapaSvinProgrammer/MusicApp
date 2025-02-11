@@ -20,7 +20,6 @@ import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetReport.ReportBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicInfo.MusicInfoBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
-import com.example.musicapp.app.service.player.PlayerService
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -51,14 +50,6 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = findNavController()
-
-        requireActivity().apply {
-            bindService(
-                Intent(this, PlayerService::class.java),
-                viewModel.connectionToPlayerService,
-                Context.BIND_AUTO_CREATE
-            )
-        }
 
         binding.favoriteLayout.setOnClickListener {
             viewModel.setAction(ActionMusic.LIKE)
@@ -133,8 +124,14 @@ class MusicBottomSheet: BottomSheetDialogFragment() {
 
         viewModel.isDownloadResult.observe(viewLifecycleOwner) {
             when (it != null) {
-                true -> binding.downloadLayout.visibility = View.GONE
-                false -> binding.deleteLayout.visibility = View.GONE
+                true -> {
+                    binding.downloadLayout.visibility = View.GONE
+                    binding.downloadView.visibility = View.GONE
+                }
+                false -> {
+                    binding.deleteLayout.visibility = View.GONE
+                    binding.deleteView.visibility = View.GONE
+                }
             }
         }
 

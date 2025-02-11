@@ -1,18 +1,15 @@
 package com.example.musicapp.presentation.home
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.media3.session.MediaController
+import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.data.constant.PlaylistConst
 import com.example.musicapp.domain.module.Album
 import com.example.musicapp.domain.module.Group
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.domain.state.SearchFilterState
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
@@ -34,10 +31,6 @@ class HomeViewModel(
     private val addPlaylistInSQLite: AddPlaylistInSQLite,
     private val getRandomMusic: GetRandomMusic
 ): ViewModel() {
-    @SuppressLint("StaticFieldLeak")
-    var servicePlayer: PlayerService? = null
-    val isBound = MutableLiveData<Boolean>()
-
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val searchLiveData = MutableLiveData<List<Music>>()
     private val randomMusicsLIveData = MutableLiveData<List<Music>>()
@@ -80,15 +73,9 @@ class HomeViewModel(
         }
     }
 
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as PlayerService.PlayerBinder
-            servicePlayer = binder.getService()
-            isBound.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
+    fun setMediaItems(list: List<Music>) {
+        viewModelScope.launch {
+            MediaControllerManager.setMediaItems(list)
         }
     }
 

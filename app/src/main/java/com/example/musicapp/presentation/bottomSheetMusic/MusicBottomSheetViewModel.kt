@@ -20,7 +20,6 @@ import com.example.musicapp.domain.usecase.room.downloadMusic.DownloadMusic
 import com.example.musicapp.domain.usecase.room.get.GetDownloadedMusic
 import com.example.musicapp.domain.usecase.room.add.AddSaveMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteSaveMusicFromSQLite
-import com.example.musicapp.app.service.player.PlayerService
 import com.example.musicapp.app.support.ConvertTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,10 +34,6 @@ class MusicBottomSheetViewModel(
     private val addSaveMusicInSQLite: AddSaveMusicInSQLite,
     private val deleteSaveMusicFromSQLite: DeleteSaveMusicFromSQLite
 ): ViewModel() {
-    @SuppressLint("StaticFieldLeak")
-    var servicePlayer: PlayerService? = null
-    val isBound = MutableLiveData<Boolean>()
-    
     private val actionLiveData = MutableLiveData<ActionMusic>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult>()
     private val isDownloadLiveData = MutableLiveData<Music?>()
@@ -96,7 +91,7 @@ class MusicBottomSheetViewModel(
             return
         }
 
-        servicePlayer?.playNext(music)
+
     }
 
     fun addToQueue(music: Music?) {
@@ -104,22 +99,10 @@ class MusicBottomSheetViewModel(
             return
         }
 
-        servicePlayer?.addToQueue(music)
+
     }
 
     fun convertTime(time: Int) {
         convertTimeLiveData.value = ConvertTime().convertInMinSec(time)
-    }
-
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as PlayerService.PlayerBinder
-            servicePlayer = binder.getService()
-            isBound.value = true
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
-        }
     }
 }

@@ -1,17 +1,12 @@
 package com.example.musicapp.presentation.main
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
-import com.example.musicapp.app.service.player.PlayerService
-import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.getMusic.GetRandomMusic
 import com.example.musicapp.domain.usecase.getPreferences.GetDarkModeState
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
@@ -28,31 +23,19 @@ class MainViewModel(
     private val getRandomMusic: GetRandomMusic,
     private val findMusicInSQLite: FindMusicInSQLite
 ): ViewModel() {
-    var durationLiveData: LiveData<Long>? = null
-    var maxDurationLiveData: LiveData<Long>? = null
-    var musicList: LiveData<List<Music>>? = null
-    @SuppressLint("StaticFieldLeak")
-    var servicePlayer: PlayerService? = null
-    val isBound = MutableLiveData<Boolean>()
-
     var countMusicList = 0
     var networkConnection: Int? = null
+    var isInitMediaController = false
 
     private val startDownloadLiveData = MutableLiveData<Boolean>()
     private val getMusicLiveData = MutableLiveData<List<Music>>()
-    private val statePlayerLiveData = MutableLiveData<StatePlayer>()
     private val isFavoriteLiveData = MutableLiveData<MusicResult?>()
     private val getDarkModeLiveData = MutableLiveData<Boolean>()
 
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
-    val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
-    val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
     val getDarkModeResult: LiveData<Boolean> = getDarkModeLiveData
 
-    fun setStatePlayer(state: StatePlayer) {
-        statePlayerLiveData.value = state
-    }
 
     fun getDarkMode() {
         viewModelScope.launch {
@@ -66,13 +49,13 @@ class MainViewModel(
         startDownloadLiveData.value = state
     }
 
-    fun deleteMusic(musicId: String) {
+    fun deleteMusicFromSQLite(musicId: String) {
         viewModelScope.launch {
             deleteMusicFromSQLite.execute(musicId)
         }
     }
 
-    fun addMusic(music: Music) {
+    fun addMusicInSQLite(music: Music) {
         viewModelScope.launch {
             addMusicInSQLite.execute(music)
         }
@@ -84,13 +67,11 @@ class MainViewModel(
         }
     }
 
-    fun addRandomMusic() {
+    fun putRandomMusic() {
         viewModelScope.launch {
             val music = getRandomMusic.getMusicSingle()
 
-            if (music != null) {
-                servicePlayer?.addMusic(music)
-            }
+           MediaControllerManager.putRandomMusic(music)
         }
     }
 
@@ -100,18 +81,13 @@ class MainViewModel(
         }
     }
 
-    val connectionToPlayerService = object: ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as PlayerService.PlayerBinder
-            servicePlayer = binder.getService()
-            maxDurationLiveData = binder.getMaxDuration()
-            durationLiveData = binder.getCurrentDuration()
-            musicList = binder.getMusicList()
-            isBound.value = true
+    fun setMediaItems(list: List<Music>) {
+        viewModelScope.launch {
+            MediaControllerManager.setMediaItems(list)
         }
+    }
 
-        override fun onServiceDisconnected(name: ComponentName?) {
-            isBound.value = false
-        }
+    fun setCurrentPosition(position: Int) {
+
     }
 }

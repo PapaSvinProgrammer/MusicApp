@@ -35,7 +35,6 @@
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/pager_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
@@ -60,253 +59,211 @@
                 android:textSize="14sp"
                 android:fontFamily="@font/roboto_medium"
                 android:padding="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pager_layout"
                 tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
 
             <TextView
-                android:id="@+id/official_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextColorOnSurface"
                 android:fontFamily="@font/accid"
                 android:textSize="25sp"
                 android:text="@string/official_page_text"
-                android:layout_marginStart="15dp"
-                app:layout_constraintTop_toBottomOf="@id/text_info"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:layout_marginStart="15dp"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/website_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/official_page">
+                android:layout_height="match_parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:foreground="?attr/selectableItemBackground">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/website_layout"
-                    android:layout_width="match_parent"
+                <View
+                    android:id="@+id/website_view"
+                    android:layout_width="47dp"
+                    android:layout_height="47dp"
+                    style="@style/BackgroundColorContainer"
+                    android:background="@drawable/corner_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    style="@style/IconBottomSheetColor"
+                    app:layout_constraintStart_toStartOf="@id/website_view"
+                    app:layout_constraintEnd_toEndOf="@id/website_view"
+                    app:layout_constraintTop_toTopOf="@id/website_view"
+                    app:layout_constraintBottom_toBottomOf="@id/website_view"
+                    app:srcCompat="@drawable/ic_website" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    style="@style/TextColorOnSurface"
+                    android:text="@string/website_text"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/website_view"
+                    app:layout_constraintStart_toEndOf="@+id/website_view"
+                    app:layout_constraintTop_toTopOf="@+id/website_view" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <View
-                            android:id="@+id/website_view"
-                            android:layout_width="47dp"
-                            android:layout_height="47dp"
-                            style="@style/BackgroundColorContainer"
-                            android:background="@drawable/corner_circle"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vk_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:foreground="?attr/selectableItemBackground">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/shapeableImageView3"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            style="@style/IconBottomSheetColor"
-                            app:layout_constraintStart_toStartOf="@id/website_view"
-                            app:layout_constraintEnd_toEndOf="@id/website_view"
-                            app:layout_constraintTop_toTopOf="@id/website_view"
-                            app:layout_constraintBottom_toBottomOf="@id/website_view"
-                            app:srcCompat="@drawable/ic_website" />
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/background_light"
+                    android:background="@drawable/corner_circle"
+                    app:layout_constraintStart_toStartOf="@id/shapeableImageView"
+                    app:layout_constraintEnd_toEndOf="@id/shapeableImageView"
+                    app:layout_constraintTop_toTopOf="@id/shapeableImageView"
+                    app:layout_constraintBottom_toBottomOf="@id/shapeableImageView"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
-                            android:text="@string/website_text"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="16sp"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/website_view"
-                            app:layout_constraintStart_toEndOf="@+id/website_view"
-                            app:layout_constraintTop_toTopOf="@+id/website_view" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tint="@color/purple"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_vk_circle" />
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/vk_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    style="@style/TextColorOnSurface"
+                    android:text="@string/vk_text"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintTop_toTopOf="@+id/shapeableImageView" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <View
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:backgroundTint="@color/background_color_white"
-                            android:background="@drawable/corner_circle"
-                            app:layout_constraintStart_toStartOf="@id/shapeableImageView"
-                            app:layout_constraintEnd_toEndOf="@id/shapeableImageView"
-                            app:layout_constraintTop_toTopOf="@id/shapeableImageView"
-                            app:layout_constraintBottom_toBottomOf="@id/shapeableImageView"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/twitter_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:foreground="?attr/selectableItemBackground">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/shapeableImageView"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:tint="@color/purple_500"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_vk_circle" />
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/background_light"
+                    android:background="@drawable/corner_circle"
+                    app:layout_constraintStart_toStartOf="@id/shapeableImageView2"
+                    app:layout_constraintEnd_toEndOf="@id/shapeableImageView2"
+                    app:layout_constraintTop_toTopOf="@id/shapeableImageView2"
+                    app:layout_constraintBottom_toBottomOf="@id/shapeableImageView2"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
-                            android:text="@string/vk_text"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="16sp"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
-                            app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
-                            app:layout_constraintTop_toTopOf="@+id/shapeableImageView" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView2"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tint="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_twitter_circle" />
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/x_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    style="@style/TextColorOnSurface"
+                    android:text="@string/x_text"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
+                    app:layout_constraintTop_toTopOf="@+id/shapeableImageView2" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <View
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:backgroundTint="@color/background_color_white"
-                            android:background="@drawable/corner_circle"
-                            app:layout_constraintStart_toStartOf="@id/shapeableImageView2"
-                            app:layout_constraintEnd_toEndOf="@id/shapeableImageView2"
-                            app:layout_constraintTop_toTopOf="@id/shapeableImageView2"
-                            app:layout_constraintBottom_toBottomOf="@id/shapeableImageView2"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/youtube_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:foreground="?attr/selectableItemBackground">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/shapeableImageView2"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:tint="@null"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_twitter_circle" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/shapeableImageView4"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:tint="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_youtube_circle"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
-                            android:text="@string/x_text"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="16sp"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView2"
-                            app:layout_constraintStart_toEndOf="@+id/shapeableImageView2"
-                            app:layout_constraintTop_toTopOf="@+id/shapeableImageView2" />
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/youtube_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    style="@style/TextColorOnSurface"
+                    android:text="@string/youtube_text"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="16sp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView4"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView4"
+                    app:layout_constraintTop_toTopOf="@+id/shapeableImageView4" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/shapeableImageView4"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:tint="@null"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_youtube_circle"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextColorOnSurface"
-                            android:text="@string/youtube_text"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="16sp"
-                            android:layout_marginStart="10dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView4"
-                            app:layout_constraintStart_toEndOf="@+id/shapeableImageView4"
-                            app:layout_constraintTop_toTopOf="@+id/shapeableImageView4" />
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/ic_chevron_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

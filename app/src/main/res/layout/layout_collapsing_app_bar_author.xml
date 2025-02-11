@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/accid"
-                android:textColor="@color/background_color_white"
+                android:textColor="@color/background_light"
                 android:textSize="36sp"
                 android:layout_marginBottom="40dp"
                 app:layout_constraintBottom_toTopOf="@+id/view4"
@@ -50,7 +50,7 @@
                 android:layout_height="65dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/play_button"
                 app:layout_constraintEnd_toEndOf="@+id/play_button" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="65dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/favorite_button"
                 app:layout_constraintEnd_toEndOf="@+id/favorite_button" />
 
@@ -102,7 +102,7 @@
                 android:layout_height="65dp"
                 android:alpha="0.5"
                 android:background="@drawable/corner_circle"
-                android:backgroundTint="@color/gray_color"
+                android:backgroundTint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/share_button"
                 app:layout_constraintEnd_toEndOf="@+id/share_button" />
 
