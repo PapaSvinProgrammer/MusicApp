@@ -15,9 +15,11 @@
             android:id="@+id/progress_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:trackColor="@color/player_indicator_track"
             app:showAnimationBehavior="inward"
             app:layout_constraintTop_toTopOf="parent"
-            app:trackStopIndicatorSize="0dp" />
+            app:trackStopIndicatorSize="0dp"
+            />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon_view"

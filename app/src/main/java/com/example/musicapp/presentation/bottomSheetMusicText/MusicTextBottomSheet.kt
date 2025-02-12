@@ -47,7 +47,7 @@ class MusicTextBottomSheet: BottomSheetDialogFragment() {
                 binding.textView.text = it.text
                 binding.musicView.text = currentMusic?.name
                 binding.groupView.text = currentMusic?.group
-                binding.timeView.text = ConvertTime().convertInMinSec(currentMusic?.time ?: 0)
+                binding.timeView.text = ConvertTime.convertInMinSec(currentMusic?.time ?: 0)
 
                 binding.progressIndicator.visibility = View.GONE
             }

@@ -36,8 +36,6 @@ class HateFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
 
-        Log.d("RRRR", "RRRR")
-
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()
         }

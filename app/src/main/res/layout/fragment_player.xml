@@ -178,7 +178,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/previous_button"
-        style="@style/MainButtonPlayer"
+        android:tint="@color/background_light"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:contentDescription="@string/previous_music_text"
@@ -190,7 +190,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/play_stop_view"
-        style="@style/MainButtonPlayer"
+        android:tint="@color/background_light"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:contentDescription="@string/on_or_off_text"
@@ -202,7 +202,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/next_button"
-        style="@style/MainButtonPlayer"
+        android:tint="@color/background_light"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:contentDescription="@string/next_music_text"

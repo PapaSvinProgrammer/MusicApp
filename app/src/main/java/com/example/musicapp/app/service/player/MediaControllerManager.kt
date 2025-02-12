@@ -91,6 +91,22 @@ class MediaControllerManager {
             return currentObject
         }
 
+        fun setCurrentPosition(position: Int) {
+            if (position == mediaController.currentMediaItemIndex) {
+                return
+            }
+
+            mediaController.seekToDefaultPosition(position)
+        }
+
+        fun addInQueue() {
+
+        }
+
+        fun addInNext() {
+
+        }
+
         fun release() {
             futureMediaController?.let { MediaController.releaseFuture(it) }
         }

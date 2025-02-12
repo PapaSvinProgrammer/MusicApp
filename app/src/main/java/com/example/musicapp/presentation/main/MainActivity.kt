@@ -143,7 +143,6 @@ class MainActivity: AppCompatActivity() {
     @OptIn(UnstableApi::class)
     override fun onDestroy() {
         MediaControllerManager.release()
-
         super.onDestroy()
     }
 

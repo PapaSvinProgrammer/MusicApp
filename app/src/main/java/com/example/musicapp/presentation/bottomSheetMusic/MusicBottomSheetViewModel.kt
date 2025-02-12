@@ -99,6 +99,6 @@ class MusicBottomSheetViewModel(
     }
 
     fun convertTime(time: Int) {
-        convertTimeLiveData.value = ConvertTime().convertInMinSec(time)
+        convertTimeLiveData.value = ConvertTime.convertInMinSec(time)
     }
 }

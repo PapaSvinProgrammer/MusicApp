@@ -20,7 +20,7 @@
         <item name="colorSurfaceContainerHigh">@color/surface_container</item>
         <!-- BottomFragmentDialog. -->
         <item name="colorSurfaceContainerLow">@color/surface_container</item>
-
+        <item name="colorSecondaryContainer">#EDBBDEFB</item>
     </style>
 
     <declare-styleable name="Theme.MusicApp">
@@ -133,7 +133,7 @@
 
     <style name="DotStyle">
         <item name="android:background">@drawable/corner_circle</item>
-        <item name="android:backgroundTint">@color/on_background</item>
+        <item name="android:backgroundTint">@color/background_light</item>
     </style>
 
     <style name="IconSelectedColorStyle">

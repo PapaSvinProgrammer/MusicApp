@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.example.musicapp.R
 import com.example.musicapp.databinding.FragmentStartBinding
 import com.google.android.material.snackbar.Snackbar
+import com.vk.id.VKID
 import com.vk.id.VKIDAuthFail
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
@@ -38,6 +39,7 @@ class StartFragment: Fragment(), KoinComponent {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        VKID.init(context)
         viewModel.getLoginSate()
         viewModel.getDarkMode()
 
