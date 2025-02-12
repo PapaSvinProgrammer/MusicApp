@@ -8,44 +8,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.musicapp.data.room.musicEntity.MusicResult
+import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
 import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.domain.usecase.room.add.AddMusicInSQLite
 import com.example.musicapp.domain.usecase.room.delete.DeleteMusicFromSQLite
-import com.example.musicapp.domain.usecase.room.find.FindMusicInSQLite
 import com.example.musicapp.app.service.video.VideoService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 private const val PLAYLIST_ID_FAVORITE = 1L
 
 class PlayerViewModel(
     private val addMusicInSQLite: AddMusicInSQLite,
-    private val deleteMusicFromSQLite: DeleteMusicFromSQLite,
-    private val findMusicInSQLite: FindMusicInSQLite
+    private val deleteMusicFromSQLite: DeleteMusicFromSQLite
 ): ViewModel() {
     @SuppressLint("StaticFieldLeak")
     var videoService: VideoService? = null
     var isSuccessVideo: LiveData<Boolean>? = null
     val isBoundVideo = MutableLiveData<Boolean>()
-
     var isFavorite = false
 
     private val controlPlayerLiveData = MutableLiveData<ControlPlayer>()
     private val statePlayerLiveData = MutableLiveData<StatePlayer>()
-    private val missTimeLiveData = MutableLiveData<String>()
-    private val passTimeLiveData = MutableLiveData<String>()
-    private val getFavoriteMusicLiveData = MutableLiveData<MusicResult?>()
 
     val controlPlayer: LiveData<ControlPlayer> = controlPlayerLiveData
     val statePlayer: LiveData<StatePlayer> = statePlayerLiveData
-    val missTimeResult: LiveData<String> = missTimeLiveData
-    val passTimeResult: LiveData<String> = passTimeLiveData
-    val getFavoriteMusicResult: LiveData<MusicResult?> = getFavoriteMusicLiveData
 
     fun setStatePlayer(state: StatePlayer) {
         statePlayerLiveData.value = state
@@ -56,27 +45,9 @@ class PlayerViewModel(
     }
 
     fun seekTo(msec: Int?) {
-
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun getMissTime(current: Long?) {
-        viewModelScope.launch {
-
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun getPassTime(current: Long) {
-        viewModelScope.launch {
-
-        }
-    }
-
-    fun getFavoriteMusic(id: String) {
-        viewModelScope.launch {
-            getFavoriteMusicLiveData.value = findMusicInSQLite.find(id)
-        }
+        MediaControllerManager
+            .mediaController
+            .seekTo(msec?.toLong() ?: 0)
     }
 
     fun addFavoriteMusic(music: Music) {

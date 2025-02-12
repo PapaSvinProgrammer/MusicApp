@@ -13,4 +13,5 @@
     <color name="gray_light">#ced4da</color>
     <color name="background_light">#fef7ff</color>
     <color name="vk_color">#2a5ed8</color>
+    <color name="player_indicator_track">#4c495c</color>
 </resources>

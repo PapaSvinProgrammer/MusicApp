@@ -35,6 +35,7 @@ class MainViewModel(
     val getMusicResult: LiveData<List<Music>> = getMusicLiveData
     val startDownloadResult: LiveData<Boolean> = startDownloadLiveData
     val getDarkModeResult: LiveData<Boolean> = getDarkModeLiveData
+    val isFavoriteResult: LiveData<MusicResult?> = isFavoriteLiveData
 
 
     fun getDarkMode() {
@@ -88,6 +89,12 @@ class MainViewModel(
     }
 
     fun setCurrentPosition(position: Int) {
+        val currentPosition = MediaControllerManager.mediaController.currentMediaItemIndex
 
+        if (position == currentPosition) {
+            return
+        }
+
+        MediaControllerManager.setCurrentPosition(position)
     }
 }

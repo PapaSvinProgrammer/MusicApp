@@ -19,6 +19,7 @@
         <item name="colorSurfaceContainerHigh">@color/surface_container</item>
         <!-- BottomFragmentDialog. -->
         <item name="colorSurfaceContainerLow">@color/surface_container</item>
+        <item name="colorSecondaryContainer">#4c495c</item>
     </style>
 
     <style name="BackgroundColorContainer">
@@ -86,7 +87,7 @@
 
     <style name="DotStyle">
         <item name="android:background">@drawable/corner_circle</item>
-        <item name="android:backgroundTint">@color/background_color</item>
+        <item name="android:backgroundTint">@color/background_light</item>
     </style>
 
     <style name="IconBlueSelectedColorStyle">

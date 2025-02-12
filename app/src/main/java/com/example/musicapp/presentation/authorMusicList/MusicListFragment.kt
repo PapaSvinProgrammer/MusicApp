@@ -53,6 +53,7 @@ class MusicListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         navController = view.findNavController()
+        binding.recyclerView.adapter = musicAdapter
 
         binding.toolbar.setNavigationOnClickListener {
             navController.popBackStack()

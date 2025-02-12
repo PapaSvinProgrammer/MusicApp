@@ -53,7 +53,7 @@ class PlaylistFavoriteViewModel(
     fun getTime() {
         viewModelScope.launch {
             getTimePlaylist.getTime(DEFAULT_PLAYLIST_ID).collect {
-                _timePlaylist.value = ConvertTime().convertInMinSec(it)
+                _timePlaylist.value = ConvertTime.convertInMinSec(it)
             }
         }
     }

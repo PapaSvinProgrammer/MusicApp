@@ -12,8 +12,6 @@ import com.example.musicapp.di.appModule
 import com.example.musicapp.di.dataModule
 import com.example.musicapp.di.domainModule
 import com.example.musicapp.app.service.audioDownloader.AudioDownloadService
-import com.example.musicapp.app.service.player.MediaControllerManager
-import com.vk.id.VKID
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,8 +21,6 @@ class App: Application() {
     @OptIn(UnstableApi::class)
     override fun onCreate() {
         super.onCreate()
-
-        VKID.init(this)
 
         startKoin {
             androidLogger(Level.DEBUG)

@@ -6,7 +6,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.OptIn
@@ -73,13 +72,18 @@ class MainActivity: AppCompatActivity() {
             currentItemHorizontalMargin = R.dimen.viewpager_item_horizontal_margin
         )
 
+        viewModel.isFavoriteResult.observe(this) {
+            if (it != null) {
+                PlayerInfo.setIsFavorite(true)
+            }
+        }
+
         viewModel.getMusicResult.observe(this) { array->
             if (viewModel.countMusicList != 0) {
                 return@observe
             }
 
             DataPlayerType.setType(TypeDataPlayer.GENERATE)
-            viewModel.isFavorite(array.first().id ?: "")
             viewModel.setMediaItems(array)
 
             binding.progressIndicator.visibility = View.GONE
@@ -88,9 +92,7 @@ class MainActivity: AppCompatActivity() {
         viewModel.startDownloadResult.observe(this) {
             if (viewModel.getMusicResult.value.isNullOrEmpty()) {
                 binding.progressIndicator.visibility = View.VISIBLE
-
                 MediaControllerManager.init(this)
-                Log.d("RRRR", "PRE = ${MediaControllerManager.mediaController}")
                 intiPermission()
             }
         }
@@ -117,17 +119,9 @@ class MainActivity: AppCompatActivity() {
         }
 
         binding.bottomViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback()  {
-            private var state = -1
-
             override fun onPageScrollStateChanged(state: Int) {
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    this.state = ViewPager2.SCROLL_STATE_IDLE
-                }
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    //viewModel.setCurrentPosition(mediaController, position)
+                    viewModel.setCurrentPosition(binding.bottomViewPager.currentItem)
                 }
             }
         })
@@ -145,13 +139,14 @@ class MainActivity: AppCompatActivity() {
     @OptIn(UnstableApi::class)
     override fun onDestroy() {
         MediaControllerManager.release()
-
         super.onDestroy()
     }
 
     private val mediaControllerListener = object: Player.Listener {
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-            PlayerInfo.setCurrentObject(MediaControllerManager.getCurrentMusic())
+            val currentObject = MediaControllerManager.getCurrentMusic()
+
+            PlayerInfo.setCurrentObject(currentObject)
             val currentIndex = mediaController.currentMediaItemIndex
 
             if (binding.bottomViewPager.currentItem != currentIndex) {
@@ -165,6 +160,8 @@ class MainActivity: AppCompatActivity() {
                     viewModel.putRandomMusic()
                 }
             }
+
+            viewModel.isFavorite(currentObject.id ?: "")
         }
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {

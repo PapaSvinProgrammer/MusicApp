@@ -1,15 +1,12 @@
 package com.example.musicapp.presentation.bottomSheetMusic
 
-import android.annotation.SuppressLint
-import android.content.ComponentName
-import android.content.ServiceConnection
-import android.os.IBinder
 import androidx.annotation.OptIn
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.util.UnstableApi
+import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.data.room.musicEntity.MusicResult
 import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ActionMusic
@@ -91,7 +88,7 @@ class MusicBottomSheetViewModel(
             return
         }
 
-
+        MediaControllerManager.addInNext(music)
     }
 
     fun addToQueue(music: Music?) {
@@ -99,10 +96,10 @@ class MusicBottomSheetViewModel(
             return
         }
 
-
+        MediaControllerManager.addInQueue(music)
     }
 
     fun convertTime(time: Int) {
-        convertTimeLiveData.value = ConvertTime().convertInMinSec(time)
+        convertTimeLiveData.value = ConvertTime.convertInMinSec(time)
     }
 }

@@ -176,6 +176,8 @@ class FavoriteFragment: Fragment() {
     }
 
     private fun drawDownloaded(list: List<Music?>) {
+        binding.downloadBackgroundView.visibility = View.GONE
+
         if (list.size > 1) {
             binding.downloadedImageFront.visibility = View.VISIBLE
             binding.downloadedImageBack.visibility = View.VISIBLE

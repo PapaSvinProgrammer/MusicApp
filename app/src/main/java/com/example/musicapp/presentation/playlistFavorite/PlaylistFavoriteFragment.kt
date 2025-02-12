@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.playlistFavorite
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,19 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.media3.session.MediaController
-import androidx.media3.session.SessionToken
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
-import com.example.musicapp.app.service.player.MediaService
 import com.example.musicapp.databinding.FragmentPlaylistFavoriteBinding
 import com.example.musicapp.presentation.bottomSheetPlaylistFavorite.PlaylistFavoriteBottomSheet
 import com.example.musicapp.presentation.recyclerAdapter.MusicResultAdapter
 import com.example.musicapp.presentation.recyclerAdapter.SearchMusicResultAdapter
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.MoreExecutors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFavoriteFragment: Fragment() {

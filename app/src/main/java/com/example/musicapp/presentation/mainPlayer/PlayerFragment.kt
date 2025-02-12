@@ -1,7 +1,6 @@
 package com.example.musicapp.presentation.mainPlayer
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.RenderEffect
@@ -18,35 +17,31 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.media3.session.MediaController
-import androidx.media3.session.SessionToken
+import androidx.media3.common.Player
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.musicapp.R
+import com.example.musicapp.app.service.player.MediaControllerManager
 import com.example.musicapp.databinding.FragmentPlayerBinding
-import com.example.musicapp.domain.module.Music
 import com.example.musicapp.domain.state.ControlPlayer
-import com.example.musicapp.app.service.player.MediaService
+import com.example.musicapp.app.service.player.PlayerInfo
+import com.example.musicapp.app.service.video.VideoPlayer
 import com.example.musicapp.domain.state.StatePlayer
-import com.example.musicapp.presentation.author.AuthorFragment
 import com.example.musicapp.presentation.bottomSheetMusicText.MusicTextBottomSheet
 import com.example.musicapp.presentation.bottomSheetMusic.MusicBottomSheet
 import com.example.musicapp.presentation.pagerAdapter.PlayerAdapter
-import com.example.musicapp.app.service.video.VideoPlayer
 import com.example.musicapp.app.service.video.VideoService
+import com.example.musicapp.app.support.ConvertTime
+import com.example.musicapp.domain.module.Music
 import com.example.musicapp.presentation.pagerAdapter.HorizontalOffsetController
 import com.google.android.material.snackbar.Snackbar
-import com.google.common.util.concurrent.ListenableFuture
-import com.google.common.util.concurrent.MoreExecutors
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment: Fragment() {
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var navController: NavController
-    private lateinit var mediaController: MediaController
-    private lateinit var controllerAsync: ListenableFuture<MediaController>
     private val playerAdapter by lazy { PlayerAdapter() }
     private val viewModel by viewModel<PlayerViewModel>()
 
@@ -110,22 +105,9 @@ class PlayerFragment: Fragment() {
             }
         }
 
-        viewModel.missTimeResult.observe(viewLifecycleOwner) { time ->
-            binding.missTime.text = time
-        }
-
-        viewModel.passTimeResult.observe(viewLifecycleOwner) { time ->
-            binding.passTime.text = time
-        }
-
-        viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
-            viewModel.isFavorite = it != null
-            binding.likeButton.isSelected = it != null
-        }
-
         viewModel.isBoundVideo.observe(viewLifecycleOwner) {
-            if (it == true) {
-
+            if (it) {
+                initVideoService()
             }
         }
 
@@ -178,7 +160,10 @@ class PlayerFragment: Fragment() {
             val bottomSheetDialog = MusicBottomSheet()
 
             val bundle = Bundle()
-
+            bundle.putParcelable(
+                MusicBottomSheet.CURRENT_MUSIC,
+                MediaControllerManager.getCurrentMusic()
+            )
 
             bottomSheetDialog.arguments = bundle
             requireActivity().supportFragmentManager.let {
@@ -187,23 +172,18 @@ class PlayerFragment: Fragment() {
         }
 
         binding.viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
-            var state = 0
-
             override fun onPageScrollStateChanged(state: Int) {
-                if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
-                    this.state = state
+                if (state != ViewPager2.SCROLL_STATE_IDLE) {
+                    return
                 }
-            }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-//                if (positionOffset == 0f) {
-//                    resetControlPlayerUI()
-//
-//                    if (state == ViewPager2.SCROLL_STATE_DRAGGING) {
-//                        viewModel.servicePlayer?.setCurrentPosition(position)
-//                        resetControlPlayerUI()
-//                    }
-//                }
+                if (viewModel.statePlayer.value == StatePlayer.NEXT ||
+                    viewModel.statePlayer.value == StatePlayer.PREVIOUS) {
+                    viewModel.setStatePlayer(StatePlayer.NONE)
+                    return
+                }
+
+                MediaControllerManager.setCurrentPosition(binding.viewPager.currentItem)
             }
         })
 
@@ -214,46 +194,105 @@ class PlayerFragment: Fragment() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 viewModel.seekTo(seekBar?.progress)
-                viewModel.getMissTime(seekBar?.progress?.toLong())
             }
         })
 
         binding.musicLayout.setOnClickListener {
             executeMoveToAuthor()
         }
-    }
 
-    @SuppressLint("NewApi")
-    override fun onStart() {
-        super.onStart()
+        PlayerInfo.isFavorite.observe(viewLifecycleOwner) {
+            viewModel.isFavorite = it
+            binding.likeButton.isSelected = it
+        }
 
-        val sessionToken = SessionToken(
-            requireContext(),
-            ComponentName(requireContext(), MediaService::class.java)
-        )
+        PlayerInfo.musicList.observe(viewLifecycleOwner) {
+            playerAdapter.setData(it)
+        }
 
-        controllerAsync = MediaController.Builder(requireContext(), sessionToken).buildAsync()
-        controllerAsync.addListener({
-            mediaController = controllerAsync.get()
-        }, MoreExecutors.directExecutor())
+        PlayerInfo.currentObject.observe(viewLifecycleOwner) {
+            updateCurrentDataUI(it)
+            updateViewPagerUI()
+            initSeekBar(it)
+            resetVideo()
+            setVideoClip(it)
+        }
 
+        PlayerInfo.duration.observe(viewLifecycleOwner) {
+            binding.seekBar.progress = it.toInt()
+
+            updateMissTime(
+                max = MediaControllerManager.getCurrentMusic().time,
+                progress = it.toInt()
+            )
+            updatePassTime(it.toInt())
+        }
+
+        PlayerInfo.isPlay.observe(viewLifecycleOwner) {
+            binding.playStopView.isSelected = it
+        }
     }
 
     override fun onDestroy() {
-        MediaController.releaseFuture(controllerAsync)
+        requireActivity().apply {
+            unbindService(viewModel.connectionToVideoService)
+        }
         super.onDestroy()
+    }
+
+    private fun setVideoClip(music: Music) {
+        viewModel.videoService?.setVideo(
+            music = music
+        )
+    }
+
+    private fun initVideoService() {
+        binding.videoPlayer.player = VideoPlayer.exoPlayer
+        viewModel.videoService?.setVideo(
+            music = MediaControllerManager.getCurrentMusic()
+        )
+
+        viewModel.isSuccessVideo?.observe(viewLifecycleOwner) {
+            if (it && PlayerInfo.isPlay.value == true) {
+                binding.videoPlayer.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun updateViewPagerUI() {
+        val currentIndex = MediaControllerManager.mediaController.currentMediaItemIndex
+
+        if (currentIndex == binding.viewPager.currentItem) {
+            return
+        }
+
+        viewModel.setStatePlayer(StatePlayer.NONE)
+        binding.viewPager.setCurrentItem(currentIndex, false)
     }
 
     private fun executeMoveToAuthor() {
         val bundle = Bundle()
 
-
         navController.popBackStack()
         navController.navigate(R.id.action_global_authorFragment, bundle)
     }
 
-    private fun initSeekBar() {
+    private fun initSeekBar(music: Music) {
+        binding.seekBar.progress = 0
+        binding.seekBar.max = music.time * 1000
+    }
 
+    private fun updateCurrentDataUI(it: Music) {
+        binding.musicTextView.text = it.name
+        binding.groupTextView.text = it.group
+
+        Glide.with(binding.root)
+            .load(it.imageGroup)
+            .into(binding.groupImageView)
+
+        Glide.with(binding.root)
+            .load(it.imageLow)
+            .into(binding.backImage)
     }
 
     private fun resetControlPlayerUI() {
@@ -301,6 +340,7 @@ class PlayerFragment: Fragment() {
                 binding.repeatDot.visibility = View.GONE
 
                 binding.viewPager.isUserInputEnabled = true
+                MediaControllerManager.mediaController.repeatMode = Player.REPEAT_MODE_ONE
             }
 
             false -> {
@@ -308,6 +348,7 @@ class PlayerFragment: Fragment() {
                 binding.repeatDot.visibility = View.VISIBLE
 
                 binding.viewPager.isUserInputEnabled = false
+                MediaControllerManager.mediaController.repeatMode = Player.REPEAT_MODE_OFF
             }
         }
     }
@@ -333,6 +374,10 @@ class PlayerFragment: Fragment() {
             true -> {
                 viewModel.isFavorite = false
                 binding.likeButton.isSelected = false
+
+                viewModel.deleteMusic(
+                    id = MediaControllerManager.getCurrentMusic().id ?: ""
+                )
             }
 
             false -> {
@@ -344,21 +389,27 @@ class PlayerFragment: Fragment() {
 
                 viewModel.isFavorite = true
                 binding.likeButton.isSelected = true
+
+                viewModel.addFavoriteMusic(
+                    music = MediaControllerManager.getCurrentMusic()
+                )
             }
         }
     }
 
     private fun nextMusic() {
-        binding.seekBar.progress = 0
-
+        binding.viewPager.currentItem += 1
+        MediaControllerManager.mediaController.seekToNext()
     }
 
     private fun previousMusic() {
-        binding.seekBar.progress = 0
+        binding.viewPager.currentItem -= 1
+        MediaControllerManager.mediaController.seekToPrevious()
     }
 
     private fun pauseMusic() {
         binding.playStopView.isSelected = false
+        MediaControllerManager.mediaController.pause()
     }
 
     private fun pauseVideo() {
@@ -370,6 +421,7 @@ class PlayerFragment: Fragment() {
 
     private fun playMusic() {
         binding.playStopView.isSelected = true
+        MediaControllerManager.mediaController.play()
     }
 
     private fun playVideo() {
@@ -413,5 +465,14 @@ class PlayerFragment: Fragment() {
             v.updatePadding(0, 0, 0, systemBars.bottom)
             insets
         }
+    }
+
+    private fun updatePassTime(progress: Int) {
+        binding.passTime.text = ConvertTime.convertInMinSec(progress / 1000)
+    }
+
+    private fun updateMissTime(max: Int, progress: Int) {
+        val missTime = max * 1000 - progress
+        binding.missTime.text = ConvertTime.convertInMinSec(missTime / 1000)
     }
 }

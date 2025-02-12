@@ -25,6 +25,7 @@ import com.example.musicapp.domain.state.StatePlayer
 import com.example.musicapp.presentation.recyclerAdapter.SearchAllAdapter
 import com.example.musicapp.app.service.player.DataPlayerType
 import com.example.musicapp.app.service.player.MediaControllerManager
+import com.example.musicapp.app.service.player.PlayerInfo
 import com.example.musicapp.app.service.player.TypeDataPlayer
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -126,6 +127,18 @@ class HomeFragment: Fragment() {
         DataPlayerType.type.observe(viewLifecycleOwner) { type ->
             if (type != TypeDataPlayer.GENERATE) {
                 binding.mainPlayButton.isSelected = false
+            }
+        }
+
+        PlayerInfo.isPlay.observe(viewLifecycleOwner) {
+            if (DataPlayerType.type.value != TypeDataPlayer.GENERATE) {
+                return@observe
+            }
+
+            binding.mainPlayButton.isSelected = it
+            when (it) {
+                true -> binding.lottieAnim.playAnimation()
+                false -> binding.lottieAnim.pauseAnimation()
             }
         }
     }

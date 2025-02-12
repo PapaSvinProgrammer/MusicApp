@@ -44,7 +44,7 @@ class VideoService: Service() {
         super.onDestroy()
     }
 
-    fun setVideo(music: Music, isPlay: Boolean) {
+    fun setVideo(music: Music) {
         if (music.movieUrl.isNullOrEmpty()) {
             return
         }
@@ -53,10 +53,8 @@ class VideoService: Service() {
             delay(2000)
 
             val mediaItem = MediaItem.fromUri(music.movieUrl.toString())
-            VideoPlayer.exoPlayer?.addMediaItem(mediaItem)
+            VideoPlayer.exoPlayer?.setMediaItem(mediaItem)
             VideoPlayer.exoPlayer?.prepare()
-
-            VideoPlayer.exoPlayer?.playWhenReady = isPlay
         }
     }
 
@@ -84,7 +82,7 @@ class VideoService: Service() {
             }
 
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                isSuccess.value = true
+                isSuccess.value = isPlaying
             }
         })
     }
