@@ -9,19 +9,28 @@ object PlayerInfo {
     private val _duration = MutableLiveData<Long>()
     private val _currentObject = MutableLiveData<Music>()
     private val _isPlay = MutableLiveData<Boolean>()
+    private val _isFavorite = MutableLiveData<Boolean>()
 
     val musicList: LiveData<List<Music>> = _musicList
     val duration: LiveData<Long> = _duration
     val currentObject: LiveData<Music> = _currentObject
     val isPlay: LiveData<Boolean> = _isPlay
+    val isFavorite: LiveData<Boolean> = _isFavorite
 
     fun setMusicList(list: List<Music>) {
         _musicList.value = list
     }
 
-    fun putItem(item: Music) {
+    fun addItem(item: Music) {
         val currentList = _musicList.value?.toMutableList()
         currentList?.add(item)
+
+        currentList?.let { _musicList.value = it }
+    }
+
+    fun addItem(position: Int, music: Music) {
+        val currentList = _musicList.value?.toMutableList()
+        currentList?.add(position, music)
 
         currentList?.let { _musicList.value = it }
     }
@@ -38,4 +47,7 @@ object PlayerInfo {
         _isPlay.value = isPlay
     }
 
+    fun setIsFavorite(state: Boolean) {
+        _isFavorite.value = state
+    }
 }

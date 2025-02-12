@@ -7,7 +7,6 @@ import android.graphics.RenderEffect
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,11 +105,6 @@ class PlayerFragment: Fragment() {
             }
         }
 
-        viewModel.getFavoriteMusicResult.observe(viewLifecycleOwner) {
-            viewModel.isFavorite = it != null
-            binding.likeButton.isSelected = it != null
-        }
-
         viewModel.isBoundVideo.observe(viewLifecycleOwner) {
             if (it) {
                 initVideoService()
@@ -207,12 +201,16 @@ class PlayerFragment: Fragment() {
             executeMoveToAuthor()
         }
 
+        PlayerInfo.isFavorite.observe(viewLifecycleOwner) {
+            viewModel.isFavorite = it
+            binding.likeButton.isSelected = it
+        }
+
         PlayerInfo.musicList.observe(viewLifecycleOwner) {
             playerAdapter.setData(it)
         }
 
         PlayerInfo.currentObject.observe(viewLifecycleOwner) {
-            viewModel.getFavoriteMusic(it.id ?: "")
             updateCurrentDataUI(it)
             updateViewPagerUI()
             initSeekBar(it)

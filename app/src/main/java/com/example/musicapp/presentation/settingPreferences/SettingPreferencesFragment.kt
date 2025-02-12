@@ -50,23 +50,16 @@ class SettingPreferencesFragment: Fragment() {
     }
     private var filterFlagReset = false
 
-    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSettingPreferencesBinding.inflate(layoutInflater, container, false)
-
-        binding.countSelectedTextView.text = getString(R.string.selected_groups_text) + 0
-        ViewCompat.setOnApplyWindowInsetsListener(binding.appBar) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.updatePadding(0, systemBars.top, 0, 0)
-            insets
-        }
-
+        initCountViewAndPadding()
         return binding.root
     }
+
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -151,6 +144,23 @@ class SettingPreferencesFragment: Fragment() {
 
         if (viewModel.getGroupResult.value == null) {
             getGroup()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initCountViewAndPadding() {
+        binding.countSelectedTextView.text = getString(R.string.selected_groups_text) + 0
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appBar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, systemBars.top, 0, 0)
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomBar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(0, 0, 0, systemBars.bottom)
+            insets
         }
     }
 

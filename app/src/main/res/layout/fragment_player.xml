@@ -62,7 +62,6 @@
 
         <TextView
             android:id="@+id/music_text_view"
-            style="@style/TextColorInPlayer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -71,6 +70,7 @@
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textSize="17sp"
+            android:textColor="@color/background_light"
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toTopOf="@+id/group_text_view"
             app:layout_constraintStart_toEndOf="@id/group_image_view"

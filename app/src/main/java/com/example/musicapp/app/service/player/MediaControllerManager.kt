@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.flow
 
 class MediaControllerManager {
     companion object {
+        private var lastIndexInQueue = 0
         private var initListener: ((Boolean) -> Unit)? = null
         private var futureMediaController: ListenableFuture<MediaController>? = null
         lateinit var mediaController: MediaController
@@ -65,7 +66,7 @@ class MediaControllerManager {
                 )
                 .build()
 
-            music?.let { PlayerInfo.putItem(music) }
+            music?.let { PlayerInfo.addItem(music) }
             mediaController.addMediaItem(mediaItem)
             mediaController.prepare()
         }
@@ -99,12 +100,48 @@ class MediaControllerManager {
             mediaController.seekToDefaultPosition(position)
         }
 
-        fun addInQueue() {
+        fun addInQueue(music: Music) {
+            val mediaItem = MediaItem.Builder()
+                .setUri(music.url)
+                .setMediaMetadata(
+                    MediaMetadata
+                        .Builder()
+                        .setTitle(music.name)
+                        .setArtist(music.group)
+                        .setArtworkUri(Uri.parse(music.imageLow))
+                        .build()
+                )
+                .build()
 
+            val currentIndex = mediaController.currentMediaItemIndex
+
+            if (currentIndex > lastIndexInQueue) {
+                lastIndexInQueue = currentIndex
+            }
+
+            lastIndexInQueue += 1
+            mediaController.addMediaItem(lastIndexInQueue, mediaItem)
+
+            PlayerInfo.addItem(lastIndexInQueue, music)
         }
 
-        fun addInNext() {
+        fun addInNext(music: Music) {
+            val mediaItem = MediaItem.Builder()
+                .setUri(music.url)
+                .setMediaMetadata(
+                    MediaMetadata
+                        .Builder()
+                        .setTitle(music.name)
+                        .setArtist(music.group)
+                        .setArtworkUri(Uri.parse(music.imageLow))
+                        .build()
+                )
+                .build()
 
+            val nextPosition = mediaController.currentMediaItemIndex + 1
+            mediaController.addMediaItem(nextPosition, mediaItem)
+
+            PlayerInfo.addItem(nextPosition, music)
         }
 
         fun release() {

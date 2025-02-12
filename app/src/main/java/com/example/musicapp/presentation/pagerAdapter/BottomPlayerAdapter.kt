@@ -56,6 +56,16 @@ class BottomPlayerAdapter(
                     hideMainTools()
                 }
             }
+
+            PlayerInfo.isFavorite.observe(lifecycle) {
+                val currentObject = MediaControllerManager.getCurrentMusic()
+
+                if (currentObject.id != music.id) {
+                    return@observe
+                }
+
+                binding.iconFavoriteView.isSelected = it
+            }
         }
 
         private fun setPlayClickListener() {
