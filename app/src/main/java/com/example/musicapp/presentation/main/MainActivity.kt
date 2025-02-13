@@ -42,11 +42,7 @@ class MainActivity: AppCompatActivity() {
     private lateinit var mediaController: MediaController
     private val viewModel by viewModel<MainViewModel>()
 
-    private val bottomPlayerAdapter by lazy {
-        BottomPlayerAdapter(
-            navController = navController
-        )
-    }
+    private val bottomPlayerAdapter by lazy { BottomPlayerAdapter(navController) }
     private val networkReceiver by lazy { NetworkReceiver() }
 
     @UnstableApi

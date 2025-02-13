@@ -13,7 +13,7 @@ import java.util.concurrent.Executor
 @UnstableApi
 class AudioDownloadManager {
     companion object {
-        private lateinit var downloadCache: SimpleCache
+        lateinit var downloadCache: SimpleCache
         lateinit var downloadManager: DownloadManager
 
         fun init(context: Context) {

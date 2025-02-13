@@ -1,7 +1,6 @@
 package com.example.musicapp.app.service.player
 
 import android.content.Intent
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 
@@ -10,7 +9,8 @@ class MediaService: MediaSessionService() {
 
     override fun onCreate() {
         super.onCreate()
-        val player = ExoPlayer.Builder(this).build()
+        CreateExoPLayer.create(this)
+        val player = CreateExoPLayer.exoPlayer
         mediaSession = MediaSession.Builder(this, player).build()
     }
 
