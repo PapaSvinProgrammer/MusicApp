@@ -8,7 +8,6 @@ This is a music streaming service for playing audio content.
 To get acquainted with the functionality of the application:
 - [Link to apk](https://drive.google.com/drive/folders/1QqH1fB2oc7xnAn5ZUSHfC53KF10KAaIY?usp=drive_link);
 - [Diagram of use cases](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);
-- [A diagram with all the basic methods](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link) that perform the main functions of the application.
 
 ## Technologies used
 **List of technologies**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
