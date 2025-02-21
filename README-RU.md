@@ -6,8 +6,7 @@
 
 Для ознакомление с функционалом приложения:
 - [Ссылка на apk](https://drive.google.com/drive/folders/1QqH1fB2oc7xnAn5ZUSHfC53KF10KAaIY?usp=drive_link);
-- [Диаграмма вариантов использования](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);
-- [Диаграмма со всеми основными методами](https://drive.google.com/file/d/1C74sj64jonzGtAJzKCHjONxGO8x59H6V/view?usp=drive_link), выполняющие основные функции приложения.
+- [Диаграмма вариантов использования](https://drive.google.com/file/d/1IU9lSLUmgnfCMHhqgB-YldK7EbxAcso-/view?usp=drive_link);приложения.
 ## Используемые технологии
 **Список технологий**: Kotlin, XML, JUnit, Mockito, Single Activity, Navigation API, Clean Architecture, MVVM, 
 LiveData, Flow, Koin, Firebase, Service, Content Provider, Notification, Broadcast Receiver, Retrofit, JSON, ROOM,
