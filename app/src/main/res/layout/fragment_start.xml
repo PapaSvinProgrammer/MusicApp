@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:alpha="0.9"
         android:background="@drawable/corner_top"
-        android:backgroundTint="@color/background_color"
+        android:backgroundTint="#141118"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/constraintLayout"/>
 
@@ -33,7 +33,7 @@
             android:layout_marginEnd="40dp"
             android:backgroundTint="@color/background_light"
             android:text="@string/login_text"
-            android:textColor="@color/background_color"
+            android:textColor="#141118"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/registration_button" />
 
@@ -45,7 +45,7 @@
             android:layout_marginEnd="40dp"
             android:backgroundTint="@color/background_light"
             android:text="@string/registration_text"
-            android:textColor="@color/background_color"
+            android:textColor="#141118 "
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline6" />
 

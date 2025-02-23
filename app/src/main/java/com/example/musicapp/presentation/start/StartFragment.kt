@@ -39,7 +39,6 @@ class StartFragment: Fragment(), KoinComponent {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        VKID.init(context)
         viewModel.getLoginSate()
         viewModel.getDarkMode()
 

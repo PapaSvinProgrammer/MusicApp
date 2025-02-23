@@ -16,6 +16,7 @@
     <color name="on_background">#141118</color>
     <color name="gray_light">#ced4da</color>
     <color name="background_light">#fef7ff</color>
+    <color name="background_dark">#fef7ff</color>
     <color name="vk_color">#2a5ed8</color>
     <color name="player_indicator_track">#ECE6F0</color>
 </resources>
